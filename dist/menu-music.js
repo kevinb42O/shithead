@@ -8,9 +8,16 @@ export function createMenuMusic(){
     fadeFrom=start;fadeTo=value;fadeAt=now;fadeLength=seconds;level=value;
   }
   function pause(){if(!source)return;offset=(offset+context.currentTime-started)%buffer.duration;try{source.stop();}catch{}source.disconnect();source=null;}
-  function graph(){if(context)return;context=new AudioContext({latencyHint:'playback'});gain=context.createGain();gain.gain.value=0;gain.connect(context.destination);}
+  function graph(){
+    if(context)return context;
+    const AudioContextClass=globalThis.AudioContext||globalThis.webkitAudioContext;
+    if(!AudioContextClass)return null;
+    try{context=new AudioContextClass({latencyHint:'playback'});}
+    catch{try{context=new AudioContextClass();}catch{return null;}}
+    gain=context.createGain();gain.gain.value=0;gain.connect(context.destination);return context;
+  }
   async function load(){
-    graph();if(!loading)loading=fetch(new URL('assets/audio/hs-menu-music.mp3',import.meta.url)).then(r=>{if(!r.ok)throw Error('Menu music unavailable');return r.arrayBuffer();}).then(data=>context.decodeAudioData(data)).then(decoded=>{buffer=decoded;return decoded;}).catch(()=>{loading=null;return null;});
+    if(!graph())return null;if(!loading)loading=fetch(new URL('assets/audio/hs-menu-music.mp3',import.meta.url)).then(r=>{if(!r.ok)throw Error('Menu music unavailable');return r.arrayBuffer();}).then(data=>context.decodeAudioData(data)).then(decoded=>{buffer=decoded;return decoded;}).catch(()=>{loading=null;return null;});
     return loading;
   }
   function start(){
@@ -28,7 +35,7 @@ export function createMenuMusic(){
   }
   function unlock(){
     if(!wanted())return;
-    graph();const resumed=context.state==='suspended'?context.resume().catch(()=>{}):Promise.resolve();
+    if(!graph())return;const resumed=context.state!=='running'?context.resume().catch(()=>{}):Promise.resolve();
     Promise.all([resumed,load()]).then(()=>{if(wanted()&&!source)start();});
   }
   function setEnabled(value){enabled=!!value;sync(!enabled);}

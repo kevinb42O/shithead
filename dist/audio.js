@@ -297,9 +297,15 @@ const aliases={tap:"place",flick:"select",draw:"slide"};
 export function createGameAudio(){
   let context,master,compressor,loading,enabled=false,volume=.7,epoch=0;
   const buffers=new Map(),buses={},voices=new Set(),last=new Map(),previous=new Map(),timers=new Set();
+  function createContext(){
+    const AudioContextClass=globalThis.AudioContext||globalThis.webkitAudioContext;
+    if(!AudioContextClass)return null;
+    try{return new AudioContextClass({latencyHint:'interactive'});}
+    catch{try{return new AudioContextClass();}catch{return null;}}
+  }
   function graph(){
     if(context)return context;
-    context=new AudioContext({latencyHint:'interactive'});
+    context=createContext();if(!context)return null;
     master=context.createGain();master.gain.value=enabled?volume:0;
     compressor=context.createDynamicsCompressor();compressor.threshold.value=-7;compressor.knee.value=9;compressor.ratio.value=2.5;compressor.attack.value=.003;compressor.release.value=.15;
     master.connect(compressor);compressor.connect(context.destination);
@@ -307,7 +313,7 @@ export function createGameAudio(){
     return context;
   }
   async function preload(){
-    graph();if(loading)return loading;
+    if(!graph())return[];if(loading)return loading;
     const files=[...new Set(Object.values(SOUND_PALETTE).flatMap(s=>s.files))];
     loading=Promise.allSettled(files.map(async name=>{
       const response=await fetch(new URL(`assets/audio/${name}.mp3`,import.meta.url));
@@ -315,16 +321,16 @@ export function createGameAudio(){
       const buffer=await context.decodeAudioData(await response.arrayBuffer());buffers.set(name,buffer);
     }));return loading;
   }
-  function unlock(){if(!enabled)return;graph();if(context.state==='suspended')context.resume().catch(()=>{});preload();}
+  function unlock(){if(!enabled)return;const audio=graph();if(!audio)return;if(audio.state!=='running')audio.resume().catch(()=>{});preload();}
   function stop(){epoch++;for(const t of timers)clearTimeout(t);timers.clear();for(const voice of voices){try{voice.source.stop();}catch{}}voices.clear();last.clear();}
   function setEnabled(value){
     enabled=!!value;stop();if(!enabled){if(master)master.gain.setValueAtTime(0,context.currentTime);return;}
-    unlock();master.gain.setTargetAtTime(volume,context.currentTime,.012);
+    unlock();if(master)master.gain.setTargetAtTime(volume,context.currentTime,.012);
   }
   function setVolume(value){volume=Math.max(0,Math.min(1,Number(value)||0));if(master)master.gain.setTargetAtTime(enabled?volume:0,context.currentTime,.015);}
   function choose(files,key){let index=Math.floor(Math.random()*files.length);if(files.length>1&&index===previous.get(key))index=(index+1)%files.length;previous.set(key,index);return files[index];}
   function sample(name,{gain=.4,bus='foley',delay=0,rate=1,fixed=(bus==='event'),pan=0,duration}={}){
-    const buffer=buffers.get(name);if(!buffer||!enabled||document.hidden||context.state!=='running')return false;
+    const buffer=buffers.get(name);if(!buffer||!enabled||document.hidden||!context||context.state!=='running')return false;
     if(voices.size>=20){const oldest=[...voices].find(v=>v.bus==='ui')||voices.values().next().value;try{oldest.source.stop();}catch{}voices.delete(oldest);}
     const source=context.createBufferSource(),level=context.createGain(),panner=context.createStereoPanner();
     source.buffer=buffer;source.playbackRate.value=rate;source.detune.value=fixed?0:(Math.random()-.5)*45;
@@ -361,10 +367,10 @@ export function createGameAudio(){
     }
     return sample(choose(definition.files,kind),{...definition,...options});
   }
-  function duck(){for(const name of ['ui','foley']){const gain=buses[name].gain,t=context.currentTime;gain.cancelScheduledValues(t);gain.setValueAtTime(.5,t);gain.setTargetAtTime(1,t+.65,.18);}}
+  function duck(){if(!context)return;for(const name of ['ui','foley']){const gain=buses[name].gain,t=context.currentTime;gain.cancelScheduledValues(t);gain.setValueAtTime(.5,t);gain.setTargetAtTime(1,t+.65,.18);}}
   document.addEventListener('pointerdown',unlock,{capture:true,passive:true});
   document.addEventListener('keydown',unlock,{capture:true});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){stop();if(master)master.gain.setValueAtTime(0,context.currentTime);}else if(master)master.gain.setTargetAtTime(enabled?volume:0,context.currentTime,.015);});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){stop();if(master)master.gain.setValueAtTime(0,context.currentTime);}else if(master){if(enabled&&context.state!=='running')context.resume().catch(()=>{});master.gain.setTargetAtTime(enabled?volume:0,context.currentTime,.015);}});
   window.addEventListener('pagehide',stop);
   function attachUI(){
     let lastCardHover=null;

@@ -11,13 +11,16 @@ import { reconcile, captureCards, animateCards, dealOrder } from './rendering.js
 import { matchingSubset, dragSelection, attachCardDrag } from './interactions.js';
 import { createHearthstoneSpotlight } from './card-spotlight.js';
 import { createGame, start, swap, play, pickup, zone, legal, rankName, chooseMove, topRank, topCard, aceOptions, assertGame, playerName, remaining } from './engine.js';
-const $ = id => document.getElementById(id), KEY = 'shithead-table-v2' + (['localhost', '127.0.0.1'].includes(location.hostname) && new URLSearchParams(location.search).has('qa') ? '-qa' : ''); let game, selected = [], swapHand = null, timer = null, sound = false, stats = { you: 0, fox: 0 }, notice = '', dealing = false, dealVisible = new Set(), dealInFlight = null, dealRun = 0, loadedGame = false, menuOpen = true, sessionStarted = false, fastForward = false, pendingPlayerCount = null, preferences = { playerCount: 2, sound: false, reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches };
+const $ = id => document.getElementById(id), KEY = 'shithead-table-v2' + (['localhost', '127.0.0.1'].includes(location.hostname) && new URLSearchParams(location.search).has('qa') ? '-qa' : ''); let game, selected = [], swapHand = null, timer = null, sound = false, stats = { you: 0, fox: 0 }, notice = '', dealing = false, dealVisible = new Set(), dealInFlight = null, dealRun = 0, loadedGame = false, menuOpen = true, sessionStarted = false, fastForward = false, pendingPlayerCount = null, preferences = { playerCount: 2, sound: true, soundPreferenceSet: false, reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches };
 let wallet = createWallet(), saveWarning = false;
 const coins = value => value.toLocaleString('en-US');
 const gameAudio = createGameAudio();
 const menuMusic = createMenuMusic();
 const PREFERENCES_KEY = KEY.endsWith('-qa') ? 'shithead-preferences-qa' : 'shithead-preferences';
 try { Object.assign(preferences, JSON.parse(localStorage.getItem(PREFERENCES_KEY) || '{}')); } catch { }
+// Older versions persisted their silent default as if the player had chosen it.
+// Treat that legacy value as the new audible default; future mutes are explicit.
+if (!preferences.soundPreferenceSet) preferences.sound = true;
 sound = preferences.sound; document.body.classList.toggle('reduce-motion', preferences.reducedMotion);
 try { const saved = JSON.parse(localStorage.getItem(KEY)); if (saved?.game) { wallet = createWallet(saved.wallet); assertGame(saved.game); game = saved.game; game.placements ||= game.phase === 'finished' && game.winner != null ? [game.winner] : []; if (game.phase === 'finished' && game.loser == null) game.loser = game.winner === 0 ? 1 : 0; loadedGame = true; stats = Object.fromEntries(['you', 'fox'].map(name => [name, Number.isSafeInteger(saved.stats?.[name]) && saved.stats[name] >= 0 ? saved.stats[name] : 0])); } } catch { saveWarning = true; } game ||= createGame();
 const saveWarningNode = document.createElement('p');
@@ -355,7 +358,8 @@ async function dealGame() {
 }
 let resizeFrame; addEventListener('resize', () => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(() => render()); });
 function savePreferences() { try { localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences)); } catch { } }
-function setSound(value, feedback = true) {
+function setSound(value, feedback = true, explicitChoice = true) {
+  if (explicitChoice) preferences.soundPreferenceSet = true;
   sound = preferences.sound = value; menuMusic.setEnabled(sound && preferences.music !== false);
   for (const id of ['sound', 'menu-sound', 'mobile-sound-label']) { const el = $(id); if (el) { el.textContent = 'Sound ' + (sound ? 'on' : 'off'); el.setAttribute('aria-pressed', String(sound)); } }
   $('option-sound').checked = sound; $('option-music').disabled = !sound; $('option-music-volume').disabled = !sound || preferences.music === false; $('option-volume').disabled = !sound; savePreferences();
@@ -502,7 +506,7 @@ $('option-music-volume').value = Math.round(preferences.musicVolume * 100);
 $('music-volume-value').textContent = Math.round(preferences.musicVolume * 100) + '%';
 $('option-music').onchange = e => { preferences.music = e.target.checked; menuMusic.setEnabled(sound && preferences.music); $('option-music-volume').disabled = !sound || !preferences.music; savePreferences(); };
 $('option-music-volume').oninput = e => { preferences.musicVolume = Number(e.target.value) / 100; menuMusic.setVolume(preferences.musicVolume); $('music-volume-value').textContent = e.target.value + '%'; savePreferences(); };
-gameAudio.attachUI(); attachCardTouch(); setSound(sound, false); render();
+gameAudio.attachUI(); attachCardTouch(); setSound(sound, false, false); render();
 
 // One finite opening flourish: the deck spreads into the club's calling card.
 for (const [index, el] of [...document.querySelectorAll('[data-menu-card]')].entries()) {
