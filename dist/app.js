@@ -761,6 +761,7 @@ function receiveOnlineTable(session) {
   notice = session.paused ? session.message || 'A player disconnected. The table is paused.' : '';
   if (first || previousPhase === 'finished' && game.phase === 'setup') {
     selected = []; swapHand = null; onlineEventId = 0;
+    if (!first) effects.clear();
     dealGame(); return;
   }
   if (previousPhase === 'setup' && game.phase === 'playing') {
