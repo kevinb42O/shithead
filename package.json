@@ -1,1 +1,16 @@
-{"name":"shithead-card-table","version":"1.0.0","private":true,"type":"module","scripts":{"start":"node server.js","dev":"node server.js","test":"node --test tests/*.test.js","test:browser":"node --test scripts/test-rules-browser.mjs","test:stress":"node scripts/test-mixed-games.mjs"}}
+{
+  "name": "shithead-card-table",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node --test tests/*.test.js",
+    "test:browser": "node --test scripts/test-rules-browser.mjs",
+    "test:stress": "node scripts/test-mixed-games.mjs",
+    "prepare:loading": "node scripts/build-loading-manifest.mjs",
+    "predev": "npm run prepare:loading",
+    "prestart": "npm run prepare:loading"
+  }
+}

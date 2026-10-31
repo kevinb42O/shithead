@@ -1,5 +1,8 @@
 # Asset credits
 
+## Tavern loading artwork
+Original generated Shithead club interior artwork by OpenAI ImageGen: `dist/assets/tavern-loading.jpg` (desktop) and `dist/assets/tavern-loading-mobile.jpg` (portrait). Exact generation prompts are saved beside each file. The existing illustrated game title is reused above the live loading progress interface.
+
 ## Current card artwork
 All 54 illustrated faces were generated together with the built-in OpenAI ImageGen tool: royal pigeons, frogs, cats, raccoons and crowned poop characters, plus distinct black and red jokers. The complete 9-column × 6-row sheet is `dist/assets/funny-deck-sheet.png`; its full generation prompt is `dist/assets/funny-deck.prompt.txt`. Individual lossless PNG faces and exact crop coordinates are in `dist/assets/funny-deck/`. Reproduce the cuts with `python3 scripts/cut-deck.py` (requires Pillow). `dist/card-art.js` maps each physical card to its face.
 

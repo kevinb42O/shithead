@@ -1,0 +1,23 @@
+/* The tavern threshold. Artwork supplies the timber and brass; live UI stays readable. */
+.loading-screen{isolation:isolate;display:flex;flex-direction:column;align-items:center;justify-content:space-between;height:100dvh;min-height:280px;padding:clamp(24px,5dvh,58px) 24px max(30px,env(safe-area-inset-bottom));overflow:hidden;transition:opacity 480ms cubic-bezier(.16,1,.3,1)}
+.loading-screen::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#100b0870,transparent 48%,#100b0830 65%,#100b08f2)}
+.loading-scene{position:absolute;inset:0;z-index:-2;background:#140f0b}.loading-scene img{width:100%;height:100%;object-fit:cover;object-position:center 58%}
+.loading-heading{text-align:center;width:min(600px,80vw)}
+.loading-club{margin:0 0 12px;color:#e8c684;font:600 10px/1.5 DM,Arial,sans-serif;letter-spacing:.22em}
+.loading-wordmark{display:block;width:100%;height:auto;max-height:26dvh;object-fit:contain;filter:drop-shadow(0 8px 12px #100b08b3)}
+.loading-heading h1{margin:10px 0 0;color:#fff0ce;font:400 clamp(23px,3.2vw,36px)/1.2 Serif,Georgia,serif;text-shadow:0 3px 8px #100b08}
+.loading-panel{width:min(420px,100%);text-align:center;padding-top:22px}
+.loading-caption{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px;color:#fff0ce;font:500 13px/1.5 DM,Arial,sans-serif;text-align:left}
+#loading-percent{color:#e8c684;font-variant-numeric:tabular-nums}
+.loading-progress{height:12px;border:1px solid #b08a4a;border-radius:6px;padding:2px;background:#120e0b;box-shadow:0 3px 8px #100b0880,inset 0 1px 2px #0009}
+.loading-progress>span{display:block;width:0;height:100%;border-radius:3px;background:linear-gradient(180deg,#ffe7ac,#d7a64e 55%,#a76b27);transition:width 180ms ease-out}
+.loading-note{margin:16px 0 0;color:#dfc9a6;font:italic 15px/1.5 Serif,Georgia,serif}
+.loading-retry{min-height:44px;margin:16px 0 0;padding:10px 30px;border:1px solid #b08a4a;border-radius:6px;background:#173e32;color:#fff0ce;font:600 14px DM,Arial,sans-serif;cursor:pointer;box-shadow:0 4px 10px #100b0880}
+.loading-retry:hover{background:#245844}.loading-retry:focus-visible{outline:3px solid #ffe7ac;outline-offset:4px}
+.loading-screen::selection,.loading-screen ::selection{background:#e8c684;color:#173e32}
+.loading-screen.is-leaving{opacity:0;pointer-events:none}
+.booting .menu-card,.booting .menu-mascot{animation-play-state:paused}
+@media(max-width:700px){.loading-screen{padding: max(34px,env(safe-area-inset-top)) 28px max(36px,env(safe-area-inset-bottom))}.loading-heading{width:min(440px,100%)}.loading-wordmark{max-height:24dvh}.loading-club{font-size:8px;letter-spacing:.18em;margin-bottom:14px}.loading-heading h1{font-size:26px;margin-top:12px}.loading-scene img{object-position:50% 56%}.loading-caption{font-size:12px}.loading-note{font-size:14px}}
+@media(max-height:500px){.loading-screen{padding:16px 28px}.loading-heading{width:min(380px,55vw)}.loading-club{margin-bottom:4px;font-size:8px}.loading-wordmark{max-height:24dvh}.loading-heading h1{font-size:21px;margin-top:4px}.loading-panel{padding-top:10px}.loading-note{margin-top:8px;font-size:12px}.loading-caption{margin-bottom:7px;font-size:12px}.loading-retry{margin-top:8px}.loading-screen.has-error .loading-note{display:none}}
+@media(prefers-reduced-motion:reduce){.loading-screen,.loading-progress>span{transition:none}}
+.reduce-motion .loading-screen,.reduce-motion .loading-progress>span{transition:none}

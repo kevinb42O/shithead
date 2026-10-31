@@ -778,3 +778,8 @@ function receiveOnlineTable(session) {
 }
 document.addEventListener('online-table', event => receiveOnlineTable(event.detail));
 document.addEventListener('online-error', event => { if (onlineSession) {notice=event.detail;render();} });
+
+// Startup owns the first reveal; all card faces and enabled audio are ready first.
+export const startupReady = Promise.all([ensureCardArtwork(), gameAudio.ready(), menuMusic.ready()]).then(([cards]) => {
+  if (!cards) throw new Error('Card artwork could not be prepared');
+});

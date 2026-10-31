@@ -35,6 +35,8 @@
   <meta name="apple-mobile-web-app-title" content="Shithead">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>html,body{background:#140f0b}.booting> :not(#loading-screen):not(script){visibility:hidden}.loading-screen{position:fixed;inset:0;z-index:1000;background:#140f0b;color:#fff0ce}</style>
+  <link rel="stylesheet" href="loading.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="game-layout.css">
   <link rel="stylesheet" href="effects.css">
@@ -63,7 +65,25 @@
   <link rel="preload" as="image" href="assets/ember-hearth-mobile.jpg" media="(max-width: 700px)">
 </head>
 
-<body class="menu-open">
+<body class="menu-open booting">
+  <section id="loading-screen" class="loading-screen" aria-labelledby="loading-title" aria-busy="true">
+    <picture class="loading-scene" aria-hidden="true">
+      <source media="(max-width: 700px)" srcset="assets/tavern-loading-mobile.jpg">
+      <img src="assets/tavern-loading.jpg" alt="" fetchpriority="high" decoding="async" width="1536" height="1024">
+    </picture>
+    <header class="loading-heading">
+      <p class="loading-club">THE SHITHEAD SOCIAL CLUB</p>
+      <img class="loading-wordmark" src="assets/shithead-title.png" alt="Shithead" width="2146" height="733" fetchpriority="high">
+      <h1 id="loading-title">Your table awaits.</h1>
+    </header>
+    <div class="loading-panel">
+      <div class="loading-caption"><span id="loading-status" role="status" aria-live="polite">Warming the hearth…</span><span id="loading-percent" aria-hidden="true">0%</span></div>
+      <div id="loading-progress" class="loading-progress" role="progressbar" aria-label="Preparing the game" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="loading-fill"></span></div>
+      <p id="loading-note" class="loading-note">Good cards. Bad intentions.</p>
+      <button id="loading-retry" class="loading-retry" type="button" hidden>Try again</button>
+      <noscript><p>JavaScript is needed to play. Enable it, then reload to take your seat.</p></noscript>
+    </div>
+  </section>
   <section id="main-menu" class="main-menu" aria-label="Main menu">
     <div class="menu-top"><span class="menu-club">THE SHITHEAD SOCIAL CLUB</span>
       <div class="menu-top-actions">
@@ -636,11 +656,8 @@
       <p class="pause-hint"><kbd>Esc</kbd> to return to the table</p>
     </div>
   </dialog>
-  <script type="module" src="fullscreen.js"></script>
-  <script type="module" src="app.js"></script>
   <script src="network-config.js"></script>
-  <script type="module" src="online.js"></script>
-  <script type="module" src="mobile-ui.js"></script>
+  <script type="module" src="loading.js"></script>
 </body>
 
 </html>
