@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: Serif; src: url(display.ttf); }
+@font-face { font-family: DM; src: url(body.ttf); }
+body {
+  margin: 0;
+  padding: 40px;
+  background: radial-gradient(ellipse at 50% 30%, #35634744, #0a271b99), url(assets/bottle-green-table.jpg), #173e32;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  font-family: Serif;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.label {
+  color: #c9dbb2;
+  font-family: DM, sans-serif;
+  font-size: 13px;
+  width: 250px;
+  text-align: right;
+}
+
+/* Original */
+.btn-orig {
+  width: 248px;
+  min-width: 0;
+  height: 62px;
+  min-height: 62px;
+  padding: 0 40px;
+  border: 0;
+  border-radius: 16px;
+  background: url(assets/royal-button.png) center / 100% 169% no-repeat;
+  box-shadow: none;
+  color: #fff0ce;
+  font: 24px/1 Serif, serif;
+  letter-spacing: .01em;
+  text-shadow: 0 2px 3px #001e15;
+  filter: drop-shadow(0 5px 5px #00150db3);
+}
+
+/* Base with perfect vertical plaque centering */
+/* Notice: background-position: center 36% shifts the plaque down by ~5px into exact button center! */
+/* Or padding-bottom: 7px shifts text up by 7px! */
+.btn-base {
+  width: 248px;
+  height: 62px;
+  border: 0;
+  border-radius: 16px;
+  background: url(assets/royal-button.png) center / 100% 169% no-repeat;
+  box-shadow: none;
+  filter: drop-shadow(0 6px 7px #00150dcc);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 0 40px 7px; /* 7px bottom padding brings text into exact optical center of plaque! */
+}
+
+/* Style A: Luminous Gilded Title Case "Start Game" */
+.btn-style-a {
+  font-family: Serif, Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff5d7;
+  text-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.45),
+    0 1px 1px rgba(255, 240, 180, 0.25),
+    0 2px 4px #00130a,
+    0 3px 6px rgba(0, 10, 5, 0.95);
+}
+
+/* Style B: Radiant Gold Caps "START GAME" */
+.btn-style-b {
+  font-family: Serif, Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #fae8bd;
+  text-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.45),
+    0 1px 1px rgba(255, 245, 200, 0.3),
+    0 2px 4px #00140c,
+    0 3px 7px rgba(0, 10, 5, 0.95);
+  padding-left: calc(40px + 0.14em); /* balance tracking */
+}
+
+/* Style C: Royal Gold Small-Caps "Start Game" */
+.btn-style-c {
+  font-family: Serif, Georgia, serif;
+  font-size: 22px;
+  font-variant: small-caps;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  color: #fff1cd;
+  text-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.4),
+    0 1px 1px rgba(255, 240, 180, 0.2),
+    0 2px 4px #00140b,
+    0 3px 6px rgba(0, 10, 5, 0.95);
+  padding-left: calc(40px + 0.11em);
+}
+
+/* Style D: Elegant Title Case with Gold Gradient via span */
+.btn-style-d .gold-label {
+  font-family: Serif, Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: linear-gradient(180deg, #ffffff 0%, #fff4db 28%, #f5d48c 68%, #caa049 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 3px rgba(0, 14, 8, 0.95)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.7));
+}
+
+/* Style E: Majestic All-Caps with Gold Gradient via span */
+.btn-style-e .gold-label {
+  font-family: Serif, Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding-left: 0.15em;
+  background: linear-gradient(180deg, #ffffff 0%, #fff4db 28%, #f5d48c 68%, #caa049 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 3px rgba(0, 14, 8, 0.95)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.7));
+}
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="label">Current original:</div>
+    <button class="btn-orig">Start game</button>
+  </div>
+  <div class="row">
+    <div class="label">Style A (Gilded Title Case):</div>
+    <button class="btn-base btn-style-a">Start Game</button>
+  </div>
+  <div class="row">
+    <div class="label">Style B (Radiant Gold Caps):</div>
+    <button class="btn-base btn-style-b">START GAME</button>
+  </div>
+  <div class="row">
+    <div class="label">Style C (Royal Small-Caps):</div>
+    <button class="btn-base btn-style-c">Start Game</button>
+  </div>
+  <div class="row">
+    <div class="label">Style D (Gradient Title Case):</div>
+    <button class="btn-base btn-style-d"><span class="gold-label">Start Game</span></button>
+  </div>
+  <div class="row">
+    <div class="label">Style E (Gradient All-Caps):</div>
+    <button class="btn-base btn-style-e"><span class="gold-label">START GAME</span></button>
+  </div>
+</body>
+</html>

@@ -137,6 +137,27 @@
 .seat-wager { display: block; margin-top: 10px; color: #e5cc92; font: 11px/1.3 DM, Arial, sans-serif; text-align: center; }
 .setup-return { color: #d0d8be; font: 12px/1.6 DM, Arial, sans-serif; margin: 8px 0; }
 
+/* Keep the setup action in the open center lane, clear of the reserve cards. */
+body[data-phase=setup] #start-game-center.royal-button:not([hidden]) {
+  position: fixed;
+  top: 34%;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 80;
+  width: clamp(188px, 58vw, 500px);
+  max-width: calc(100vw - 32px);
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 4.25;
+  margin: 0;
+  padding: 0 8% 5px;
+  font-size: clamp(21px, 5.1vw, 46px);
+}
+
+@media (min-width: 701px) and (max-height: 280px) {
+  body[data-phase=setup] .hand-panel .status-copy { display: none; }
+}
+
 
 @media (min-width: 701px) and (min-height: 621px) {
   body[data-players] .table { padding: clamp(42px, 6dvh, 66px) 24px 0; grid-template-rows: auto minmax(90px,1fr) auto auto 0; align-content: normal; gap: 12px 0; }
