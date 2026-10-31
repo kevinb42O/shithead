@@ -176,6 +176,17 @@ function select(c) {
     chooseSwapCard(c); return;
   } else {
     const p = game.players[0], z = zone(p);
+    // Let a selected card leave its auto-selected rank group before checking
+    // whether the remaining selection is still a legal play.
+    if (selected.includes(c.id)) {
+      selected = toggleSelection(p[z], selected, c.id);
+      notice = '';
+      cardSound('flick');
+      render();
+      const cardEl = document.querySelector(`[data-card-id="${CSS.escape(c.id)}"]`);
+      cardEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      return;
+    }
     const matching = p[z].filter(o => o.rank === c.rank);
     const fourBurnOnly = matching.length >= 4 && !legal(c, game.pile, game.lowTurns);
     if (!legal(c, game.pile, game.lowTurns) && !fourBurnOnly) {
