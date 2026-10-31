@@ -11,7 +11,7 @@ Source: https://github.com/htdebeer/SVG-cards
 License: GNU LGPL 2.1. Source distributed unmodified as `dist/assets/cards.svg`; full license at `dist/assets/CARDS-LICENSE.txt`. Players can download both from Credits.
 
 ## Table material
-Current surface: original bottle-green felt with a cognac leather edge generated with the built-in OpenAI ImageGen tool for this project. Asset: `dist/assets/bottle-green-table.jpg`. Generation prompt: `dist/assets/bottle-green-table.prompt.txt`.
+Earlier retained surface: original bottle-green felt with a cognac leather edge generated with the built-in OpenAI ImageGen tool for this project. Asset: `dist/assets/bottle-green-table.jpg`. Generation prompt: `dist/assets/bottle-green-table.prompt.txt`.
 
 Earlier retained fabric material:
 Caban wool by colormass and Rico Cilliers / Poly Haven.
@@ -76,3 +76,38 @@ Original emerald-leather, walnut-and-brass dialog plate and KEEP PLAYING / DEAL 
 ## Table-selection artwork
 
 Original player-choice frame, engraved stake coin, BUY IN and BACK plaques generated with built-in OpenAI ImageGen. Assets: `dist/assets/setup-choice-frame.png`, `setup-stake-coin.png`, `buy-in-button.png`, `setup-back-button.png`. Exact prompts are stored beside each asset as `.prompt.txt` files. Opponent portraits reuse the original generated Fox/Owl/Raven atlas. The background reuses the generated emerald-and-walnut fresh-deal material.
+
+## Multiplayer card club
+
+`dist/assets/lobby-background.jpg` is original OpenAI ImageGen artwork created for the multiplayer lobby: an emerald and walnut card salon with warm brass lamps and animal portraits. The exact generation prompt is stored beside it in `lobby-background.prompt.txt`. Lobby buttons use live HTML/CSS and retain accessible names and focus states. The MQTT signaling client is adapted from the user's DevildaggersV2 implementation.
+
+
+## The Ember Hearth playfield
+
+Original fantasy board artwork generated with the built-in OpenAI ImageGen tool for this project. Desktop production asset: `dist/assets/ember-hearth-board.jpg`; portrait phone asset: `dist/assets/ember-hearth-mobile.jpg`. Lossless PNG originals are retained alongside them. Exact prompts: `ember-hearth-board.prompt.txt` and `ember-hearth-mobile.prompt.txt`. The portrait image uses the original desktop artwork as a style reference. The carved timber, sandstone, forge and lantern are original generated artwork. Persistent soot, cracks, ash, particles and interactive lighting are rendered by `dist/living-board.js` and `dist/living-board.css`.
+
+## Illustrated setup heading
+
+`dist/assets/pick-your-company.png` is original transparent ivory-and-gold lettering generated with the built-in OpenAI ImageGen tool. The exact prompt is stored in `dist/assets/pick-your-company.prompt.txt`.
+
+
+## Painted multiplayer interface
+
+Original artwork generated for this project with the built-in OpenAI ImageGen tool: `dist/assets/club-window-frame.png`, `club-title.png`, `club-gold-button.png`, `club-teal-button.png`, `club-empty-table.png`, `club-seat-frame.png` and `club-input-frame.png`. Exact generation prompts are stored beside each image as `.prompt.txt` files. Transparent artwork preserves generated alpha; production sprites are resized for local delivery. Buttons retain live HTML labels. Player initials reuse the existing generated stake-coin artwork. These replace the prior lobby background and flat control presentation; the earlier salon artwork remains available in the asset library.
+
+### Painted board fixtures
+
+The wallet pouch plaque, treasure-bowl pot plaque and brass-mounted Menu plate (`dist/assets/hearth-{wallet,pot,menu}.png`) are original artwork generated with OpenAI's built-in image generation tool for this project. Exact prompts are stored beside each image. Text and coin balances are rendered by the game, not baked into the images.
+
+
+## Carved opponent stations
+
+Original opponent station and portrait-medallion artwork generated with the built-in OpenAI ImageGen tool: `dist/assets/opponent-station.png` and `dist/assets/opponent-medallion.png`. Exact prompts are saved alongside each PNG in `.prompt.txt` files. Production images preserve generated transparency and are resized for local delivery. Existing generated Fox/Owl/Raven portrait artwork is reused inside the medallions; multiplayer initials are live text.
+### Fortune lettering and mode plaques
+
+The Fox’s Fortune title, Daily allowance plaque and Bet coins plaque are original artwork generated with OpenAI's built-in ImageGen tool. Transparent project assets and their complete production prompts are stored in `dist/assets/fortune/` as `title`, `daily-button` and `bet-button` PNG/prompt pairs.
+
+
+### Fortune cabinet and reel symbols
+
+`dist/assets/fortune/cabinet.png` and `symbols.png` are original artwork generated with the built-in OpenAI ImageGen tool for this local game: a fox-crested walnut, brass and emerald cabinet and a six-cell transparent symbol atlas. Exact generation prompts are retained beside them as `cabinet.prompt.txt` and `symbols.prompt.txt`. Live number drums, symbol reels and lever animation are rendered by the game. Fortune reuses the existing credited lobby background, stake-coin artwork and audio palette. The title and mode-plaque artwork is credited above.

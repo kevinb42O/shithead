@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-31T04:53:16.045237+00:00",
-  "title": "Design System: Shithead \u2014 The Card Table",
+  "generatedAt": "2026-10-31T18:18:36.255041+00:00",
+  "title": "Design System: Shithead — The Ember Hearth",
   "extensions": {
     "colorMeta": {
       "action-gold": {
@@ -10,11 +10,47 @@
       },
       "viewport": {
         "role": "neutral",
-        "displayName": "Midnight navy viewport"
+        "displayName": "Warm board backing"
       },
       "paper": {
         "role": "neutral",
         "displayName": "Warm dialog paper"
+      },
+      "hearth-timber": {
+        "role": "neutral",
+        "displayName": "Carved walnut seat"
+      },
+      "hearth-panel": {
+        "role": "neutral",
+        "displayName": "Dark timber panel"
+      },
+      "hearth-bronze": {
+        "role": "primary",
+        "displayName": "Hearth bronze"
+      },
+      "hearth-ivory": {
+        "role": "neutral",
+        "displayName": "Hearth ivory"
+      },
+      "hearth-gold": {
+        "role": "primary",
+        "displayName": "Hearth gold"
+      },
+      "hearth-muted": {
+        "role": "neutral",
+        "displayName": "Warm seat detail"
+      },
+      "hearth-fire": {
+        "role": "secondary",
+        "displayName": "Forge illumination"
+      },
+      "hearth-arcane": {
+        "role": "secondary",
+        "displayName": "Arcane lantern"
+      },
+      "hearth-frost": {
+        "role": "secondary",
+        "displayName": "Low-turn frost"
       }
     },
     "typographyMeta": {
@@ -25,6 +61,14 @@
       "status": {
         "displayName": "Action status",
         "purpose": "Next action and turn guidance."
+      },
+      "seat-name": {
+        "displayName": "Seat identity",
+        "purpose": "Serif opponent names: 17px desktop, 13px phone, 11px short/narrow phone."
+      },
+      "board-condition": {
+        "displayName": "Hearth condition",
+        "purpose": "Board name or saved burn count."
       }
     },
     "shadows": [
@@ -52,6 +96,16 @@
         "name": "dialog",
         "value": "0 20px 70px #001b1866",
         "purpose": "Modal paper surfaces."
+      },
+      {
+        "name": "hearth-seat",
+        "value": "0 8px 18px #21120866",
+        "purpose": "Dark timber opponent panel."
+      },
+      {
+        "name": "hearth-pot",
+        "value": "0 6px 18px #21120855",
+        "purpose": "Desktop pot panel."
       }
     ],
     "motion": [
@@ -79,6 +133,16 @@
         "name": "reduced-motion",
         "value": "animation:none!important;transition:none!important;scroll-behavior:auto!important",
         "purpose": "Applied globally when reduced motion is requested."
+      },
+      {
+        "name": "hearth-ambient",
+        "value": "4.7s / 6s ease-in-out infinite alternate",
+        "purpose": "Low-opacity fire and arcane breathing; pauses in menu; disabled for reduced motion."
+      },
+      {
+        "name": "hearth-reaction",
+        "value": "1600ms reaction state, 250ms ease-out illumination; 650–1350ms particles",
+        "purpose": "Event-driven material feedback; particles/shake/ambient motion disabled for reduced motion."
       }
     ],
     "breakpoints": [
@@ -92,7 +156,7 @@
       }
     ],
     "cardInteraction": {
-      "selection": "Click matching cards or use numbered quantity buttons; subsets preserve selected suits.",
+      "selection": "Tap a fresh rank to gather its matches; tap a lifted card to deselect it individually. No numbered quantity controls.",
       "drag": "Mouse, pen and touch pointer events; selected stack follows pointer; legal pile highlight; outside release cancels.",
       "touch": "Horizontal hand scrolling and upward card dragging.",
       "aceChoice": "Inline 1 or high (14) actions when ace is on ace; seven forces ace to 1.",
@@ -104,8 +168,8 @@
       "openingDeal": "18 sequential 180ms card flights, alternating players by down/up/hand layer",
       "setup": "Bidirectional drag-to-swap hand and face-up cards",
       "endgame": "Active up/down zone moves into the large main tray; 18dvh card height",
-      "table": "CC0 Poly Haven Caban wool, blue tint, dark rail; original blue/gold geometric card backs",
-      "compact": "319\u00d7524 supported: compact 40px action row, 13dvh hand cards, 15dvh endgame cards, turn guidance above reserve"
+      "table": "Original generated Ember Hearth desktop/portrait paintings; warm stone and carved walnut/bronze frame. Existing illustrated deck is retained.",
+      "compact": "Short phones: visible reserve below 46%-height pile; 26px reserve width; clamp(96px,19dvh,120px) hand cards."
     },
     "illustratedDeck": {
       "paper": "#fff9ed",
@@ -114,6 +178,24 @@
       "renderer": "dist/card-art.js",
       "court": "dist/assets/royal-court-atlas.jpg",
       "back": "dist/assets/royal-mascot-back.jpg"
+    },
+    "livingBoard": {
+      "authority": "dist/living-board.css is loaded after online.css for local gameplay.",
+      "assets": [
+        "assets/ember-hearth-board.jpg",
+        "assets/ember-hearth-mobile.jpg"
+      ],
+      "damage": "Up to 16 seeded normalized scars in game.boardScars, centered on actual pile; saved/resumed, fresh deal resets.",
+      "reactions": {
+        "burn": "Heat, sparks, permanent scar, 360ms shake",
+        "pickup": "Dust burst",
+        "7": "Frost wash during low turns",
+        "3": "Wind illumination",
+        "joker": "Teal arcane burst"
+      },
+      "props": "Native forge and lantern buttons with focus and labels.",
+      "review": "SHIP; .impeccable/review/ember-hearth/*.jpg",
+      "authorityNote": "User-pinned Hearthstone-inspired living-board brief prevails over direction seed."
     }
   },
   "components": [
@@ -122,7 +204,7 @@
       "kind": "button",
       "refersTo": "button-primary",
       "description": "Commit a selected card or start another deal.",
-      "html": "<button class=\"ds-primary\">Play card <span>\u2192</span></button>",
+      "html": "<button class=\"ds-primary\">Play card <span>→</span></button>",
       "css": ".ds-primary{font:600 14px DM,Arial,sans-serif;background:#dfc182;color:#183426;border:0;border-radius:7px;padding:13px 20px;min-width:172px;min-height:46px;display:flex;gap:23px;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 5px 14px #00140d40;transition:background .18s,transform .18s}.ds-primary:hover:not(:disabled){filter:brightness(1.05)}.ds-primary:focus-visible{outline:3px solid #be8a30;outline-offset:5px}.ds-primary:disabled{background:#405748;color:#91a58a;box-shadow:none;cursor:default}"
     },
     {
@@ -145,7 +227,7 @@
       "kind": "chip",
       "refersTo": "turn-chip",
       "description": "Opponent turn indicator, paired with written status.",
-      "html": "<span class=\"ds-thinking\">Thinking<span class=\"ds-dots\">\u2026</span></span>",
+      "html": "<span class=\"ds-thinking\">Thinking<span class=\"ds-dots\">…</span></span>",
       "css": ".ds-thinking{font:11px DM,Arial,sans-serif;padding:5px 9px;background:#e7c77922;color:#efd598;border-radius:20px}.ds-dots{display:inline-block;animation:ds-thinking 1s infinite}@keyframes ds-thinking{50%{opacity:.3}}@media(prefers-reduced-motion:reduce){.ds-dots{animation:none}}"
     },
     {
@@ -162,16 +244,39 @@
       "description": "Written action guidance is paired with a compact colored state dot.",
       "html": "<div class=\"ds-status\"><span aria-hidden=\"true\"></span><div><strong>Your turn. Match or beat 8.</strong><p>Select matching cards, then play. Or pick up the pile.</p></div></div>",
       "css": ".ds-status{font:14px DM,Arial,sans-serif;display:flex;align-items:center;gap:10px;color:#ece9d3}.ds-status>span{width:8px;height:8px;background:#618151;border-radius:50%;flex-shrink:0}.ds-status strong{font-size:14px;font-weight:600}.ds-status p{font-size:12px;color:#a9bb9c;margin:4px 0 0}"
+    },
+    {
+      "name": "Timber opponent seat",
+      "kind": "card",
+      "refersTo": "hearth-seat",
+      "description": "Warm bronze-edged seat panel; active state uses a brighter edge.",
+      "html": "<section class=\"ds-hearth-seat\"><strong>The Alchemist</strong><p>6 cards · 20 coins</p></section>",
+      "css": ".ds-hearth-seat{background:linear-gradient(180deg,#37271eea,#21170fe8);border:1px solid #b08a4a;border-radius:10px 10px 32px 32px;padding:12px 18px 18px;box-shadow:0 8px 18px #21120866;color:#fff0c9;max-width:235px}.ds-hearth-seat strong{font:400 17px Serif,Georgia,serif}.ds-hearth-seat p{font:12px DM,Arial,sans-serif;color:#e2c9a5;margin:8px 0 0}"
+    },
+    {
+      "name": "Hearth pot panel",
+      "kind": "custom",
+      "refersTo": "hearth-pot",
+      "description": "A quiet dark timber readout on the right rail.",
+      "html": "<aside class=\"ds-hearth-pot\"><strong>60 coins</strong><p>20 per seat · First out wins</p></aside>",
+      "css": ".ds-hearth-pot{background:#2b1b12e8;border-radius:12px;padding:18px;width:134px;box-shadow:0 6px 18px #21120855;color:#f5dba1}.ds-hearth-pot strong{font:22px Serif,Georgia,serif}.ds-hearth-pot p{font:11px/1.5 DM,Arial,sans-serif;color:#e7cfad;margin:8px 0 0}"
+    },
+    {
+      "name": "Hearth prop control",
+      "kind": "button",
+      "description": "Keyboard-accessible prop hit target with a visible label on focus or hover.",
+      "html": "<button class=\"ds-hearth-prop\" aria-label=\"Stoke the forge\"><span>Stoke the forge</span></button>",
+      "css": ".ds-hearth-prop{position:relative;width:80px;height:110px;border:1px solid #b08a4a;border-radius:45%;background:radial-gradient(ellipse,#ff9b345c,#37271e);cursor:pointer}.ds-hearth-prop span{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#29170fed;color:#fff1cc;padding:5px 9px;border-radius:4px;font:11px DM,Arial,sans-serif;white-space:nowrap;opacity:0;transition:opacity 150ms}.ds-hearth-prop:hover span,.ds-hearth-prop:focus-visible span{opacity:1}.ds-hearth-prop:focus-visible{outline:3px solid #fff1b6;outline-offset:3px}.ds-hearth-prop:active{filter:brightness(1.15)}@media(prefers-reduced-motion:reduce){.ds-hearth-prop span{transition:none}}"
     }
   ],
   "narrative": {
-    "northStar": "The Card Table",
-    "overview": "Operate mode. A code-led, full-viewport game in a quiet social card club. Evergreen fabric, recognizable French playing cards, warm gold and classical serif identity surround a dense operational interface. The final game-layout.css layer governs the composition; paper is the modal context.",
+    "northStar": "The Ember Hearth",
+    "overview": "Mode: **Operate**. This code-led game fills the PC and mobile viewport with a living fantasy playfield: carved walnut and bronze surround warm sandstone, with a forge at the left and a teal arcane lantern at the right. The readable central hearth carries the real cards and accumulates ash, hairline cracks and scorch marks as piles burn. Dark timber seat and bankroll panels keep information grounded in the painted world.\n\n`dist/living-board.css`, loaded after `dist/online.css`, is the authoritative local gameplay material layer; `dist/living-board.js` supplies damage and reactions. Original generated desktop and portrait board images establish the environment. Existing local menus, online club, deck artwork and game rules keep their own implementations. Later historical sections below document those surfaces and earlier refinements; this overview and the Ember Hearth guidance take precedence for the active local board.",
     "keyCharacteristics": [
-      "Tactile cards on evergreen cloth",
-      "Immediate deal and clear committed action",
-      "Warm gold feedback",
-      "Compact sans-serif game guidance"
+      "Carved walnut and bronze framing a warm sandstone playfield.",
+      "A fullscreen playable table with persistent, deal-specific burn damage.",
+      "Ivory and gold information on dark timber panels.",
+      "Fire, dust, frost, wind and teal arcane reactions tied to actual play."
     ],
     "rules": [
       {
@@ -186,14 +291,19 @@
       }
     ],
     "dos": [
-      "Do preserve local card, fabric and font assets and their credits.",
-      "Do keep crowded hands scrollable and respect safe-area padding.",
-      "Do honor reduced motion."
+      "**Do** keep the actual deal and next action central to the viewport.",
+      "**Do** use existing local card, board and font assets, preserving credits and license links.",
+      "**Do** keep selection, focus, turn ownership and written status distinct.",
+      "**Do** preserve horizontal scrolling within crowded hands and safe-area padding.",
+      "**Do** disable animations and transitions under system or saved reduced-motion preferences.",
+      "**Do** retain seeded damage with its saved deal and clear it for a fresh deal."
     ],
     "donts": [
-      "Do not restore the hidden landing-page hero as the gameplay composition.",
-      "Do not apply the old rounded shell to the full-viewport table.",
-      "Do not expose hidden opponent cards."
+      "**Don't** reintroduce the hidden landing-page hero as the main game composition.",
+      "**Don't** give the full-viewport shell the older 18px rounded-container styling.",
+      "**Don't** expose hidden opponent cards or replace recognizable suit/rank artwork with decorative abstractions.",
+      "**Don't** assume a paper background behind gameplay controls; paper is the dialog context.",
+      "**Don't** restore felt over the active Ember Hearth board or burn the card artwork itself."
     ]
   }
 }

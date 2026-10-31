@@ -6,13 +6,6 @@
 .bottle-rotor{position:absolute;inset:0}
 .opening-bottle{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(4px 14px 16px #00190de6);user-select:none}
 
-/* The ticker below the bottle during the spin */
-.bottle-ticker{position:absolute;left:0;top:calc(var(--bottle-size)/2 + 12px);transform:translateX(-50%);display:inline-flex;align-items:center;gap:7px;background:#092117f0;border:1px solid #dfc18255;border-radius:18px;padding:4px 14px;box-shadow:0 4px 14px #00120ab3;font-size:12px;font-weight:600;color:#f3e4bc;letter-spacing:.3px;white-space:nowrap;transition:opacity .25s ease}
-.bottle-ticker-dot{width:7px;height:7px;border-radius:50%;background:#dfc182;animation:ticker-pulse 1s infinite alternate}
-@keyframes ticker-pulse{from{opacity:.4;transform:scale(.8)}to{opacity:1;transform:scale(1.1)}}
-.is-decided .bottle-ticker{opacity:0;pointer-events:none}
-
-/* The chosen one's celebratory badge right on top of the bottle placing */
 .bottle-banner{position:absolute;left:0;top:0;transform:translate(-50%,-50%);display:flex;align-items:center;opacity:0;visibility:hidden;pointer-events:none;z-index:55;transition:opacity .3s ease}
 .bottle-banner-badge{display:flex;align-items:center;gap:12px;padding:9px 22px 9px 14px;background:radial-gradient(ellipse at center,#123829fe 0%,#071912fe 100%);border:2px solid #dfc182;border-radius:20px;box-shadow:0 12px 36px #00120acc,0 0 28px #dfc18266;text-align:left;white-space:nowrap}
 .bottle-chosen-avatar{width:38px;height:38px;flex:0 0 38px;border-radius:50%;border:1.5px solid #dfc182;background:#18382b;display:grid;place-items:center;overflow:hidden;box-shadow:0 2px 6px #0008}

@@ -1,6 +1,7 @@
 import {createMagicFire} from './burn-fire.js';
 import {svgCard} from './card-art.js';
 import {playerName} from './engine.js';
+import {createReversalWind,REVERSAL_DURATION,reversalOccurs} from './reversal-wind.js';
 // Event-driven table theatre. No idle animation loop, network assets or input locks.
 const ease='cubic-bezier(.16,1,.3,1)';
 const reduced=()=>document.body.classList.contains('reduce-motion')||matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -16,7 +17,7 @@ function seatPan(who, total = 2) {
   return 0.42;
 }
 
-export function createTableEffects({sound=()=>{}}={}){
+export function createTableEffects({sound=()=>{},nameForSeat=playerName}={}){
  let jobs=new Set(),nodes=new Set(),lastTurn=null;
  function own(node){node.setAttribute('aria-hidden','true');document.body.append(node);nodes.add(node);return node;}
  function later(fn,ms){const id=setTimeout(()=>{jobs.delete(cancel);fn();},ms);const cancel=()=>clearTimeout(id);jobs.add(cancel);return cancel;}
@@ -143,10 +144,10 @@ export function createTableEffects({sound=()=>{}}={}){
   document.body.dataset.lowTurns=game.phase==='playing'?game.lowTurns:0;
   document.querySelector('.fx-low-label')?.remove();
  }
- function cue(text,tone,snapshot){
+ function cue(text,tone,snapshot,duration=1100){
   const c=center(snapshot.pile),n=layer('fx-rule-cue '+tone);n.textContent=text;
   n.style.cssText=`left:${c.x}px;top:${snapshot.pile.top-22}px`;
-  motion(n,[{opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.75},{opacity:0}],{duration:1100,fill:'forwards'});removeLater(n,1150);
+  motion(n,[{opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.75},{opacity:0}],{duration,fill:'forwards'});removeLater(n,duration+50);
  }
  function ripple(snapshot,tone='gold'){
   if(reduced())return;
@@ -155,12 +156,9 @@ export function createTableEffects({sound=()=>{}}={}){
    motion(n,[{transform:'translate(-50%,-50%) scale(.65)',opacity:0},{opacity:.75,offset:.18},{transform:'translate(-50%,-50%) scale(1.7)',opacity:0}],{duration:800,delay:i*100,fill:'both',easing:ease});removeLater(n,1000);}
  }
  function reverse(snapshot,direction){
-  cue(direction===1?'Clockwise':'Counterclockwise','wind',snapshot);
-  if(reduced())return;
-  const r=rect('.table'),c=center(r),rx=Math.min(r.width*.36,400),ry=Math.min(r.height*.32,170);
-  animateCanvas('fx-wind',950,(ctx,t,p)=>{const head=-Math.PI/2+direction*p*Math.PI*2,tail=head-direction*1.8;ctx.lineCap='round';
-   for(let i=0;i<20;i++){ctx.strokeStyle=`rgba(213,236,229,${(i/20)*Math.sin(p*Math.PI)*.65})`;ctx.lineWidth=1+i/14;ctx.beginPath();ctx.ellipse(c.x,c.y,rx,ry,0,tail+direction*i*.09,tail+direction*(i+1)*.09,direction<0);ctx.stroke();}
-   const x=c.x+Math.cos(head)*rx,y=c.y+Math.sin(head)*ry,angle=Math.atan2(direction*ry*Math.cos(head),-direction*rx*Math.sin(head));ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.strokeStyle=`rgba(230,248,240,${Math.sin(p*Math.PI)})`;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-11,-6);ctx.lineTo(0,0);ctx.lineTo(-11,6);ctx.stroke();ctx.restore();});
+  cue(direction===1?'Clockwise':'Counterclockwise','wind',snapshot,reduced()?1100:REVERSAL_DURATION);
+  if(reduced()||document.hidden)return;
+  animateCanvas('fx-wind',REVERSAL_DURATION,createReversalWind(snapshot.pile,direction,{width:innerWidth,height:innerHeight}));
  }
  function revealOutcome(stage,failed){
   stage.classList.add(failed?'is-failed':'is-safe');sound(failed?'dread':'relief');
@@ -180,8 +178,8 @@ export function createTableEffects({sound=()=>{}}={}){
   const banner=layer('fx-result '+(won?'is-victory':'is-defeat'));banner.removeAttribute('aria-hidden');banner.setAttribute('role','status');
   banner.style.cssText=`left:${c.x}px;top:${c.y}px`;
   const emblem=document.createElement('div');emblem.className='fx-result-emblem';emblem.innerHTML=won?'<svg viewBox="0 0 64 48" aria-hidden="true"><path d="m9 13 12 10L32 7l11 16 12-10-6 27H15Z"/><path d="M17 46h30"/></svg>':'<svg viewBox="0 0 64 48" aria-hidden="true"><path d="m9 7 23 12L55 7l-6 27-17 10-17-10Z"/><path d="m22 27 4 2m12 0 4-2m-13 7h6"/></svg>';
-  const title=document.createElement('strong');title.textContent=won?(game.winner===0?'You win.':'You escaped.'):game.players.length===2?'The Fox wins.':'Round over.';const detail=document.createElement('span');detail.textContent=won?`${playerName(game.loser??1)} is the Shithead.`:'You’re the Shithead.';banner.append(emblem,title,detail);
-  if(game.bet?.settled){const payout=document.createElement('span');payout.className='fx-payout';payout.textContent=game.bet.winner===0?`You won ${game.bet.pot.toLocaleString('en-US')} coins`:`${playerName(game.bet.winner)} won the ${game.bet.pot.toLocaleString('en-US')}-coin pot`;banner.append(payout);}
+  const title=document.createElement('strong');title.textContent=won?(game.winner===0?'You win.':'You escaped.'):game.players.length===2?`${nameForSeat(game.winner)} wins.`:'Round over.';const detail=document.createElement('span');detail.textContent=won?`${nameForSeat(game.loser??1)} is the Shithead.`:'You’re the Shithead.';banner.append(emblem,title,detail);
+  if(game.bet?.settled){const payout=document.createElement('span');payout.className='fx-payout';payout.textContent=game.bet.winner===0?`You won ${game.bet.pot.toLocaleString('en-US')} coins`:`${nameForSeat(game.bet.winner)} won the ${game.bet.pot.toLocaleString('en-US')}-coin pot`;banner.append(payout);}
   if(!reduced()){
    const fan=document.createElement('div');fan.className='fx-victory-fan';fan.setAttribute('aria-hidden','true');const art=[...snapshot.pileCards,...snapshot.incoming].slice(-3);art.forEach((card,i)=>{const n=copy(card);n.style.setProperty('--fan-angle',`${(i-(art.length-1)/2)*18}deg`);fan.append(n);motion(n,[{transform:'translateY(35px) rotate(0deg)',opacity:0},{transform:`translateY(0) rotate(${(i-(art.length-1)/2)*18}deg)`,opacity:1}],{duration:650,delay:i*70,easing:ease,fill:'forwards'});});banner.prepend(fan);
    motion(banner,[{opacity:0,transform:'translate(-50%,-42%) scale(.94)',filter:'blur(7px)'},{opacity:1,transform:'translate(-50%,-50%) scale(1)',filter:'blur(0)'}],{duration:700,easing:ease,fill:'both'});
@@ -202,10 +200,10 @@ export function createTableEffects({sound=()=>{}}={}){
   if(!result.pickup&&!result.burn){
    const rank=result.cards?.[0]?.rank;
    if(rank===7){sound('frost',{pan});ripple(snapshot,'ice');cue(`7 or lower · ${game.lowTurns} ${game.lowTurns===1?'play':'plays'}`,'ice',snapshot);}
-   if(rank===3&&result.cards.length%2){sound('reverse',{pan});reverse(snapshot,game.direction);}
    if(rank===15)sound('joker',{pan});
    if(rank===2){sound('free',{pan});ripple(snapshot);cue(game.lowTurns ? `2 played · 7 or lower · ${game.lowTurns} ${game.lowTurns === 1 ? 'play' : 'plays'} remaining` : 'Free play','gold',snapshot);}
   }
+  if(reversalOccurs(result)){sound('reverse',{pan});reverse(snapshot,game.direction);}
   sync(game);
   turn(game.turn);
   if(result.wentOut&&who===0&&game.phase!=='finished'){sound('escape');const note=layer('fx-burn-note');note.textContent='You’re out.';const c=center(rect('#hand'));note.style.cssText=`left:${c.x}px;top:${c.y}px`;removeLater(note,1600);}

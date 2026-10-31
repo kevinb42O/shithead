@@ -1,0 +1,102 @@
+/* Setup is a small card workbench within the existing fullscreen hearth. */
+body[data-phase=setup] {
+  --swap-card-h: clamp(96px, 18dvh, 166px);
+  --swap-card-w: calc(var(--swap-card-h) / 1.447);
+  --swap-gap: clamp(16px, 3dvh, 28px);
+}
+.swap-guide { position: fixed; z-index: 81; top: 35%; left: 50%; translate: -50% -50%; width: min(560px, 86vw); text-align: center; color: #fff0c9; }
+.swap-guide[hidden] { display: none; }
+.swap-guide h2 { margin: 0 0 6px; font: 400 clamp(24px, 3vw, 36px)/1.1 Serif, Georgia, serif; letter-spacing: -.02em; text-shadow: 0 2px 5px #28190f; }
+.swap-guide p { margin: 0; min-height: 2.8em; font: 500 13px/1.4 DM, Arial, sans-serif; color: #fff0c9; text-shadow: 0 1px 4px #1b0d06; }
+body[data-phase=setup] #game-view .player-table {
+  position: fixed; top: auto; bottom: calc(100dvh - 68dvh + var(--swap-gap)); left: 50%;
+  transform: translateX(-50%); translate: none; width: max-content; margin: 0; gap: 18px; z-index: 20;
+}
+body[data-phase=setup] #game-view .player-table .reserve-slot,
+body[data-phase=setup] #game-view .player-table .card {
+  --card-h: var(--swap-card-h); --card-w: var(--swap-card-w);
+  width: var(--swap-card-w); height: var(--swap-card-h);
+}
+body[data-phase=setup] #game-view .player-table .reserve-slot { flex: 0 0 var(--swap-card-w); }
+body[data-phase=setup] #game-view .player-table::before,
+body[data-phase=setup] #game-view #hand::before {
+  content: 'Face-up reserve · played later'; position: absolute; top: -24px; left: 50%; translate: -50% 0;
+  font: 500 12px/1.4 DM, Arial, sans-serif; color: #fff0c9; white-space: nowrap; text-shadow: 0 1px 4px #1b0d06; pointer-events: none;
+}
+body[data-phase=setup] #game-view #hand::before { content: 'Your hand · played first'; }
+body[data-phase=setup] #game-view #hand {
+  position: fixed; top: calc(68dvh + 32px); left: 50%; bottom: auto; translate: -50% 0; transform: none;
+  width: max-content; max-width: calc(100vw - 32px); height: calc(var(--swap-card-h) + 16px); min-height: 0;
+  padding: 0 0 16px !important; gap: 18px; overflow: visible; margin: 0; align-items: flex-start;
+}
+body[data-phase=setup] #game-view #hand .card {
+  --card-h: var(--swap-card-h) !important; --card-w: var(--swap-card-w) !important;
+  margin: 0 !important; flex: 0 0 var(--swap-card-w); transform: none; rotate: none;
+}
+body[data-phase=setup] #game-view .card:not(:disabled) { cursor: grab; touch-action: none; }
+body[data-phase=setup] #game-view .card:not(:disabled):active { cursor: grabbing; }
+body[data-phase=setup] #game-view #hand .card:hover:not(:disabled),
+body[data-phase=setup] #game-view .player-table .card:last-child:hover:not(:disabled) { transform: translateY(-5px); }
+body[data-phase=setup] #game-view #hand .card.selected,
+body[data-phase=setup] #game-view .player-table .card.selected { transform: translateY(-8px); outline: 3px solid #e7c779; outline-offset: 4px; }
+body[data-phase=setup] #game-view .hand-panel .status-copy,
+body[data-phase=setup] #game-view .announcement,
+body[data-phase=setup] #game-view .hand-heading,
+body[data-phase=setup] #game-view .hand-scroll-btn { display: none !important; }
+body[data-phase=setup] #start-game-center.royal-button:not([hidden]) {
+  top: auto; bottom: max(12px, env(safe-area-inset-bottom)); left: 50%; translate: -50% 0;
+  width: clamp(200px, 24vw, 280px); font-size: clamp(22px, 2.5vw, 30px); padding: 0 20px 3px;
+}
+body[data-phase=setup] #game-view .swap-drop-target { outline: 2px dashed #e7c779; outline-offset: 5px; }
+body[data-phase=setup] #game-view .swap-drop-over { outline: 3px solid #fff0c9; outline-offset: 7px; transform: translateY(-8px) !important; box-shadow: 0 14px 24px #21120866 !important; }
+body[data-phase=setup][data-swap-from=hand] .player-table .card:last-child,
+body[data-phase=setup][data-swap-from=up] #hand .card { outline: 2px dashed #e7c779; outline-offset: 5px; }
+.swap-ghost { z-index: 1000; }
+.swap-ghost .drag-count { white-space: nowrap; max-width: 280px; background: #291b10f5; color: #fff0c9; font-size: 12px; padding: 8px 12px; }
+@media (max-width: 700px) {
+  body[data-phase=setup] { --swap-card-h: clamp(80px, 16dvh, 140px); --swap-gap: 26px; }
+  .swap-guide { top: 38%; width: calc(100vw - 40px); }
+  .swap-guide h2 { font-size: 25px; }
+  .swap-guide p { font-size: 12px; min-height: 2.8em; }
+  body[data-phase=setup] #game-view .player-table { bottom: calc(100dvh - 66dvh + var(--swap-gap)); gap: 16px; }
+  body[data-phase=setup] #game-view #hand { top: calc(66dvh + 28px); gap: 16px; }
+  body[data-phase=setup] #game-view .player-table::before, body[data-phase=setup] #game-view #hand::before { font-size: 11px; top: -22px; }
+  body[data-phase=setup] #start-game-center.royal-button:not([hidden]) { width: 220px; font-size: 25px; bottom: max(12px, env(safe-area-inset-bottom)); }
+}
+@media (max-height: 620px) and (min-width: 701px) {
+  body[data-phase=setup] { --swap-card-h: clamp(68px, 19dvh, 110px); }
+  .swap-guide { top: 34%; }
+  .swap-guide h2 { font-size: 23px; }
+  .swap-guide p { min-height: 1.4em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-phase=setup] #game-view .card { transition: none; }
+  body[data-phase=setup] #game-view .swap-drop-over { transform: none !important; }
+}
+body.reduce-motion[data-phase=setup] #game-view .card { transition: none; }
+body.reduce-motion[data-phase=setup] #game-view .swap-drop-over { transform: none !important; }
+/* Leave a quiet lane between the opponent and the setup guidance. */
+body[data-phase=setup] #game-view .opponent-seat { --seat-width: clamp(26px, 4.5dvh, 42px); padding-bottom: 10px; }
+body[data-phase=setup] #game-view .seat-hand,
+body[data-phase=setup] #game-view .seat-wager,
+body[data-phase=setup] #game-view .seat-turn-label { display: none; }
+body[data-phase=setup] #game-view #hand { touch-action: none !important; }
+body[data-phase=setup] #game-view #hand .card { translate: none; touch-action: none !important; }
+body[data-phase=setup] #game-view #hand { margin: 0 !important; }
+@media (min-width: 701px) and (min-height: 621px) { .swap-guide { top: 36%; } }
+@media (max-width: 700px) and (max-height: 700px) {
+  body[data-phase=setup] #game-view .seat-cards { display: none; }
+  .swap-guide { top: calc(66dvh - var(--swap-gap) - var(--swap-card-h) - 32px); translate: -50% -100%; }
+  .swap-guide h2 { display: none; }
+  .swap-guide p { min-height: 2.8em; font-size: 11px; }
+}
+/* Landscape uses two adjacent groups so neither row meets the start control. */
+@media (min-width: 701px) and (max-height: 620px) {
+  body[data-phase=setup] #game-view .seat-cards { display: none; }
+  body[data-phase=setup] #game-view .opponent-seat { padding-top: 10px; padding-bottom: 10px; }
+  .swap-guide { top: 29dvh; translate: -50% 0; }
+  .swap-guide h2 { display: none; }
+  .swap-guide p { min-height: 1.4em; font-size: 12px; }
+  body[data-phase=setup] #game-view .player-table { top: 53dvh; bottom: auto; left: calc(50% - 126px); gap: 14px; }
+  body[data-phase=setup] #game-view #hand { top: 53dvh; left: calc(50% + 126px); gap: 14px; max-width: 240px; }
+}

@@ -1,21 +1,24 @@
+import { swapTarget } from './setup-swap.js';
 import { lightCard, reducedMotion } from './tactile.js';
-// Selection is explicit: matching ranks can be played in any chosen quantity.
-export function matchingSubset(cards,selected,count){
-  const first=cards.find(c=>c.id===selected[0]);
-  if(!first||!Number.isInteger(count)||count<1)return[];
-  const matching=cards.filter(c=>c.rank===first.rank);
-  if(count>matching.length)return[];
-  return [...selected.filter(id=>matching.some(c=>c.id===id)),...matching.map(c=>c.id).filter(id=>!selected.includes(id))].slice(0,count);
+// First tap gathers a rank; later taps toggle individual cards in that group.
+export function toggleSelection(cards, selected, tappedId) {
+  const tapped = cards.find(c => c.id === tappedId);
+  if (!tapped) return selected;
+  if (selected.includes(tappedId)) return selected.filter(id => id !== tappedId);
+  const first = cards.find(c => c.id === selected[0]);
+  return first?.rank === tapped.rank
+    ? [...selected, tappedId]
+    : cards.filter(c => c.rank === tapped.rank).map(c => c.id);
 }
-export function dragSelection(cards,selected,grabbedId){
-  const grabbed=cards.find(c=>c.id===grabbedId),first=cards.find(c=>c.id===selected[0]);
-  if(!grabbed)return[];
-  return first?.rank===grabbed.rank?[...new Set([...selected,grabbedId])]:[grabbedId];
+export function dragSelection(cards, selected, grabbedId) {
+  if (!cards.some(c => c.id === grabbedId)) return [];
+  if (selected.includes(grabbedId)) return [...selected];
+  return toggleSelection(cards, selected, grabbedId);
 }
 
 // Pointer events give mouse, pen and touch the same direct manipulation.
-export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=()=>{},onReturn=()=>{}}){
-  let drag=null,suppressUntil=0;
+export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=()=>{},onReturn=()=>{},onSwapHint=()=>{}}){
+  let drag=null,suppressUntil=0,tiltFrame=0;
   const target=document.querySelector('.pile-area'),label=document.getElementById('drop-label');
   const hand=document.getElementById('hand');
 
@@ -27,13 +30,36 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
     },{passive:true});
   }
 
+  function springTilt(now){
+    if(!drag?.ghost||drag.mode!=='swap')return;
+    const dt=Math.min((now-(drag.frameTime||now-16))/1000,1/30);
+    drag.frameTime=now;
+    const moving=now-(drag.moveTime||0)<70;
+    const targetAngle=moving?Math.max(-7,Math.min(7,(drag.velocityX||0)*.008)):0;
+    drag.tiltVelocity=((drag.tiltVelocity||0)+(targetAngle-(drag.tilt||0))*220*dt)*Math.exp(-24*dt);
+    drag.tilt=(drag.tilt||0)+drag.tiltVelocity*dt;
+    drag.ghost.style.transform=`rotate(${drag.tilt}deg)`;
+    tiltFrame=requestAnimationFrame(springTilt);
+  }
   function position(e){
     drag.ghost.style.left=`${e.clientX-drag.offsetX}px`;
     drag.ghost.style.top=`${e.clientY-drag.offsetY}px`;
-    if(!reducedMotion()){ const x=Math.max(-1,Math.min(1,(e.clientX-drag.x)/180)),y=Math.max(-1,Math.min(1,(e.clientY-drag.y)/180)); drag.ghost.style.transform=`perspective(600px) rotateX(${-y*7}deg) rotateY(${x*9}deg) rotate(-3deg)`; drag.ghost.querySelectorAll('.card').forEach(card=>lightCard(card,x,y)); }else drag.ghost.style.transform='none';
+    if(drag.mode==='swap'&&!reducedMotion()){
+      const now=performance.now(),elapsed=Math.max(8,now-(drag.moveTime||now-16));
+      drag.velocityX=(e.clientX-(drag.lastX??e.clientX))/elapsed*1000;
+      drag.lastX=e.clientX;drag.moveTime=now;
+      if(!tiltFrame)tiltFrame=requestAnimationFrame(springTilt);
+    }else if(!reducedMotion()){ const x=Math.max(-1,Math.min(1,(e.clientX-drag.x)/180)),y=Math.max(-1,Math.min(1,(e.clientY-drag.y)/180)); drag.ghost.style.transform=`perspective(600px) rotateX(${-y*7}deg) rotateY(${x*9}deg) rotate(-3deg)`; drag.ghost.querySelectorAll('.card').forEach(card=>lightCard(card,x,y)); }else drag.ghost.style.transform='none';
     if(drag.mode==='swap'){
-      drag.targetId=null;
-      for(const candidate of drag.targets){const r=candidate.getBoundingClientRect();const over=e.clientX>=r.left-8&&e.clientX<=r.right+8&&e.clientY>=r.top-8&&e.clientY<=r.bottom+8;candidate.classList.toggle('swap-drop-over',over);if(over)drag.targetId=candidate.dataset.cardId;}
+      const index=swapTarget(drag.targetRects,e.clientX,e.clientY,drag.pointerType==='touch'?46:32);
+      const next=index<0?null:drag.targets[index].dataset.cardId;
+      if(next!==drag.targetId){
+        drag.targetId=next;
+        drag.targets.forEach((candidate,i)=>candidate.classList.toggle('swap-drop-over',i===index));
+        const name=index<0?'':drag.targets[index].getAttribute('aria-label');
+        drag.ghost.querySelector('.drag-count').textContent=name?`Release to swap with ${name}`:'Drag to the other row';
+        onSwapHint(name);
+      }
       drag.over=!!drag.targetId;return;
     }
     const r=target.getBoundingClientRect();
@@ -71,6 +97,8 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
       width:r.width,
       height:r.height,
       ghost:null,
+      targetRects:data.targets?.map(n=>n.getBoundingClientRect()),
+      targetId:null,
       over:false,
       insideHand,
       handCanScroll,
@@ -121,9 +149,11 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
       const cards=drag.ids.map(id=>document.querySelector(`button.card[data-card-id="${CSS.escape(id)}"]`)).filter(Boolean);
       cards.forEach((card,i)=>{const art=card.cloneNode(true);art.removeAttribute('data-card-id');art.removeAttribute('id');art.removeAttribute('style');art.className=`card drag-ghost-card${card.classList.contains('foil-card')?' foil-card':''}`;art.disabled=true;art.style.setProperty('--stack-index',i);ghost.append(art);});
       onGather();
-      const badge=document.createElement('span');badge.className='drag-count';badge.textContent=drag.mode==='swap'?'Swap card':drag.ids.length>1?`${drag.ids.length} cards`:'1 card';ghost.append(badge);
+      if(drag.mode==='swap')ghost.classList.add('swap-ghost');
+      const badge=document.createElement('span');badge.className='drag-count';badge.textContent=drag.mode==='swap'?'Drag to the other row':drag.ids.length>1?`${drag.ids.length} cards`:'1 card';ghost.append(badge);
       if(drag.ids.length>1)ghost.classList.add('drag-stack');
       document.body.append(ghost);drag.ghost=ghost;
+      if(drag.mode==='swap')onSwapHint('');
       document.body.classList.add('card-dragging');if(drag.mode==='swap'){document.body.classList.add('setup-dragging');drag.targets.forEach(n=>n.classList.add('swap-drop-target'));}else{target.classList.add('drop-active');target.classList.toggle('drop-invalid',!drag.legal);}
       label.textContent=drag.legal?`Drop to play ${drag.ids.length===1?'card':drag.ids.length+' cards'}`:'This play is too low';
       document.querySelectorAll('button.card[data-card-id]').forEach(c=>c.classList.toggle('drag-source',drag.ids.includes(c.dataset.cardId)));
@@ -139,6 +169,7 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
       return;
     }
     const current=drag,wasDrag=!!current.ghost,wasSwipe=!!current.isSwipe;
+    cancelAnimationFrame(tiltFrame);tiltFrame=0;
     if(wasSwipe){
       if(Math.hypot(e.clientX-current.x,e.clientY-current.y)>6){
         suppressUntil=performance.now()+350;
@@ -151,10 +182,19 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
     document.body.classList.remove('card-dragging','setup-dragging');document.querySelectorAll('.swap-drop-target,.swap-drop-over').forEach(n=>n.classList.remove('swap-drop-target','swap-drop-over'));
     target.classList.remove('drop-active','drop-over','drop-invalid');
     document.querySelectorAll('.drag-source').forEach(c=>c.classList.remove('drag-source'));
+    cancelAnimationFrame(tiltFrame);tiltFrame=0;
     drag=null;
+    if(current.mode==='swap'&&wasDrag)onSwapHint(null);
     if(wasDrag&&!cancel&&current.over&&current.legal){
       const destination=current.mode==='swap'?current.targets.find(n=>n.dataset.cardId===current.targetId):target.querySelector('.pile')||target;
       const from=current.ghost.getBoundingClientRect(),destinationRect=destination.getBoundingClientRect(),to=destinationRect.width?destinationRect:target.getBoundingClientRect();
+      if(current.mode==='swap'){
+        // The real cards perform the exchange together. No duplicate landing ghost.
+        current.ghost.remove();
+        onDrop(current.ids,current.targetId,current.mode,from);
+        onLand(current.mode,1);
+        return;
+      }
       onDrop(current.ids,current.targetId,current.mode);
       const reduced=document.body.classList.contains('reduce-motion')||matchMedia('(prefers-reduced-motion: reduce)').matches;
       if(reduced){current.ghost.remove();onLand(current.mode,current.ids.length);}
@@ -187,5 +227,5 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
   document.addEventListener('pointerup',e=>end(e));
   document.addEventListener('pointercancel',e=>end(e,true));
   document.addEventListener('click',e=>{if(e.detail&&performance.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation();}},true);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&drag)end({pointerId:drag.pointerId,clientX:drag.x,clientY:drag.y},true);});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&drag){e.preventDefault();e.stopImmediatePropagation();end({pointerId:drag.pointerId,clientX:drag.x,clientY:drag.y},true);}},true);
 }

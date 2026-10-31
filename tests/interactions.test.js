@@ -1,10 +1,25 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import {matchingSubset,dragSelection} from '../dist/interactions.js';
+import {toggleSelection,dragSelection} from '../dist/interactions.js';
 import {createGame,start,play} from '../dist/engine.js';
 const cards=[{id:'6s',rank:6},{id:'6h',rank:6},{id:'6c',rank:6},{id:'8s',rank:8}];
-test('matching quantity controls preserve selected suits and allow any subset',()=>{assert.deepEqual(matchingSubset(cards,['6h'],2),['6h','6s']);assert.deepEqual(matchingSubset(cards,['6h','6c','6s'],1),['6h']);assert.deepEqual(matchingSubset(cards,['6h'],3),['6h','6s','6c']);assert.deepEqual(matchingSubset(cards,['6h'],4),[]);});
+test('first tap selects every matching card and another rank switches the group',()=>{
+  assert.deepEqual(toggleSelection(cards,[],'6h'),['6s','6h','6c']);
+  assert.deepEqual(toggleSelection(cards,['8s'],'6h'),['6s','6h','6c']);
+});
+test('tapping lifted cards removes only that card, including the last one',()=>{
+  let selected=toggleSelection(cards,[],'6h');
+  selected=toggleSelection(cards,selected,'6s');
+  assert.deepEqual(selected,['6h','6c']);
+  selected=toggleSelection(cards,selected,'6h');
+  assert.deepEqual(selected,['6c']);
+  assert.deepEqual(toggleSelection(cards,selected,'6c'),[]);
+  assert.deepEqual(toggleSelection(cards,selected,'6s'),['6c','6s']);
+});
+test('dragging a fresh rank gathers its matches',()=>{
+  assert.deepEqual(dragSelection(cards,[],'6h'),['6s','6h','6c']);
+});
 test('dragging selected matching cards moves the chosen group only',()=>{assert.deepEqual(dragSelection(cards,['6h','6c'],'6c'),['6h','6c']);assert.deepEqual(dragSelection(cards,['6h'],'6s'),['6h','6s']);assert.deepEqual(dragSelection(cards,['6h','6c'],'8s'),['8s']);});
-test('playing two of three matching cards leaves the third in hand',()=>{const g=createGame();start(g,()=>0);g.deck=[];g.players[0].hand=[...cards];g.pile=[{id:'4s',rank:4}];const ids=matchingSubset(cards,['6h'],2);assert(play(g,ids).ok);assert.equal(g.pile.filter(c=>c.rank===6).length,2);assert.equal(g.players[0].hand.filter(c=>c.rank===6).length,1);});
+test('playing two of three matching cards leaves the third in hand',()=>{const g=createGame();start(g,()=>0);g.deck=[];g.players[0].hand=[...cards];g.pile=[{id:'4s',rank:4}];const ids=toggleSelection(cards,toggleSelection(cards,[],'6h'),'6s');assert(play(g,ids).ok);assert.equal(g.pile.filter(c=>c.rank===6).length,2);assert.equal(g.players[0].hand.filter(c=>c.rank===6).length,1);});
 
 test('opening deal sends 18 distinct cards one by one, alternating players in each layer',async()=>{const {dealOrder}=await import('../dist/rendering.js');const g=createGame(),order=dealOrder(g);assert.equal(order.length,18);assert.equal(new Set(order.map(s=>s.card.id)).size,18);for(let i=0;i<18;i++){assert.equal(order[i].who,i%2);assert.equal(order[i].zone,['down','up','hand'][Math.floor(i/6)]);}assert.equal(g.deck.length,36);});
 

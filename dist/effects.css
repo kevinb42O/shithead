@@ -1100,7 +1100,12 @@ body.reduce-motion .phase-arrival {
 }
 
 .fx-rule-cue.wind {
-  color: #e0f1e8
+  color: #fff0cb;
+  background: #203c32f5;
+  font-family: Serif, Georgia, serif;
+  font-size: 15px;
+  font-weight: 400;
+  box-shadow: 0 5px 18px #160e0980
 }
 
 .fx-rule-cue.danger {

@@ -28,7 +28,7 @@ Run `npm run test:stress` for 3,000 seeded games with randomly chosen legal subs
 
 - Ace: an opening ace counts as 1; otherwise normally high (14). Ordinary ace-on-ace inherits the existing value. An ace played under a seven restriction is 1. Only that seven-origin ace chain offers 1 or high (14) after all low turns expire. Jokers preserve the underlying ace’s value and chain.
 - 2: always playable, does not reset or cancel the low restriction. Counts as one low play.
-- 3: must be legal; reverses direction, passing play to the next player in the reversed direction. Each 3 reverses once.
+- 3: must be legal; each 3 reverses direction once. With three or more active players, pass to the next player in the reversed direction. With only two players remaining, a reversing play grants another turn. Pairs cancel and pass normally; an escaped player never receives another turn.
 - 7: each seven adds a low turn. Play 7 or lower until those turns are used. More sevens add to the restriction. Once it ends, play continues from the last card played.
 - Joker: always playable; transparent to the underlying rank, preserves remaining low turns.
 - 10: always playable, burns the pile and clears restrictions; play again.
@@ -66,3 +66,14 @@ Audio is served locally. Sources and Blizzard ownership are recorded in `dist/as
 ### Menu music
 
 The start menu has a separate Menu music switch and Music volume slider in Options (22% default). Music follows the Sound switch, fades away when gameplay starts, resumes when returning to the menu, and pauses while the tab is hidden. A first click or keypress unlocks playback. Effects volume remains independent. The locally bundled Hearthstone title-menu recording and its crossfade preparation are documented in `dist/assets/audio/SOURCES.txt` and `manifest.json`.
+
+## Online multiplayer
+
+Choose **Multiplayer** in the main menu to create a public table or join a friend's table. The host deals for 2–4 players; everyone arranges their own face-up cards and presses Ready before play begins. Public discovery, invite links, private hands, shared turns and rematches use WebRTC with MQTT signaling. See [MULTIPLAYER.md](MULTIPLAYER.md) for setup, TURN configuration, connection limits and validation.
+
+
+## The Fox’s Fortune
+
+Open Fortune from the main menu or table setup for a fullscreen local slot machine. Daily allowance reveals a uniformly chosen 250–2,500 coin reward on four number drums, adds it to your wallet and becomes available again 24 hours after claiming. Bet coins uses three animal/symbol reels and 10, 25, 50, 100 or 250 coin stakes: any pair returns 2× the stake, any triple 3×, and no match zero. Payouts include the stake; average total return is 91.67%.
+
+Results are saved before animation in the same locked browser-local bank as card wagers. Skip animation, Collect now, Sound and reduced motion are supported. The existing below-10-coins refill remains available after the card wager resolves. These are virtual coins with no cash value. See [FORTUNE.md](FORTUNE.md) for rules, persistence, controls, artwork and local-browser limitations.

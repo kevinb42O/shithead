@@ -39,7 +39,7 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
    for(let i=0;i<100;i++){if(await evaluate(expression))return;await sleep(50);}assert.fail(`Timed out: ${expression}`);
   };
   const saved=()=>evaluate(`JSON.parse(localStorage.getItem('${key}'))`);
-  const reload=async()=>{await evaluate('window.__rulesReloadPending = true');await call('Page.reload');await until(`!window.__rulesReloadPending && !!document.getElementById('menu-resume') && !!document.querySelector('.menu-card svg')`);};
+  const reload=async()=>{await evaluate('window.__rulesReloadPending = true');await call('Page.reload');await until(`!window.__rulesReloadPending && !!document.getElementById('menu-resume')?.onclick && !document.getElementById('menu-resume').disabled && !!document.querySelector('.menu-card svg')`);};
   await until(`!!document.querySelector('.menu-card svg')`);
   const scenario=(name,fn)=>t.test(name,{skip:!!process.env.BROWSER_CASE&&!name.includes(process.env.BROWSER_CASE)},fn);
   async function fixture({down=[4,10,6],ace=false,ai=false}={}){
@@ -55,6 +55,49 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
    })()`);
    await reload();await evaluate(`document.getElementById('menu-resume').click()`);
   }
+  for (const mobile of [false,true]) await scenario(`matching tap selection and subset drag on ${mobile?'mobile':'desktop'}`,async()=>{
+   await call('Emulation.setDeviceMetricsOverride',{width:mobile?390:1400,height:mobile?844:900,deviceScaleFactor:1,mobile});
+   await call('Emulation.setTouchEmulationEnabled',{enabled:mobile});
+   await evaluate(`(async()=>{
+    const {createGame,assertGame}=await import('/engine.js');const g=createGame();
+    const all=[...g.deck,...g.players.flatMap(p=>[...p.hand,...p.up,...p.down])];
+    const take=rank=>all.splice(all.findIndex(c=>c.rank===rank),1)[0];
+    g.players=[{hand:[take(8),take(8),take(8),take(9)],up:[],down:[]},{hand:[take(13),take(12)],up:[],down:[]}];
+    g.pile=[take(4)];g.deck=[];g.burned=all;g.phase='playing';g.turn=0;g.dealComplete=true;assertGame(g);
+    localStorage.setItem('${key}',JSON.stringify({game:g,stats:{you:0,fox:0}}));
+    localStorage.setItem('shithead-preferences-qa',JSON.stringify({playerCount:2,sound:false,reducedMotion:true}));
+   })()`);
+   await reload();await evaluate(`document.getElementById('menu-resume').click()`);
+   const ids=await evaluate(`Array.from(document.querySelectorAll('#hand .card')).slice(0,3).map(c=>c.dataset.cardId)`);
+   const count=()=>evaluate(`document.querySelectorAll('#hand .selected').length`);
+   assert.equal(await evaluate(`document.getElementById('selection-tools')===null`),true);
+   await evaluate(`document.querySelector('[data-card-id="${ids[0]}"]').click()`);assert.equal(await count(),3);
+   await evaluate(`document.querySelector('[data-card-id="${ids[0]}"]').click()`);assert.equal(await count(),2);
+   await evaluate(`document.querySelector('[data-card-id="${ids[1]}"]').click()`);assert.equal(await count(),1);
+   await evaluate(`document.querySelector('[data-card-id="${ids[2]}"]').click()`);assert.equal(await count(),0);
+   assert.equal((await saved()).game.pile.length,1,'tapping last card never plays it');
+   await evaluate(`document.querySelector('[data-card-id="${ids[0]}"]').click()`);
+   await evaluate(`document.querySelector('[data-card-id="${ids[2]}"]').click()`);assert.equal(await count(),2);
+   await sleep(400); // Let the existing selection lift settle before hit testing.
+   const rects=await evaluate(`(()=>{const card=document.querySelector('[data-card-id="${ids[0]}"]'),r=card.getBoundingClientRect(),p=document.querySelector('.pile-area').getBoundingClientRect();for(const fx of [.25,.5,.75])for(const fy of [.5,.25,.75]){const x=r.left+r.width*fx,y=r.top+r.height*fy;if(document.elementFromPoint(x,y)?.closest('#hand .card')===card)return {x,y,tx:p.left+p.width/2,ty:p.top+p.height/2};}return null;})()`);
+   assert(rects,'A selected card must have an exposed drag target');
+   if(mobile){
+    await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:rects.x,y:rects.y}]});
+    await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:rects.x,y:rects.y-25}]});
+    await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:rects.tx,y:rects.ty}]});
+    await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+   }else{
+    await call('Input.dispatchMouseEvent',{type:'mousePressed',x:rects.x,y:rects.y,button:'left',buttons:1,clickCount:1});
+    await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:rects.x,y:rects.y-25,buttons:1});
+    await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:rects.tx,y:rects.ty,buttons:1});
+    await call('Input.dispatchMouseEvent',{type:'mouseReleased',x:rects.tx,y:rects.ty,button:'left',clickCount:1});
+   }
+   const result=await saved();
+   assert.equal(result.game.players[0].hand.filter(c=>c.rank===8).length,1);
+   assert.equal(result.game.pile.filter(c=>c.rank===8).length,2);
+   await call('Emulation.setTouchEmulationEnabled',{enabled:false});
+   await call('Emulation.clearDeviceMetricsOverride');
+  });
   await scenario('failed blind flip cannot be undone through the menu or refresh',async()=>{
    await fixture();await evaluate(`document.querySelector('#hand .card').click()`);
    let state=await saved();assert.equal(state.game.players[0].down.length,2);assert.equal(state.game.players[0].hand.length,2);assert.equal(state.game.turn,1);
@@ -103,6 +146,7 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
    assert.equal(await evaluate(`[...document.querySelectorAll('[role=status]')].some(el=>!el.hidden&&el.textContent.includes('could not be resumed'))`),true);
   });
   async function beginMouseDrag(){
+   await sleep(400); // Allow resumed hand layout and card travel to settle.
    const point=await evaluate(`(()=>{const r=document.querySelector('#hand .card:last-child').getBoundingClientRect();return {x:r.right-12,y:r.top+r.height/2};})()`);
    await call('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',buttons:1,clickCount:1});
    await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:point.x,y:point.y-100,button:'left',buttons:1});

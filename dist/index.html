@@ -52,6 +52,15 @@
   <link rel="stylesheet" href="fresh-deal.css">
   <link rel="stylesheet" href="table-setup.css">
   <link rel="preload" as="image" href="assets/opening-bottle.png">
+  <link rel="stylesheet" href="online.css">
+  <link rel="stylesheet" href="living-board.css">
+  <link rel="stylesheet" href="board-fixtures.css">
+  <link rel="stylesheet" href="setup-swap.css">
+  <link rel="stylesheet" href="opponent-stations.css">
+  <link rel="stylesheet" href="fortune.css">
+  <link rel="stylesheet" href="fortune-marquee.css">
+  <link rel="preload" as="image" href="assets/ember-hearth-board.jpg" media="(min-width: 701px)">
+  <link rel="preload" as="image" href="assets/ember-hearth-mobile.jpg" media="(max-width: 700px)">
 </head>
 
 <body class="menu-open">
@@ -80,16 +89,13 @@
       <p class="menu-tagline">A great game.<br>A terrible title to earn.</p>
       <div class="coin-wallet"><span>Your wallet</span><strong id="menu-wallet">1,000 coins</strong><button id="refill-coins" class="menu-quiet" hidden>Refill to 1,000 free</button></div>
       <div class="menu-actions" id="menu-actions">
-        <button id="menu-play" class="menu-play menu-play-illustrated" type="button" aria-label="Let’s play" aria-describedby="menu-play-detail">
+        <button id="menu-play" class="menu-play menu-play-illustrated" type="button" aria-label="Let’s play">
           <span class="menu-play-art" aria-hidden="true"><img src="assets/lets-play-button.png" alt="" width="1945" height="808" decoding="async" draggable="false"></span>
         </button>
-        <p id="menu-play-detail" class="menu-play-detail" aria-live="polite">You, the computer &amp; questionable luck.</p>
-        <button id="menu-resume" class="menu-resume" hidden>Resume your game <span>→</span></button>
-        <button class="menu-multiplayer" disabled><svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="9" cy="8" r="3" />
-            <path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2" />
-          </svg><span><strong>Multiplayer</strong><small>Ruin friendships. Eventually.</small></span><span
-            class="coming-soon">COMING SOON</span></button>
+        <button class="menu-multiplayer menu-multiplayer-illustrated" type="button" aria-label="Multiplayer">
+          <span class="menu-multiplayer-art" aria-hidden="true"><img src="assets/multiplayer-button.png" alt="" width="2172" height="724" decoding="async" draggable="false"></span>
+        </button>
+        <button id="menu-fortune" class="fortune-entry" type="button"><span class="fortune-entry-coin" aria-hidden="true"></span><span><strong>Daily Fortune</strong><small id="fortune-entry-status">Free roll ready</small></span><span class="fortune-entry-arrow" aria-hidden="true">›</span></button>
         <div class="menu-secondary"><button id="menu-rules"><svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 5v15M12 5C8 2 3 4 3 4v14s5-2 9 2c4-4 9-2 9-2V4s-5-2-9 1Z" />
             </svg>Rules</button><span></span><button id="menu-options"><svg viewBox="0 0 24 24"
@@ -104,7 +110,7 @@
       </div>
       <section id="single-setup" class="single-setup" hidden aria-labelledby="setup-title">
         <button id="setup-back" class="menu-quiet setup-back" type="button" aria-label="Back"><img src="assets/setup-back-button.png" alt="" aria-hidden="true" draggable="false"></button>
-        <h2 id="setup-title">Pick your company.</h2>
+        <h2 id="setup-title" class="setup-title-illustrated"><img src="assets/pick-your-company.png" alt="Pick your company." decoding="async" draggable="false"></h2>
         <p>How many at the table?</p>
         <div class="setup-choices">
           <fieldset class="player-count">
@@ -121,7 +127,7 @@
           </fieldset>
         </div>
         <div class="setup-commit">
-          <div class="setup-pot-summary"><strong id="setup-pot" class="setup-pot"></strong><p id="setup-return" class="setup-return"></p><p id="coin-message" class="coin-message" role="status"></p></div>
+          <div class="setup-pot-summary"><strong id="setup-pot" class="setup-pot"></strong><p id="setup-return" class="setup-return"></p><p id="coin-message" class="coin-message" role="status"></p><button id="setup-fortune" type="button" class="fortune-link">Visit Daily Fortune</button></div>
           <div class="setup-buy-in"><button id="deal-selected" class="primary-button setup-buy-button" type="button" aria-label="Buy in"><img src="assets/buy-in-button.png" alt="" aria-hidden="true" draggable="false"></button><span id="setup-buy-cost" class="setup-buy-cost"></span></div>
         </div>
         <p id="setup-summary" class="setup-summary">A little one-on-one trouble.</p>
@@ -143,7 +149,8 @@
       <p id="pot-outcome" role="status" aria-live="polite"></p>
     </aside>
     <button id="mobile-menu-btn" class="mobile-menu-btn" type="button" aria-label="Open menu" aria-haspopup="dialog" aria-controls="mobile-menu-dialog" title="Open menu (ESC)">
-      <img class="game-menu-button-art" src="assets/game-menu-button.png" alt="" aria-hidden="true" draggable="false">
+      <img class="game-menu-button-art" src="assets/hearth-menu.png" alt="" aria-hidden="true" draggable="false">
+      <span class="board-menu-label">Menu</span>
     </button>
     <header class="topbar" hidden style="display:none!important">
       <a class="wordmark" href="./" aria-label="Shithead home"><img src="assets/shithead-title.png" alt="" width="2146" height="733"></a>
@@ -168,6 +175,14 @@
       </section>
       <section class="game-shell" aria-label="Shithead card table">
         <div id="turn-announcement" class="turn-announcement" role="status" aria-live="polite" aria-atomic="true"></div>
+        <canvas id="board-damage" aria-hidden="true"></canvas>
+        <div class="board-light" aria-hidden="true"></div>
+        <div class="board-ambient board-ambient-fire" aria-hidden="true"></div>
+        <div class="board-ambient board-ambient-arcane" aria-hidden="true"></div>
+        <div id="board-particles" aria-hidden="true"></div>
+        <span id="board-condition" class="board-condition">The Ember Hearth</span>
+        <button id="board-forge" class="board-prop board-forge" type="button" aria-label="Stoke the forge"><span>Stoke the forge</span></button>
+        <button id="board-lantern" class="board-prop board-lantern" type="button" aria-label="Wake the lantern"><span>Wake the lantern</span></button>
         <div class="table" id="table">
           <div class="opponent-seats" id="opponent-seats" aria-label="Computer opponents"></div>
           <div class="arena">
@@ -207,8 +222,7 @@
         </div>
         <div class="hand-panel">
           <div class="hand-heading">
-            <div id="selection-tools" class="selection-tools" role="group"
-              aria-label="Choose how many matching cards to play" hidden></div><button id="fast-forward"
+            <button id="fast-forward"
               class="hint-button" aria-pressed="false" hidden>Fast-forward</button>
           </div>
           <button id="hand-scroll-left" class="hand-nav-btn hand-nav-left" type="button" aria-label="Scroll cards left"
@@ -407,7 +421,7 @@
         <div class="rules-flow-step">
           <div class="rules-step-num">1</div>
           <div>
-            <h4>The Goal &amp; the Pot</h4><p>Start with 1,000 virtual coins. Each seat pays 10, 50 or 100 coins before the deal; AI contributions are simulated. First out wins the whole pot immediately. Remaining players finish to determine the Shithead. Leaving for the menu pauses your game; replacing it forfeits any unpaid buy-in. With fewer than 10 coins, finish your current wager to unlock a free refill in the main menu. Coins have no cash value.</p>
+            <h4>The Goal &amp; the Pot</h4><p>Start with 1,000 virtual coins. Each seat pays 10, 50 or 100 coins before the deal; AI contributions are simulated. First out wins the whole pot immediately. Remaining players finish to determine the Shithead. Leaving for the menu pauses your game; replacing it forfeits any unpaid buy-in. With fewer than 10 coins, finish your current wager to unlock a free refill in the main menu. Daily Fortune offers a free 250–2,500 coin allowance once every 24 hours and optional virtual-coin slot spins. Its Payouts &amp; Rules panel explains the odds. Coins have no cash value.</p>
             <p>Be the first to play every card from all your zones. Players who shed all cards escape safely. The last player left holding cards is crowned the <strong>Shithead</strong>.</p>
           </div>
         </div>
@@ -624,6 +638,8 @@
   </dialog>
   <script type="module" src="fullscreen.js"></script>
   <script type="module" src="app.js"></script>
+  <script src="network-config.js"></script>
+  <script type="module" src="online.js"></script>
   <script type="module" src="mobile-ui.js"></script>
 </body>
 

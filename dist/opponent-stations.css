@@ -1,0 +1,155 @@
+/* All positions use the original 1100 × 825 painting's coordinate space.
+   The station is never stretched to content; cards scale with the station. */
+body[data-players] #game-view .opponent-seat,
+body[data-online] #game-view .opponent-seat {
+  container-type: inline-size;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  flex: 0 1 270px;
+  width: 270px;
+  max-width: 270px;
+  min-width: 0;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  filter: drop-shadow(0 6px 5px #21120866);
+}
+#game-view .seat-station-art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url(assets/opponent-station.png) center / 100% 100% no-repeat;
+  transition: filter 280ms ease-out;
+}
+#game-view .seat-heading {
+  position: absolute;
+  inset: 9% 5% auto;
+  display: block;
+  width: 90%;
+  height: 22%;
+  min-height: 0 !important;
+  margin: 0;
+  padding: 0 !important;
+  border: 0;
+  background: none;
+  overflow: visible;
+}
+#game-view .seat-heading:disabled { opacity: 1; }
+#game-view .seat-avatar,
+body[data-online] #game-view .seat-avatar {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  left: 1.5%;
+  top: 13%;
+  width: 13.5%;
+  height: auto;
+  aspect-ratio: 1;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  box-shadow: none;
+  outline: 0;
+  transform: none;
+  filter: none;
+}
+/* The painting already supplies the portrait socket and its gold rim. */
+#game-view .seat-avatar::after { display: none; }
+#game-view .seat-portrait { position: absolute; inset: 0; border-radius: 50%; background: url(assets/opponent-portraits.png) left center / 300% 100% no-repeat; }
+#game-view [data-seat="2"] .seat-portrait { background-position: center; }
+#game-view [data-seat="3"] .seat-portrait { background-position: right; }
+#game-view .seat-initial { display: none; }
+#game-view .is-human-seat .seat-portrait { background: #174738 url(assets/bottle-green-table.jpg) center / cover; }
+#game-view .is-human-seat .seat-initial { display: block; position: relative; color: #ffedc2; font: 400 clamp(10px, 8cqw, 23px)/1 Serif, Georgia, serif; text-shadow: 0 1px 2px #160c05; }
+#game-view .seat-identity {
+  position: absolute;
+  left: 20%;
+  right: 7%;
+  top: 36%;
+  height: 49%;
+  display: grid;
+  align-items: center;
+  min-width: 0;
+}
+#game-view .seat-identity strong {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  color: #fff0c9;
+  font: 400 clamp(11px, 7cqw, 21px)/1.05 Serif, Georgia, serif;
+  text-shadow: 0 1px 2px #140b07;
+}
+#game-view .seat-inspect { position: absolute; right: 0; top: 44%; width: 4%; height: 30%; margin: 0; stroke: #e8c684; opacity: .7; }
+#game-view .seat-status {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 32%;
+  height: 11%;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  color: #e7cda1;
+  font: 500 clamp(9px, 4.6cqw, 13px)/1.1 DM, Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+#game-view .seat-cards {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  top: 47%;
+  height: 30%;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2cqw;
+  padding: 0;
+  margin: 0;
+}
+#game-view .seat-cards .reserve-slot,
+#game-view .seat-cards .card {
+  --card-w: 15cqw;
+  --card-h: calc(15cqw * 1.447);
+  width: var(--card-w);
+  height: var(--card-h);
+}
+#game-view .seat-cards .reserve-slot { flex: 0 0 15cqw; min-width: 0; min-height: 0; }
+#game-view .seat-cards .reserve-slot > .card:first-child:not(:last-child) { transform: translate(1px, 2px); }
+#game-view .seat-cards .card:hover { transform: translateY(-1px); }
+#game-view .seat-hand { right: 12%; bottom: 21%; width: 4cqw; height: 6cqw; }
+#game-view .seat-hand .card { --card-w: 4cqw; --card-h: 6cqw; }
+#game-view .seat-wager { position: absolute; top: 80%; left: 20%; right: 20%; margin: 0; color: #e7cda1; font: 500 clamp(8px, 3.4cqw, 10px)/1.1 DM, Arial, sans-serif; text-align: center; }
+#game-view .seat-wager:empty { display: none; }
+#game-view .seat-turn-label { position: absolute; top: 80%; left: 20%; right: 20%; display: none; color: #ffe3a2; font: 600 clamp(8px, 3.4cqw, 10px)/1.1 DM, Arial, sans-serif; text-align: center; }
+#game-view .seat-reaction { top: 100%; left: 4%; max-width: 92%; font-size: 11px; }
+#game-view .opponent-seat.is-active { background: none; border: 0; }
+#game-view .opponent-seat.is-active .seat-station-art { filter: brightness(1.25) saturate(1.1); }
+#game-view .opponent-seat.is-active .seat-turn-label { display: block; }
+#game-view .opponent-seat.is-active .seat-wager { display: none; }
+#game-view .opponent-seat.is-active .seat-avatar { outline: 0; box-shadow: none; }
+#game-view .opponent-seat::before, #game-view .opponent-seat::after { display: none; }
+#game-view .opponent-seat.is-out .seat-station-art { filter: saturate(.5); }
+#game-view .opponent-seat.is-out .seat-cards::after { font-size: clamp(11px, 7cqw, 20px); }
+@media (max-width: 700px) {
+  body[data-players] #game-view .opponent-seat { flex: 1 1 0; width: auto; max-width: 210px; }
+  body[data-players="2"] #game-view .opponent-seat { flex: 0 1 210px; }
+  body[data-players="4"] #game-view .opponent-seats { gap: 4px; }
+}
+@media (max-height: 620px) and (min-width: 701px) {
+  body[data-players] #game-view .opponent-seat { flex-basis: min(210px, 38dvh); max-width: min(210px, 38dvh); }
+}
+@media (prefers-reduced-motion: reduce) { #game-view .seat-station-art { transition: none; } }
+body.reduce-motion #game-view .seat-station-art { transition: none; }

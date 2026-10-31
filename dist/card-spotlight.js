@@ -92,7 +92,7 @@ export function getCardSpotlightInfo(card, { who, result, pileSize = 0, topRankB
   let outcomeType = 'safe';
   let outcomeBadge = 'DEFENSE';
   let outcomeHeadline = 'SAFE MOVE!';
-  let outcomeDetail = who === 0 ? 'Your card safely beats the pile. The danger passes.' : `${playerName(who)} played safely. The turn passes.`;
+  let outcomeDetail = who === 0 ? 'Your card safely beats the pile. The danger passes.' : `${(result.actorName || playerName(who))} played safely. The turn passes.`;
   let auraClass = 'hs-aura-emerald';
   let iconSvg = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 2 4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm0 2.18 6 2.25v4.66c0 4.1-2.6 7.9-6 8.91-3.4-1.01-6-4.81-6-8.91V6.43l6-2.25zm-1 5.82v6h2v-6h-2z"/></svg>';
 
@@ -100,7 +100,7 @@ export function getCardSpotlightInfo(card, { who, result, pileSize = 0, topRankB
     outcomeType = 'escape';
     outcomeBadge = 'VICTORY';
     outcomeHeadline = 'ESCAPED!';
-    outcomeDetail = who === 0 ? 'You cleared your final card and escaped to safety!' : `${playerName(who)} played their final card and escaped to safety!`;
+    outcomeDetail = who === 0 ? 'You cleared your final card and escaped to safety!' : `${(result.actorName || playerName(who))} played their final card and escaped to safety!`;
     auraClass = 'hs-aura-gold';
     iconSvg = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M5 16 3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg>';
   } else if (result.burn) {
@@ -114,7 +114,7 @@ export function getCardSpotlightInfo(card, { who, result, pileSize = 0, topRankB
     outcomeType = 'pickup';
     outcomeBadge = 'DANGER';
     outcomeHeadline = 'FAILED TO BEAT PILE!';
-    outcomeDetail = who === 0 ? `Rank too low! You must pick up the ${pileSize} ${pileSize === 1 ? 'card' : 'cards'} at stake!` : `${playerName(who)}’s card was too low! Must pick up ${pileSize} ${pileSize === 1 ? 'card' : 'cards'}!`;
+    outcomeDetail = who === 0 ? `Rank too low! You must pick up the ${pileSize} ${pileSize === 1 ? 'card' : 'cards'} at stake!` : `${(result.actorName || playerName(who))}’s card was too low! Must pick up ${pileSize} ${pileSize === 1 ? 'card' : 'cards'}!`;
     auraClass = 'hs-aura-danger';
     iconSvg = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>';
   } else if (result.needsAceChoice) {
@@ -142,7 +142,7 @@ export function getCardSpotlightInfo(card, { who, result, pileSize = 0, topRankB
     iconSvg,
     stakesText,
     who,
-    whoName: playerName(who)
+    whoName: (result.actorName || playerName(who))
   };
 }
 

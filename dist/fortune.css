@@ -1,0 +1,165 @@
+/* The cabinet is a painted object. All controls and accounting remain live. */
+.fortune-screen[hidden],.fortune-screen [hidden]{display:none!important}
+.fortune-screen{position:fixed;inset:0;z-index:70;isolation:isolate;display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:#0d1d17;color:#fff0ce;font-family:DM,Arial,sans-serif;overflow:auto;overscroll-behavior:contain;color-scheme:dark;scrollbar-color:#ae854a #15251b;scrollbar-width:thin}
+.fortune-screen::before{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(#07140fe8,#091710a6 45%,#07110feb),url('assets/lobby-background.jpg') center/cover;pointer-events:none}
+.fortune-screen::after{content:"";position:fixed;inset:12px;z-index:-1;border:1px solid #af89564f;pointer-events:none}
+.fortune-screen::selection{background:#e8c684;color:#15251b}
+.fortune-screen button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.fortune-screen button:disabled{cursor:default}
+.fortune-screen button:focus-visible,.fortune-screen input:focus-visible+span,.fortune-rules button:focus-visible{outline:3px solid #fff0ce;outline-offset:4px}
+.fortune-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:calc(22px + env(safe-area-inset-top)) 38px 8px}
+.fortune-quiet{min-height:44px;padding:8px 12px;background:none;border:0;font-weight:600!important;text-underline-offset:4px}
+.fortune-quiet:hover{text-decoration:underline;color:#ffe3a2}
+.fortune-club{font-size:10px;letter-spacing:.17em;color:#cfbb92}
+.fortune-header-right{display:flex;align-items:center;gap:25px}
+.fortune-wallet{display:flex;flex-direction:column;text-align:right;min-width:110px}
+.fortune-wallet small{font-size:10px;color:#cbb991;margin-bottom:3px}
+.fortune-wallet strong{font-family:Serif,Georgia,serif;font-size:25px;color:#ffe0a0;font-weight:400;font-variant-numeric:tabular-nums}
+.fortune-content{align-self:center;display:flex;align-items:center;flex-direction:column;min-width:0;padding:0 24px}
+.fortune-intro{text-align:center;margin:0 0 15px}
+.fortune-intro h1{font-family:Serif,Georgia,serif;font-weight:400;font-size:clamp(30px,4vw,52px);letter-spacing:-.025em;line-height:1.08;margin:0 0 6px;text-shadow:0 4px 12px #0008}
+.fortune-intro h1:focus{outline:none}
+.fortune-intro p{font-size:13px;margin:0;color:#d5c6a7}
+.fortune-modes{display:flex;gap:5px;z-index:2;padding:4px;background:#0a1712;border-radius:9px;box-shadow:0 5px 16px #0004}
+.fortune-modes button{border:0;background:transparent;padding:10px 25px;min-height:55px;border-radius:6px;font-family:Serif,Georgia,serif;font-size:18px;line-height:1.1}
+.fortune-modes button span{display:block;font-family:DM,Arial,sans-serif;font-size:10px;color:#d5c6a7;margin-top:5px}
+.fortune-modes button[aria-pressed=true]{background:#35432a;color:#ffe4a6;box-shadow:inset 0 1px #a28c5266}
+.fortune-modes button:disabled{opacity:.65}
+.fortune-machine{position:relative;width:min(970px,calc((100dvh - 420px)*1.5));min-width:260px;aspect-ratio:3/2;flex-shrink:0;perspective:900px;margin-top:-3px;isolation:isolate}
+.fortune-cabinet{width:100%;height:100%;display:block;pointer-events:none;user-select:none;filter:drop-shadow(0 20px 30px #0007)}
+.fortune-reels{position:absolute;left:16.4%;top:35.4%;width:67.2%;height:21.2%;display:flex;overflow:hidden;border-radius:4%/9%;background:#e8d6a9;box-shadow:inset 0 5px 10px #0008,inset 0 -4px 8px #0008}
+.fortune-reels::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(#140e08c9,transparent 25%,transparent 70%,#140e08d9);box-shadow:inset 0 2px 7px #0008}
+.fortune-reel{position:relative;flex:1;min-width:0;height:100%;overflow:hidden;background:linear-gradient(90deg,#c8b184,#faefd4 20%,#f5e7c4 80%,#b9a075);border-right:1px solid #7b633e}
+.fortune-reel:last-child{border:0}
+.fortune-strip{height:100%;will-change:transform}
+.fortune-cell{height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fortune-digit{font-family:Serif,Georgia,serif;font-variant-numeric:tabular-nums;font-size:clamp(40px,7.8vw,105px);line-height:1;color:#332414;text-shadow:0 1px #fff7cf}
+.fortune-symbol{display:block;width:90%;height:100%;background-image:url('assets/fortune/symbols.png');background-size:600% auto;background-position:calc(var(--symbol)*20%) center;background-repeat:no-repeat}
+.fortune-prize{position:absolute;top:63%;left:35%;width:30%;height:5%;display:flex;align-items:center;justify-content:center;color:#ffe6a2;font-family:Serif,Georgia,serif;font-size:clamp(8px,1.7vw,22px);white-space:nowrap;text-shadow:0 2px 4px #000;font-variant-numeric:tabular-nums}
+.fortune-engraving{position:absolute;top:74.5%;left:16%;width:68%;text-align:center;color:#edd79d;font-size:clamp(6px,.95vw,11px);letter-spacing:.14em;text-shadow:0 2px 3px #000}
+.fortune-lever{position:absolute;left:91%;top:34%;width:8%;height:24%;border:0;background:none;padding:0;perspective:400px;touch-action:none;z-index:4}
+.fortune-lever-socket{position:absolute;left:15%;bottom:0;width:75%;height:33%;border-radius:50%;background:radial-gradient(circle at 38% 30%,#c9a65c,#49351b 55%,#1b170e 70%,#a68449);box-shadow:0 4px 6px #0008}
+.fortune-lever-arm{position:absolute;left:40%;bottom:12%;width:20%;height:89%;transform-origin:center bottom;transition:transform .25s cubic-bezier(.16,1,.3,1);background:linear-gradient(90deg,#66502a,#f5dc92 38%,#ae8544 65%,#44321b);border-radius:8px;box-shadow:2px 3px 4px #0008;pointer-events:none}
+.fortune-lever-knob{position:absolute;left:50%;top:0;translate:-50% -20%;width:clamp(20px,3.7vw,46px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 32% 25%,#a5d6a1 0%,#37795d 16%,#164c3a 48%,#06281b 73%,#b99a50 77%,#715322 86%);box-shadow:0 4px 5px #0008}
+.fortune-lever:hover .fortune-lever-knob{filter:brightness(1.2)}
+.fortune-lever:disabled{filter:saturate(.55)}
+.fortune-machine.is-spinning .fortune-prize{color:#e4cba1}
+.fortune-machine.is-winning .fortune-reels{box-shadow:0 0 25px #f9c54a88,inset 0 0 16px #d4a44b}
+.fortune-particles{position:absolute;inset:0;overflow:visible;pointer-events:none;z-index:6}
+.fortune-flying-coin{position:absolute;left:50%;top:59%;width:28px;height:32px;background:url('assets/setup-stake-coin.png') center/contain no-repeat}
+.fortune-controls{display:flex;align-items:center;flex-direction:column;gap:8px;margin-top:-14px;z-index:2;min-width:0;width:100%}
+.fortune-stakes{display:flex;gap:8px;border:0;padding:0;margin:0 0 3px}
+.fortune-stakes legend{text-align:center;font-size:10px;color:#d5c6a7;margin-bottom:7px}
+.fortune-stakes label{position:relative;cursor:pointer}
+.fortune-stakes input{position:absolute;opacity:0;width:100%;height:100%;margin:0;inset:0;cursor:pointer}
+.fortune-stakes span{display:grid;place-items:center;width:46px;height:40px;border-radius:6px;background:#162d21;box-shadow:inset 0 1px #81906b66;color:#e7d4af;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;pointer-events:none}
+.fortune-stakes input:checked+span{background:#c6a061;color:#18291b;box-shadow:inset 0 1px #ffe8ac}
+.fortune-stakes:disabled{opacity:.55}
+.fortune-action-row{position:relative;display:flex;justify-content:center;align-items:center;gap:12px;min-height:60px;width:100%}
+.fortune-roll{position:relative;min-width:245px;min-height:62px;padding:15px 35px;border:0;background:url('assets/club-gold-button.png') center/100% 100% no-repeat;font-family:Serif,Georgia,serif!important;font-size:24px!important;text-shadow:0 2px 3px #281807;color:#fff0ce!important;transition:transform .2s cubic-bezier(.16,1,.3,1),filter .2s}
+.fortune-roll:hover:enabled{transform:translateY(-2px);filter:brightness(1.12)}
+.fortune-roll:active:enabled{transform:translateY(2px) scale(.985)}
+.fortune-roll:disabled{filter:saturate(.3) brightness(.8);font-size:18px!important}
+#fortune-skip{position:absolute;left:calc(50% + 135px);font-size:12px;white-space:nowrap}
+.fortune-message{text-align:center;min-height:52px;max-width:560px;padding:2px 8px 0}
+.fortune-message strong{font-weight:400;font-family:Serif,Georgia,serif;font-size:20px;color:#ffe0a0}
+.fortune-message p{margin:5px 0 0;font-size:12px;color:#d5c6a7;line-height:1.4}
+.fortune-footer{display:flex;align-items:center;justify-content:space-between;padding:5px 38px calc(16px + env(safe-area-inset-bottom));gap:15px;font-size:11px;color:#cbb991}
+.fortune-footer button{font-size:12px}
+.fortune-rules{color:#fff0ce;background:#14271e;border:1px solid #b49356;max-width:540px;width:calc(100% - 32px);padding:30px;max-height:85dvh;overflow:auto;scrollbar-color:#ae854a #15251b}
+.fortune-rules::backdrop{background:#030d0bdc}
+.fortune-rules h2{font-family:Serif,Georgia,serif;font-weight:400;font-size:32px;margin:0 30px 24px 0}
+.fortune-rules h3{font-size:16px;color:#ffe0a0;margin:24px 0 8px}
+.fortune-rules p{font:13px/1.65 DM,Arial,sans-serif;color:#e0d4b6;max-width:65ch}
+.fortune-rules-close{position:absolute;right:12px;top:10px;font-size:28px;background:none;border:0;color:#fff0ce;width:44px;height:44px;cursor:pointer}
+.fortune-paytable>div{display:flex;align-items:center;gap:12px;min-height:42px;border-bottom:1px solid #a4874c33;font-size:13px}
+.fortune-paytable .fortune-symbol{width:34px;height:40px;flex-shrink:0}
+.fortune-paytable strong{margin-left:auto;color:#ffe0a0}
+/* Menu entry is compact enough to preserve the existing phone entrance. */
+#menu-fortune.fortune-entry{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto;max-width:280px;width:82%;min-height:49px;padding:3px 12px;border:0;background:none;color:#fff0ce;cursor:pointer;text-align:left}
+.fortune-entry-coin{width:32px;height:36px;flex-shrink:0;background:url('assets/setup-stake-coin.png') center/contain no-repeat}
+.fortune-entry strong{display:block;font:18px Serif,Georgia,serif;color:#ffe0a0}
+.fortune-entry small{display:block;font:10px DM,Arial,sans-serif;color:#ded2b6;margin-top:2px;font-variant-numeric:tabular-nums}
+.fortune-entry-arrow{font:26px Serif,Georgia,serif;color:#e9d09c;margin-left:auto}
+.fortune-entry:hover strong{text-decoration:underline;text-underline-offset:4px}
+.fortune-entry.is-ready .fortune-entry-coin{filter:brightness(1.12)}
+.fortune-link{background:none;border:0;color:#ffe0a0;text-decoration:underline;text-underline-offset:3px;font:12px DM,Arial,sans-serif;min-height:36px;cursor:pointer;padding:4px 0}
+@media(min-width:701px){.fortune-screen:has(#fortune-stakes:not([hidden])) .fortune-machine{width:min(970px,calc((100dvh - 470px)*1.5))}}
+@media(max-width:700px){
+ .fortune-header{padding:calc(14px + env(safe-area-inset-top)) 18px 6px;gap:5px}
+ .fortune-club{display:none}.fortune-header-right{gap:4px}.fortune-wallet{min-width:95px}.fortune-wallet strong{font-size:21px}.fortune-wallet small{font-size:9px}.fortune-header .fortune-quiet{font-size:12px;padding:8px}
+ .fortune-content{padding:0 8px}.fortune-intro{margin-bottom:12px}.fortune-intro h1{font-size:34px}.fortune-intro p{font-size:12px}
+ .fortune-modes button{padding:10px 16px;font-size:17px;min-height:52px}.fortune-modes button span{font-size:9px}
+ .fortune-machine{width:min(580px,100%);min-width:0;margin-top:8px}.fortune-digit{font-size:clamp(38px,12vw,75px)}
+ .fortune-prize{font-size:clamp(9px,2.1vw,14px)}.fortune-engraving{font-size:clamp(6px,1.6vw,9px);letter-spacing:.08em}.fortune-lever-knob{width:clamp(18px,5.2vw,30px)}
+ .fortune-controls{margin-top:0;gap:7px}.fortune-roll{min-height:61px;min-width:245px;font-size:23px!important}.fortune-message{min-height:62px}.fortune-message strong{font-size:20px}.fortune-message p{font-size:11px;max-width:330px}
+ .fortune-footer{padding:5px 20px calc(10px + env(safe-area-inset-bottom));font-size:9px}.fortune-footer .fortune-quiet{font-size:11px;padding:6px}
+ #fortune-skip{position:static;min-height:28px;padding:4px;font-size:11px}.fortune-action-row:has(#fortune-skip:not([hidden])){flex-direction:column;gap:0}
+ .fortune-rules{padding:24px}.fortune-rules h2{font-size:27px}
+ #menu-fortune.fortune-entry{min-height:46px}.fortune-entry strong{font-size:16px}.fortune-entry-coin{width:27px;height:30px}
+}
+@media(max-width:700px) and (max-height:640px){
+ .fortune-header{padding-top:calc(7px + env(safe-area-inset-top));padding-bottom:0}.fortune-intro{margin:0 0 7px}.fortune-intro h1{font-size:28px}.fortune-intro p{display:none}.fortune-modes button{min-height:44px;padding:7px 14px;font-size:15px}
+ .fortune-machine{width:min(100%,calc((100dvh - 250px)*1.5));margin-top:0}.fortune-screen:has(#fortune-stakes:not([hidden])) .fortune-machine{width:min(100%,calc((100dvh - 294px)*1.5))}
+ .fortune-controls{gap:2px}.fortune-message{min-height:45px}.fortune-message strong{font-size:17px}.fortune-message p{font-size:10px;margin-top:2px}.fortune-roll{min-height:52px;min-width:220px;font-size:20px!important}.fortune-footer{padding-bottom:5px}.fortune-stakes legend{margin-bottom:3px}.fortune-stakes span{height:34px;width:40px}.fortune-stakes{gap:6px;margin:0}
+ .fortune-action-row{min-height:52px}.fortune-digit{font-size:clamp(28px,9vw,58px)}
+ #menu-fortune.fortune-entry{min-height:44px;padding:0 8px}.fortune-entry strong{font-size:15px}.fortune-entry small{font-size:9px}.fortune-entry-coin{height:26px}
+}
+@media(min-width:701px) and (max-height:640px){
+ .fortune-header{padding:10px 24px 0}.fortune-intro{margin-bottom:8px}.fortune-intro h1{font-size:30px}.fortune-intro p{display:none}.fortune-modes button{padding:7px 22px;min-height:45px}.fortune-modes button span{font-size:9px}.fortune-machine{width:min(600px,calc((100dvh - 270px)*1.5))}.fortune-screen:has(#fortune-stakes:not([hidden])) .fortune-machine{width:min(600px,calc((100dvh - 315px)*1.5))}.fortune-controls{gap:3px}.fortune-roll{min-height:50px;font-size:21px!important}.fortune-message{min-height:40px}.fortune-message strong{font-size:17px}.fortune-message p{font-size:10px}.fortune-footer{padding-bottom:7px}.fortune-digit{font-size:55px}.fortune-stakes span{height:32px}.fortune-stakes legend{margin-bottom:3px}.fortune-prize{font-size:12px}
+}
+@media(max-height:450px) and (min-width:600px){
+ .fortune-content{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(245px,1fr);grid-template-rows:auto 1fr;align-items:center;column-gap:8px;padding:0 24px}.fortune-intro{grid-column:1;margin:0}.fortune-intro h1{font-size:26px}.fortune-modes{grid-column:2;grid-row:1;justify-self:center}.fortune-modes button{font-size:14px;padding:6px 12px}.fortune-modes button span{font-size:8px}.fortune-machine,.fortune-screen:has(#fortune-stakes:not([hidden])) .fortune-machine{grid-row:2;grid-column:1;width:100%;max-width:390px;min-width:0;margin:0;justify-self:center}.fortune-controls{grid-column:2;grid-row:2;margin:0}.fortune-digit{font-size:48px}.fortune-prize{font-size:10px}.fortune-engraving{font-size:6px}.fortune-message strong{font-size:17px}.fortune-message p{font-size:10px}.fortune-header{padding-top:4px}.fortune-footer{padding-bottom:2px}.fortune-stakes span{width:37px;height:32px}.fortune-roll{min-width:210px;font-size:20px!important;min-height:52px}
+}
+@media(prefers-reduced-motion:reduce){.fortune-screen *{scroll-behavior:auto!important;transition:none!important}}
+.reduce-motion .fortune-screen *{transition:none!important}
+.fortune-machine{container-type:inline-size}
+.fortune-machine .fortune-prize{font-size:clamp(8px,2.4cqw,20px)}
+.fortune-machine .fortune-digit{font-size:clamp(28px,14cqw,110px)}
+.fortune-machine .fortune-engraving{font-size:clamp(6px,1.2cqw,10px)}
+.fortune-screen .fortune-roll:disabled{opacity:1;filter:saturate(.4) brightness(.9);color:#ead9b7!important}
+/* Intrinsic rows prevent short-screen content from centering over navigation. */
+.fortune-screen{grid-template-rows:auto minmax(min-content,1fr) auto}
+@media(max-width:700px) and (max-height:640px){
+ .fortune-machine{width:min(100%,calc((100dvh - 300px)*1.5))}
+ .fortune-screen:has(#fortune-stakes:not([hidden])) .fortune-machine{width:min(100%,calc((100dvh - 360px)*1.5))}
+ .fortune-header{min-height:51px}.fortune-intro h1{font-size:26px}
+ .fortune-footer{padding-top:0}.fortune-machine .fortune-lever{min-width:32px;min-height:44px}
+}
+@media(max-height:450px) and (min-width:600px){
+ .fortune-machine,.fortune-screen:has(#fortune-stakes:not([hidden])) .fortune-machine{width:100%;max-width:390px}
+}
+/* The payout spills into the room, then collects at the actual wallet. */
+.fortune-particles{position:fixed;inset:0;z-index:12;overflow:hidden;perspective:1000px}
+.fortune-flying-coin{position:absolute;left:0;top:0;filter:drop-shadow(0 8px 7px #160b0580);will-change:transform;backface-visibility:visible}
+.fortune-win-announcement{position:fixed;z-index:13;left:50%;top:39%;transform:translate(-50%,-50%);pointer-events:none;text-align:center;white-space:nowrap;text-shadow:0 4px 12px #160a04,0 0 35px #0b1209;will-change:transform,opacity;isolation:isolate}
+.fortune-win-announcement::before{content:"";position:absolute;inset:-35% -25%;background:radial-gradient(ellipse,#172518ee 10%,#17251899 45%,transparent 70%);z-index:-1}
+.fortune-win-announcement small{display:block;color:#fff0ce;font:600 12px DM,Arial,sans-serif;letter-spacing:.12em;margin-bottom:5px}
+.fortune-win-announcement strong{display:block;font:400 clamp(65px,12vw,150px)/1 Serif,Georgia,serif;color:#ffe2a0;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.fortune-win-announcement>span{display:block;font:400 22px Serif,Georgia,serif;color:#fff0ce;margin-top:6px;letter-spacing:.12em}
+.fortune-machine.is-winning{filter:drop-shadow(0 5px 25px #f4c76e55)}
+@media(max-width:700px){.fortune-win-announcement{top:42%}.fortune-win-announcement small{font-size:10px}.fortune-win-announcement strong{font-size:clamp(70px,18vw,100px)}.fortune-win-announcement>span{font-size:19px}}
+.fortune-rules h2{color:#fff0ce}
+@media(max-height:450px) and (min-width:600px){
+ .fortune-header{min-height:53px;padding-bottom:4px}
+ .fortune-content{padding-top:7px}
+}
+@media(max-height:450px) and (min-width:600px){
+ .fortune-machine,.fortune-screen:has(#fortune-stakes:not([hidden])) .fortune-machine{max-width:min(390px,calc((100dvh - 170px)*1.5))}
+}
+#fortune-screen .fortune-lever{min-width:44px;min-height:44px}
+/* Keep subsequently added painted marquee artwork clear of the wallet. */
+@media(max-height:450px) and (min-width:600px){
+ #fortune-screen .fortune-intro h1{width:180px}
+ #fortune-screen .fortune-modes{width:280px}
+ #fortune-screen .fortune-modes button{min-height:52px}
+ #fortune-screen .fortune-machine{max-width:min(330px,calc((100dvh - 185px)*1.5))}
+}
+@media(min-height:641px) and (max-height:740px) and (max-width:700px){
+ #fortune-screen .fortune-intro h1{width:220px}
+ #fortune-screen .fortune-modes{width:300px;margin-bottom:5px}
+ #fortune-screen .fortune-modes button{min-height:56px}
+ #fortune-screen .fortune-machine{width:min(100%,calc((100dvh - 445px)*1.5))}
+ #fortune-screen:has(#fortune-stakes:not([hidden])) .fortune-machine{width:min(100%,calc((100dvh - 500px)*1.5))}
+ #fortune-screen:has(#fortune-stakes:not([hidden])):has(#fortune-skip:not([hidden])) .fortune-machine{width:min(100%,calc((100dvh - 530px)*1.5))}
+}

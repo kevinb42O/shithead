@@ -1,10 +1,11 @@
-# The Card Table
-Mode: Operate. Code-led interactive game.
-World: a quiet social card club; midnight-blue wool table, warm paper interface, classical French playing cards, DM Serif Display and DM Sans.
-First viewport: immediate real deal, opponent reserve and hidden hand, stock, pile, player reserve and selectable hand. No lobby gate. Rules and action guidance surround the actual game.
-Signature interaction: cards lift when selected; matching ranks can be played together, with a clear committed Play action. The last phase invites blind card selection.
-User commitments: 2 always playable but no reset; joker transparent; stacked 7s enforce multiple low turns; 3 reverses and gives another turn in two-player games. User requested reusable Internet card and table artwork.
-Assets: unmodified SVG-cards source, LGPL 2.1 with source/license/download in credits; Poly Haven Caban wool, CC0, tinted blue through CSS. Locally hosted fonts.
-Quality: no game state errors or horizontal overflow at desktop/mobile, clear turn and phase, cards legible, no hidden-state peeking by AI.
-
-Polish update: stable physical-card DOM identity, original navy/gold vector backs, sequential opening deal, bidirectional setup swaps and active endgame cards in the large hand tray.
+# The Ember Hearth
+Mode: Operate. Code-led, fullscreen local game.
+Authority: the user pinned a completely new PC/mobile playfield inspired by Hearthstone, visibly damaged by burns and reacting alive. This brief prevails over the exploratory direction seed `567f6f9d187d8fd9`; retain existing rules, menus and illustrated card assets.
+World: carved walnut and bronze frame, warm sandstone center, dark timber seat/wallet/pot panels, ivory and gold typography, left forge and right teal arcane lantern.
+First viewport: real opponent seats, stock, discard hearth, own reserve and selectable hand inside the complete 100dvh board. Desktop and portrait paintings use distinct original generated artwork.
+Signature interaction: burns leave seeded, saved soot/cracks/ash around the actual pile; fresh deals clear damage. Event-driven fire, pickup dust, low-turn frost, reversing wind and joker arcane reactions make the materials respond. Forge and lantern are interactive native buttons.
+Assets: `assets/ember-hearth-board.jpg` and `assets/ember-hearth-mobile.jpg` with prompt sidecars. Existing deck, court/back art, fonts and credits persist. Earlier felt/Poly Haven references remain historical/menu context.
+Implementation: `dist/living-board.css` loads after `dist/online.css`; `dist/living-board.js` handles scars and reactions. DESIGN.md frontmatter supplies extracted tokens; design.json extends it.
+Quality: preserve fullscreen local PC/mobile layout, visible reserve on short phones, accessible card/prop controls, saved-state continuity and reduced-motion preferences. Ambient motion, particles and shake stop under either reduced-motion preference; static damage remains readable.
+Review disposition: SHIP. Evidence: `.impeccable/review/ember-hearth/*.jpg`.
+Hosting: local development only. Do not create or publish a hosted Site without a later explicit deployment request.

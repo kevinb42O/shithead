@@ -269,3 +269,136 @@ body.reduce-motion .choosing-players input:checked + span, body.reduce-motion .c
   .choosing-players .single-setup .coin-message { font-size: 11px; }
   #deal-selected.setup-buy-button { width: 260px; height: 88px; }
 }
+
+/* Phone setup is a single task screen: choices in the middle, buy-in at the foot. */
+@media (max-width: 700px) {
+  .main-menu:has(.choosing-players) {
+    --setup-frame-edge: 16px;
+    --setup-frame-safe: 24px;
+    padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+  }
+  .main-menu .menu-center.choosing-players:has(#setup-return) { overflow: visible; padding: 0; }
+  .choosing-players .menu-content {
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    grid-template-rows: 44px minmax(0, 1fr);
+    align-content: stretch;
+    gap: 8px;
+    position: relative;
+  }
+  .main-menu .choosing-players .menu-title-illustrated { display: none; }
+  .choosing-players .coin-wallet { display: flex; gap: 6px; font-size: 12px; }
+  .choosing-players .coin-wallet strong { font-size: 20px; }
+  .choosing-players .coin-wallet > span { display: none; }
+  .main-menu .choosing-players .single-setup {
+    position: static;
+    min-height: 0;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-content: stretch;
+    gap: 12px;
+  }
+  .choosing-players .setup-back { position: absolute; top: 0; left: 0; width: 96px; height: 44px; margin: 0; }
+  .choosing-players .single-setup h2 { padding: 0; margin: 0; font-size: 28px; }
+  .choosing-players .single-setup > p:not(.setup-summary) { display: none; }
+  .choosing-players .setup-choices { grid-template-columns: 1fr; gap: 16px; padding: 0; width: 100%; max-width: 440px; margin: 0 auto; }
+  .choosing-players fieldset legend { font-size: 12px; margin-bottom: 8px; text-align: left; }
+  .choosing-players .player-count, .choosing-players .stake-options { width: 100%; max-width: none; gap: 8px; }
+  .choosing-players .player-count label > .company-choice {
+    min-height: 112px;
+    padding: 10px 2px;
+    gap: 6px;
+    background: #061c16aa;
+    border: 1px solid #dfc18266;
+    border-radius: 8px;
+    filter: none;
+  }
+  .choosing-players .player-count input:checked + .company-choice {
+    background: #254a30;
+    border: 2px solid #f5d99c;
+    padding: 9px 1px;
+    filter: none;
+    transform: none;
+  }
+  .choosing-players .company-portrait { width: 36px; height: 36px; margin: 0; }
+  .choosing-players .company-choice strong { font-size: 18px; }
+  .choosing-players .company-choice small { font-size: 11px; }
+  .choosing-players .company-choice em, .choosing-players .choice-selected { display: none; }
+  .choosing-players .stake-options legend { text-align: left; }
+  .choosing-players .stake-options label > span { gap: 4px; border-radius: 8px; }
+  .choosing-players .stake-coin { width: 64px; }
+  .choosing-players .stake-coin strong { font-size: 26px; }
+  .choosing-players .stake-options small { font-size: 12px; }
+  .choosing-players .stake-options input:checked + span { outline: 2px solid #f5d99c; outline-offset: 3px; }
+  .choosing-players .stake-options input:checked + span .stake-coin { transform: none; }
+  .choosing-players .setup-commit { grid-template-columns: 1fr; gap: 4px; margin: 0; padding-top: 10px; text-align: center; }
+  .choosing-players .setup-pot { font-size: 22px; }
+  .choosing-players .setup-return { display: none; }
+  .choosing-players .single-setup .coin-message { margin: 4px auto; font-size: 11px; line-height: 1.35; }
+  #deal-selected.setup-buy-button { width: min(260px, 100%); height: 70px; min-height: 48px; }
+  .choosing-players .setup-buy-cost { font-size: 12px; }
+}
+
+@media (max-width: 700px) and (max-height: 600px) {
+  .choosing-players .menu-content { gap: 4px; }
+  .main-menu .choosing-players .single-setup { gap: 8px; }
+  .choosing-players .single-setup h2 { font-size: 24px; }
+  .choosing-players .setup-choices { gap: 12px; }
+  .choosing-players .player-count label > .company-choice { min-height: 76px; }
+  .choosing-players .company-portrait { display: none; }
+  .choosing-players .stake-coin { width: 48px; }
+  .choosing-players .stake-coin strong { font-size: 22px; }
+  .choosing-players .setup-commit { padding-top: 6px; }
+  #deal-selected.setup-buy-button { height: 56px; }
+}
+
+/* Rotated phones use their width to keep both choice groups above the action. */
+@media (max-width: 950px) and (max-height: 500px) and (orientation: landscape) {
+  .main-menu:has(.choosing-players) { --setup-frame-edge: 14px; --setup-frame-safe: 22px; padding: max(22px, env(safe-area-inset-top)) max(22px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(22px, env(safe-area-inset-left)); }
+  .main-menu .menu-center.choosing-players:has(#setup-return) { overflow: visible; padding: 0; }
+  .choosing-players .menu-content { height: 100%; min-height: 0; padding: 0; grid-template-rows: 44px minmax(0, 1fr); gap: 4px; position: relative; }
+  .main-menu .choosing-players .menu-title-illustrated { display: none; }
+  .choosing-players .coin-wallet { font-size: 12px; }
+  .choosing-players .coin-wallet strong { font-size: 20px; }
+  .main-menu .choosing-players .single-setup { position: static; grid-template-rows: auto minmax(0, 1fr) auto; gap: 8px; }
+  .choosing-players .setup-back { position: absolute; top: 0; left: 0; width: 96px; height: 44px; margin: 0; }
+  .choosing-players .single-setup h2 { padding: 0; font-size: 24px; margin: 0; }
+  .choosing-players .single-setup > p:not(.setup-summary) { display: none; }
+  .choosing-players .setup-choices { grid-template-columns: 1fr 1fr; gap: 24px; padding: 0; max-width: none; }
+  .choosing-players fieldset legend { font-size: 12px; margin-bottom: 6px; }
+  .choosing-players .player-count label > .company-choice { min-height: 74px; padding: 10px 4px; gap: 4px; }
+  .choosing-players .company-portrait, .choosing-players .company-choice em, .choosing-players .choice-selected { display: none; }
+  .choosing-players .company-choice strong { font-size: 18px; }
+  .choosing-players .company-choice small { font-size: 11px; }
+  .choosing-players .stake-options { width: 100%; }
+  .choosing-players .stake-coin { width: 48px; }
+  .choosing-players .stake-coin strong { font-size: 22px; }
+  .choosing-players .stake-options label > span { gap: 2px; }
+  .choosing-players .stake-options small { font-size: 12px; }
+  .choosing-players .setup-commit { grid-template-columns: 1fr 1fr; gap: 16px; margin: 0; padding-top: 6px; }
+  .choosing-players .setup-pot { font-size: 22px; }
+  .choosing-players .setup-return { display: none; }
+  .choosing-players .single-setup .coin-message { font-size: 11px; margin: 4px auto; line-height: 1.35; }
+  #deal-selected.setup-buy-button { height: 56px; }
+}
+
+/* Generated lettering keeps the heading compact on the single-screen setup. */
+.choosing-players .single-setup h2.setup-title-illustrated {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: clamp(52px, 7dvh, 80px);
+  margin: 0 120px 8px;
+}
+.setup-title-illustrated img {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+}
+@media (max-width: 700px) {
+  .choosing-players .single-setup h2.setup-title-illustrated { height: 60px; margin: 0; }
+}
+@media (max-width: 700px) and (max-height: 600px), (max-width: 950px) and (max-height: 500px) and (orientation: landscape) {
+  .choosing-players .single-setup h2.setup-title-illustrated { height: 46px; margin: 0; }
+}

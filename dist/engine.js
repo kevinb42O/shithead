@@ -13,14 +13,14 @@ export function nextPlayer(g, who = g.turn) {
     }
     return who;
 }
-export function createGame(rng = Math.random, playerCount = 2) {
+export function createGame(rng = Math.random, playerCount = 2, {autoArrange = true} = {}) {
     if (![2, 3, 4].includes(playerCount)) throw new RangeError('Choose 2, 3 or 4 players.');
     const deck = [];
     for (const suit of ['♠', '♥', '♣', '♦']) for (let rank = 2; rank <= 14; rank++)deck.push({ id: suit + rank, rank, suit });
     deck.push({ id: 'joker-red', rank: 15, suit: '♦' }, { id: 'joker-black', rank: 15, suit: '♠' });
     for (let i = 53; i > 0; i--) { const j = Math.floor(rng() * (i + 1));[deck[i], deck[j]] = [deck[j], deck[i]]; }
     const players = Array.from({ length: playerCount }, () => ({ hand: deck.splice(0, 3), up: deck.splice(0, 3), down: deck.splice(0, 3) }));
-    for (const p of players.slice(1)) { p.hand.push(...p.up); p.hand.sort((a, b) => power(a) - power(b)); p.up = p.hand.splice(3, 3); }
+    for (const p of autoArrange ? players.slice(1) : []) { p.hand.push(...p.up); p.hand.sort((a, b) => power(a) - power(b)); p.up = p.hand.splice(3, 3); }
     return { version: 3, deck, players, pile: [], lowTurns: 0, direction: 1, burned: [], turn: 0, phase: 'setup', winner: null, loser: null, placements: [], log: [], moves: 0 };
 }
 const power = c => ({ 2: 17, 15: 16, 10: 18 })[c.rank] || c.rank;
@@ -39,9 +39,9 @@ export function play(g, ids, { aceValue, requestChoice = false } = {}) {
     const active = g.players.map((p, i) => remaining(p) ? i : null).filter(i => i !== null);
     if (active.length === 1) { g.phase = 'finished'; g.loser = active[0]; g.log.unshift(`${playerName(g.loser)} ${g.loser === 0 ? 'are' : 'is'} the Shithead.`); }
     else {
-        g.turn = !wentOut && (burn || (reverses && g.players.length === 2)) ? who : nextPlayer(g, who);
+        g.turn = !wentOut && (burn || (reverses && active.length === 2)) ? who : nextPlayer(g, who);
     }
-    return { ok: true, burn, cards, who, wentOut };
+    return { ok: true, burn, cards, who, wentOut, reversed: reverses };
 }
 export function pickup(g) { if (g.phase !== 'playing' || g.pendingAce || !g.pile.length) return { ok: false }; const who = g.turn; g.players[who].hand.push(...g.pile); refill(g, g.players[who]); g.pile = []; g.lowTurns = 0; g.turn = nextPlayer(g, who); g.moves++; g.log.unshift(`${playerName(who)} picked up the pile.`); return { ok: true, pickup: true, who }; }
 const seenPositions = new WeakMap();

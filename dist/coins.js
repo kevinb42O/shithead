@@ -2,12 +2,17 @@
 export const STAKES = [10, 50, 100];
 export const STARTING_COINS = 1000;
 export function createWallet(saved) {
-  return { balance: Number.isSafeInteger(saved?.balance) && saved.balance >= 0 ? saved.balance : STARTING_COINS };
+  return {
+    balance: Number.isSafeInteger(saved?.balance) && saved.balance >= 0 ? saved.balance : STARTING_COINS,
+    nextDailyAt: Number.isSafeInteger(saved?.nextDailyAt) && saved.nextDailyAt >= 0 ? saved.nextDailyAt : 0,
+    settledBets: Array.isArray(saved?.settledBets) ? saved.settledBets.filter(id => typeof id === 'string').slice(-256) : [],
+    lastSpin: saved?.lastSpin && ['daily', 'paid'].includes(saved.lastSpin.mode) && Number.isSafeInteger(saved.lastSpin.payout) && saved.lastSpin.payout >= 0 && Number.isSafeInteger(saved.lastSpin.at) && Array.isArray(saved.lastSpin.reels) && saved.lastSpin.reels.every(Number.isInteger) ? saved.lastSpin : null,
+  };
 }
 export function buyIn(wallet, game, stake) {
   if (game.bet || !STAKES.includes(stake) || ![2, 3, 4].includes(game.players.length) || wallet.balance < stake) return false;
   wallet.balance -= stake;
-  game.bet = { stake, pot: stake * game.players.length, settled: false, winner: null };
+  game.bet = { id: globalThis.crypto.randomUUID(), stake, pot: stake * game.players.length, settled: false, winner: null };
   return true;
 }
 export function settleBet(wallet, game) {

@@ -1,13 +1,22 @@
 ---
-name: Shithead — The Card Table
-description: A quiet social card club built around a playable, full-viewport card table.
+name: Shithead — The Ember Hearth
+description: A fullscreen living fantasy playfield of carved timber, warm stone and persistent burn scars.
 colors:
   ink: "#263e32"
   paper: "#f5f2e9"
   muted: "#59674f"
   gold: "#e7c779"
   green: "#173e32"
-  viewport: "#0c182a"
+  viewport: "#7b5430"
+  hearth-timber: "#37271eea"
+  hearth-panel: "#2b1b12e8"
+  hearth-bronze: "#b08a4a"
+  hearth-ivory: "#fff0c9"
+  hearth-gold: "#f5dba1"
+  hearth-muted: "#e2c9a5"
+  hearth-fire: "#ff9b345c"
+  hearth-arcane: "#35e5de55"
+  hearth-frost: "#8be7ff3b"
   hud: "#0a1423"
   hud-text: "#f1edda"
   action-gold: "#dfc182"
@@ -25,6 +34,14 @@ colors:
   focus: "#be8a30"
   history: "#10243e"
 typography:
+  seat-name:
+    fontFamily: "Serif, Georgia, serif"
+    fontSize: "17px"
+    fontWeight: 400
+  board-condition:
+    fontFamily: "Serif, Georgia, serif"
+    fontSize: "16px"
+    letterSpacing: ".03em"
   wordmark:
     fontFamily: "Serif, serif"
     fontSize: "31px"
@@ -50,6 +67,8 @@ typography:
     letterSpacing: "1.6px"
     fontWeight: 600
 rounded:
+  seat: "10px 10px 32px 32px"
+  rail-panel: "12px"
   card: "5px"
   action: "7px"
   history: "12px"
@@ -64,6 +83,17 @@ spacing:
   hud-edge: "28px"
   dialog-inset: "34px"
 components:
+  hearth-seat:
+    backgroundColor: "{colors.hearth-timber}"
+    textColor: "{colors.hearth-ivory}"
+    rounded: "{rounded.seat}"
+    padding: "12px 18px 18px"
+    typography: "{typography.seat-name}"
+  hearth-pot:
+    backgroundColor: "{colors.hearth-panel}"
+    rounded: "{rounded.rail-panel}"
+    padding: "18px"
+    width: "134px"
   button-primary:
     backgroundColor: "{colors.action-gold}"
     textColor: "{colors.action-ink}"
@@ -94,45 +124,60 @@ components:
     padding: "5px 9px"
 ---
 
-# Design System: Shithead — The Card Table
+# Design System: Shithead — The Ember Hearth
+
+## Fortune title and mode plaques
+
+`dist/fortune-marquee.css` integrates original transparent ImageGen artwork with the existing walnut, antique-gold and emerald cabinet. `assets/fortune/title.png` contains bespoke ivory-and-gold title lettering; `daily-button.png` and `bet-button.png` contain the exact mode labels on sculpted emerald and teal plaques. Exact built-in generation prompts are saved beside each asset. Semantic heading/image names, native buttons, aria-pressed, disabled states, cream keyboard focus and both reduced-motion preferences remain available.
+
+PC screens at least 900px wide and 451px tall give the central cabinet the entire content height beneath a compact illustrated title. The mode plaques sit 16–36px beside the cabinet; stakes, Spin and compact results occupy the side rails, with no controls or status rows beneath the cabinet. Daily and paid modes keep the same machine dimensions. At 1440×756 the cabinet is 870×580; at 1280×720 it is 768×512. Phones retain their existing vertical arrangement. Short landscape phones use two columns, and compact phones reduce the title and cabinet while preserving the controls and footer. The selected plaque retains full color and an explicit Selected caption; the other remains legible with quieter material lighting. Supporting captions inherit Fortune's 8–13px responsive scale, warm cream #dbc7a4 and gold #ffe4a6; responsive spin labels use 16–22px, and the transparent native hit target uses a 4px focus corner, independent of the painted silhouette.
+
+`assets/fortune/bet-button-mirrored.png` supersedes the earlier teal Bet coins plaque. Built-in ImageGen edited the Daily allowance reference into the matching emerald-and-walnut horizontal counterpart, retaining a normally readable Bet Coins label and putting the coin medallion on the right. Its exact prompt is saved in the adjacent `.prompt.txt`. Both desktop and mobile use it.
+
+Browser verification covered daily/paid mode switching at 1440×756, 1280×720, 1024×768, 900×600, 900×451, 1920×1080, 390×844 and 320×480. The earlier 844×390 landscape arrangement is preserved. The nine Fortune engine/accounting tests passed. Gameplay remains fullscreen and locally served.
 
 ## Overview
 
-**Creative North Star: “The Card Table”**
+**Creative North Star: “The Ember Hearth”**
 
-Mode: **Operate**. This is a code-led interactive game. The bottle-green wool table owns the viewport, with a compact score and utility bar above and a selectable hand and committed action below. The visual world is a quiet social card club: familiar French playing cards, warm gold, muted blue labels, and occasional classical serif lettering.
+Mode: **Operate**. This code-led game fills the PC and mobile viewport with a living fantasy playfield: carved walnut and bronze surround warm sandstone, with a forge at the left and a teal arcane lantern at the right. The readable central hearth carries the real cards and accumulates ash, hairline cracks and scorch marks as piles burn. Dark timber seat and bankroll panels keep information grounded in the painted world.
 
-Use the implemented cascade as the source of truth: `dist/style.css` provides components and `dist/game-layout.css`, loaded afterward, establishes the current full-viewport composition. The warm paper landing-page layout and introductory heading remain in source but are hidden or overridden; they are not the current screen design. Paper remains visible in dialogs.
+`dist/living-board.css`, loaded after `dist/online.css`, is the authoritative local gameplay material layer; `dist/living-board.js` supplies damage and reactions. Original generated desktop and portrait board images establish the environment. Existing local menus, online club, deck artwork and game rules keep their own implementations. Later historical sections below document those surfaces and earlier refinements; this overview and the Ember Hearth guidance take precedence for the active local board.
 
 **Key Characteristics:**
-- Tactile cards against textured bottle-green wool.
-- A dense, immediately playable table with clear turn ownership.
-- Warm gold for the committed action and feedback.
-- Restrained serif identity paired with compact sans-serif game information.
+- Carved walnut and bronze framing a warm sandstone playfield.
+- A fullscreen playable table with persistent, deal-specific burn damage.
+- Ivory and gold information on dark timber panels.
+- Fire, dust, frost, wind and teal arcane reactions tied to actual play.
 
 ## Colors
 
-The active palette layers near-black navy, blue wool, soft blue text and warm gold; paper is reserved for card faces and dialogs.
+The local playfield uses warm timber, bronze, ivory and gold, with fire and teal reserved for material reactions. The generated sandstone has painterly variation rather than a fabricated flat-color token.
 
 ### Primary
-- **Action gold** (`action-gold`): the Play/Let's play/rematch button, with dark green lettering.
-- **Gold** (`gold`): the original supporting accent, also used with transparency in the thinking chip.
-- **Card selected / card focus**: separate outlines identify selection and keyboard focus. Preserve both states.
+- **Hearth bronze** (`hearth-bronze`): the seat edge and warm metal detailing.
+- **Action gold** (`action-gold`): retained live game actions; illustrated royal controls retain their existing artwork.
+- **Hearth gold** (`hearth-gold`): the board name and persistent burn-count label.
+
+### Secondary
+- **Hearth fire** (`hearth-fire`): transient burn/forge illumination.
+- **Hearth arcane / frost** (`hearth-arcane`, `hearth-frost`): lantern and joker reactions, and the persistent low-turn condition wash.
 
 ### Neutral
-- **Viewport / HUD**: dark navy surfaces frame the game.
-- **Status text / status muted**: high-priority action guidance and secondary explanation.
-- **Paper / ink / muted**: the light rules, restart and credits dialogs.
-- **Card paper**: the backing behind the original card artwork.
+- **Viewport** (`viewport`): warm backing beneath the board painting.
+- **Hearth timber / panel** (`hearth-timber`, `hearth-panel`): opponent seats and wallet/pot readouts.
+- **Hearth ivory / muted** (`hearth-ivory`, `hearth-muted`): names and supporting seat information.
+- **Paper / ink / muted**: retained light dialog context; **card paper / red / ink** retain the illustrated deck.
+- Existing navy, green and HUD tokens describe inherited utilities and other surfaces, not the new board painting.
 
-The active cloth is `assets/bottle-green-table.jpg`, an original ImageGen-generated bottle-green felt with a cognac leather edge and warm overhead lighting, framed by the existing dark upholstered rail. It uses a centered cover image with a light translucent shade so the generated fibers remain visible. `assets/table-cloth.jpg` is retained as the earlier Poly Haven Caban material. Do not replace that layered surface with a flat primary-color fill when extending the table.
+`assets/ember-hearth-board.jpg` and `assets/ember-hearth-mobile.jpg` are original generated background illustrations, with adjacent prompt sidecars. The portrait image replaces the desktop image at 700px. Both fill the shell at `100% 100%`. The former bottle-green felt and Poly Haven cloth remain historical/menu assets; they are not the active local board.
 
 ## Typography
 
 **Display Font:** DM Serif Display, loaded locally as `Serif` from `display.ttf`.
 **Body Font:** DM Sans, loaded locally as `DM` from `body.ttf`, with Arial and sans-serif fallbacks.
 
-Serif lettering gives the wordmark, score, table stamp and dialog headings their club character. Sans-serif labels carry dense operational information.
+Serif lettering gives the board condition, seat names, wordmark and dialog headings a carved fantasy character. Sans-serif labels carry dense operational information. Local board seat names are 17px desktop, 13px phone, and 11px on short/narrow phones. The board condition is 16px desktop, 12px phone, and 11px on short phones. The old central table stamp is hidden.
 
 - Wordmark: 31px desktop, 25px below 700px; tracking -1px.
 - Score: 25px desktop, 19px mobile; serif, warm gold.
@@ -144,6 +189,12 @@ Serif lettering gives the wordmark, score, table stamp and dialog headings their
 Do not introduce a large marketing headline into the gameplay viewport. The current introductory copy is hidden.
 
 ## Layout
+
+**Active local-board precedence.** Preserve `100dvh`, the complete fullscreen game shell, native card interaction and the lower hand/action region. The painting occupies the whole shell; fixed damage, illumination and particle layers sit at z-index 0, 1 and 12, with cards above the damage and props at 7. On desktop taller than 620px, opponents span `min(70vw,920px)` with 235px seat bases and 22–60px gaps. The stock rests at 18% left/48% top after dealing. The pot sits right at 11%/43%, and the bankroll left at 11%/12% from the bottom.
+
+At 700px and below, use the portrait painting, top-left compact pot/wallet readouts, safe-area-aware top clearance, 44×74px side-prop hit regions, and compact opponent panels. The stock moves to 12% left/48% top. Short phones (height ≤700px) keep the pile at 46%, a visible reserve below it, 26px reserve width and 96–120px hand height (`clamp(96px,19dvh,120px)`). Desktop height ≤620px compacts seats and places the wallet/pot near the bottom rail. These overrides supersede conflicting dimensions in the inherited baseline below.
+
+**Inherited composition baseline:**
 
 The viewport uses `100dvh`, with document overflow suppressed. Desktop HUD height is 60px, the table toolbar 36px, and the hand region `calc(16dvh + 148px)`. The shell grid is toolbar / flexible table / hand. The table vertically arranges opponent identity, reserve, central stock–pile–burn arena, announcement, player reserve and player identity. The arena uses a 1:2:1 grid and `min(680px,76vw)` width.
 
@@ -157,6 +208,8 @@ Cards preserve a height-to-width ratio of approximately 1.447. Desktop reserve w
 
 ## Elevation & Depth
 
+**Active board:** painted bevels, stone texture and carved frame supply structural depth without an outer shell shadow. Opponent seats use `0 8px 18px #21120866`; the pot uses `0 6px 18px #21120855`. Warm panel gradients and a dark lower-hand veil separate real controls from illustration. Keep the center open enough for scars and cards. The legacy shadows below still describe inherited cards and dialogs.
+
 The shell is flat and full-bleed, with no outer radius or shell shadow. Texture, a faint oval table line, overlapping cards and tonal gradients create depth. Cards cast compact shadows; the lower hand has a darker vignette. Floating history and modal dialogs use stronger elevation.
 
 - Card: `0 3px 7px #001b1738`.
@@ -168,9 +221,21 @@ The shell is flat and full-bleed, with no outer radius or shell shadow. Texture,
 
 ## Shapes
 
+Active local seats have `10px 10px 32px 32px` corners, shrinking to `7px 7px 17px 17px` on phones. Pot and wallet panels use 12px/10px corners; pile/deck captions use 5px. Circular bronze-edged avatars remain. The carved frame is artwork, not a rounded app container.
+
 Cards use 5px corners. Action buttons use 7px corners, history 12px and dialogs 16px. The table itself is square and full-bleed. Avatars and the central table stamp are circular; the thinking chip is pill-shaped. Reserve cards show a 7px offset between face-down and face-up layers. Use the original illustrated Shithead deck, keeping the suit and rank indices clear.
 
 ## Components
+
+### Living playfield
+
+Reversal feedback follows the engine's explicit `result.reversed` flag, including online move events. Each 3 reverses once: pairs preserve direction, triples reverse, and four threes burn without a wind effect. A single third-rank card completing an existing three-card stack both reverses and burns. When only two players remain, a reversing 3 grants the actor another turn, including games that started with three or four seats. Paired threes cancel and pass normally; an escaped actor never receives another turn.
+
+Direction reversals now use `dist/reversal-wind.js`, a finite 2.5-second canvas gust anchored to the actual discard pile. Two directional heads draw nine independently spaced, tapered ivory/gold and teal ribbons each, with soft cached light sprites, a stone shadow and 55 phone / 90 desktop orbiting motes. The current gathers close to the card, expands across the central playfield and dissipates before the computer’s next move (scheduled at 2.6 seconds for a reversal, retaining normal timing under reduced motion and fast-forward). Its sweep follows the engine direction. A serif Clockwise / Counterclockwise cue remains readable with either reduced-motion preference; reduced motion skips the canvas. The former conic wind wash is replaced by a restrained local teal illumination. Existing effect ownership cancels the gust on subsequent moves and menus; tab hiding ends its frame loop. No input lock, new dependency or game-rule change is introduced.
+
+Burns add seeded soot, cracks and ash around the actual discard-pile center, normalized to the shorter viewport edge. `game.boardScars` persists with the saved deal, keeps at most 16 scars, redraws on resize and resets with a fresh deal. A burn combines heat illumination, sparks and a 360ms shake; pickup releases dust. Sevens maintain a frost wash while low turns remain, threes produce wind illumination, and jokers trigger teal arcane feedback. These reactions reflect rules; they do not change them.
+
+The forge and lantern are native keyboard-accessible buttons over painted props, with visible focus and hover labels; activating them produces fire/arcane feedback and existing sound effects. Ambient glows breathe over 4.7s/6s and pause when the menu is open. Both system and saved reduced-motion settings suppress ambient animation, particle travel, shake and light/tooltip transitions while retaining static damage and condition information. Particles are skipped while hidden or in menus, capped at 36 per burst and removed after animation. The canvas is decorative; the visible board label reports the retained burn count.
 
 ### Buttons
 
@@ -198,19 +263,21 @@ The wordmark anchors the left side, running score the center and Sound / How to 
 
 ### Do:
 - **Do** keep the actual deal and next action central to the viewport.
-- **Do** use existing local card, felt and font assets, preserving credits and license links.
+- **Do** use existing local card, board and font assets, preserving credits and license links.
 - **Do** keep selection, focus, turn ownership and written status distinct.
 - **Do** preserve horizontal scrolling within crowded hands and safe-area padding.
-- **Do** disable animations and transitions under `prefers-reduced-motion: reduce`, as the implementation does.
+- **Do** disable animations and transitions under system or saved reduced-motion preferences.
+- **Do** retain seeded damage with its saved deal and clear it for a fresh deal.
 
 ### Don't:
 - **Don't** reintroduce the hidden landing-page hero as the main game composition.
 - **Don't** give the full-viewport shell the older 18px rounded-container styling.
 - **Don't** expose hidden opponent cards or replace recognizable suit/rank artwork with decorative abstractions.
 - **Don't** assume a paper background behind gameplay controls; paper is the dialog context.
+- **Don't** restore felt over the active Ember Hearth board or burn the card artwork itself.
 
 ## Direct card interaction
-Matching cards have explicit numbered quantity buttons in the hand heading. Cards may be dragged onto the central pile using pointer events; a raised ghost stack, count badge, dimmed source cards and highlighted target communicate the transaction. Releasing outside cancels. Touch preserves horizontal hand scrolling and vertical play gestures. Ace-on-ace play uses two inline actions, Play as 1 and Play high (14), in the existing action row. Pile caption and history show the committed ace value.
+Tapping a card selects its rank group; tapping lifted cards deselects them individually. Cards may be dragged onto the central pile using pointer events; a raised ghost stack, count badge, dimmed source cards and highlighted target communicate the transaction. Releasing outside cancels. Touch preserves horizontal hand scrolling and vertical play gestures. Ace-on-ace play uses two inline actions, Play as 1 and Play high (14), in the existing action row. Pile caption and history show the committed ace value.
 
 ## Physical cards and dealing
 Each card retains one cached button keyed by its physical ID. Reconcile child order without replacing unchanged card elements or SVG artwork. Selection updates do not replay pile landing animations. State changes use a 340ms position/scale transition; reduced motion removes travel.
@@ -307,7 +374,7 @@ Normal impacts include a 420ms local felt reflection and seven faint fibers; mat
 
 `mobile.css` is gated to widths at most 700px in both the stylesheet link and its rules. Desktop styles remain unchanged. The phone hand rests on the table felt with no separate tray background or heading row. Its utility controls float in the reserved space above the cards; the scrollport reserves 44px above and 20px below so rotated and selected cards remain completely visible. Hand height budgets include the 48px action row and safe-area inset. Small screens use a shorter card while preserving that clearance.
 
-The deck and burn counter stay compact around the centered pile. Guidance and pile count sit below it. `mobile-ui.js` moves the existing Pickup and Start controls into the bottom action row on phones, retaining handlers and accessible names, and restores their exact DOM positions above 700px. Pickup and Play share the row when a card is selected. Menu, Hint, quantity controls, and primary actions have 44–48px touch targets. The mobile menu is a bottom sheet with 24px top corners and safe-area padding. Fonts use existing 10–12px game labels, 14px secondary controls, and 15px primary controls. Existing felt greens and cream/gold text carry through.
+The deck and burn counter stay compact around the centered pile. Guidance and pile count sit below it. `mobile-ui.js` moves the existing Pickup and Start controls into the bottom action row on phones, retaining handlers and accessible names, and restores their exact DOM positions above 700px. Pickup and Play share the row when a card is selected. Menu and primary actions have 44–48px touch targets. The mobile menu is a bottom sheet with 24px top corners and safe-area padding. Fonts use existing 10–12px game labels, 14px secondary controls, and 15px primary controls. Existing felt greens and cream/gold text carry through.
 
 
 ## House rulebook
@@ -400,3 +467,79 @@ The restart's painted buttons no longer carry generic primary-button/secondary-b
 The active AI seat adds a static warm backlight to its public cards and a double portrait ring, alongside its existing edge and diamond. The cue follows `.is-active`, clears between turns, and honors both reduced-motion preferences. Screen-reader turn announcements remain.
 
 Fitting hands use visible overflow so the complete card backlight, rotated edges and lifted selection paint freely. `updateHandScrollButtons` measures physical card widths and overlap to enable a scrollport only when required; oversized hands reserve extra space above and below their cards for the glow. On desktop the resting hand sits 22px lower, while visible play/ace actions retain their clear row. Routine gameplay guidance, including rank thresholds and AI-turn copy, is removed from the status area; setup and result status remain. The fullscreen local table is preserved.
+
+
+## Matching-card selection
+
+Tap a hand or active face-up card to lift every card of its rank. Tapping a lifted card puts only that card back, including the final selected card; tapping a put-back card adds just that card when the same rank remains selected. Switching ranks gathers the new rank. Dragging a lifted card moves exactly the remaining selection; dragging a fresh rank gathers its matches. Quantity controls and double-click-to-play are removed. Illegal subsets remain unplayable, including fewer than four matching cards when only the four-card burn is legal. Setup swaps and blind plays retain their individual interactions.
+
+
+## Online card club
+
+`dist/online.js` and `dist/online.css` own only the fullscreen lobby and waiting room. The generated `assets/lobby-background.jpg` supplies the card-club atmosphere behind the nickname/create panel and public table directory. The lobby inherits the existing Serif/DM fonts, emerald, cream and gold palette, with native live-text buttons. The directory stacks below creation at 700px.
+
+**Multiplayer gameplay is the existing single-player table.** After dealing, the lobby hides and hands private network snapshots to `dist/app.js`. `multiplayer/table-view.js` rotates seats so each browser's human remains seat zero and represents concealed cards with anonymous backs. The original `#game-view`, game-shell, card pool, opponent portraits, drag/selection handlers, painted controls, responsive styles, bottle, card spotlights, living-board and fire effects render both modes. There is no separate multiplayer table markup, game stylesheet or visual variant.
+
+The original Start Game action says Ready / Not ready online, and the existing status and seat labels show readiness. Play starts when everyone is ready. Opponent names replace AI names through textContent, retaining the same portraits and geometry. Online moves go through the host rather than the local engine; coin wallet and solo save remain isolated. This supersedes the abandoned separate multiplayer game screen and the historical disabled-menu description.
+
+## Mobile setup without scrolling
+
+At widths up to 700px, single-player setup fills the available 100dvh interior with a 44px Back/wallet header, compact heading, two choice rows and a bottom buy-in area. The repeated illustrated logo, subtitle, opponent lineup names, Selected labels and balance projection are hidden on this surface. Player choices use quiet emerald surfaces with a cream-gold selected border; the existing portraits and coin artwork remain. Native radio controls, keyboard focus, wallet, pot total, affordability/loading messages and exact buy-in cost remain available. Selection no longer shifts the mobile controls.
+
+Phone frame edges shrink to 16px with 24px safe-area-aware clearance. Heights up to 600px remove the portraits and shorten coins and spacing; landscape phones up to 950px use adjacent choice groups. The setup overrides the legacy bottom padding rather than clipping excess content. Desktop and gameplay layouts retain their existing rules. Chromium viewport checks covered 320×480, 320×568, 390×690, 390×844, 430×932, 700×800, 667×375 and 844×390 without setup scroll overflow; synthesized touch selected both choice groups and started a deal. Physical-device Safari remains unverified.
+
+The setup heading now uses original transparent ivory-and-gold `assets/pick-your-company.png` lettering in place of typeset text. The h2 and image alt text retain its accessible name. CSS preserves the original alpha and aspect ratio while bounding heading space to 60px on phones and 46px on short/landscape screens. All eight mobile viewport checks still fit without scrolling, and touch selection and buying in remain functional. The exact built-in ImageGen prompt is saved beside the asset.
+
+
+## Main-menu Multiplayer plaque
+
+The main menu pairs the gold Let’s Play plaque with an original generated teal-enamel Multiplayer plaque (`assets/multiplayer-button.png`), retaining carved walnut, antique gold and raised ivory lettering. The alpha PNG preserves its complete silhouette at 82% of the primary action width, centered beneath Let’s Play, with native button semantics, a cream focus outline, tactile hover/press feedback and reduced-motion support. The former supporting line beneath Let’s Play and the main-menu Resume control have been removed; the in-game pause menu retains Resume game.
+
+## Portrait main menu without scrolling
+
+At portrait widths up to 760px, the entrance uses a safe-area-aware 100dvh grid with header, centered content and credits in actual layout rows. Artwork height, illustrated title width and action width follow the available viewport height. The footer slogan is omitted; credits remain visible. At heights up to 740px the tagline is omitted and the mascot/fan become compact; up to 600px the separate showpiece is hidden because the illustrated title already includes the mascot. At widths up to 360px, utility buttons retain their text without icons so Rules, Options and supported Fullscreen fit one row. All visible controls retain at least 44×44px targets, including Sound and the conditional refill action.
+
+Chromium checks covered 320×480, 320×568, 360×640, 390×690, 390×844, 430×932 and 700×800 with no horizontal/vertical menu overflow, overlapping controls or offscreen controls, including the visible refill state. Let’s Play/Back, Rules and Options were exercised; setup also had no overflow at 320×480. Natural scrolling remains an accessibility fallback for enlarged content. Desktop, landscape, setup and gameplay rules are outside these overrides. Physical-device Safari remains unverified.
+
+
+## Painted multiplayer card club
+
+The multiplayer lobby, connection view and waiting room now share a fullscreen emerald-leather window with generated walnut, antique-gold and card-suit corner carvings (`assets/club-window-frame.png`). Fixed-width border-image edges preserve the artwork at every aspect ratio; the header, independently scrolling content and live connection status occupy real grid rows within the safe interior. Desktop uses a nickname/create column beside Open tables; phones stack those sections without horizontal overflow. Short phones scroll inside the window while navigation and status remain available.
+
+Seven original ImageGen assets establish the material family: `club-window-frame`, `club-title`, `club-gold-button`, `club-teal-button`, `club-empty-table`, `club-seat-frame` and `club-input-frame`. All are PNGs with adjacent exact-prompt sidecars; the title, props and controls retain alpha. The Card Club lettering heads the lobby. Honey-gold plaques identify primary actions; teal plaques carry joining, invitations, recovery and navigation. Labels stay live HTML for exact accessible names and dynamic disabled/connection states. The nickname field uses a recessed painted socket. Warm ivory, gold #e8c684 and supporting #d0d9c5 text retain the main-menu palette and local Serif/DM fonts.
+
+The waiting room shows all four seats, including explicitly labelled empty places, with a painted nameplate and a generated coin initial for seated players. Host and connection states remain written; the personal seat is brighter. The shared Ember Hearth board keeps its existing cards, arrangement, effects and rules. Online player panels use the same painted nameplates and human initials; solo wallet/pot displays are hidden during online play. Ready uses the gold plaque. Hover lifts by 2px and press depresses briefly; both reduced-motion preferences remove travel. Native keyboard activation, 44px or larger action targets, 3px cream focus outlines and live status are retained.
+
+This supersedes the earlier online lobby's salon backdrop, flat panels and CSS-gradient controls. No deployment or hosted source sync is involved.
+
+## Painted board fixtures (wallet, pot and menu)
+
+`dist/board-fixtures.css` is the final material layer for both solo and online tables. Original transparent generated sprites `hearth-wallet.png`, `hearth-pot.png` and `hearth-menu.png` use carved walnut, aged brass and teal cabochons matching the Ember Hearth. Their exact built-in image-generation prompts sit beside the assets as `.prompt.txt` files. Numerals, names and Menu remain live text; the artwork contains no lettering. Cream #f6e5bf and gold #ffe5a3 sit over near-black wood with #130b06 text shadows; secondary #e7cfad and brass #b58c4b66 follow the painted material. Fixture type steps intentionally range from 10–13px compact labels through 15–24px identity/menu lettering to 25–34px pot amounts.
+
+Desktop wallet sits halfway down the left rail, above crowded hands; pot sits at 38% on the right. Short landscape screens place compact fixtures at 42–43% rather than on top of the hand. Phones arrange wallet, pot and Menu across the upper frame with 106px table clearance and safe-area offsets. No new ambient animation is added. Menu retains native dialog behavior, visible focus, hover lighting and a shallow press, respecting reduced motion. Online tables show the local wallet as saved for solo play and the pot as Practice with no buy-in; online play does not charge or settle that wallet.
+
+### Exact phone pot alignment
+
+At widths up to 700px, the pot uses `left:50%` and `translate:-50% 0`, independent of wallet width. Its width clamps to 94–110px, and the wallet reserves the left half minus 62px to keep a gap beside the centered plaque. Numeric pot values include the existing painted `setup-stake-coin.png` as a decorative, em-sized icon; Practice tables omit the currency icon. The amount's accessible name continues to include coins.
+
+## Opening swap interaction
+
+`dist/setup-swap.css` owns the setup-only card workbench. Equally sized, separated hand and reserve cards retain their array order during setup, so exchanging a card never sorts the remaining hand. The Start Game control sits below the workbench. There is no Undo control; players can swap cards back directly. The opening bottle animation carries no spinning-status text, and its result banner appears only when a starting seat is chosen. Portrait uses two rows; short landscape uses adjacent groups. On short screens the opponent station keeps its inspect action while its public cards are available through inspection.
+
+Dragging is the primary setup action. The card follows the grab point, with a damped rotation responding to pointer velocity. Eligible destinations have dashed outlines; a single nearest destination lifts and receives a solid outline inside a padded row corridor (32px pointer, 46px touch), including gaps. The drag label and live instruction name the exchange before release. Both real cards travel together when committed, with no duplicate landing ghost. Outside releases and Escape cancel; Escape does not open the pause menu during a drag. Two-card click/keyboard selection remains available. Online readiness and authority locks disable swaps. System and saved reduced-motion preferences remove travel and tilt.
+
+
+## Carved opponent stations
+
+Solo and multiplayer opponents now share `dist/opponent-stations.css`, loaded after the board fixtures to supersede the older translucent brown seat panels and online-only nameplates. Original generated `assets/opponent-station.png` provides a sculpted walnut stand with warm brass trim, a dark wooden name rail, forest-green leather reserve tray and a carved spade finial. `assets/opponent-medallion.png` frames the existing Fox/Owl/Raven portraits; online players use live ivory initials over emerald inside the same medallion. Both PNGs retain alpha and exact prompt sidecars.
+
+Names and concealed-card counts stay live HTML. Long names truncate visually with a full title and accessible inspection name. Actual public reserve cards remain engine-owned physical nodes in their normal tray, with a discreet concealed-hand stack beside the lower frame. Seat state, inspection, deal destinations, wagers and card privacy remain intact. The active seat brightens the painted frame and adds an explicit Playing label alongside the existing card lighting and pointer. Escaped seats desaturate the material. Layout contracts for two, three and four players, phones and short landscape windows; reduced motion removes frame transitions.
+
+Local code/syntax checks and game tests passed. Browser use was disabled in Work settings during this opponent pass, so final visual verification of the new stations remains outstanding.
+
+
+### Opponent artwork coordinate correction
+
+Opponent stations preserve the source painting's exact 4:3 aspect ratio and render it at 100% × 100%, with no content-driven stretching or cropping. Absolute percentage anchors place the portrait within the painting's existing socket (the second medallion overlay is removed), the name centrally inside the upper walnut rail, and the hand count centrally at 32% of station height. Public reserve cards begin at 47% height and each use 15cqw width with 1.447 aspect ratio, keeping their bottom edges and underlying backs within the green tray. Footer wager/Playing state uses the lower interior and never moves cards. Container-relative dimensions bind artwork, lettering and cards to the same station width. This supersedes the previous padded-flow station implementation. The station stylesheet loads after setup-swap.css so setup cannot add padding back to the painted object's coordinate space.
+
+Code and geometry checks passed; browser access remained disabled in Work settings, so these corrections have not been visually verified in a browser.

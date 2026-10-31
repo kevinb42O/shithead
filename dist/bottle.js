@@ -1,7 +1,7 @@
 import {playerName} from './engine.js';
 
 // The engine chooses the seat first. The bottle reveals that result with table theatre.
-export function createBottleSpin({sound=null}={}){
+export function createBottleSpin({sound=null,nameForSeat=playerName}={}){
  let current=null;
  function cancel(){current?.finish();}
  function spin(who,reduced=false){
@@ -15,16 +15,12 @@ export function createBottleSpin({sound=null}={}){
          <img class="opening-bottle" src="assets/opening-bottle.png" alt="" width="512" height="768" draggable="false">
        </div>
      </div>
-     <div class="bottle-ticker" aria-hidden="true">
-       <span class="bottle-ticker-dot"></span>
-       <span>Spinning the bottle…</span>
-     </div>
      <div class="bottle-banner" role="status" aria-live="polite" aria-atomic="true">
        <div class="bottle-banner-badge">
          <div class="bottle-chosen-avatar" aria-hidden="true"></div>
          <div class="bottle-banner-text">
            <span class="bottle-tag">FIRST TO PLAY</span>
-           <strong class="bottle-name">Spinning…</strong>
+           <strong class="bottle-name"></strong>
          </div>
        </div>
      </div>
@@ -45,7 +41,7 @@ export function createBottleSpin({sound=null}={}){
     if(done)return;
     rotor.style.transform=`rotate(${destination}deg)`;
     root.classList.add('is-decided');
-    const chosenName=who===0?'You':playerName(who);
+    const chosenName=who===0?'You':nameForSeat(who);
     if(nameEl)nameEl.textContent=who===0?'✦ You start! ✦':`✦ ${chosenName} starts! ✦`;
     if(avatarEl){
      if(who===0){
