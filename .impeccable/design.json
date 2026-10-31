@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T04:53:16.045237+00:00",
+  "title": "Design System: Shithead — The Card Table",
+  "extensions": {
+    "colorMeta": {
+      "action-gold": {
+        "role": "primary",
+        "displayName": "Action gold"
+      },
+      "viewport": {
+        "role": "neutral",
+        "displayName": "Evergreen viewport"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm dialog paper"
+      }
+    },
+    "typographyMeta": {
+      "wordmark": {
+        "displayName": "Club wordmark",
+        "purpose": "Serif identity in the compact HUD."
+      },
+      "status": {
+        "displayName": "Action status",
+        "purpose": "Next action and turn guidance."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card",
+        "value": "0 3px 7px #001b1738",
+        "purpose": "Default card elevation."
+      },
+      {
+        "name": "hand-card",
+        "value": "0 8px 18px #00110cc9",
+        "purpose": "Hand cards against the lower table vignette."
+      },
+      {
+        "name": "action",
+        "value": "0 5px 14px #00140d40",
+        "purpose": "Enabled primary action."
+      },
+      {
+        "name": "history",
+        "value": "0 14px 40px #00170dcc",
+        "purpose": "Floating game log."
+      },
+      {
+        "name": "dialog",
+        "value": "0 20px 70px #001b1866",
+        "purpose": "Modal paper surfaces."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-transition",
+        "value": "background .18s, transform .18s",
+        "purpose": "Compact action feedback."
+      },
+      {
+        "name": "hand-transition",
+        "value": "transform .23s cubic-bezier(.16,1,.3,1), box-shadow .23s",
+        "purpose": "Card hover and selection lift."
+      },
+      {
+        "name": "card-lift",
+        "value": "translateY(-14px) rotate(0deg)",
+        "purpose": "Hovered and selected hand card."
+      },
+      {
+        "name": "pile-land",
+        "value": ".32s cubic-bezier(.16,1,.3,1)",
+        "purpose": "New top card landing."
+      },
+      {
+        "name": "thinking",
+        "value": "1s infinite",
+        "purpose": "Ellipsis opacity reaches .3 at 50%."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation:none!important;transition:none!important;scroll-behavior:auto!important",
+        "purpose": "Applied globally when reduced motion is requested."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-game",
+        "value": "700px"
+      },
+      {
+        "name": "compact-height",
+        "value": "(max-height:620px) and (min-width:701px)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Commit a selected card or start another deal.",
+      "html": "<button class=\"ds-primary\">Play card <span>→</span></button>",
+      "css": ".ds-primary{font:600 14px DM,Arial,sans-serif;background:#dfc182;color:#183426;border:0;border-radius:7px;padding:13px 20px;min-width:172px;min-height:46px;display:flex;gap:23px;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 5px 14px #00140d40;transition:background .18s,transform .18s}.ds-primary:hover:not(:disabled){filter:brightness(1.05)}.ds-primary:focus-visible{outline:3px solid #be8a30;outline-offset:5px}.ds-primary:disabled{background:#405748;color:#91a58a;box-shadow:none;cursor:default}"
+    },
+    {
+      "name": "Pick up action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary action shown when the human can collect the pile.",
+      "html": "<button class=\"ds-secondary\">Pick up pile</button>",
+      "css": ".ds-secondary{font:13px DM,Arial,sans-serif;background:transparent;color:#d7dfc5;border:1px solid #82977475;border-radius:7px;padding:12px 15px;min-height:46px;min-width:130px;cursor:pointer;transition:background .18s,transform .18s}.ds-secondary:hover{filter:brightness(1.05)}.ds-secondary:focus-visible{outline:3px solid #be8a30;outline-offset:5px}"
+    },
+    {
+      "name": "HUD navigation",
+      "kind": "nav",
+      "description": "Compact utilities with clearly labeled sound state and rules access.",
+      "html": "<nav class=\"ds-nav\"><button aria-pressed=\"false\">Sound off</button><button>How to play <span>?</span></button></nav>",
+      "css": ".ds-nav{display:flex;gap:24px;background:#0b211c;padding:0 16px}.ds-nav button{font:12px DM,Arial,sans-serif;background:transparent;color:#cbd6c0;border:0;padding:7px 0;min-height:44px;cursor:pointer;transition:background .18s,transform .18s}.ds-nav button:hover{filter:brightness(1.05)}.ds-nav button:focus-visible{outline:3px solid #be8a30;outline-offset:5px}.ds-nav span{border:1px solid #52664f;border-radius:4px;padding:1px 5px;margin-left:6px}"
+    },
+    {
+      "name": "Thinking chip",
+      "kind": "chip",
+      "refersTo": "turn-chip",
+      "description": "Opponent turn indicator, paired with written status.",
+      "html": "<span class=\"ds-thinking\">Thinking<span class=\"ds-dots\">…</span></span>",
+      "css": ".ds-thinking{font:11px DM,Arial,sans-serif;padding:5px 9px;background:#e7c77922;color:#efd598;border-radius:20px}.ds-dots{display:inline-block;animation:ds-thinking 1s infinite}@keyframes ds-thinking{50%{opacity:.3}}@media(prefers-reduced-motion:reduce){.ds-dots{animation:none}}"
+    },
+    {
+      "name": "Paper dialog surface",
+      "kind": "card",
+      "refersTo": "dialog",
+      "description": "Rules and credits appear on warm paper above the dark game.",
+      "html": "<section class=\"ds-dialog\"><h2>A fresh deal?</h2><p>Your current game will be replaced. Your running score stays.</p></section>",
+      "css": ".ds-dialog{font:14px DM,Arial,sans-serif;background:var(--paper,#f5f2e9);color:var(--ink,#263e32);border-radius:16px;padding:34px;max-width:530px;box-shadow:0 20px 70px #001b1866}.ds-dialog h2{font:34px/1.1 Serif,serif;letter-spacing:-.5px;margin:0 20px 20px 0}.ds-dialog p{font-size:12px;line-height:1.8;color:var(--muted,#59674f)}"
+    },
+    {
+      "name": "Action status",
+      "kind": "custom",
+      "description": "Written action guidance is paired with a compact colored state dot.",
+      "html": "<div class=\"ds-status\"><span aria-hidden=\"true\"></span><div><strong>Your turn. Match or beat 8.</strong><p>Select matching cards, then play. Or pick up the pile.</p></div></div>",
+      "css": ".ds-status{font:14px DM,Arial,sans-serif;display:flex;align-items:center;gap:10px;color:#ece9d3}.ds-status>span{width:8px;height:8px;background:#618151;border-radius:50%;flex-shrink:0}.ds-status strong{font-size:14px;font-weight:600}.ds-status p{font-size:12px;color:#a9bb9c;margin:4px 0 0}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Card Table",
+    "overview": "Operate mode. A code-led, full-viewport game in a quiet social card club. Evergreen fabric, recognizable French playing cards, warm gold and classical serif identity surround a dense operational interface. The final game-layout.css layer governs the composition; paper is the modal context.",
+    "keyCharacteristics": [
+      "Tactile cards on evergreen cloth",
+      "Immediate deal and clear committed action",
+      "Warm gold feedback",
+      "Compact sans-serif game guidance"
+    ],
+    "rules": [
+      {
+        "name": "Viewport ownership",
+        "body": "The game owns 100dvh; the shell is full-bleed and square.",
+        "section": "elevation"
+      },
+      {
+        "name": "Visible state",
+        "body": "Selection, keyboard focus and turn ownership retain distinct written and visual signals.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do preserve local card, fabric and font assets and their credits.",
+      "Do keep crowded hands scrollable and respect safe-area padding.",
+      "Do honor reduced motion."
+    ],
+    "donts": [
+      "Do not restore the hidden landing-page hero as the gameplay composition.",
+      "Do not apply the old rounded shell to the full-viewport table.",
+      "Do not expose hidden opponent cards."
+    ]
+  }
+}
