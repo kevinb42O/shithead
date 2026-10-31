@@ -5,14 +5,14 @@ import { STAKES, createWallet, buyIn, settleBet, refillWallet } from './coins.js
 import { attachCardTouch } from './tactile.js';
 import { createBottleSpin } from './bottle.js';
 import { createOpponentSeats } from './opponents.js';
-import { svgCard } from './card-art.js';
+import { preloadCardArtwork, svgCard } from './card-art.js';
 import { createTableEffects } from './effects.js';
 import { reconcile, captureCards, animateCards, dealOrder } from './rendering.js';
 import { matchingSubset, dragSelection, attachCardDrag } from './interactions.js';
 import { createHearthstoneSpotlight } from './card-spotlight.js';
 import { createGame, start, swap, play, pickup, zone, legal, rankName, chooseMove, topRank, topCard, aceOptions, assertGame, playerName, remaining } from './engine.js';
 const $ = id => document.getElementById(id), KEY = 'shithead-table-v2' + (['localhost', '127.0.0.1'].includes(location.hostname) && new URLSearchParams(location.search).has('qa') ? '-qa' : ''); let game, selected = [], swapHand = null, timer = null, sound = false, stats = { you: 0, fox: 0 }, notice = '', dealing = false, dealVisible = new Set(), dealInFlight = null, dealRun = 0, loadedGame = false, menuOpen = true, sessionStarted = false, fastForward = false, pendingPlayerCount = null, preferences = { playerCount: 2, sound: true, soundPreferenceSet: false, reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches };
-let wallet = createWallet(), saveWarning = false;
+let wallet = createWallet(), saveWarning = false, cardArtworkState = 'idle', cardArtworkPromise = null;
 const coins = value => value.toLocaleString('en-US');
 const gameAudio = createGameAudio();
 const menuMusic = createMenuMusic();
@@ -264,6 +264,7 @@ function schedule(delay = 1000) {
   }, fastForward ? 120 : delay);
 }
 function newGame(count = game.players.length, stake = game.bet?.stake || preferences.stake) {
+  if (cardArtworkState !== 'ready') { ensureCardArtwork(); return false; }
   if (wallet.balance < stake) { $('restart-dialog').close(); openMenu(); showSetup(true); $('coin-message').textContent = 'Choose a lower stake, or refill when you have fewer than 10 coins.'; return false; }
   saveWarningNode.hidden = true; lastPlayedBy = null; renderOpponents.clear();
   if (typeof count !== 'number') count = game.players.length;
@@ -367,10 +368,13 @@ function setSound(value, feedback = true, explicitChoice = true) {
   gameAudio.setEnabled(true);
   if (sound && feedback) { const epoch = gameAudio.status().epoch; gameAudio.ready().then(() => { if (sound && gameAudio.status().epoch === epoch) gameAudio.play('on'); }); }
 }
-function enterGame(fresh = false) { menuMusic.setActive(false);
+async function enterGame(fresh = false) {
+  if (!await ensureCardArtwork()) { showSetup(true); return false; }
+  menuMusic.setActive(false);
   menuOpen = false; $('main-menu').hidden = true; $('game-view').hidden = false; $('game-view').inert = false; document.body.classList.remove('menu-open');
   if (fresh) { sessionStarted = true; newGame(); } else if (!sessionStarted) { sessionStarted = true; if (!loadedGame || (game.phase === 'setup' && !game.dealComplete)) dealGame(); else { render(); effects.restore(game); schedule(); } } else { render(); effects.restore(game); schedule(); }
   if (!$('play').hidden) $('play').focus({ preventScroll: true });
+  return true;
 }
 function openMenu() { menuMusic.setActive(true); gameAudio.stop(); cancelFinalSequence(); cancelSpin(); effects.clear(); if (dealing) finishDeal(); clearTimeout(timer); menuOpen = true; $('game-view').hidden = true; $('game-view').inert = true; $('main-menu').hidden = false; document.body.classList.add('menu-open'); showSetup(false); $('menu-resume').hidden = game.phase === 'finished'; $('menu-play').focus({ preventScroll: true }); }
 function showSetup(show) { $('single-setup').hidden = !show; $('menu-actions').hidden = show; document.querySelector('.menu-center').classList.toggle('choosing-players', show); renderCoins(); if (show) { $('main-menu').scrollTop = 0; document.querySelector('input[name=players]:checked').focus({ preventScroll: true }); } else $('menu-play').focus({ preventScroll: true }); }
@@ -395,21 +399,43 @@ function renderCoins() {
   $('bet-result').hidden = true;
   $('bet-result').textContent = bet?.settled ? `${bet.winner === 0 ? 'You won' : playerName(bet.winner) + ' won'} ${coins(bet.pot)} coins. ${bet.winner === 0 ? `Net gain: ${coins(bet.pot - bet.stake)} coins.` : `Your buy-in: ${bet.stake} coins.`}` : '';
   $('setup-pot').textContent = `${coins(preferences.stake * preferences.playerCount)} coins in the pot`;
-  $('deal-selected').setAttribute('aria-label', `Buy in for ${preferences.stake} coins`);
+  const cardArtworkLoading = cardArtworkState === 'loading';
+  $('menu-play-detail').textContent = cardArtworkState === 'ready' ? 'You, the computer & questionable luck.' : cardArtworkLoading ? 'Preparing the full deck before your first deal.' : cardArtworkState === 'error' ? 'Some card artwork did not load. Try again before starting.' : 'Preparing the full deck before your first deal.';
+  $('menu-resume').disabled = cardArtworkLoading;
+  $('deal-selected').setAttribute('aria-busy', String(cardArtworkLoading));
+  $('deal-selected').setAttribute('aria-label', cardArtworkLoading ? 'Preparing card artwork' : `Buy in for ${preferences.stake} coins`);
   $('setup-buy-cost').textContent = `${preferences.stake} coins · your buy-in`;
-  $('deal-selected').disabled = wallet.balance < preferences.stake;
+  $('deal-selected').disabled = wallet.balance < preferences.stake || cardArtworkLoading;
   $('refill-coins').hidden = wallet.balance >= 10 || !!(bet && !bet.settled && game.phase !== 'finished');
-  $('coin-message').textContent = wallet.balance < preferences.stake ? (bet && !bet.settled && game.phase !== 'finished' ? 'Not enough coins. Choose a lower stake or resume your table to finish its wager.' : 'Not enough coins for this stake. Choose a lower stake or use the free refill.') : 'First out wins the pot. Virtual coins only.';
+  $('coin-message').textContent = wallet.balance < preferences.stake ? (bet && !bet.settled && game.phase !== 'finished' ? 'Not enough coins. Choose a lower stake or resume your table to finish its wager.' : 'Not enough coins for this stake. Choose a lower stake or use the free refill.') : cardArtworkLoading ? 'Preparing every card before the deal.' : cardArtworkState === 'error' ? 'Some card artwork did not load. Tap Buy in to retry.' : 'First out wins the pot. Virtual coins only.';
   for (const input of document.querySelectorAll('input[name=stake]')) input.checked = Number(input.value) === preferences.stake;
 }
+function ensureCardArtwork() {
+  if (cardArtworkState === 'ready') return Promise.resolve(true);
+  if (cardArtworkPromise) return cardArtworkPromise;
+  cardArtworkState = 'loading';
+  renderCoins();
+  cardArtworkPromise = preloadCardArtwork().then(() => {
+    cardArtworkState = 'ready';
+    return true;
+  }).catch(() => {
+    cardArtworkState = 'error';
+    return false;
+  }).finally(() => {
+    cardArtworkPromise = null;
+    renderCoins();
+  });
+  return cardArtworkPromise;
+}
 preferences.stake = STAKES.includes(preferences.stake) ? preferences.stake : 10;
+ensureCardArtwork();
 for (const input of document.querySelectorAll('input[name=stake]')) input.onchange = () => { preferences.stake = Number(input.value); savePreferences(); renderCoins(); };
 $('refill-coins').onclick = () => { if (refillWallet(wallet, game)) { effectSound('reward'); effectSound('coins', { shower: true }); save(); renderCoins(); } };
 updateCount([2, 3, 4].includes(preferences.playerCount) ? preferences.playerCount : 2);
 $('menu-play').onclick = () => showSetup(true); $('setup-back').onclick = () => showSetup(false);
 for (const input of document.querySelectorAll('input[name=players]')) input.onchange = () => updateCount(Number(input.value));
-function dealSelected() { menuMusic.setActive(false); const count = pendingPlayerCount; pendingPlayerCount = null; showSetup(false); menuOpen = false; sessionStarted = true; $('main-menu').hidden = true; $('game-view').hidden = false; $('game-view').inert = false; document.body.classList.remove('menu-open'); newGame(count, preferences.stake); if (!$('play').hidden) $('play').focus({ preventScroll: true }); }
-$('deal-selected').onclick = () => { pendingPlayerCount = preferences.playerCount; if ((loadedGame || sessionStarted) && game.phase !== 'finished') $('restart-dialog').showModal(); else dealSelected(); };
+async function dealSelected() { if (!await ensureCardArtwork()) return false; menuMusic.setActive(false); const count = pendingPlayerCount; pendingPlayerCount = null; showSetup(false); menuOpen = false; sessionStarted = true; $('main-menu').hidden = true; $('game-view').hidden = false; $('game-view').inert = false; document.body.classList.remove('menu-open'); newGame(count, preferences.stake); if (!$('play').hidden) $('play').focus({ preventScroll: true }); return true; }
+$('deal-selected').onclick = async () => { if (!await ensureCardArtwork()) return; pendingPlayerCount = preferences.playerCount; if ((loadedGame || sessionStarted) && game.phase !== 'finished') $('restart-dialog').showModal(); else dealSelected(); };
 $('confirm-restart').onclick = () => { if (menuOpen) dealSelected(); else newGame(); };
 $('menu-resume').hidden = !loadedGame || game.phase === 'finished'; $('menu-resume').onclick = () => { showSetup(false); enterGame(); };
 $('back-menu').onclick = openMenu; document.querySelector('.wordmark').onclick = e => { e.preventDefault(); openMenu(); };

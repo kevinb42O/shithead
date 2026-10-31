@@ -37,7 +37,7 @@ void main(){
  gl_FragColor=vec4(color,alpha);
 }`;
 
-export function createMagicFire(canvas, pile) {
+export function createMagicFire(canvas, pile, contained=false) {
  const gl=canvas.getContext('webgl',{alpha:true,premultipliedAlpha:false,antialias:false,depth:false,powerPreference:'low-power'});
  if(!gl)return null;
  let program,buffer;const shaders=[];
@@ -48,7 +48,7 @@ export function createMagicFire(canvas, pile) {
   }
   program=gl.createProgram();shaders.forEach(s=>gl.attachShader(program,s));gl.linkProgram(program);
   if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error('Flame program unavailable');
-  const width=Math.ceil(pile.width*4.8),height=Math.ceil(pile.height*3.4),left=pile.left+pile.width/2-width/2,top=pile.top-pile.height*1.95;
+  const width=Math.ceil(pile.width*(contained?1:4.8)),height=Math.ceil(pile.height*(contained?1:3.4)),left=contained?pile.left:pile.left+pile.width/2-width/2,top=contained?pile.top:pile.top-pile.height*1.95;
   canvas.style.cssText=`left:${left}px;top:${top}px;width:${width}px;height:${height}px`;
   // Fixed pixel budget; the soft flame field needs no retina-size render target.
   const ratio=Math.min(1,460/height);canvas.width=Math.ceil(width*ratio);canvas.height=Math.ceil(height*ratio);

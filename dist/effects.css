@@ -1216,6 +1216,20 @@ body.reduce-motion .fx-wind {
   mix-blend-mode: screen
 }
 
+@media(max-width:700px) {
+  .fx-magic-fire {
+    border-radius: 5px
+  }
+
+  .fx-burn-note {
+    max-width: calc(clamp(86px, 27vw, 118px) - 12px);
+    padding: 4px 6px;
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center
+  }
+}
+
 .magic-burning-stack:after {
   background: linear-gradient(0deg, #160b02 5%, #421a03a6 30%, transparent 85%)
 }
