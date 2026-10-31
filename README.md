@@ -7,30 +7,62 @@ A complete browser card game against The Fox, a computer opponent. No dependency
 Requires Node.js 18 or newer.
 
 ```sh
-npm start
+npm run dev
 ```
 
-Open http://localhost:5173. Use `PORT=3000 npm start` for a different port.
+Open http://localhost:5173. Use `PORT=3000 npm run dev` for a different port.
 
 ```sh
 npm test
 ```
 
-The tests cover rules, illegal actions, blind flips, burns, and 500 simulated games with card conservation checks.
+The tests cover rules, illegal actions, blind flips, burns, and 1,250 seeded simulated games across two, three and four players with card conservation checks.
+
+With the local server running, use `npm run test:browser` for blind-flip interruption, refresh, ace-choice persistence, score, and dialog pause regressions. These browser checks require Node.js 22 or newer and Google Chrome; set `CHROME_BIN` for another Chrome/Chromium executable and `GAME_URL` for another local server address. They use an isolated temporary browser profile and QA save key. Coverage includes malformed-save recovery, mouse-drag interruptions and mobile touch cancellation.
+
+Run `npm run test:stress` for 3,000 seeded games with randomly chosen legal subsets, voluntary pickups, both ace values, and repeated save/restore. The run checks card conservation, active turns, low-turn counters and escaped seats after every move.
 
 ## House rules
 
-54 cards, including two jokers. Each player gets 3 hand cards, 3 face up and 3 face down. Before play, swap hand cards with face-up cards. You start. Play matching sets; refill your hand to three until the stock runs out. Then play face-up cards, then blind cards. Failed blind plays collect the card and pile. A pickup ends your turn. First out wins.
+54 cards, including two jokers. Each player gets 3 hand cards, 3 face up and 3 face down. Before play, swap hand cards with face-up cards. Spin the bottle to choose the opening player with equal odds for every seat. Play matching sets; refill your hand to three after every turn, including pickups, until the stock runs out. Then play face-up cards, then blind cards. Failed blind plays collect the card and pile. A pickup ends your turn. First out takes first place; play continues until only the Shithead is left holding cards.
 
+- Ace: an opening ace counts as 1; otherwise normally high (14). Ordinary ace-on-ace inherits the existing value. An ace played under a seven restriction is 1. Only that seven-origin ace chain offers 1 or high (14) after all low turns expire. Jokers preserve the underlying ace’s value and chain.
 - 2: always playable, does not reset or cancel the low restriction. Counts as one low play.
-- 3: must be legal; reverses direction and grants another turn in this two-player version.
-- 7: each seven adds a low turn. Play 7 or lower until those turns are used. More sevens add to the restriction.
+- 3: must be legal; reverses direction, passing play to the next player in the reversed direction. Each 3 reverses once.
+- 7: each seven adds a low turn. Play 7 or lower until those turns are used. More sevens add to the restriction. Once it ends, play continues from the last card played.
 - Joker: always playable; transparent to the underlying rank, preserves remaining low turns.
 - 10: always playable, burns the pile and clears restrictions; play again.
-- Four identical ranks in a row: burn and play again.
+- Four matching cards played together: always legal on any rank, including during low turns; burn and play again. Four identical ranks in a row on the pile also burn it.
 
-Browser-local progress and score survive refresh. Sounds are optional. Keyboard-accessible card selection, rules, hints, history, restart, responsive mobile layout and reduced-motion support are included.
+Browser-local progress and score survive refresh. Sounds are optional. Drag cards onto the center pile to play them. Click matching cards or use the numbered quantity buttons to choose any subset, then drag the group or press Play. Mouse, touch and pen use pointer events. A drop outside the pile cancels without playing. Keyboard-accessible card selection, rules, hints, history, restart, responsive mobile layout and reduced-motion support are included.
 
 ## Assets and licensing
 
 See [CREDITS.md](CREDITS.md). Game logic and UI are separate from the third-party card artwork. The original SVG artwork and its LGPL 2.1 license are distributed in `dist/assets/` and linked from in-game credits.
+
+New games start with a sequential opening deal (Skip deal is available). During setup, drag between your hand and face-up cards in either direction to swap. In the endgame, face-up and blind cards occupy the full-size hand tray. The renderer preserves physical card nodes between actions.
+
+## Choose your table
+
+Single player → choose **2, 3 or 4 total players** → Deal cards. The count includes you; the remaining seats are AI opponents. Your last choice is remembered. Resume restores the saved count and rematches keep the same table size. Tap an opponent’s name or face-up cards to inspect their public cards at a larger size. Hidden ranks remain concealed. After escaping, use Fast-forward to finish the remaining AI turns quickly.
+
+The fullscreen table supports desktop, phones and short landscape windows. Opponent seats stay fixed; the active seat and turn status identify whose turn it is. Player setup, reversals, escaped seats, burns, card conservation and seeded games are covered by the test suite.
+
+Blind flips are committed and saved before their reveal animation, so returning to the menu or refreshing cannot undo the chosen card. Opening any dialog pauses AI turns until it closes.
+
+## Virtual coin tables
+
+Your wallet starts at 1,000 play-money coins. Choose a 10, 50 or 100 coin buy-in before dealing; each AI seat contributes the same simulated amount. First out receives the entire pot immediately, and the table continues until the Shithead is determined. The payout is credited once, including after refresh or resume.
+
+Wallet, wager and cards are stored together in this browser. Older saved tables remain practice games until the next deal. Returning to the menu pauses the table; replacing it forfeits any unpaid buy-in. Rematches use the same table size and stake. If you cannot afford that stake, return to setup to choose another. When your balance is below 10 and your current wager has resolved, the main menu offers a free refill to 1,000. Coins have no cash value; there are no purchases, deposits or withdrawals.
+
+### Hearthstone game audio
+
+Enable Sound and adjust Effects volume in Options. The active palette uses 35 actual Hearthstone recordings (~1.33 MB) for card play/draw, menus, turn alerts, spells and victory/defeat. The original stereo sound, pitch and dynamics are preserved. The previous Kenney palette, pluck overlays and synthetic room reflection have been removed.
+
+Audio is served locally. Sources and Blizzard ownership are recorded in `dist/assets/audio/SOURCES.txt` and `manifest.json`. These proprietary game assets are not CC0. To reproduce MP3 preparation from the downloaded archive, install optional Python tools `soundfile` and `imageio-ffmpeg`, then run `python3 scripts/prepare-hearthstone-audio.py /path/to/extracted/archive`. The game itself has no added runtime dependencies.
+
+
+### Menu music
+
+The start menu has a separate Menu music switch and Music volume slider in Options (22% default). Music follows the Sound switch, fades away when gameplay starts, resumes when returning to the menu, and pauses while the tab is hidden. A first click or keypress unlocks playback. Effects volume remains independent. The locally bundled Hearthstone title-menu recording and its crossfade preparation are documented in `dist/assets/audio/SOURCES.txt` and `manifest.json`.

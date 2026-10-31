@@ -1,0 +1,363 @@
+[
+  {
+    "file": "hs-card-play-1.mp3",
+    "source": "General SFX/play_card_from_hand_1.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.938,
+    "sourceSha256": "ea4d04ffeb747794d65cb820bc3424fc065dd5e325ea9b9dcf071d1bd10e28a4"
+  },
+  {
+    "file": "hs-card-play-2.mp3",
+    "source": "General SFX/play_card_from_hand_2.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.92,
+    "sourceSha256": "3a1c4acef8763c936720f716648b3501bfb5a24b259561cab706438ca318b42b"
+  },
+  {
+    "file": "hs-card-select.mp3",
+    "source": "General SFX/collection_manager_pick_up_card.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.428,
+    "sourceSha256": "3691c24e2ad4fe60ad253225906ad407a789c7535203afab54dfe64be229f532"
+  },
+  {
+    "file": "hs-card-drop.mp3",
+    "source": "General SFX/collection_manager_drop_card.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.243,
+    "sourceSha256": "0605367028ba954deec9a7d5b30d277f54092e3dc99518bb7270bbb17e9453ec"
+  },
+  {
+    "file": "hs-card-draw-1.mp3",
+    "source": "General SFX/draw_card_and_add_to_hand_1.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 2.259,
+    "sourceSha256": "5f76f19f0bdf5c156780e54c112aea2feaf6ea0fe7c84966c015c7f40fa1f60a"
+  },
+  {
+    "file": "hs-card-draw-2.mp3",
+    "source": "General SFX/draw_card_and_add_to_hand_3.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 2.219,
+    "sourceSha256": "20940b8eb277d66f45c9e4bb3f50abbe4dbef2a28e0f0bed7af0c3a782dd4a92"
+  },
+  {
+    "file": "hs-card-deal.mp3",
+    "source": "General SFX/FX_GameStart20_CardDealSingle.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.47,
+    "sourceSha256": "9bcf39353c21c3e00cbafcb126972d653fc90635d018d6184cbce7e660700d40"
+  },
+  {
+    "file": "hs-card-return.mp3",
+    "source": "General SFX/FX_GameStart30_CardReplaceSingle.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.279,
+    "sourceSha256": "b60b3f3b4042c1c9c7202d4c4ed9bba8db3dbd35b998880e5f69911a66d2c295"
+  },
+  {
+    "file": "hs-card-gather.mp3",
+    "source": "General SFX/FX_GameStart09_CardsOntoTable.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.872,
+    "sourceSha256": "a322a75c907c6720e64516c5c31ead82c377a4274171b168d54284d0ca97c5ca"
+  },
+  {
+    "file": "hs-card-shuffle.mp3",
+    "source": "General SFX/FX_MulliganCoin09_DeckShuffle.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 2.177,
+    "sourceSha256": "a001185392228804be8581f15dde0bbeb7a9d58917ad9f67d840f00202c8b824"
+  },
+  {
+    "file": "hs-hover.mp3",
+    "source": "General SFX/Small_Mouseover.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.057,
+    "sourceSha256": "8ab7526c0b63bff00907f66c116bd4b1e42c814112a7642981e625a725961044"
+  },
+  {
+    "file": "hs-click.mp3",
+    "source": "General SFX/Small_Click.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.605,
+    "sourceSha256": "584a3b9ab678f66de60b2eb5d3aab49f925e2a09cb3721501f61a47765b17328"
+  },
+  {
+    "file": "hs-click-2.mp3",
+    "source": "General SFX/tiny_button_press_1.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.605,
+    "sourceSha256": "f4374d28bc787e7f02733517ff1e299a629cef2ed139a4df181dc99c79cc051c"
+  },
+  {
+    "file": "hs-open.mp3",
+    "source": "General SFX/collection_manager_book_open.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 1.31,
+    "sourceSha256": "5acc5c9a0ef3d22498b8446014148684eeb8b2e08a6bbfd4c2d9af2887e6e4ea"
+  },
+  {
+    "file": "hs-close.mp3",
+    "source": "General SFX/collection_manager_book_close.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 1.35,
+    "sourceSha256": "857f996f292eb3e4e01129f71c1d01f977ee04d9ed0e0d8fd9f1f4331c3ece3d"
+  },
+  {
+    "file": "hs-confirm.mp3",
+    "source": "General SFX/deck_select_button_press.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.768,
+    "sourceSha256": "bd24c9d1abb4e7fb58b636eaa74771b018e96624b23da1028ac4e27f0dd9d93c"
+  },
+  {
+    "file": "hs-back.mp3",
+    "source": "General SFX/Back_Click.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.398,
+    "sourceSha256": "aa405dbf99d99c73f1fb941be5ad046a6f984082e61e144651826a9b6b625785"
+  },
+  {
+    "file": "hs-reject.mp3",
+    "source": "General SFX/collection_manager_card_move_invalid_or_click.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 1.237,
+    "sourceSha256": "1f15b2e9391586a11b6e1a50e49524874c478f4a18ef94ec4091e87c91f5bc52"
+  },
+  {
+    "file": "hs-turn.mp3",
+    "source": "General SFX/ALERT_YourTurn_0v2.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 3.844,
+    "sourceSha256": "f40159621e234b99590d2759ed8d336f75d33c2f9f1461b49378f142b38078b1"
+  },
+  {
+    "file": "hs-coin-flip.mp3",
+    "source": "General SFX/FX_MulliganCoin03_CoinFlip.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 1.934,
+    "sourceSha256": "eac487fe7cc3f1cc426649a7b3e1d4292c49aa82a02a1d7b2ef4a53c83df1be3"
+  },
+  {
+    "file": "hs-coin-drop.mp3",
+    "source": "General SFX/FX_MulliganCoin01_HeroCoinDrop.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 2.256,
+    "sourceSha256": "c059ecd16cb0f2bcfcb38bd337acdf3a868c46927f42ae5f4123d049be46e9c5"
+  },
+  {
+    "file": "hs-frost.mp3",
+    "source": "General SFX/FX_FreezeEvent_SpellImpact.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 1.405,
+    "sourceSha256": "9c2e573650d82544a5153b50d54ca4f430835dbfdbd6965eb0d4c8d657b11a91"
+  },
+  {
+    "file": "hs-wind.mp3",
+    "source": "General SFX/WoW_whirlwindshort.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 2.148,
+    "sourceSha256": "d1ef08f63c718b4a2811a91f338e4a1251db13b4de4edfb1418b2fcdbf74275d"
+  },
+  {
+    "file": "hs-free.mp3",
+    "source": "General SFX/mana_crystal_refresh.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.61,
+    "sourceSha256": "157bba7db85b45220ccfc46b9a05a05e4990e7f43ba0c6250c97dd5a6bb9163e"
+  },
+  {
+    "file": "hs-arcane.mp3",
+    "source": "General SFX/mass_DE_arcane_flyover_1.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 1.649,
+    "sourceSha256": "4d57eab2478aba501e00f9f911c76d12dafcc615ea2683b8ad0cc11654b4cf6c"
+  },
+  {
+    "file": "hs-tension.mp3",
+    "source": "General SFX/card_limit_lock.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.24,
+    "sourceSha256": "2b465cf1016a567d32ed9b59c8dc92fbbf8f5d248990c89e9af8916bac88a1bd"
+  },
+  {
+    "file": "hs-fizzle.mp3",
+    "source": "General SFX/Shared_Shadow_FizzleHigh_1.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 2.4,
+    "sourceSha256": "555c0dc7055c7070675a04f96b9a654275c5ad2911402feacda24c8f2b350c9d"
+  },
+  {
+    "file": "hs-relief.mp3",
+    "source": "General SFX/mana_crystal_add.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 1.776,
+    "sourceSha256": "4fe96fae8bad3d8c7baa46e8bcb8a63b0de905e5aa52e39ad003b2b90f7941d9"
+  },
+  {
+    "file": "hs-victory.mp3",
+    "source": "General SFX/victory_screen_start.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 7.091,
+    "sourceSha256": "94d53bbe88d5054e254deef810c92b52d8e8c054069c381bbfba41744d608c06"
+  },
+  {
+    "file": "hs-defeat.mp3",
+    "source": "General SFX/defeat_screen_start.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 5.183,
+    "sourceSha256": "62a5793f86a349474121f0235be9e8971858961c570c53f34b86843e364a93ca"
+  },
+  {
+    "file": "hs-reward.mp3",
+    "source": "General SFX/game_end_reward.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 1.544,
+    "sourceSha256": "6c2ea0c128b08a9e38f17873bde5cf548d87dab62f1ed1c99d4fc783807cc26f"
+  },
+  {
+    "file": "hs-page.mp3",
+    "source": "General SFX/collection_manager_book_page_flip_forward.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.476,
+    "sourceSha256": "50a26ada5c8b1bd3949eea0e71d83de18172727f0b6c9013fe6b9006576547fd"
+  },
+  {
+    "file": "hs-hellfire.mp3",
+    "source": "General SFX/CS2_062_Warlock_Hellfire_Cast.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 3.095,
+    "sourceSha256": "08c5b40e28545c5bd3495da4d51459234e0ad34be2f62518fb6e0010cfc04dcd"
+  },
+  {
+    "file": "hs-toggle-on.mp3",
+    "source": "General SFX/checkbox_toggle_on.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.328,
+    "sourceSha256": "de6225be5913fb6845c5f998b1ae30fa6ce415d4a0991708e891a4960801b8ad"
+  },
+  {
+    "file": "hs-toggle-off.mp3",
+    "source": "General SFX/checkbox_toggle_off.ogg",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/",
+    "duration": 0.363,
+    "sourceSha256": "b8ffa0770e17672a925c67fd820c7f79d7f96a5cd0c0b143fda5ad0b21d49a51"
+  },
+  {
+    "file": "hs-menu-music.mp3",
+    "source": "titleMusic.mp3",
+    "author": "Blizzard Entertainment",
+    "game": "Hearthstone",
+    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
+    "url": "https://github.com/imostafa404/Mediocre-Hearthstone/blob/master/titleMusic.mp3",
+    "duration": 133.384,
+    "sourceSha256": "39e7f873cd8acfcffd10d1fd18bdda7c83ce24f33c27af59db0e886e3e3e6953",
+    "adaptation": "2.5-second tail-to-head loop crossfade; 160 kbps stereo MP3"
+  }
+]

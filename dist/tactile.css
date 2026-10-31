@@ -1,0 +1,210 @@
+/* The fan and pointer tilt compose on one transform, preserving selection and focus. */
+.hand .card {
+  --lift: 0px;
+  --turn: var(--angle, 0deg);
+  transform: perspective(600px) translateY(calc(var(--fan-y, 0px) + var(--lift))) rotate(var(--turn)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-origin: 50% 85%;
+  translate: var(--neighbor-x, 0px) 0;
+  transition: transform 240ms cubic-bezier(.16, 1, .3, 1), translate 220ms cubic-bezier(.16, 1, .3, 1), box-shadow 180ms ease-out !important;
+}
+
+.hand .card.selected,
+.hand .card:focus-visible {
+  --lift: -16px;
+  --turn: 0deg;
+  transform: perspective(600px) translateY(calc(var(--fan-y, 0px) + var(--lift))) rotate(var(--turn)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) !important;
+  z-index: 60;
+}
+
+@media (hover: hover) {
+
+  .hand .card:hover:not(:disabled),
+  .hand .card:active:not(:disabled) {
+    --lift: -16px;
+    --turn: 0deg;
+    transform: perspective(600px) translateY(calc(var(--fan-y, 0px) + var(--lift))) rotate(var(--turn)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    z-index: 61;
+  }
+}
+
+.card {
+  position: relative;
+}
+
+.foil-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at var(--light-x, 50%) var(--light-y, 50%), #fff9dc70, transparent 65%), linear-gradient(var(--foil-angle, 115deg), transparent 15%, #88cbd92e 32%, #f8d37c60 43%, #fffce680 49%, #c1a6dc40 56%, transparent 73%);
+  mix-blend-mode: soft-light;
+  transition: opacity 140ms ease-out;
+}
+
+.card-tracking.foil-card::after,
+.drag-ghost .foil-card::after {
+  opacity: .72;
+}
+
+.hand .card.card-tracking {
+  box-shadow: var(--shadow-x, 0px) 16px 24px #00110c99 !important;
+  transition-duration: 90ms, 220ms, 180ms !important;
+}
+
+.hand .card::before,
+.drag-ghost-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  background: radial-gradient(ellipse at var(--light-x, 50%) var(--light-y, 50%), #fff9dc45, transparent 65%);
+  box-shadow: inset 0 1px 0 #fff9dc70, inset 0 -1px 0 #172c3b33;
+  transition: opacity 180ms ease-out;
+}
+
+.hand .card.card-tracking::before,
+.drag-ghost-card::before {
+  opacity: 1;
+}
+
+.hand .card.selected::before,
+.hand .card:focus-visible::before {
+  opacity: .45;
+}
+
+.hand .card:active:not(:disabled) {
+  filter: brightness(.98);
+}
+
+.hand .card.drag-source {
+  opacity: .18 !important;
+}
+
+.drag-ghost {
+  will-change: transform;
+}
+
+.drag-ghost-card {
+  background: #fff9ed;
+}
+
+.drag-count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Leave room for the curved lower edges and raised selection inside the scrollport. */
+.hand {
+  padding-bottom: 32px;
+}
+
+@media (max-width: 700px) {
+  .hand {
+    --hand-headroom: 50px;
+    margin-top: calc(-1 * var(--hand-headroom)) !important;
+    padding-top: calc(24px + var(--hand-headroom)) !important;
+    padding-bottom: 20px !important;
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+    gap: 0;
+  }
+}
+
+body.reduce-motion .hand .card {
+  --tilt-x: 0deg !important;
+  --tilt-y: 0deg !important;
+  --lift: 0px !important;
+  transition: none !important;
+}
+
+body.reduce-motion .foil-card::after {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hand .card {
+    --tilt-x: 0deg !important;
+    --tilt-y: 0deg !important;
+    --lift: 0px !important;
+    transition: none !important;
+  }
+
+  .foil-card::after {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .hand .card {
+    margin-left: calc(var(--card-w) * -.5) !important;
+  }
+
+  .hand .card:first-child {
+    margin-left: 0 !important;
+  }
+}
+
+body.reduce-motion .hand .card {
+  translate: none;
+}
+
+body.reduce-motion .hand .card::before {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hand .card {
+    translate: none;
+  }
+
+  .hand .card::before {
+    display: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+
+  .foil-card::after,
+  .hand .card::before {
+    display: none;
+  }
+}
+
+/* The card disturbs only the felt directly beneath it. */
+.fx-impact-light {
+  position: fixed;
+  z-index: 38;
+  pointer-events: none;
+  background: radial-gradient(ellipse, #e7c77933, #e7c77912 40%, transparent 70%);
+}
+
+.fx-combo {
+  position: fixed;
+  z-index: 43;
+  pointer-events: none;
+  color: #f1edda;
+  background: #173e32ed;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font: 600 11px/1.25 DM, sans-serif;
+  letter-spacing: .03em;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px #00110c66;
+}
+
+body.reduce-motion .fx-impact-light,
+body.reduce-motion .fx-combo {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .fx-impact-light,
+  .fx-combo {
+    display: none;
+  }
+}

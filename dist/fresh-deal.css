@@ -1,0 +1,185 @@
+/* A framed table object; content stays live HTML over the painted material. */
+#restart-dialog {
+  box-sizing: border-box;
+  width: min(650px, calc(100vw - 32px));
+  max-width: 650px;
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: #09271d url(assets/fresh-deal-background.jpg) center / 100% 100% no-repeat;
+  color: #fff0ce;
+  box-shadow: 0 24px 80px #000b;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #bd9d5f #09271d;
+  text-align: center;
+}
+#restart-dialog::backdrop { background: #020e0bd4; backdrop-filter: blur(7px); }
+#restart-dialog .restart-content { padding: 66px 58px 52px; }
+#restart-dialog .restart-close {
+  position: absolute;
+  top: 26px;
+  right: 28px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid #e8c68466;
+  border-radius: 50%;
+  background: #061c16d9;
+  color: #efdbaf;
+  font: 26px/1 DM, Arial, sans-serif;
+  transition: background 150ms ease-out, color 150ms ease-out;
+}
+#restart-dialog .restart-close:hover { background: #e8c68422; color: #fff0ce; }
+#restart-dialog .deal-illustration { width: 160px; height: 142px; margin: 0 auto 14px; }
+#restart-dialog .deal-card { width: 84px; height: 122px; top: 8px; border: 0; border-radius: 5px; box-shadow: 0 12px 20px #0008; }
+#restart-dialog .deal-card-back { left: 24px; transform: rotate(-13deg) translateY(3px); }
+#restart-dialog .deal-card-front { right: 21px; transform: rotate(10deg); }
+#restart-dialog h2 { margin: 0 0 18px; color: #fff0ce; font: 400 clamp(32px, 5vw, 46px)/1.1 Serif, Georgia, serif; letter-spacing: -.025em; }
+#restart-dialog .dialog-desc { max-width: 430px; margin: 0 auto; color: #e0e3d2; font: 400 15px/1.7 DM, Arial, sans-serif; text-wrap: pretty; }
+#restart-dialog .restart-preserved { display: flex; align-items: center; justify-content: center; gap: 9px; max-width: 430px; margin: 20px auto 0; padding-top: 18px; border-top: 1px solid #d6b97833; color: #dfc182; font: 500 13px/1.5 DM, Arial, sans-serif; }
+.restart-preserved svg { width: 22px; height: 22px; flex: 0 0 22px; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+#restart-dialog .dialog-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: 16px; margin: 22px auto 0; width: 100%; }
+#restart-dialog .restart-painted-button {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 88px;
+  min-height: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  box-shadow: none;
+  color: #fff0ce;
+  filter: drop-shadow(0 5px 5px #0006);
+  transition: transform 160ms cubic-bezier(.16,1,.3,1), filter 160ms ease-out;
+}
+.restart-painted-button img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; pointer-events: none; }
+#restart-dialog button:focus-visible { outline: 3px solid #fff0ce; outline-offset: 4px; }
+@media (hover: hover) { #restart-dialog .restart-painted-button:hover { transform: translateY(-2px); filter: brightness(1.12) drop-shadow(0 7px 5px #0006); } }
+#restart-dialog .restart-painted-button:active { transform: translateY(2px) scale(.98); filter: brightness(.95); }
+@media (max-width: 520px) {
+  #restart-dialog { width: calc(100vw - 16px); max-height: calc(100dvh - 20px); border-radius: 10px; }
+  #restart-dialog .restart-content { padding: 62px 30px 34px; }
+  #restart-dialog .restart-close { top: 19px; right: 19px; }
+  #restart-dialog .deal-illustration { width: 140px; height: 117px; margin-bottom: 12px; }
+  #restart-dialog .deal-card { width: 68px; height: 99px; }
+  #restart-dialog h2 { margin-bottom: 15px; }
+  #restart-dialog .dialog-desc { font-size: 13px; line-height: 1.65; }
+  #restart-dialog .restart-preserved { font-size: 12px; margin-top: 16px; padding-top: 14px; text-align: left; }
+  #restart-dialog .dialog-actions { grid-template-columns: 1fr; gap: 5px; margin-top: 18px; }
+  #restart-dialog .restart-painted-button { width: min(248px,100%); height: 76px; margin: 0 auto; }
+}
+@media (max-height: 650px) and (min-width: 521px) {
+  #restart-dialog .restart-content { padding: 42px 50px 32px; }
+  #restart-dialog .deal-illustration { width: 140px; height: 84px; margin-bottom: 10px; }
+  #restart-dialog .deal-card { width: 52px; height: 76px; top: 0; }
+  #restart-dialog h2 { font-size: 34px; margin-bottom: 12px; }
+  #restart-dialog .dialog-desc { font-size: 13px; }
+  #restart-dialog .restart-preserved { margin-top: 12px; padding-top: 12px; }
+  #restart-dialog .dialog-actions { margin-top: 12px; }
+  #restart-dialog .restart-painted-button { height: 72px; }
+}
+@media (prefers-reduced-motion: reduce) { #restart-dialog, #restart-dialog .restart-painted-button { animation: none; transition: none; transform: none !important; } }
+body.reduce-motion #restart-dialog, body.reduce-motion #restart-dialog .restart-painted-button { animation: none; transition: none; transform: none !important; }
+@media (prefers-reduced-transparency: reduce) { #restart-dialog::backdrop { background: #020e0bf2; backdrop-filter: none; } }
+
+/* A viewport frame with a separately sized, scrollable safe interior. */
+#restart-dialog {
+  --restart-frame-edge: clamp(28px, 6vmin, 76px);
+  --restart-frame-safe: calc(var(--restart-frame-edge) + clamp(18px, 2.5vmin, 32px));
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: 100dvh;
+  min-height: 0;
+  margin: 0;
+  padding: var(--restart-frame-safe);
+  border: 0;
+  border-radius: 0;
+  background: #09271d;
+  box-shadow: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+#restart-dialog::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-image: url(assets/fresh-deal-background.jpg) 160 fill / var(--restart-frame-edge) / 0 stretch;
+  pointer-events: none;
+  z-index: -1;
+}
+#restart-dialog .restart-content {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  align-items: center;
+  width: min(940px, 100%);
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+  padding: 12px 8px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #bd9d5f #09271d;
+}
+#restart-dialog .restart-content > * { flex-shrink: 0; }
+#restart-dialog .restart-close {
+  top: calc(var(--restart-frame-edge) + 12px);
+  right: calc(var(--restart-frame-edge) + 12px);
+  width: 44px;
+  height: 44px;
+}
+#restart-dialog .deal-illustration { width: 200px; height: 172px; margin: 0 auto 22px; }
+#restart-dialog .deal-card { width: 100px; height: 145px; top: 10px; }
+#restart-dialog .deal-card-back { left: 33px; }
+#restart-dialog .deal-card-front { right: 29px; }
+#restart-dialog h2 { font-size: clamp(38px, 4vw, 60px); margin: 0 0 26px; }
+#restart-dialog .dialog-desc { max-width: 680px; font-size: clamp(15px, 1.4vw, 19px); line-height: 1.75; }
+#restart-dialog .restart-preserved { width: 100%; max-width: 680px; margin: 28px auto 0; padding-top: 22px; font-size: 15px; }
+#restart-dialog .dialog-actions { width: min(740px, 100%); gap: 32px; margin: 28px auto 0; }
+#restart-dialog .restart-painted-button,
+#restart-dialog .restart-painted-button:hover,
+#restart-dialog .restart-painted-button:active {
+  box-sizing: border-box;
+  min-width: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#restart-dialog .restart-painted-button { height: 122px; min-height: 60px; width: 100%; cursor: pointer; }
+#restart-dialog .restart-painted-button img { object-fit: contain; width: 100%; height: 100%; }
+@media (max-height: 760px) and (min-width: 521px) {
+  #restart-dialog .deal-illustration { width: 150px; height: 110px; margin-bottom: 12px; }
+  #restart-dialog .deal-card { width: 66px; height: 96px; top: 3px; }
+  #restart-dialog .deal-card-back { left: 23px; }
+  #restart-dialog .deal-card-front { right: 20px; }
+  #restart-dialog h2 { font-size: 40px; margin-bottom: 18px; }
+  #restart-dialog .dialog-desc { font-size: 15px; }
+  #restart-dialog .restart-preserved { margin-top: 18px; padding-top: 15px; font-size: 13px; }
+  #restart-dialog .dialog-actions { margin-top: 18px; width: min(620px, 100%); gap: 24px; }
+  #restart-dialog .restart-painted-button { height: 94px; }
+}
+@media (max-width: 520px) {
+  #restart-dialog { --restart-frame-edge: 23px; --restart-frame-safe: 40px; }
+  #restart-dialog .restart-content { padding: 32px 2px 4px; }
+  #restart-dialog .restart-close { top: 29px; right: 29px; }
+  #restart-dialog .deal-illustration { width: 150px; height: 118px; margin-bottom: 14px; }
+  #restart-dialog .deal-card { width: 70px; height: 102px; top: 5px; }
+  #restart-dialog .deal-card-back { left: 23px; }
+  #restart-dialog .deal-card-front { right: 20px; }
+  #restart-dialog h2 { font-size: 34px; margin-bottom: 18px; }
+  #restart-dialog .dialog-desc { font-size: 13px; line-height: 1.7; }
+  #restart-dialog .restart-preserved { font-size: 12px; margin-top: 18px; padding-top: 16px; }
+  #restart-dialog .dialog-actions { grid-template-columns: 1fr; gap: 2px; margin-top: 18px; }
+  #restart-dialog .restart-painted-button { width: min(280px, 100%); height: 90px; }
+}

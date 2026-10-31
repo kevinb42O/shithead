@@ -1,0 +1,704 @@
+[
+  {
+    "suit": "spades",
+    "rank": 14,
+    "file": "spades-14.png",
+    "crop": [
+      42,
+      39,
+      348,
+      479
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 13,
+    "file": "spades-13.png",
+    "crop": [
+      374,
+      39,
+      681,
+      479
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 12,
+    "file": "hearts-12.png",
+    "crop": [
+      708,
+      39,
+      1013,
+      479
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 11,
+    "file": "diamonds-11.png",
+    "crop": [
+      42,
+      507,
+      348,
+      948
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 10,
+    "file": "clubs-10.png",
+    "crop": [
+      374,
+      507,
+      681,
+      948
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 5,
+    "file": "hearts-5.png",
+    "crop": [
+      708,
+      507,
+      1013,
+      948
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 14,
+    "file": "diamonds-14.png",
+    "crop": [
+      42,
+      979,
+      348,
+      1432
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "joker-red",
+    "rank": 15,
+    "file": "joker-red.png",
+    "crop": [
+      374,
+      979,
+      681,
+      1432
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "joker-black",
+    "rank": 15,
+    "file": "joker-black.png",
+    "crop": [
+      708,
+      979,
+      1013,
+      1432
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 2,
+    "file": "spades-2.png",
+    "crop": [
+      41,
+      39,
+      345,
+      480
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 3,
+    "file": "spades-3.png",
+    "crop": [
+      374,
+      39,
+      679,
+      480
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 4,
+    "file": "spades-4.png",
+    "crop": [
+      707,
+      39,
+      1012,
+      480
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 5,
+    "file": "spades-5.png",
+    "crop": [
+      41,
+      508,
+      345,
+      955
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 6,
+    "file": "spades-6.png",
+    "crop": [
+      374,
+      508,
+      679,
+      955
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 7,
+    "file": "spades-7.png",
+    "crop": [
+      707,
+      508,
+      1012,
+      955
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 8,
+    "file": "spades-8.png",
+    "crop": [
+      41,
+      984,
+      345,
+      1432
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 9,
+    "file": "spades-9.png",
+    "crop": [
+      374,
+      984,
+      679,
+      1432
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 10,
+    "file": "spades-10.png",
+    "crop": [
+      707,
+      984,
+      1012,
+      1432
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 11,
+    "file": "spades-11.png",
+    "crop": [
+      42,
+      39,
+      346,
+      487
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "spades",
+    "rank": 12,
+    "file": "spades-12.png",
+    "crop": [
+      374,
+      39,
+      680,
+      487
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 14,
+    "file": "hearts-14.png",
+    "crop": [
+      708,
+      39,
+      1012,
+      487
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 2,
+    "file": "hearts-2.png",
+    "crop": [
+      42,
+      513,
+      346,
+      952
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 3,
+    "file": "hearts-3.png",
+    "crop": [
+      374,
+      513,
+      680,
+      952
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 4,
+    "file": "hearts-4.png",
+    "crop": [
+      708,
+      513,
+      1012,
+      952
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 6,
+    "file": "hearts-6.png",
+    "crop": [
+      42,
+      981,
+      346,
+      1422
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 7,
+    "file": "hearts-7.png",
+    "crop": [
+      374,
+      981,
+      680,
+      1422
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 8,
+    "file": "hearts-8.png",
+    "crop": [
+      708,
+      981,
+      1012,
+      1422
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 9,
+    "file": "hearts-9.png",
+    "crop": [
+      42,
+      39,
+      347,
+      477
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 10,
+    "file": "hearts-10.png",
+    "crop": [
+      374,
+      39,
+      680,
+      477
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 11,
+    "file": "hearts-11.png",
+    "crop": [
+      708,
+      39,
+      1013,
+      477
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "hearts",
+    "rank": 13,
+    "file": "hearts-13.png",
+    "crop": [
+      42,
+      505,
+      347,
+      945
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 2,
+    "file": "diamonds-2.png",
+    "crop": [
+      374,
+      505,
+      680,
+      945
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 3,
+    "file": "diamonds-3.png",
+    "crop": [
+      708,
+      505,
+      1013,
+      945
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 4,
+    "file": "diamonds-4.png",
+    "crop": [
+      42,
+      973,
+      347,
+      1422
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 5,
+    "file": "diamonds-5.png",
+    "crop": [
+      374,
+      973,
+      680,
+      1422
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 6,
+    "file": "diamonds-6.png",
+    "crop": [
+      708,
+      973,
+      1013,
+      1422
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 7,
+    "file": "diamonds-7.png",
+    "crop": [
+      42,
+      38,
+      351,
+      466
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 8,
+    "file": "diamonds-8.png",
+    "crop": [
+      374,
+      38,
+      681,
+      466
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 9,
+    "file": "diamonds-9.png",
+    "crop": [
+      704,
+      38,
+      1012,
+      466
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 10,
+    "file": "diamonds-10.png",
+    "crop": [
+      42,
+      492,
+      351,
+      936
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 12,
+    "file": "diamonds-12.png",
+    "crop": [
+      374,
+      492,
+      681,
+      936
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "diamonds",
+    "rank": 13,
+    "file": "diamonds-13.png",
+    "crop": [
+      704,
+      492,
+      1012,
+      936
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 14,
+    "file": "clubs-14.png",
+    "crop": [
+      42,
+      962,
+      351,
+      1407
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 2,
+    "file": "clubs-2.png",
+    "crop": [
+      374,
+      962,
+      681,
+      1407
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 3,
+    "file": "clubs-3.png",
+    "crop": [
+      704,
+      962,
+      1012,
+      1407
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 4,
+    "file": "clubs-4.png",
+    "crop": [
+      39,
+      38,
+      344,
+      480
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 5,
+    "file": "clubs-5.png",
+    "crop": [
+      371,
+      38,
+      682,
+      480
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 6,
+    "file": "clubs-6.png",
+    "crop": [
+      709,
+      38,
+      1014,
+      480
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 7,
+    "file": "clubs-7.png",
+    "crop": [
+      39,
+      509,
+      344,
+      949
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 8,
+    "file": "clubs-8.png",
+    "crop": [
+      371,
+      509,
+      682,
+      949
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 9,
+    "file": "clubs-9.png",
+    "crop": [
+      709,
+      509,
+      1014,
+      949
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 11,
+    "file": "clubs-11.png",
+    "crop": [
+      39,
+      978,
+      344,
+      1434
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 12,
+    "file": "clubs-12.png",
+    "crop": [
+      371,
+      978,
+      682,
+      1434
+    ],
+    "width": 139,
+    "height": 209
+  },
+  {
+    "suit": "clubs",
+    "rank": 13,
+    "file": "clubs-13.png",
+    "crop": [
+      709,
+      978,
+      1014,
+      1434
+    ],
+    "width": 139,
+    "height": 209
+  }
+]

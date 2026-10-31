@@ -1,0 +1,27 @@
+HEARTHSTONE AUDIO — SOURCE AND OWNERSHIP
+
+Game: Hearthstone
+Audio copyright: Blizzard Entertainment. All rights reserved.
+Source archive: General Sound Effects (204 items), uploaded by thecheat31782
+https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/
+
+These are actual game sounds, not CC0 or an original sound library.
+No open-source redistribution license is asserted for Blizzard's audio.
+This palette was added for the user's requested local game preview.
+
+35 selected recordings are converted to 192 kbps MP3, preserving original
+channel layout, duration, pitch and relative dynamics. No peak normalization,
+synthetic room effect, added foley layers or automatic pitch variation.
+Playback uses category levels, mild compression, bounded overlap and muting.
+
+manifest.json records every source filename, duration and source SHA-256.
+
+MENU MUSIC
+Hearthstone title-menu recording, copyright Blizzard Entertainment.
+Retrieved from the titleMusic.mp3 asset in this educational project:
+https://github.com/imostafa404/Mediocre-Hearthstone/blob/master/titleMusic.mp3
+Original duration: 135.88 seconds. Prepared loop: 133.38 seconds.
+Preparation overlaps the tail and opening by 2.5 seconds using a linear
+crossfade, preserves stereo and dynamics, and encodes at 160 kbps MP3.
+The menu transport fades in over 900 ms and out over 450 ms.
+No open-source redistribution license is asserted for this recording.

@@ -1,0 +1,54 @@
+/* Coins follow the table's existing cream, gold and felt palette. */
+.coin-wallet {display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:0 0 20px;color:#dee3cf;font-size:12px}
+.coin-wallet strong {color:#e8c684;font-size:16px;font-variant-numeric:tabular-nums}
+.coin-wallet button {margin-left:auto;text-decoration:underline;text-underline-offset:4px}
+.stake-options {border:0;padding:0;margin:20px 0 16px;display:flex;gap:10px;min-width:0}
+.stake-options legend {font-size:12px;color:#dee3cf;margin-bottom:10px}
+.stake-options label {position:relative;flex:1;min-width:0;cursor:pointer}
+.stake-options input {position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.stake-options label>span {display:grid;gap:4px;padding:12px 6px;text-align:center;border:1px solid #c3ccbd70;border-radius:6px;color:#dee3cf}
+.stake-options strong {font-size:20px;font-variant-numeric:tabular-nums}
+.stake-options small {font-size:11px}
+.stake-options input:checked+span {background:#e8c684;color:#1c332c;border-color:#e8c684}
+.stake-options input:focus-visible+span {outline:2px solid #fff0ce;outline-offset:4px}
+.stake-options label:hover>span {border-color:#fff0ce}
+.setup-pot {display:block;color:#e8c684;font-size:15px;font-variant-numeric:tabular-nums}
+.single-setup .coin-message {font-size:12px;line-height:1.5;color:#dee3cf;margin:6px 0 16px}
+.single-setup .setup-summary {display:none}
+#deal-selected:disabled {opacity:.6;cursor:not-allowed}
+.table-wallet {position:fixed;top:23px;left:270px;z-index:20;color:#e8c684;font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums;margin-left:auto;margin-right:20px}
+.pile-area {position:relative}
+.pot-display {display:grid;gap:3px;margin-top:6px;width:130px;text-align:center;pointer-events:none;color:#f1edda}
+.pot-display strong {font:20px Serif,serif;color:#e8c684;font-variant-numeric:tabular-nums}
+.pot-display small {font:10px DM,Arial,sans-serif;color:#dee3cf}
+.pot-won {animation:coin-payout 650ms cubic-bezier(.16,1,.3,1)}
+.bet-result {position:static;max-width:90%;margin:0 auto;text-align:center;color:#e8c684;font-size:13px;line-height:1.4;z-index:2;pointer-events:none}
+.game-shell {position:relative}
+@keyframes coin-payout {from {transform:translateY(7px);opacity:.5} to {transform:translateY(0);opacity:1}}
+@media(max-width:700px){
+ .coin-wallet {justify-content:center;margin-bottom:16px}
+ .table-wallet {position:fixed;top:calc(23px + env(safe-area-inset-top));left:16px;z-index:5;margin:0;font-size:11px}
+ .pot-display {width:80px;margin-top:3px}
+ .pot-display small {display:none}
+ .pot-display strong {font-size:17px}
+ .pot-display small {font-size:9px}
+ .bet-result {font-size:11px}
+ .stake-options {margin-top:16px}
+}
+@media(prefers-reduced-motion:reduce){.pot-won{animation:none}}
+.reduce-motion .pot-won{animation:none}
+
+.main-menu:has(.choosing-players){justify-content:flex-start;flex-direction:column}
+.main-menu:has(.choosing-players) .menu-center{margin:auto}
+.main-menu:has(.choosing-players) .menu-bottom{position:relative;inset:auto;width:100%;margin-top:40px}
+/* Keep the pot outside card sizing so adding it never moves the pile or reserves. */
+.stock-area {position:relative}
+.stock-area .pot-display {position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);margin:0}
+@media(min-width:701px){.table-wallet{top:16px}}
+/* The setup grows by one stake row; keep its commit action visible on laptop screens. */
+@media(min-width:761px){
+ .main-menu:has(.choosing-players){padding-top:80px}
+ .main-menu .choosing-players .menu-title-illustrated{width:min(220px,100%)}
+ .choosing-players .coin-wallet{margin-bottom:8px}
+ .choosing-players .setup-back{min-height:32px}
+}

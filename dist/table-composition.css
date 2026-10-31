@@ -1,0 +1,316 @@
+/* The table's three groups share the available space; cards keep their own size. */
+.pot-display {
+  grid-column: 3;
+  grid-row: 1;
+  position: static;
+  width: auto;
+  max-width: 130px;
+  margin: 0;
+  justify-self: center;
+  transform: none;
+}
+.pot-display strong {
+  font: 16px/1.4 DM, Arial, sans-serif;
+  color: #e8c684;
+  text-wrap: balance;
+}
+.stock-area { gap: 8px; }
+.pile-area { container-type: normal; height: auto; }
+.pile-footer { inset: auto; transform: none; }
+.announcement:empty { display: none; }
+.status-copy[hidden] { display: none !important; }
+
+@media (min-width: 701px) and (min-height: 621px) {
+  body[data-players] {
+    --pile-h: clamp(130px, 20dvh, 190px);
+    --pile-w: calc(var(--pile-h) / 1.447);
+  }
+  body[data-players] .table {
+    padding: clamp(20px, 3dvh, 40px) 24px 0;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto 0;
+    align-content: space-between;
+    gap: 6px 0;
+  }
+  body[data-players] .opponent-seats {
+    width: min(100%, 1000px);
+    gap: clamp(20px, 4vw, 60px);
+  }
+  body[data-players] .arena {
+    width: min(560px, 82vw);
+    height: auto;
+    grid-template-columns: 100px minmax(0, 1fr) 100px;
+    gap: 24px;
+  }
+  .stock, .stock .card {
+    --card-w: clamp(54px, 8dvh, 76px);
+    --card-h: calc(var(--card-w) * 1.447);
+  }
+  .stock {
+    width: var(--card-w);
+    height: var(--card-h);
+    min-width: 0;
+    min-height: 0;
+  }
+  .hand-panel .hand,
+  .hand-panel .hand.crowded {
+    --hand-headroom: 28px;
+    padding-top: calc(20px + var(--hand-headroom)) !important;
+  }
+  .hand-heading { max-width: 760px; }
+  body[data-players][data-phase=down] .table {
+    grid-template-rows: auto auto auto 0 0;
+  }
+}
+
+@media (max-width: 700px) {
+  body[data-players] .table {
+    grid-template-rows: auto auto auto auto 0 !important;
+    align-content: space-between;
+    gap: 8px 0 !important;
+  }
+  body[data-players] .arena {
+    height: auto;
+    grid-template-columns: minmax(48px, 1fr) minmax(140px, 2.8fr) minmax(48px, 1fr);
+  }
+  .pot-display { max-width: 76px; }
+  .pot-display strong { font-size: 12px; }
+  .stock-area > #deck-count { white-space: nowrap; }
+  body[data-players][data-phase=down] .table {
+    grid-template-rows: auto auto auto 0 0 !important;
+  }
+}
+
+@media (min-width: 701px) and (max-height: 620px) {
+  body[data-players] {
+    --pile-h: clamp(72px, 24dvh, 130px);
+    --pile-w: calc(var(--pile-h) / 1.447);
+    --reserve-width: clamp(24px, 7dvh, 40px);
+    --reserve-height: calc(var(--reserve-width) * 1.447);
+  }
+  body[data-players] .table {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 8px 20px;
+    padding: 16px 24px 0;
+  }
+  body[data-players] .arena {
+    width: 100%;
+    height: auto;
+    grid-template-columns: 52px minmax(0, 1fr) 64px;
+    gap: 8px;
+  }
+  .stock, .stock .card {
+    --card-w: 40px;
+    --card-h: calc(var(--card-w) * 1.447);
+  }
+  .stock { width: 40px; height: 58px; min-width: 0; min-height: 0; }
+  .stock-area > #deck-count { font-size: 10px; padding: 3px 5px; }
+  .pot-display strong { font-size: 12px; }
+  body[data-players] .opponent-seats { width: 100%; }
+}
+
+/* The play area stays empty of betting UI. Money belongs to the table rail. */
+.table-stakes {
+  position: fixed; right: clamp(28px, 5vw, 96px); top: 46%;
+  width: 168px; z-index: 4; color: #f2e6cb; pointer-events: none;
+}
+.table-stakes .pot-display { display: flex; flex-direction: column; align-items: flex-start; width: auto; max-width: none; text-align: left; gap: 5px; }
+#pot-label { font: 15px/1.3 Serif, Georgia, serif; color: #ead8b3; }
+.table-stakes #table-pot { font: 40px/1.1 Serif, Georgia, serif; color: #f1d38e; font-variant-numeric: tabular-nums; }
+#pot-terms, #pot-outcome { font: 11px/1.6 DM, Arial, sans-serif; color: #d0d8be; }
+#pot-outcome { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid #d8ba7755; }
+.wager-chips { position: relative; height: 42px; width: 72px; margin-bottom: 12px; }
+.wager-chips i, .wager-flight {
+  position: absolute; display: block; width: 30px; height: 30px; border-radius: 50%;
+  border: 4px dashed #f4dfac; outline: 1px solid #ad853c; background: #254f3c;
+  box-shadow: inset 0 0 0 2px #b18a45, 0 4px 0 #795520, 0 7px 9px #00130db3;
+}
+.wager-chips i:nth-child(1) { left: 0; top: 8px; }
+.wager-chips i:nth-child(2) { left: 28px; top: 4px; background: #743b2e; }
+.wager-chips i:nth-child(3) { left: 10px; top: 0; }
+.wager-flight { position: fixed; top: 0; left: 0; width: 24px; height: 24px; z-index: 150; pointer-events: none; }
+.table-stakes.is-settled .wager-chips { opacity: .45; }
+.player-bankroll { position: fixed; left: clamp(28px, 5vw, 96px); bottom: clamp(106px, 17dvh, 180px); z-index: 25; display: flex; flex-direction: column; gap: 5px; pointer-events: none; }
+.bankroll-name { font: 22px/1.1 Serif, Georgia, serif; color: #fff0ce; }
+.player-bankroll .table-wallet { display: block !important; position: static; margin: 0; color: #f1d38e; font: 18px/1.3 DM, Arial, sans-serif; }
+#player-stake { color: #d0d8be; font: 11px/1.4 DM, Arial, sans-serif; }
+.seat-wager { display: block; margin-top: 10px; color: #e5cc92; font: 11px/1.3 DM, Arial, sans-serif; text-align: center; }
+.setup-return { color: #d0d8be; font: 12px/1.6 DM, Arial, sans-serif; margin: 8px 0; }
+
+
+@media (min-width: 701px) and (min-height: 621px) {
+  body[data-players] .table { padding: clamp(42px, 6dvh, 66px) 24px 0; grid-template-rows: auto minmax(90px,1fr) auto auto 0; align-content: normal; gap: 12px 0; }
+  body[data-players] .opponent-seats { width: min(72vw, 900px); }
+  body[data-players="3"] .opponent-seats { justify-content: space-between; gap: 32px; }
+  body[data-players] .arena { position: relative; width: min(74vw, 1000px); height: 100%; grid-template-columns: 1fr; justify-items: center; gap: 0; }
+  .arena .pile-area { grid-column: 1; grid-row: 1; }
+  .arena .stock-area { position: absolute; left: 0; top: 50%; transform: translateY(-50%); gap: 16px; }
+  .stock { transform: rotate(-9deg); }
+  body[data-players] .player-table { margin-bottom: 0; }
+  .hand-panel .action-row { max-width: 760px; justify-content: center; gap: 20px; padding-bottom: 12px; }
+  .action-row .status-copy { margin-right: auto; }
+  .hand-panel .hand, .hand-panel .hand.crowded { --hand-headroom: 20px; padding-top: calc(16px + var(--hand-headroom)) !important; }
+  body[data-players][data-phase=down] .table { grid-template-rows: auto minmax(90px,1fr) auto 0 0; }
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .table-stakes { right: 24px; width: 128px; }
+  .player-bankroll { left: 28px; }
+  .table-stakes #table-pot { font-size: 32px; }
+}
+@media (min-width: 701px) and (max-height: 620px) {
+  .table-stakes { top: auto; bottom: 28px; right: 28px; width: 140px; }
+  .table-stakes .wager-chips, #pot-outcome { display: none; }
+  .table-stakes #table-pot { font-size: 25px; }
+  .player-bankroll { bottom: 30px; }
+  .bankroll-name { font-size: 16px; }
+  .player-bankroll .table-wallet { font-size: 14px; }
+  .seat-wager { margin-top: 4px; font-size: 10px; }
+  body[data-players] .arena { grid-template-columns: 52px minmax(0,1fr); }
+  .arena .pile-area { grid-column: 2; }
+  .hand-panel .action-row { max-width: 65vw; }
+}
+@media (max-width: 700px) {
+  .table-stakes { top: calc(12px + env(safe-area-inset-top)); left: 16px; right: auto; width: auto; max-width: calc(100vw - 84px); }
+  .table-stakes .pot-display { flex-direction: row; gap: 6px; align-items: baseline; }
+  #pot-label { font: 11px DM, Arial, sans-serif; }
+  .table-stakes #table-pot { font-size: 19px; }
+  .table-stakes .wager-chips, .table-stakes #pot-terms, .table-stakes #pot-outcome { display: none; }
+  .player-bankroll { left: 16px; bottom: auto; top: calc(37px + env(safe-area-inset-top)); flex-direction: row; gap: 6px; align-items: baseline; }
+  .bankroll-name { font: 10px DM, Arial, sans-serif; }
+  .player-bankroll .table-wallet { font-size: 10px; }
+  #player-stake { display: none; }
+  .seat-wager { margin-top: 6px; font-size: 10px; }
+  body[data-players] .arena { grid-template-columns: minmax(48px,1fr) minmax(140px,2.8fr) minmax(48px,1fr); }
+  .arena .pile-area { grid-column: 2; }
+  .stock-area > #deck-count { white-space: normal; }
+  body[data-players] .table { align-content: normal; grid-template-rows: auto minmax(0,1fr) 0 auto 0 !important; }
+  body[data-players][data-phase=down] .table { grid-template-rows: auto minmax(0,1fr) 0 0 0 !important; }
+  .table-stakes.is-settled #pot-label { max-width: 100px; }
+}
+@media (min-width: 701px) and (min-height: 621px) {
+  body[data-players] { --hand-height: calc(var(--hand-card-h) + 116px); }
+  .hand-panel .action-row { position: relative; inset: auto; flex: 0 0 66px; height: 66px; width: min(760px, 90vw); margin: 0 auto; padding: 0 0 12px; }
+  .hand-panel .hand, .hand-panel .hand.crowded { margin-top: -20px !important; padding-bottom: 18px !important; }
+  .hand-panel .status-copy { padding: 6px 0; border: 0; background: none; box-shadow: none; }
+}
+@media (min-width: 701px) and (min-height: 621px) {
+  body:not([data-phase=dealing]) .arena .stock-area { position: fixed; left: clamp(56px, 15vw, 240px); top: 46%; }
+}
+@media (min-width: 701px) and (max-height: 620px) {
+  body[data-players] { --hand-height: calc(var(--hand-card-h) + 96px); }
+  .hand-panel .action-row { position: relative; inset: auto; flex: 0 0 48px; height: 48px; width: min(620px, 62vw); max-width: none; margin: 0 auto; padding-bottom: 8px; }
+  .hand-panel .status-copy { padding: 4px 0; background: none; border: 0; box-shadow: none; }
+  .hand-panel .hand, .hand-panel .hand.crowded { padding-bottom: 12px !important; }
+}
+@media (min-width: 701px) and (min-height: 621px) {
+  body[data-players="3"] .opponent-seats { width: min(70vw, 780px); }
+}
+@media (max-width: 700px) {
+  .bankroll-name, .player-bankroll .table-wallet, .seat-wager { font-size: 11px; }
+}
+/* Leave the extra balance preview clear of the invitation's carved lower edge. */
+.main-menu .menu-center.choosing-players:has(#setup-return) { padding-bottom: 80px; }
+@media (max-width: 520px) {
+  .main-menu .menu-center.choosing-players:has(#setup-return) { padding-bottom: 58px; }
+}
+/* An empty pile must retain a generous drag target between the seats. */
+@media (min-width: 701px) and (min-height: 621px) {
+  .arena .pile-area { width: min(300px, 100%); height: 100%; align-self: stretch; }
+}
+@media (max-width: 700px) {
+  .arena .pile-area.is-empty { min-height: clamp(70px, 16dvh, 150px); }
+}
+
+/* Fitting hands paint freely: horizontal scrolling otherwise clips both axes. */
+.hand-panel .hand,
+.hand-panel .hand.crowded {
+  overflow: visible !important;
+}
+/* Only oversized hands need a scrollport; extend it below the complete glow. */
+.hand-panel .hand.is-scrollable {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding-bottom: 60px !important;
+  margin-bottom: -42px !important;
+  padding-top: 96px !important;
+  margin-top: -80px !important;
+}
+@media (min-width: 701px) {
+  /* Resting cards sit lower; selection actions keep their own clear row. */
+  .hand-panel:has(.action-row > .status-copy[hidden]):not(:has(.action-row > button:not([hidden]), .ace-choice:not([hidden]))) .hand {
+    translate: 0 22px;
+  }
+}
+
+@media (max-width: 700px) {
+  .hand-panel .hand.is-scrollable {
+    padding-top: 134px !important;
+    margin-top: -110px !important;
+  }
+}
+@media (min-width: 701px) and (max-height: 620px) {
+  .hand-panel .hand.is-scrollable {
+    padding-top: 171px !important;
+    margin-top: -135px !important;
+  }
+}
+
+/* The discard pile is the table's fixed center, regardless of seat count or phase. */
+body[data-players] .arena .pile-area {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(300px, 64vw);
+  height: var(--pile-h);
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  align-self: auto;
+  z-index: 3;
+}
+body[data-players] .pile-area .pile { transform: none !important; }
+body[data-players] .pile-area .pile-footer {
+  position: absolute !important;
+  top: calc(100% + 10px);
+  bottom: auto;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%) !important;
+  width: max-content;
+  max-width: min(380px, 90vw);
+  margin: 0;
+}
+body[data-players] .player-table {
+  position: fixed;
+  top: calc(50% + var(--pile-h) / 2 + 40px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  height: auto;
+  margin: 0;
+  z-index: 2;
+}
+@media (min-width: 701px) {
+  body[data-players] { --reserve-width: clamp(30px, 4.6dvh, 48px); --reserve-height: calc(var(--reserve-width) * 1.447); }
+  body[data-phase=setup] .player-table, body[data-phase=dealing] .player-table { top: calc(50% + 12px); }
+  body[data-phase=setup], body[data-phase=dealing] { --setup-reserve-h: clamp(76px, 11dvh, 108px); --setup-reserve-w: calc(var(--setup-reserve-h) / 1.447); }
+}
+@media (min-width: 701px) and (max-height: 620px) {
+  body[data-players] .opponent-seats { grid-column: 1 / -1; grid-row: 1; align-self: start; width: min(76vw, 760px); padding-top: 28px; }
+  body[data-players] .opponent-seat { --seat-width: clamp(28px, 6dvh, 40px); }
+  body:not([data-phase=dealing]) .arena .stock-area { position: fixed; top: 50%; left: 8vw; transform: translateY(-50%); }
+  body[data-players] .player-table { top: calc(50% + var(--pile-h) / 2 + 30px); }
+  body[data-phase=setup] .player-table, body[data-phase=dealing] .player-table { top: calc(50% + 12px); }
+  body[data-players] { --hand-card-h: clamp(96px, 18dvh, 126px); --hand-card-w: calc(var(--hand-card-h) / 1.447); }
+}
+@media (max-width: 700px) {
+  body[data-players] { --pile-h: calc(clamp(86px, 27vw, 118px) * 1.447); --reserve-width: clamp(26px, 7.5vw, 34px); --reserve-height: calc(var(--reserve-width) * 1.447); }
+  body[data-players] .arena .pile-area { height: var(--pile-h); }
+  body[data-players] .player-table { top: calc(50% + var(--pile-h) / 2 + 30px); }
+  body[data-phase=setup] .player-table, body[data-phase=dealing] .player-table { top: calc(50% + 12px); }
+  body:not([data-phase=dealing]) .arena .stock-area { position: fixed; top: 50%; left: 16px; transform: translateY(-50%); }
+}
+@media (min-width: 701px) and (max-height: 620px) {
+  #game-view .action-row #pickup:not([hidden]) { height: 46px; min-height: 44px !important; }
+}

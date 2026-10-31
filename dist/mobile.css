@@ -1,0 +1,443 @@
+/* Phone-only refinements. This stylesheet is also gated by its link's media query. */
+@media (max-width: 700px) {
+  :root {
+    --hand-height: calc(clamp(142px, 22dvh, 195px) + 132px + env(safe-area-inset-bottom)) !important;
+  }
+
+  body[data-players] .table {
+    padding: calc(56px + env(safe-area-inset-top)) 12px 0 !important;
+    grid-template-rows: auto minmax(0, 1fr) 0 auto 0 !important;
+    gap: 8px 0 !important;
+  }
+
+  body[data-players][data-phase=down] .table {
+    grid-template-rows: auto minmax(0, 1fr) 0 0 0 !important;
+  }
+
+  .session-score {
+    top: calc(16px + env(safe-area-inset-top)) !important;
+    height: 30px !important;
+  }
+
+  .mobile-menu-btn {
+    top: calc(9px + env(safe-area-inset-top)) !important;
+    right: 12px !important;
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .opponent-seats {
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .seat-heading {
+    min-height: 44px !important;
+  }
+
+  body[data-players="2"] .opponent-seat {
+    --seat-width: clamp(34px, 5.5dvh, 48px);
+  }
+
+  .seat-identity strong {
+    font-size: 12px;
+  }
+
+  body[data-players] .arena {
+    width: 100%;
+    grid-template-columns: minmax(48px, 1fr) minmax(140px, 2.8fr) minmax(48px, 1fr);
+    gap: 8px;
+  }
+
+  .stock-area {
+    gap: 10px;
+  }
+
+  .stock,
+  .stock .card {
+    --card-w: clamp(36px, 10vw, 46px) !important;
+    --card-h: calc(var(--card-w) * 1.447) !important;
+  }
+
+  .stock {
+    width: var(--card-w);
+    height: var(--card-h);
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .stock-area>span {
+    font-size: 10px;
+    padding: 3px 5px;
+    max-width: 76px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .burn-area {
+    gap: 4px;
+  }
+
+  .burn-area svg {
+    width: 22px;
+    height: 26px;
+  }
+
+  .burn-area b {
+    font-size: 22px;
+  }
+
+  .burn-area>span {
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  .pile-area {
+    container-type: normal;
+  }
+
+  body[data-players] .pile,
+  body[data-players] .pile .card {
+    --card-w: clamp(86px, 27vw, 118px) !important;
+    --card-h: calc(var(--card-w) * 1.447) !important;
+    width: var(--card-w) !important;
+    height: var(--card-h) !important;
+  }
+
+  .pile-footer {
+    flex-direction: column;
+    gap: 3px;
+    width: max-content;
+    max-width: 72vw;
+    margin-top: 6px !important;
+  }
+
+  .pile-footer #pile-caption:not(:empty) {
+    display: block !important;
+    font-size: 10px;
+    padding: 0;
+    color: #c5d2b9;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .pile-area.is-empty .pile-caption,
+  body[data-phase=setup] #pile-caption {
+    display: none !important;
+  }
+
+  .player-table {
+    gap: 14px;
+    padding-bottom: 4px;
+  }
+
+  .player-table .reserve-slot,
+  .player-table .card {
+    --card-w: clamp(42px, 12vw, 56px);
+    --card-h: calc(var(--card-w) * 1.447);
+  }
+
+  .hand-panel {
+    padding: 0 8px max(12px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .hand-heading {
+    height: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    gap: 8px;
+  }
+
+  .hint-button {
+    min-width: 44px;
+    min-height: 44px !important;
+    font-size: 12px !important;
+  }
+
+  .selection-tools {
+    gap: 4px;
+    overflow-x: auto;
+    min-width: 0;
+  }
+
+  .selection-tools button {
+    flex: 0 0 44px;
+    width: 44px;
+    min-height: 44px;
+  }
+
+  .hand-heading:has(.selection-tools:not([hidden])) #hand-label {
+    display: none;
+  }
+
+  .hand-panel .hand {
+    --hand-headroom: 50px;
+    margin-top: calc(-1 * var(--hand-headroom)) !important;
+    padding-top: calc(24px + var(--hand-headroom)) !important;
+    padding-bottom: 20px !important;
+    scrollbar-width: none !important;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: 24px;
+  }
+
+  .hand::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hand .card {
+    --card-h: clamp(142px, 22dvh, 195px) !important;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  .hand .card.selected {
+    outline: 2px solid #e5c87e;
+    outline-offset: 2px;
+  }
+
+  .action-row {
+    height: 48px !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 0 8px !important;
+    justify-content: flex-end !important;
+  }
+
+  .action-row .status-copy {
+    display: none !important;
+  }
+
+  .action-row .primary-button:not([hidden]),
+  .action-row .ace-choice button {
+    min-height: 48px !important;
+    border-radius: 12px !important;
+    font-size: 15px !important;
+  }
+
+  .action-row .primary-button:not([hidden]) {
+    width: 100% !important;
+  }
+
+  /* Reuse the existing pickup action and its accessible name, within thumb reach. */
+  .action-row #pickup:not([hidden]):not(.must-pickup) {
+    display: flex !important;
+    position: static;
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    height: 48px;
+    min-height: 48px;
+    margin: 0;
+    border-radius: 12px;
+    font-size: 14px;
+    background: #113024;
+    box-shadow: 0 3px 8px #00170f66;
+  }
+
+  .action-row #pickup.must-pickup {
+    display: none !important;
+  }
+
+  #pickup .pile-count-text,
+  #pickup .pile-pill-divider {
+    display: none;
+  }
+
+  #pickup .pile-action-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .action-row:has(#pickup:not([hidden]):not(.must-pickup)) #play:not([hidden]) {
+    flex: 1 1 0;
+    width: auto !important;
+    min-width: 0;
+  }
+
+  .action-row .ace-choice:not([hidden]) {
+    width: 100% !important;
+  }
+
+  .action-row .must-pickup {
+    animation: none !important;
+  }
+
+  .mobile-menu-dialog {
+    position: fixed;
+    inset: auto 0 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    max-height: calc(100dvh - 64px) !important;
+    overflow-y: auto !important;
+    border-radius: 24px 24px 0 0 !important;
+    border-bottom: 0 !important;
+  }
+
+  .mobile-menu-inner {
+    padding: 20px 20px max(20px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .mobile-menu-item {
+    min-height: 48px;
+  }
+
+  #close-mobile-menu {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  #game-view button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #game-view button:active:not(:disabled) {
+    filter: brightness(1.12);
+  }
+
+  body[data-players] .table:has(.announcement:not(:empty)) {
+    grid-template-rows: auto minmax(0, 1fr) auto auto 0 !important;
+  }
+
+  .announcement:not(:empty) {
+    position: static;
+    height: auto;
+    min-height: 0;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 700px) and (max-height: 680px) {
+  :root {
+    --hand-height: calc(clamp(112px, 21dvh, 142px) + 116px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hand .card {
+    --card-h: clamp(112px, 21dvh, 142px) !important;
+  }
+
+  .hand-panel .hand {
+    --hand-headroom: 50px;
+    margin-top: calc(-1 * var(--hand-headroom)) !important;
+    padding-top: calc(20px + var(--hand-headroom)) !important;
+    padding-bottom: 12px !important;
+  }
+
+  body[data-players] .table {
+    gap: 4px 0 !important;
+  }
+
+  .opponent-seat,
+  body[data-players="2"] .opponent-seat {
+    --seat-width: clamp(22px, 5.2dvh, 34px);
+  }
+
+  body[data-players] .pile,
+  body[data-players] .pile .card {
+    --card-w: clamp(64px, 21vw, 86px) !important;
+  }
+
+  .player-table .reserve-slot,
+  .player-table .card {
+    --card-w: 34px;
+  }
+
+  .pile-footer {
+    margin-top: 6px !important;
+  }
+}
+
+/* The hand rests directly on the felt, with room for every lifted corner. */
+@media (max-width: 700px) {
+  .hand-panel {
+    background: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+
+  .hand-heading {
+    position: absolute;
+    inset: 0 8px auto;
+    width: auto !important;
+    pointer-events: none;
+    z-index: 62;
+  }
+
+  .hand-heading>* {
+    pointer-events: auto;
+  }
+
+  .hand-heading #hand-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .hand-heading #hint {
+    margin-left: auto;
+  }
+
+  .hand-heading:has(.selection-tools:not([hidden])) #hint {
+    display: none;
+  }
+
+  .hand-heading .selection-tools {
+    margin: 0 auto;
+  }
+
+  .hand-panel .hand {
+    --hand-headroom: 50px;
+    margin-top: calc(-1 * var(--hand-headroom)) !important;
+    padding-top: calc(24px + var(--hand-headroom)) !important;
+    padding-bottom: 20px !important;
+  }
+
+  .action-row {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 700px) and (max-height: 680px) {
+  :root {
+    --hand-height: calc(clamp(112px, 21dvh, 142px) + 132px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* On short phones, compact the public table rather than clipping the player's hand. */
+@media (max-width: 700px) and (max-height: 680px) {
+  body[data-players] .opponent-seat {
+    --seat-width: 22px;
+    padding-top: 0;
+    padding-bottom: 4px;
+  }
+
+  .seat-cards {
+    gap: 3px;
+  }
+
+  .seat-heading {
+    padding-bottom: 0 !important;
+  }
+
+  .player-table .reserve-slot,
+  .player-table .card {
+    --card-w: 28px;
+  }
+
+  body[data-players] .pile,
+  body[data-players] .pile .card {
+    --card-w: 54px !important;
+  }
+
+  .pile-footer {
+    gap: 2px;
+    margin-top: 5px !important;
+  }
+}

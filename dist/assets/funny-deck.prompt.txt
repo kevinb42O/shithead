@@ -1,0 +1,16 @@
+Use case: illustration-story
+Asset type: production sprite sheet of ALL 54 playing card faces for the humorous game SHITHEAD.
+Create a beautiful polished printable contact sheet with EXACTLY 9 COLUMNS and 6 ROWS, 54 equally sized rectangular playing cards. Square overall canvas, ideally 3456x3456 or higher available resolution. Each cell is exactly one ninth of image width by one sixth of image height. Every card fills its entire cell edge to edge, NO gutters, NO spaces, NO outer margins, NO drop shadows, NO perspective, NO overlaps. Crisp thin gold rectangular inset border within each card, warm ivory background. Identical alignment and proportions for every cell, suitable for automated rectangular cutting.
+
+Visual art direction: exceptionally charming funny illustrated deck, hand inked editorial cartoon meets luxurious vintage playing cards. Dark midnight ink, rich burgundy red suits, restrained antique gold, ivory paper. Comedic expressive crowned poop characters, pompous royal pigeons, indignant frogs, sneaky raccoons, dramatic cats, little toilet-paper capes. Tasteful silly card-club humor. Give every card a unique amusing little character or situation in the CENTRAL 60% of its face, plus a large unmistakable traditional suit emblem. Number cards should have an amusing little character among their bold recognizable suit pips; royal J Q K characters have expressive faces and ridiculous costumes. Aces use a huge suit emblem with a small mischievous character. Joker one is a smug crowned poop jester, joker two is a horrified toilet-roll jester. Maintain consistent excellent quality across all 54. No scenery behind cards.
+Readability: bold extremely clean LARGE rank at upper-left and inverted lower-right, LARGE suit at upper-right. Clear high contrast. Keep ALL characters, faces, captions and pips away from corner index regions: reserve upper-left rectangle 0–30% width / 0–25% height and lower-right rectangle 70–100% width / 75–100% height for ranks only. Main illustration between 25% and 78% card height. NO additional writing, captions, rules, labels or titles. No objects cross cell boundaries.
+
+EXACT ROW-MAJOR CARD ORDER left to right, top to bottom:
+Row 1: 2 spades, 3 spades, 4 spades, 5 spades, 6 spades, 7 spades, 8 spades, 9 spades, 10 spades.
+Row 2: J spades, Q spades, K spades, A spades, 2 hearts, 3 hearts, 4 hearts, 5 hearts, 6 hearts.
+Row 3: 7 hearts, 8 hearts, 9 hearts, 10 hearts, J hearts, Q hearts, K hearts, A hearts, 2 clubs.
+Row 4: 3 clubs, 4 clubs, 5 clubs, 6 clubs, 7 clubs, 8 clubs, 9 clubs, 10 clubs, J clubs.
+Row 5: Q clubs, K clubs, A clubs, 2 diamonds, 3 diamonds, 4 diamonds, 5 diamonds, 6 diamonds, 7 diamonds.
+Row 6: 8 diamonds, 9 diamonds, 10 diamonds, J diamonds, Q diamonds, K diamonds, A diamonds, black JOKER (star corners), red JOKER (star corners).
+
+These are actual game assets: regular exact grid, readable faces, no overlap, no cropped-off characters. Entire sheet visible flat from directly overhead.

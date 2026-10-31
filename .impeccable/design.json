@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-10-31T04:53:16.045237+00:00",
-  "title": "Design System: Shithead — The Card Table",
+  "title": "Design System: Shithead \u2014 The Card Table",
   "extensions": {
     "colorMeta": {
       "action-gold": {
@@ -10,7 +10,7 @@
       },
       "viewport": {
         "role": "neutral",
-        "displayName": "Evergreen viewport"
+        "displayName": "Midnight navy viewport"
       },
       "paper": {
         "role": "neutral",
@@ -71,11 +71,6 @@
         "purpose": "Hovered and selected hand card."
       },
       {
-        "name": "pile-land",
-        "value": ".32s cubic-bezier(.16,1,.3,1)",
-        "purpose": "New top card landing."
-      },
-      {
         "name": "thinking",
         "value": "1s infinite",
         "purpose": "Ellipsis opacity reaches .3 at 50%."
@@ -95,7 +90,31 @@
         "name": "compact-height",
         "value": "(max-height:620px) and (min-width:701px)"
       }
-    ]
+    ],
+    "cardInteraction": {
+      "selection": "Click matching cards or use numbered quantity buttons; subsets preserve selected suits.",
+      "drag": "Mouse, pen and touch pointer events; selected stack follows pointer; legal pile highlight; outside release cancels.",
+      "touch": "Horizontal hand scrolling and upward card dragging.",
+      "aceChoice": "Inline 1 or high (14) actions when ace is on ace; seven forces ace to 1.",
+      "overflow": "All hand rows use safe center alignment."
+    },
+    "physicalCards": {
+      "identity": "One cached button per physical card ID; unchanged SVG artwork is retained.",
+      "travel": "340ms cubic-bezier(.16,1,.3,1), position and scale only on real moves",
+      "openingDeal": "18 sequential 180ms card flights, alternating players by down/up/hand layer",
+      "setup": "Bidirectional drag-to-swap hand and face-up cards",
+      "endgame": "Active up/down zone moves into the large main tray; 18dvh card height",
+      "table": "CC0 Poly Haven Caban wool, blue tint, dark rail; original blue/gold geometric card backs",
+      "compact": "319\u00d7524 supported: compact 40px action row, 13dvh hand cards, 15dvh endgame cards, turn guidance above reserve"
+    },
+    "illustratedDeck": {
+      "paper": "#fff9ed",
+      "red": "#b33035",
+      "ink": "#172c3b",
+      "renderer": "dist/card-art.js",
+      "court": "dist/assets/royal-court-atlas.jpg",
+      "back": "dist/assets/royal-mascot-back.jpg"
+    }
   },
   "components": [
     {
@@ -103,7 +122,7 @@
       "kind": "button",
       "refersTo": "button-primary",
       "description": "Commit a selected card or start another deal.",
-      "html": "<button class=\"ds-primary\">Play card <span>→</span></button>",
+      "html": "<button class=\"ds-primary\">Play card <span>\u2192</span></button>",
       "css": ".ds-primary{font:600 14px DM,Arial,sans-serif;background:#dfc182;color:#183426;border:0;border-radius:7px;padding:13px 20px;min-width:172px;min-height:46px;display:flex;gap:23px;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 5px 14px #00140d40;transition:background .18s,transform .18s}.ds-primary:hover:not(:disabled){filter:brightness(1.05)}.ds-primary:focus-visible{outline:3px solid #be8a30;outline-offset:5px}.ds-primary:disabled{background:#405748;color:#91a58a;box-shadow:none;cursor:default}"
     },
     {
@@ -126,7 +145,7 @@
       "kind": "chip",
       "refersTo": "turn-chip",
       "description": "Opponent turn indicator, paired with written status.",
-      "html": "<span class=\"ds-thinking\">Thinking<span class=\"ds-dots\">…</span></span>",
+      "html": "<span class=\"ds-thinking\">Thinking<span class=\"ds-dots\">\u2026</span></span>",
       "css": ".ds-thinking{font:11px DM,Arial,sans-serif;padding:5px 9px;background:#e7c77922;color:#efd598;border-radius:20px}.ds-dots{display:inline-block;animation:ds-thinking 1s infinite}@keyframes ds-thinking{50%{opacity:.3}}@media(prefers-reduced-motion:reduce){.ds-dots{animation:none}}"
     },
     {

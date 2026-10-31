@@ -1,26 +1,611 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#173e32"><meta name="description" content="A proper game of Shithead. Your cards, your luck, one cunning computer opponent."><title>Shithead — The Card Table</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="game-layout.css"></head>
-<body>
-<header class="topbar"><a class="wordmark" href="./" aria-label="Shithead home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="7" width="17" height="23" rx="3" transform="rotate(-15 4 7)"/><rect x="12" y="2" width="17" height="23" rx="3"/><path d="m20.5 7 4 6-4 6-4-6Z"/></svg>shithead<span class="wordmark-dot">.</span></a><span class="header-caption">Good cards. Bad intentions.</span><nav><button id="sound" class="text-button" aria-pressed="false">Sound off</button><button id="rules" class="text-button">How to play <span class="keycap">?</span></button></nav></header>
-<main>
-<section class="intro"><div><h1>Leave your cards.<br><em>Keep your dignity.</em></h1><p>The classic card game. One cunning opponent. No mercy.</p></div><div class="session-score"><span>THE RUNNING SCORE</span><div><b id="human-score">0</b><span>YOU <i>vs</i> THE FOX</span><b id="fox-score">0</b></div></div></section>
-<section class="game-shell" aria-label="Shithead card table">
-<div class="table-toolbar"><span class="table-label"><i></i> YOUR PRIVATE TABLE</span><button id="new-game" class="table-link">New game <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15 6A6 6 0 1 0 16 12M15 2v4h-4"/></svg></button></div>
-<div class="table" id="table">
-<div class="opponent-info"><div class="fox-avatar"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="m8 9 15 8L39 9l-3 22-12 10L12 31Z" fill="#d8884b"/><path d="m12 25 12 7 12-7-3 9-9 7-9-7Z" fill="#f5e8cd"/><path d="m21 31 6 0-3 4Z" fill="#273c32"/><path d="m14 21 5 2m10 0 5-2" stroke="#273c32" stroke-width="2.5"/></svg></div><div><strong>The Fox <span class="small-tag">COMPUTER</span></strong><span id="fox-status">A good poker face. A better hand?</span></div><span class="turn-chip" id="fox-turn">Thinking<span class="dots">…</span></span></div>
-<div class="opponent-cards" id="opponent-cards"></div>
-<div class="arena"><div class="stock-area"><div id="stock" class="stock"></div><span id="deck-count">36 in the deck</span></div><div class="pile-area"><div class="table-stamp" id="table-stamp"><span>THE CARD TABLE</span><strong>Play your<br>luck.</strong><span>SHITHEAD SOCIAL CLUB</span></div><div id="pile" class="pile"></div><div class="pile-caption" id="pile-caption"></div></div><div class="burn-area"><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M17 3c2 10 9 10 9 19a10 10 0 0 1-20 0c0-5 3-9 6-12-1 7 3 8 3 8s5-6 2-15Z"/><path d="M16 22c-5 5-3 9 1 9s5-5-1-9Z"/></svg><b id="burn-count">0</b><span>burned cards</span></div></div>
-<div id="announcement" class="announcement" aria-live="polite"></div>
-<div class="player-table" id="player-table"></div>
-<div class="player-info"><span class="player-avatar">Y</span><div><strong>You <span id="you-turn" class="your-turn">SETTING UP</span></strong><span id="phase-label">Your last line of defense</span></div><span class="direction" id="direction" title="Direction of play">↻</span></div>
-</div>
-<div class="hand-panel"><div class="hand-heading"><span id="hand-label">YOUR HAND</span><span id="hand-hint">Choose your face-up cards before you begin.</span><button id="hint" class="hint-button">Need a hint?</button></div><div class="hand" id="hand"></div><div class="action-row"><div class="status-copy"><span id="status-dot"></span><div><strong id="status-title">Make yourself comfortable.</strong><p id="status-detail">Swap a card in your hand with a face-up card.</p></div></div><button id="pickup" class="secondary-button" hidden>Pick up pile</button><button id="play" class="primary-button">Let's play <span>→</span></button></div></div>
-</section>
-<div class="below-table"><span>Be the first to lose every card. Try not to be the Shithead.</span><button id="history-toggle" class="text-button">View table history <span>↗</span></button></div>
-<section class="history" id="history" hidden><h2>At the table</h2><ol id="history-list"></ol></section>
-<section class="quick-rules" aria-label="Special cards"><div><strong>House rules.</strong><span>A few cards change everything.</span></div><div class="rule-item"><b>2</b><span>Always playable</span></div><div class="rule-item"><b>3</b><span>Reverse & play again</span></div><div class="rule-item"><b>7</b><span>Play low. Stacks.</span></div><div class="rule-item"><b>10</b><span>Burn the pile</span></div><div class="rule-item"><b class="joker-label">JK</b><span>Transparent</span></div></section>
-</main><footer><span>A little luck. A little strategy. A lot of picking up.</span><button id="credits" class="text-button">Made with good cards</button></footer>
-<dialog id="rules-dialog"><button class="close-dialog" aria-label="Close rules">×</button><h2>The fine art of<br>getting rid of cards.</h2><p>Be the first to play every card. The player left holding cards is the Shithead.</p><h3>Before you start</h3><p>Each player gets 3 cards in hand, 3 face up and 3 face down. Swap your hand and face-up cards to save your best cards for later. You open the game.</p><h3>On your turn</h3><p>Play a card equal to or higher than the top card, or play a matching set. Draw back up to 3 while the deck has cards. If you can't play, pick up the pile; your turn ends. You may also choose to pick it up.</p><dl><dt>2 · Always playable</dt><dd>Put a 2 on anything. It does not reset the pile or cancel stacked sevens. It uses one low turn.</dd><dt>3 · Reverse</dt><dd>Changes direction. In this two-player game, you play again. A 3 must still be a legal play.</dd><dt>7 · Low cards</dt><dd>The next play must be 7 or lower. Each additional 7 adds a low turn. A normal low play uses one; jokers preserve the restriction.</dd><dt>10 · Burn</dt><dd>Always playable. Removes the entire pile and its restrictions. Play again.</dd><dt>Joker · Transparent</dt><dd>Always playable. The card underneath still sets the rank to beat. Does not use a low turn.</dd><dt>Four of a kind · Burn</dt><dd>Four matching cards consecutively on the pile burn it. Play again.</dd></dl><h3>The last stretch</h3><p>Once the deck and your hand are empty, play your face-up cards. Then choose a face-down card without looking. If it can't be played, pick it up with the pile and work through your hand again. First to empty all three zones wins.</p><button class="primary-button close-rules">Back to the table →</button><button id="rules-credits" class="text-button">Artwork &amp; licenses</button></dialog>
-<dialog id="restart-dialog"><h2>A fresh deal?</h2><p>Your current game will be replaced. Your running score stays.</p><div class="dialog-actions"><button id="cancel-restart" class="secondary-button">Keep playing</button><button id="confirm-restart" class="primary-button">Deal again →</button></div></dialog>
-<dialog id="credits-dialog"><button class="close-dialog" aria-label="Close credits">×</button><h2>A proper deck.</h2><p>Classic vector cards by David Bellot, maintained by H. de Beer. Local, unmodified source included under LGPL 2.1.</p><p><a href="https://github.com/htdebeer/SVG-cards" target="_blank" rel="noreferrer">SVG-cards project</a> · <a href="assets/cards.svg" download>Card source</a> · <a href="assets/CARDS-LICENSE.txt">License</a></p><p>Table cloth: Fabric 026 by ambientCG, tinted green in the interface. CC0, free for commercial use.</p><p><a href="https://ambientcg.com/a/Fabric026" target="_blank" rel="noreferrer">Original fabric</a> · <a href="https://docs.ambientcg.com/license/" target="_blank" rel="noreferrer">CC0 license</a></p><p>DM Sans and DM Serif Display by Colophon Foundry, under the SIL Open Font License.</p></dialog>
-<script type="module" src="app.js"></script></body></html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#173e32">
+  <meta name="description"
+    content="A proper game of Shithead. Your cards, your luck, up to three cunning computer opponents.">
+  <title>Shithead — The Card Table</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="Shithead">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="game-layout.css">
+  <link rel="stylesheet" href="effects.css">
+  <link rel="stylesheet" href="menu.css">
+  <link rel="stylesheet" href="players.css">
+  <link rel="stylesheet" href="bottle.css">
+  <link rel="stylesheet" href="rules.css">
+  <link rel="stylesheet" href="tactile.css">
+  <link rel="stylesheet" href="mobile.css" media="(max-width: 700px)">
+  <link rel="stylesheet" href="coins.css">
+  <link rel="stylesheet" href="navigation.css">
+  <link rel="stylesheet" href="pause-menu.css">
+  <link rel="stylesheet" href="table-composition.css">
+  <link rel="stylesheet" href="painted-buttons.css">
+  <link rel="stylesheet" href="fresh-deal.css">
+  <link rel="stylesheet" href="table-setup.css">
+  <link rel="preload" as="image" href="assets/opening-bottle.png">
+</head>
+
+<body class="menu-open">
+  <section id="main-menu" class="main-menu" aria-label="Main menu">
+    <div class="menu-top"><span class="menu-club">THE SHITHEAD SOCIAL CLUB</span>
+      <div class="menu-top-actions">
+        <button id="menu-top-rules" class="menu-quiet" type="button">Rules</button>
+        <button id="menu-sound" class="menu-quiet" aria-pressed="false">Sound off</button>
+      </div>
+    </div>
+    <div class="menu-center">
+      <div class="menu-showpiece" aria-hidden="true">
+        <div class="menu-orbit"></div>
+        <div class="menu-fan">
+          <div class="menu-card" data-menu-card="back"></div>
+          <div class="menu-card" data-menu-card="king"></div>
+          <div class="menu-card" data-menu-card="ace"></div>
+          <div class="menu-card" data-menu-card="queen"></div>
+          <div class="menu-card" data-menu-card="ten"></div>
+        </div>
+        <img class="menu-mascot" src="assets/shithead-mascot.png" alt="" width="1024" height="1024">
+        <span class="menu-table-note">Good cards. Bad intentions.</span>
+      </div>
+      <div class="menu-content">
+      <h1 class="menu-title menu-title-illustrated" aria-label="Shithead"><img class="menu-title-art" src="assets/shithead-title.png" alt="" width="2146" height="733" fetchpriority="high" decoding="async"></h1>
+      <p class="menu-tagline">A great game.<br>A terrible title to earn.</p>
+      <div class="coin-wallet"><span>Your wallet</span><strong id="menu-wallet">1,000 coins</strong><button id="refill-coins" class="menu-quiet" hidden>Refill to 1,000 free</button></div>
+      <div class="menu-actions" id="menu-actions">
+        <button id="menu-play" class="menu-play menu-play-illustrated" type="button" aria-label="Let’s play" aria-describedby="menu-play-detail">
+          <span class="menu-play-art" aria-hidden="true"><img src="assets/lets-play-button.png" alt="" width="1945" height="808" decoding="async" draggable="false"></span>
+        </button>
+        <p id="menu-play-detail" class="menu-play-detail">You, the computer &amp; questionable luck.</p>
+        <button id="menu-resume" class="menu-resume" hidden>Resume your game <span>→</span></button>
+        <button class="menu-multiplayer" disabled><svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="9" cy="8" r="3" />
+            <path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2" />
+          </svg><span><strong>Multiplayer</strong><small>Ruin friendships. Eventually.</small></span><span
+            class="coming-soon">COMING SOON</span></button>
+        <div class="menu-secondary"><button id="menu-rules"><svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v15M12 5C8 2 3 4 3 4v14s5-2 9 2c4-4 9-2 9-2V4s-5-2-9 1Z" />
+            </svg>Rules</button><span></span><button id="menu-options"><svg viewBox="0 0 24 24"
+              aria-hidden="true">
+              <path d="M4 7h16M4 17h16" />
+              <circle cx="9" cy="7" r="3" />
+              <circle cx="15" cy="17" r="3" />
+            </svg>Options</button>
+          <button id="menu-fullscreen" type="button" data-fullscreen hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path data-fullscreen-icon d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg><span data-fullscreen-label>Fullscreen</span></button>
+        </div>
+        <p class="fullscreen-error" data-fullscreen-error role="status" hidden></p>
+      </div>
+      <section id="single-setup" class="single-setup" hidden aria-labelledby="setup-title">
+        <button id="setup-back" class="menu-quiet setup-back" type="button" aria-label="Back"><img src="assets/setup-back-button.png" alt="" aria-hidden="true" draggable="false"></button>
+        <h2 id="setup-title">Pick your company.</h2>
+        <p>How many at the table?</p>
+        <div class="setup-choices">
+          <fieldset class="player-count">
+            <legend>Total players, including you</legend>
+            <label><input type="radio" name="players" value="2" checked><span class="company-choice"><i class="company-portrait portrait-fox" aria-hidden="true"></i><strong>2 players</strong><small>You + 1 AI</small><em>The Fox</em><b class="choice-selected" aria-hidden="true">Selected</b></span></label>
+            <label><input type="radio" name="players" value="3"><span class="company-choice"><i class="company-portrait portrait-owl" aria-hidden="true"></i><strong>3 players</strong><small>You + 2 AIs</small><em>Fox + Owl</em><b class="choice-selected" aria-hidden="true">Selected</b></span></label>
+            <label><input type="radio" name="players" value="4"><span class="company-choice"><i class="company-portrait portrait-raven" aria-hidden="true"></i><strong>4 players</strong><small>You + 3 AIs</small><em>Fox + Owl + Raven</em><b class="choice-selected" aria-hidden="true">Selected</b></span></label>
+          </fieldset>
+          <fieldset class="stake-options">
+            <legend>Coins per player</legend>
+            <label><input type="radio" name="stake" value="10" checked><span><b class="stake-coin"><strong>10</strong></b><small>Casual</small><em class="choice-selected" aria-hidden="true">Selected</em></span></label>
+            <label><input type="radio" name="stake" value="50"><span><b class="stake-coin"><strong>50</strong></b><small>Standard</small><em class="choice-selected" aria-hidden="true">Selected</em></span></label>
+            <label><input type="radio" name="stake" value="100"><span><b class="stake-coin"><strong>100</strong></b><small>High stakes</small><em class="choice-selected" aria-hidden="true">Selected</em></span></label>
+          </fieldset>
+        </div>
+        <div class="setup-commit">
+          <div class="setup-pot-summary"><strong id="setup-pot" class="setup-pot"></strong><p id="setup-return" class="setup-return"></p><p id="coin-message" class="coin-message" role="status"></p></div>
+          <div class="setup-buy-in"><button id="deal-selected" class="primary-button setup-buy-button" type="button" aria-label="Buy in"><img src="assets/buy-in-button.png" alt="" aria-hidden="true" draggable="false"></button><span id="setup-buy-cost" class="setup-buy-cost"></span></div>
+        </div>
+        <p id="setup-summary" class="setup-summary">A little one-on-one trouble.</p>
+      </section>
+      </div>
+    </div>
+    <div class="menu-bottom"><span>Lose your cards. Keep your dignity. <em>Good luck with that.</em></span>
+      <div class="menu-credit"><button id="menu-credits" class="menu-quiet">Made with questionable taste</button><span
+          class="menu-credit-author">by: <a class="menu-maker" href="https://www.webaanzee.be/" target="_blank"
+            rel="noopener noreferrer" aria-label="Webaanzee (opens in a new tab)"><img
+              src="assets/webaanzee-wordmark.png" alt="Webaanzee" width="1823" height="220"></a></span></div>
+    </div>
+  </section>
+  <div id="game-view" hidden inert>
+    <div class="player-bankroll"><span class="bankroll-name">You</span><strong id="table-wallet" class="table-wallet">1,000 coins</strong><span id="player-stake"></span></div>
+    <aside class="table-stakes" aria-label="Table stakes">
+      <div class="wager-chips" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="pot-display"><span id="pot-label">Table pot</span><strong id="table-pot"></strong><span id="pot-terms"></span></div>
+      <p id="pot-outcome" role="status" aria-live="polite"></p>
+    </aside>
+    <button id="mobile-menu-btn" class="mobile-menu-btn" type="button" aria-label="Open menu" aria-haspopup="dialog" aria-controls="mobile-menu-dialog" title="Open menu (ESC)">
+      <img class="game-menu-button-art" src="assets/game-menu-button.png" alt="" aria-hidden="true" draggable="false">
+    </button>
+    <header class="topbar" hidden style="display:none!important">
+      <a class="wordmark" href="./" aria-label="Shithead home"><img src="assets/shithead-title.png" alt="" width="2146" height="733"></a>
+      <nav aria-label="Game navigation">
+        <button id="history-toggle" class="game-nav-button" title="Match history" aria-controls="history" aria-expanded="false">History</button>
+        <button id="sound" class="game-nav-button" title="Toggle sound" aria-pressed="false">Sound off</button>
+        <button id="rules" class="game-nav-button" title="How to play">Rules</button>
+        <button id="new-game" class="game-nav-button" title="New game">New game</button>
+        <button id="back-menu" class="game-nav-button nav-home" title="Main menu">Menu</button>
+      </nav>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <h1>Leave your cards.<br><em>Keep your dignity.</em></h1>
+          <p>The classic card game. One cunning opponent. No mercy.</p>
+        </div>
+        <div class="session-score"><span>THE RUNNING SCORE</span>
+          <div><b id="human-score">0</b><span>YOU <i>vs</i> <span id="score-opponents">THE FOX</span></span><b
+              id="fox-score">0</b></div>
+        </div>
+      </section>
+      <section class="game-shell" aria-label="Shithead card table">
+        <div id="turn-announcement" class="turn-announcement" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div class="table" id="table">
+          <div class="opponent-seats" id="opponent-seats" aria-label="Computer opponents"></div>
+          <div class="arena">
+            <div class="stock-area">
+              <div id="stock" class="stock"></div><span id="deck-count">36 in the deck</span>
+            </div>
+            <div class="pile-area" aria-label="Play pile — drag cards here">
+
+              <div id="drop-label" class="drop-label" aria-live="polite"></div>
+              <div class="table-stamp" id="table-stamp"><span>THE CARD TABLE</span><strong>Play
+                  your<br>luck.</strong><span>SHITHEAD SOCIAL CLUB</span></div>
+              <div id="pile" class="pile"></div>
+              <div class="pile-footer">
+                <div class="pile-caption" id="pile-caption"></div>
+                <button id="start-game-center" class="primary-button royal-button" type="button" hidden>Start Game</button>
+                <button id="pickup" class="pickup-pile-btn" type="button" hidden><svg width="13" height="13"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="9 14 4 9 9 4"></polyline>
+                    <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+                  </svg><span>Pick up pile</span></button>
+              </div>
+            </div>
+
+            <div class="burn-area" hidden aria-hidden="true"><svg viewBox="0 0 32 36" aria-hidden="true">
+                <path d="M17 3c2 10 9 10 9 19a10 10 0 0 1-20 0c0-5 3-9 6-12-1 7 3 8 3 8s5-6 2-15Z" />
+                <path d="M16 22c-5 5-3 9 1 9s5-5-1-9Z" />
+              </svg><b id="burn-count">0</b><span>burned cards</span></div>
+          </div>
+          <div id="announcement" class="announcement" aria-live="polite"></div>
+          <div class="player-table" id="player-table"></div>
+          <div class="player-info"><span class="player-avatar">Y</span>
+            <div><strong>You <span id="you-turn" class="your-turn">SETTING UP</span></strong><span id="phase-label">Your
+                last line of defense</span></div><span class="direction" id="direction"
+              title="Direction of play">↻</span>
+          </div>
+        </div>
+        <div class="hand-panel">
+          <div class="hand-heading">
+            <div id="selection-tools" class="selection-tools" role="group"
+              aria-label="Choose how many matching cards to play" hidden></div><button id="fast-forward"
+              class="hint-button" aria-pressed="false" hidden>Fast-forward</button>
+          </div>
+          <button id="hand-scroll-left" class="hand-nav-btn hand-nav-left" type="button" aria-label="Scroll cards left"
+            hidden><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg></button>
+          <div class="hand" id="hand"></div>
+          <button id="hand-scroll-right" class="hand-nav-btn hand-nav-right" type="button"
+            aria-label="Scroll cards right" hidden><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+              stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg></button>
+          <div class="action-row">
+            <div class="status-copy"><span id="status-dot"></span>
+              <div><strong role="status" aria-live="polite" id="status-title">Swap cards, or start</strong>
+                <p id="status-detail">Swap a card in your hand with a face-up card.</p>
+              </div>
+            </div>
+            <div id="ace-choice" class="ace-choice" role="group" aria-label="Choose ace value" hidden style="display:none"><button
+                id="ace-low" class="secondary-button">Play as 1</button><button id="ace-high"
+                class="primary-button">Play high (14)</button></div><button id="play" class="primary-button">Start game
+              <span>→</span></button>
+          </div>
+          <p id="bet-result" class="bet-result" role="status" hidden></p>
+        </div>
+      </section>
+      <div class="below-table"><span>Be the first to lose every card. Try not to be the Shithead.</span></div>
+      <section class="history" id="history" hidden>
+        <h2>History</h2><button id="close-history" class="close-history" type="button" aria-label="Close history">×</button>
+        <ol id="history-list"></ol>
+      </section>
+      <section class="quick-rules" aria-label="Special cards">
+        <div><strong>House rules.</strong><span>A few cards change everything.</span></div>
+        <div class="rule-item"><b>2</b><span>Always playable</span></div>
+        <div class="rule-item"><b>3</b><span>Reverse & play again</span></div>
+        <div class="rule-item"><b>7</b><span>Play low. Stacks.</span></div>
+        <div class="rule-item"><b>10</b><span>Burn the pile</span></div>
+        <div class="rule-item"><b class="joker-label">JK</b><span>Transparent</span></div>
+      </section>
+    </main>
+    <footer><span>A little luck. A little strategy. A lot of picking up.</span><button id="credits"
+        class="text-button">Credits</button></footer>
+  </div>
+  <dialog id="rules-dialog" class="rules-modal" aria-labelledby="rules-title">
+    <button class="close-dialog" aria-label="Close rules">×</button>
+    <div class="rules-book">
+      <aside class="rules-sidebar">
+        <h2 id="rules-title" class="rules-title">House <br>rules<span>.</span></h2>
+        <p class="rules-tagline">Lose your cards. <br>Keep your dignity.</p>
+    <nav class="rules-tabs" aria-orientation="vertical" role="tablist" aria-label="Rules sections">
+      <button class="rules-tab-btn active" role="tab" id="tab-btn-cards" aria-selected="true" aria-controls="rules-panel-cards" type="button">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h10M7 12h10M7 17h6"/></svg>
+        <span>Special Cards</span>
+      </button>
+      <button class="rules-tab-btn" role="tab" id="tab-btn-flow" aria-selected="false" tabindex="-1" aria-controls="rules-panel-flow" type="button">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>How to Play</span>
+      </button>
+      <button class="rules-tab-btn" role="tab" id="tab-btn-setup" aria-selected="false" tabindex="-1" aria-controls="rules-panel-setup" type="button">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <span>Setup &amp; Zones</span>
+      </button>
+    </nav>
+        <div class="rules-book-art" aria-hidden="true">
+          <img src="assets/royal-mascot-back.jpg" alt="" width="169" height="245">
+          <img src="assets/funny-deck/spades-14.png" alt="" width="169" height="245">
+          <img src="assets/funny-deck/spades-10.png" alt="" width="169" height="245">
+        </div>
+        <p class="rules-sidebar-note">The last player holding cards<br>earns the terrible title.</p>
+      </aside>
+      <div class="rules-reading">
+        <header class="rules-reading-header">
+          <h3 id="rules-section-title">Small cards. Big trouble.</h3>
+          <p id="rules-section-description">Meet the cards that change the game.</p>
+        </header>
+        <div class="rules-scroll">
+    <!-- Tab Panel 1: Special Cards -->
+    <div id="rules-panel-cards" class="rules-tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-btn-cards">
+      <div class="rules-card-grid">
+
+        <!-- 2 -->
+        <article class="rule-card-item">
+          <div class="rule-card-visual">
+            <img src="assets/funny-deck/spades-2.png" alt="2 of Spades" width="169" height="245" loading="lazy">
+          </div>
+          <div class="rule-card-content">
+            <div class="rule-card-header">
+              <h3 class="rule-card-title">2 · Always Playable</h3>
+              <span class="rule-tag tag-wild">Universal Play</span>
+            </div>
+            <p class="rule-card-desc"><strong>Put a 2 on top of anything.</strong> It is always legal to play on any card. Any rank may follow unless low turns remain. A 2 consumes one low turn; it does not cancel the remaining seven restriction.</p>
+            <p class="rule-card-tip"><span class="rule-tip-label">Table talk</span> A vital lifeline when facing high Kings or Aces.</p>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="rule-card-item">
+          <div class="rule-card-visual">
+            <img src="assets/funny-deck/hearts-3.png" alt="3 of Hearts" width="169" height="245" loading="lazy">
+          </div>
+          <div class="rule-card-content">
+            <div class="rule-card-header">
+              <h3 class="rule-card-title">3 · Reverse</h3>
+              <span class="rule-tag tag-reverse">Direction &amp; Again</span>
+            </div>
+            <p class="rule-card-desc"><strong>Reverses play direction.</strong> In a 2-player game, you immediately <strong>play again</strong>! With 3 or 4 players, play passes to the next player in the reversed direction. An even matching set keeps the direction. <em>Note:</em> must still be a legal play matching or beating the pile.</p>
+            <p class="rule-card-tip"><span class="rule-tip-label">Table talk</span> In 1-on-1 matches, 3s grant an immediate extra turn to chain your moves.</p>
+          </div>
+        </article>
+
+        <!-- 7 -->
+        <article class="rule-card-item">
+          <div class="rule-card-visual">
+            <img src="assets/funny-deck/diamonds-7.png" alt="7 of Diamonds" width="169" height="245" loading="lazy">
+          </div>
+          <div class="rule-card-content">
+            <div class="rule-card-header">
+              <h3 class="rule-card-title">7 · Low Cards</h3>
+              <span class="rule-tag tag-low">Play ≤ 7 · Stacks</span>
+            </div>
+            <p class="rule-card-desc"><strong>Forces the next play to be 7 or lower</strong> (7, 6, 5, 4, 3, 2, or low Ace). <strong>Stacks:</strong> each additional 7 played adds another low turn! Each low play uses one turn. Once all low turns are fulfilled, play resumes from the rank played.</p>
+            <p class="rule-card-tip"><span class="rule-tip-label">Table talk</span> Traps opponents who hoarded high face cards.</p>
+          </div>
+        </article>
+
+        <!-- 10 -->
+        <article class="rule-card-item">
+          <div class="rule-card-visual">
+            <img src="assets/funny-deck/spades-10.png" alt="10 of Spades" width="169" height="245" loading="lazy">
+          </div>
+          <div class="rule-card-content">
+            <div class="rule-card-header">
+              <h3 class="rule-card-title">10 · Pile Burner</h3>
+              <span class="rule-tag tag-burn">Burns Pile &amp; Play Again</span>
+            </div>
+            <p class="rule-card-desc"><strong>Always playable on ANY card.</strong> Instantly wipes the entire center pile into the burned graveyard, removes all restrictions, and you <strong>play again immediately</strong> on a fresh empty pile!</p>
+            <p class="rule-card-tip"><span class="rule-tip-label">Table talk</span> The ultimate emergency escape. Stash 10s in your face-up reserve for the endgame.</p>
+          </div>
+        </article>
+
+        <!-- Ace -->
+        <article class="rule-card-item">
+          <div class="rule-card-visual">
+            <img src="assets/funny-deck/spades-14.png" alt="Ace of Spades" width="169" height="245" loading="lazy">
+          </div>
+          <div class="rule-card-content">
+            <div class="rule-card-header">
+              <h3 class="rule-card-title">A · High or Low</h3>
+              <span class="rule-tag tag-wild">Rank 14 or 1</span>
+            </div>
+            <p class="rule-card-desc"><strong>Normally highest rank (14).</strong> Beats everything up to Kings. An opening Ace counts as 1. Following a seven-forced low Ace, subsequent Aces offer a choice of 1 or high (14) once all low turns are used. Four Aces burn together regardless of values.</p>
+            <p class="rule-card-tip"><span class="rule-tip-label">Table talk</span> High Aces lock down the table; low Aces slip under 7 restrictions.</p>
+          </div>
+        </article>
+
+        <!-- Joker -->
+        <article class="rule-card-item">
+          <div class="rule-card-visual">
+            <img src="assets/funny-deck/joker-red.png" alt="Red Joker" width="169" height="245" loading="lazy">
+          </div>
+          <div class="rule-card-content">
+            <div class="rule-card-header">
+              <h3 class="rule-card-title">Joker · Transparent</h3>
+              <span class="rule-tag tag-wild">Transparent Mimic</span>
+            </div>
+            <p class="rule-card-desc"><strong>Always playable on anything.</strong> The Joker is completely transparent: the card underneath still sets the rank to beat for the next player. Does not consume a low turn.</p>
+            <p class="rule-card-tip"><span class="rule-tip-label">Table talk</span> Safely passes your turn without altering the pile when you lack good plays.</p>
+          </div>
+        </article>
+
+        <!-- Four of a Kind -->
+        <article class="rule-card-item">
+          <div class="rule-card-visual rule-card-fan" aria-hidden="true">
+            <img src="assets/funny-deck/clubs-8.png" alt="" width="169" height="245" loading="lazy">
+            <img src="assets/funny-deck/diamonds-8.png" alt="" width="169" height="245" loading="lazy">
+            <img src="assets/funny-deck/hearts-8.png" alt="" width="169" height="245" loading="lazy">
+            <img src="assets/funny-deck/spades-8.png" alt="" width="169" height="245" loading="lazy">
+          </div>
+          <div class="rule-card-content">
+            <div class="rule-card-header">
+              <h3 class="rule-card-title">Four of a Kind · Burn</h3>
+              <span class="rule-tag tag-burn">Quad Burn &amp; Play Again</span>
+            </div>
+            <p class="rule-card-desc"><strong>Playing four matching cards burns the pile on ANY card</strong>, exactly like a 10! Also, four matching ranks placed consecutively on the pile by any players automatically burns it. Play again.</p>
+            <p class="rule-card-tip"><span class="rule-tip-label">Table talk</span> Save sets of 4 in hand to drop them all together for an instant burn.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Tab Panel 2: How to Play -->
+    <div id="rules-panel-flow" class="rules-tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-btn-flow" hidden>
+      <div class="rules-flow-list">
+        <div class="rules-flow-step">
+          <div class="rules-step-num">1</div>
+          <div>
+            <h4>The Goal &amp; the Pot</h4><p>Start with 1,000 virtual coins. Each seat pays 10, 50 or 100 coins before the deal; AI contributions are simulated. First out wins the whole pot immediately. Remaining players finish to determine the Shithead. Leaving for the menu pauses your game; replacing it forfeits any unpaid buy-in. With fewer than 10 coins, finish your current wager to unlock a free refill in the main menu. Coins have no cash value.</p>
+            <p>Be the first to play every card from all your zones. Players who shed all cards escape safely. The last player left holding cards is crowned the <strong>Shithead</strong>.</p>
+          </div>
+        </div>
+
+        <div class="rules-flow-step">
+          <div class="rules-step-num">2</div>
+          <div>
+            <h4>Play Equal or Higher</h4>
+            <p>Drag a card onto the center pile, or click cards and press Play. Play a card equal to or higher in rank than the top card of the pile, or play a special card (2, 10, Joker, or Four of a Kind).</p>
+          </div>
+        </div>
+
+        <div class="rules-flow-step">
+          <div class="rules-step-num">3</div>
+          <div>
+            <h4>Draw Back to 3 Cards</h4>
+            <p>While the draw deck has cards, draw back up to at least 3 cards in your hand at the end of every turn.</p>
+          </div>
+        </div>
+
+        <div class="rules-flow-step">
+          <div class="rules-step-num">4</div>
+          <div>
+            <h4>Matching Sets &amp; Groups</h4>
+            <p>You can play multiple cards of identical rank together in one turn (pairs, triples, or quads). Use the numbered selection buttons to choose exactly how many matching cards to play.</p>
+          </div>
+        </div>
+
+        <div class="rules-flow-step">
+          <div class="rules-step-num">5</div>
+          <div>
+            <h4>Can't Play? Pick Up the Pile!</h4>
+            <p>If you cannot play a legal card (or choose to save your power cards), you must pick up the <strong>entire center pile</strong> into your hand. Your turn ends immediately.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Panel 3: Setup & Zones -->
+    <div id="rules-panel-setup" class="rules-tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-btn-setup" hidden>
+      <div class="rules-zones-container">
+
+        <div class="rules-zone-card">
+          <div class="rule-card-visual">
+            <img src="assets/royal-mascot-back.jpg" alt="Face down blind card" width="169" height="245" loading="lazy">
+          </div>
+          <div>
+            <h4>1. Blind Face-Down Reserve (3 cards)</h4>
+            <p>Three cards dealt face-down on the table. No one knows what they are until the very end. Played blind one by one when your hand and face-up cards are gone. Pure suspense!</p>
+          </div>
+        </div>
+
+        <div class="rules-zone-card">
+          <div class="rule-card-visual">
+            <img src="assets/funny-deck/spades-14.png" alt="Face up reserve card" width="169" height="245" loading="lazy">
+          </div>
+          <div>
+            <h4>2. Visible Face-Up Reserve (3 cards)</h4>
+            <p>Three cards placed face-up over your blind cards. Before the match starts, swap cards with your hand to stash high power cards (10s, 2s, Aces) here for a smooth endgame escape.</p>
+          </div>
+        </div>
+
+        <div class="rules-zone-card">
+          <div class="rule-card-visual rule-card-fan" aria-hidden="true">
+            <img src="assets/funny-deck/clubs-10.png" alt="" width="169" height="245" loading="lazy">
+            <img src="assets/funny-deck/hearts-13.png" alt="" width="169" height="245" loading="lazy">
+            <img src="assets/funny-deck/diamonds-2.png" alt="" width="169" height="245" loading="lazy">
+          </div>
+          <div>
+            <h4>3. Hand Cards (3 cards)</h4>
+            <p>Three starting cards held privately in hand. Refilled from the deck as cards are played. You must empty your hand before you are allowed to play your face-up reserve.</p>
+          </div>
+        </div>
+
+        <div class="rules-zone-card rules-zone-swap-card">
+          <div class="rules-zone-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 12a10 10 0 0 1 18-3l2 3M27 5v7h-7M25 20A10 10 0 0 1 7 23l-2-3M5 27v-7h7"/></svg></div>
+          <div>
+            <h4>The Swap Phase &amp; Bottle Spin</h4>
+            <p>After dealing completes, drag or click to swap cards between your hand and face-up reserve. When ready, the green bottle spins in the center to randomly choose who opens the game with equal odds.</p>
+          </div>
+        </div>
+
+        <div class="rules-zone-card">
+          <div class="rules-zone-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="7" y="3" width="18" height="26" rx="3"/><path d="m14 12 5 4-5 4Z"/></svg></div>
+          <div>
+            <h4>The Last Stretch (Blind Flips)</h4>
+            <p>Once the deck, hand, and face-up cards are cleared, pick a face-down card without peeking. If it cannot be legally played, you must pick it up along with the entire pile and play your hand again!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+        </div>
+    <div class="rules-dialog-footer">
+      <button class="primary-button close-rules">Got it. Let’s play.</button>
+      <button id="rules-credits" class="text-button">Artwork &amp; licenses</button>
+    </div>
+      </div>
+    </div>
+  </dialog>
+  <dialog id="restart-dialog" aria-labelledby="restart-title" aria-describedby="restart-description restart-preserved">
+    <button class="close-dialog restart-close" type="button" aria-label="Close deal dialog" autofocus>×</button>
+    <div class="restart-content">
+      <div class="deal-illustration" aria-hidden="true">
+        <div class="deal-card deal-card-back"></div>
+        <div class="deal-card deal-card-front"><img src="assets/funny-deck/spades-14.png" alt="" width="169" height="245"></div>
+      </div>
+      <h2 id="restart-title">A fresh deal?</h2>
+      <p id="restart-description" class="dialog-desc">Your current game will be swept from the table. Any unpaid buy-in is forfeited. A new deal costs its table stake.</p>
+      <p id="restart-preserved" class="restart-preserved"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3 8 3v6c0 4-4 7-8 9-4-2-8-5-8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg><span>Your wallet and running score stay intact.</span></p>
+      <div class="dialog-actions">
+        <button id="cancel-restart" class="restart-painted-button" type="button" aria-label="Keep playing"><img src="assets/keep-playing-button.png" alt="" aria-hidden="true" draggable="false"></button>
+        <button id="confirm-restart" class="restart-painted-button" type="button" aria-label="Deal again"><img src="assets/deal-again-button.png" alt="" aria-hidden="true" draggable="false"></button>
+      </div>
+    </div>
+  </dialog>
+  <dialog id="credits-dialog"><button class="close-dialog" aria-label="Close credits">×</button>
+    <h2>A proper deck.</h2>
+    <p>An original 54-card Shithead deck: royal pigeons, smug raccoons, frogs, cats and two ridiculous jokers. Every
+      face was generated together with OpenAI ImageGen and cut from one sheet for this game.</p>
+    <p><a href="assets/funny-deck-sheet.png" download>Full illustrated deck</a> · <a
+        href="assets/funny-deck.prompt.txt">Generation prompt</a></p>
+    <p>Earlier retained artwork: <a href="https://github.com/htdebeer/SVG-cards" target="_blank"
+        rel="noreferrer">SVG-cards project</a> · <a href="assets/cards.svg" download>Card source</a> · <a
+        href="assets/CARDS-LICENSE.txt">License</a></p>
+    <p>Table surface: original bottle-green felt with a cognac leather edge, generated with OpenAI ImageGen for this
+      game. The two jokers feature a crowned poop jester and a startled toilet-roll jester.</p>
+    <p><a href="https://polyhaven.com/a/caban" target="_blank" rel="noreferrer">Earlier fabric source</a> · <a
+        href="https://polyhaven.com/license" target="_blank" rel="noreferrer">CC0 license</a></p>
+    <p>Game audio from <strong>Hearthstone</strong>, © Blizzard Entertainment. Sourced from <a href="https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/" target="_blank" rel="noreferrer">The Sounds Resource</a> · <a href="assets/audio/SOURCES.txt">Audio source details</a>.</p>
+    <p>DM Sans and DM Serif Display by Colophon Foundry, under the SIL Open Font License.</p>
+  </dialog>
+  <dialog id="options-dialog" aria-labelledby="options-title"><button class="close-dialog" aria-label="Close options">×</button>
+    <div class="options-content">
+    <h2 id="options-title">Your kind of crap.</h2>
+    <p>A few creature comforts for your time on the throne.</p><label class="option-row"><span><strong>Sound
+          effects</strong><small>A little noise with your nonsense.</small></span><input id="option-sound"
+        type="checkbox" role="switch"></label>
+    <div class="audio-volume"><label for="option-volume">Effects volume</label><output id="volume-value" for="option-volume">70%</output><input id="option-volume" type="range" min="0" max="100" step="5" value="70"></div>
+    <label class="option-row"><span><strong>Menu music</strong><small>A seat by the hearth.</small></span><input id="option-music" type="checkbox" role="switch" checked></label>
+    <div class="audio-volume"><label for="option-music-volume">Music volume</label><output id="music-volume-value" for="option-music-volume">22%</output><input id="option-music-volume" type="range" min="0" max="100" step="1" value="22"></div>
+    <label class="option-row"><span><strong>Reduce motion</strong><small>Less
+          flying cardboard. Same bad luck.</small></span><input id="option-motion" type="checkbox"
+        role="switch"></label>
+    <p class="options-note">Preferences are saved on this browser.</p><button class="primary-button close-rules">All
+      set</button>
+    </div>
+  </dialog>
+  <dialog id="opponent-dialog" aria-labelledby="opponent-title"><button class="close-dialog"
+      aria-label="Close opponent cards">×</button>
+    <h2 id="opponent-title"></h2>
+    <p id="opponent-detail"></p>
+    <div id="opponent-public" class="opponent-public"></div>
+    <p class="opponent-private">Hand cards and face-down ranks stay hidden.</p><button
+      class="primary-button close-rules">Back to the table</button>
+  </dialog>
+  <dialog id="mobile-menu-dialog" class="mobile-menu-dialog" aria-labelledby="pause-title" aria-describedby="pause-description">
+    <div class="mobile-menu-inner">
+      <div class="mobile-menu-header">
+        <span class="mobile-menu-title"><img src="assets/shithead-title.png" alt="Shithead" width="2146" height="733"></span>
+        <button id="close-mobile-menu" class="close-dialog" aria-label="Close menu">×</button>
+      </div>
+      <h2 id="pause-title">Take your time.</h2>
+      <p id="pause-description" class="pause-description">Your table can wait.</p>
+      <div class="pause-tally"><span id="menu-score-display"></span><span id="menu-wallet-display"></span><span id="menu-pot-display"></span></div>
+      <button id="menu-resume-game" class="royal-button" type="button">Resume game</button>
+      <div class="mobile-menu-actions">
+        <button id="mobile-fullscreen" class="mobile-menu-item" type="button" data-fullscreen hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-fullscreen-icon d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg><span data-fullscreen-label>Fullscreen</span></button>
+        <button id="mobile-sound" class="mobile-menu-item" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="mobile-sound-label">Sound off</span>
+        </button>
+        <button id="mobile-rules" class="mobile-menu-item" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 5v15M12 5C8 2 3 4 3 4v14s5-2 9 2c4-4 9-2 9-2V4s-5-2-9 1Z" />
+          </svg>
+          <span>Rules</span>
+        </button>
+        <button id="mobile-options" class="mobile-menu-item" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/></svg><span>Options</span></button>
+        <button id="mobile-new-game" class="mobile-menu-item" type="button">
+          <svg viewBox="0 0 20 20" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 6A6 6 0 1 0 16 12M15 2v4h-4" />
+          </svg>
+          <span>New game</span>
+        </button>
+        <button id="mobile-history" class="mobile-menu-item" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Match history</span>
+        </button>
+        <button id="mobile-back-menu" class="mobile-menu-item mobile-menu-back" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Back to main menu</span>
+        </button>
+      </div>
+      <p class="fullscreen-error" data-fullscreen-error role="status" hidden></p>
+      <p class="pause-hint"><kbd>Esc</kbd> to return to the table</p>
+    </div>
+  </dialog>
+  <script type="module" src="fullscreen.js"></script>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="mobile-ui.js"></script>
+</body>
+
+</html>
