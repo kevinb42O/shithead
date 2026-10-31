@@ -92,9 +92,10 @@ export function createTableEffects({sound=()=>{}}={}){
   motion(pile,[{clipPath:contour(0),offset:0},{clipPath:contour(0),offset:.24},...Array.from({length:9},(_,i)=>({clipPath:contour((i+1)/9),offset:.24+(i+1)/9*.76}))],{duration:1800,fill:'forwards'});removeLater(pile,1900);
   const light=layer('fx-magic-light');light.style.cssText=`left:${c.x}px;top:${c.y}px;width:${w*(phone?1.8:5)}px;height:${h*(phone?1.3:3.3)}px`;
   motion(light,[{opacity:0},{opacity:1,offset:.16},{opacity:.65,offset:.58},{opacity:0}],{duration:2600,fill:'forwards'});removeLater(light,2650);
-  const fireCanvas=document.createElement('canvas');fireCanvas.className='fx-magic-fire';own(fireCanvas);
-  const fire=createMagicFire(fireCanvas,r,phone);
-  if(fire){const dispose=()=>{fire.dispose();remove(fireCanvas);};jobs.add(dispose);later(()=>{dispose();jobs.delete(dispose);},2850);}else remove(fireCanvas);
+  const fireCanvas=phone?null:document.createElement('canvas');
+  if(fireCanvas){fireCanvas.className='fx-magic-fire';own(fireCanvas);}
+  const fire=fireCanvas?createMagicFire(fireCanvas,r):null;
+  if(fire){const dispose=()=>{fire.dispose();remove(fireCanvas);};jobs.add(dispose);later(()=>{dispose();jobs.delete(dispose);},2850);}else if(fireCanvas)remove(fireCanvas);
   // Cache a soft hot sprite once; hundreds of sparks share it without per-frame blur.
   const sprite=document.createElement('canvas');sprite.width=sprite.height=48;const paint=sprite.getContext('2d');
   const gradient=paint.createRadialGradient(24,24,0,24,24,24);gradient.addColorStop(0,'#fffbea');gradient.addColorStop(.12,'#ffe9a8');gradient.addColorStop(.3,'#ffb735b0');gradient.addColorStop(.6,'#fa66052d');gradient.addColorStop(1,'#ed470000');paint.fillStyle=gradient;paint.fillRect(0,0,48,48);
@@ -119,8 +120,18 @@ export function createTableEffects({sound=()=>{}}={}){
    if(t>.35&&consume<1){ctx.lineJoin='round';for(let pass=0;pass<3;pass++){ctx.strokeStyle=pass===0?'#ff65003b':pass===1?'#ffc34b99':'#fff3cc';ctx.lineWidth=[13,5,1.3][pass];ctx.globalAlpha=energy;ctx.beginPath();for(let i=0;i<=28;i++){const x=r.left+w*i/28,y=edge+Math.sin(i*.63+consume*13)*h*.023+Math.sin(i*1.7)*h*.012;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();}}
    for(const b of burst){const age=t-.23;if(age<0||age>b.life)continue;const d=b.speed*age,x=c.x+Math.cos(b.angle)*d,y=r.bottom-h*.25+Math.sin(b.angle)*d*.5-35*age;ctx.globalAlpha=(1-age/b.life)*.9;ctx.drawImage(sprite,x-b.size,y-b.size,b.size*2,b.size*2);}
    for(const e of embers){const age=t-e.birth;if(age<0||age>e.life)continue;const k=age/e.life,x=c.x+e.x+e.vx*age+Math.sin(age*4+e.phase)*w*.12,y=r.bottom-h*clamp((e.birth-.43)/1.37)-e.vy*age;ctx.globalAlpha=Math.sin(k*Math.PI)*(.6+Math.sin(age*19+e.phase)*.3);ctx.drawImage(sprite,x-e.size,y-e.size,e.size*2,e.size*2);if(e.size>3){ctx.strokeStyle='#ffda8c';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-e.vx*.025,y+e.vy*.025);ctx.stroke();}}
-   // Soft, advected sprite fire is the fallback when GPU rendering is unavailable.
-   if(!fire)for(let i=0;i<30;i++){const age=(t*1.1+i*.037)%1,x=c.x+Math.sin(i*7+age*4)*w*.3*(1-age),y=edge-age*h*.9,size=w*(.22-age*.14);ctx.globalAlpha=energy*(1-age)*.25;ctx.drawImage(sprite,x-size,y-size,size*2,size*2);}
+   // Mobile uses a local 2D flame: some Safari/WebGL compositors expose the
+   // transparent GPU canvas bounds as an opaque rectangle.
+   if(!fire){
+    if(phone){
+     for(let i=0;i<68;i++){
+      const rise=(t*.72+i/68)%1,reach=rise*1.75;
+      const sway=(Math.sin(t*7+rise*9+i*.13)*.24+Math.sin(t*3+i*.71)*.07)*(1-rise*.62)*w;
+      const size=w*(.2*(1-rise)+.04),x=c.x+sway,y=edge-reach*h;
+      ctx.globalAlpha=energy*(.55*(1-rise)+.05);ctx.drawImage(sprite,x-size,y-size,size*2,size*2);
+     }
+    }else for(let i=0;i<30;i++){const age=(t*1.1+i*.037)%1,x=c.x+Math.sin(i*7+age*4)*w*.3*(1-age),y=edge-age*h*.9,size=w*(.22-age*.14);ctx.globalAlpha=energy*(1-age)*.25;ctx.drawImage(sprite,x-size,y-size,size*2,size*2);}
+   }
    ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
    for(const f of flakes){const age=t-f.birth;if(age<0)continue;ctx.save();ctx.translate(c.x+f.x+f.vx*age+Math.sin(age*3)*10,r.bottom-h*clamp((f.birth-.43)/1.37)-f.vy*age);ctx.rotate(age*f.spin);ctx.globalAlpha=clamp(1-age/1.2)*.65;ctx.fillStyle=age<.25?'#f2b971':'#756a57';ctx.fillRect(-f.size,-f.size*.4,f.size*2,f.size*.8);ctx.restore();}
    if(phone)ctx.restore();
