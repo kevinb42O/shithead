@@ -7,13 +7,15 @@ test('500 seeded games preserve 54 unique cards and finish',()=>{for(let n=0;n<5
 test('tens burn and grant another turn',()=>{const g=createGame();start(g,()=>0);g.players[0].hand=[c(10),c(5),c(6)];g.deck=[];g.pile=[c(14)];assert.equal(play(g,['10']).burn,true);assert.equal(g.turn,0);assert.equal(g.pile.length,0);});
 test('failed blind flip picks up both card and pile',()=>{const g=createGame();start(g,()=>0);g.deck=[];g.players[0]={hand:[],up:[],down:[c(4)]};g.pile=[c(14)];assert.equal(play(g,['4']).pickup,true);assert.equal(g.players[0].hand.length,2);assert.equal(g.turn,1);});
 test('stacked sevens persist across low plays; two does not reset',()=>{const g=createGame();start(g,()=>0);g.deck=[];g.players[0].hand=[{id:'7a',rank:7},{id:'7b',rank:7},c(8)];g.players[1].hand=[c(2),c(4)];play(g,['7a','7b']);assert.equal(g.lowTurns,2);play(g,['2']);assert.equal(g.lowTurns,1);assert.equal(legal(c(8),g.pile,g.lowTurns),false);});
-test('three reverses direction and passes to next player, repeatedly',()=>{
- const g=createGame();start(g,()=>0);g.deck=[];
- g.players[0].hand=[{id:'3a',rank:3},{id:'3c',rank:3},{id:'3e',rank:3}];
+test('three reverses direction and passes to the next player, repeatedly',()=>{
+ const g=createGame(Math.random,3);start(g,()=>0);g.deck=[];
+ g.players[0].hand=[{id:'3a',rank:3},{id:'3e',rank:3}];
  g.players[1].hand=[{id:'3b',rank:3},{id:'2b',rank:2},{id:'3d',rank:3}];
+ g.players[2].hand=[{id:'2c',rank:2},{id:'3c',rank:3}];
  assert.equal(g.turn,0);assert.equal(g.direction,1);
- assert(play(g,['3a']).ok);assert.equal(g.direction,-1);assert.equal(g.turn,1);
- assert(play(g,['3b']).ok);assert.equal(g.direction,1);assert.equal(g.turn,0);
+ assert(play(g,['3a']).ok);assert.equal(g.direction,-1);assert.equal(g.turn,2);
+ assert(play(g,['2c']).ok);assert.equal(g.direction,-1);assert.equal(g.turn,1);
+ assert(play(g,['3b']).ok);assert.equal(g.direction,1);assert.equal(g.turn,2);
  assert(play(g,['3c']).ok);assert.equal(g.direction,-1);assert.equal(g.turn,1);
  assert(play(g,['2b']).ok);assert.equal(g.direction,-1);assert.equal(g.turn,0);
  assert(play(g,['3e']).ok);assert.equal(g.direction,1);assert.equal(g.turn,1);
@@ -40,7 +42,7 @@ test('opening ace is one; ordinary ace-on-ace inherits without choice',()=>{
  const h=aceGame();h.pile=[c(13)];play(h,['14']);assert.deepEqual(aceOptions(h.pile),[14]);assert.equal(play(h,['other-ace'],{aceValue:1}).ok,false);assert(play(h,['other-ace'],{requestChoice:true}).ok);assert.equal(topRank(h.pile),14);
 });
 test('two sevens, then two separate threes resume play from three',()=>{
- const g=aceGame();g.players[0].hand=[{id:'7a',rank:7},{id:'7b',rank:7},c(9)];g.players[1].hand=[{id:'3a',rank:3},c(8)];g.players[0].hand.push({id:'3b',rank:3});
+ const g=createGame(Math.random,3);start(g,()=>0);g.deck=[];g.players[0].hand=[{id:'7a',rank:7},{id:'7b',rank:7},c(9),{id:'3b',rank:3}];g.players[1].hand=[{id:'3a',rank:3},c(8)];
  assert(play(g,['7a','7b']).ok);assert.equal(g.lowTurns,2);assert(play(g,['3a']).ok);assert.equal(g.turn,0);assert.equal(g.lowTurns,1);
  assert(play(g,['3b']).ok);assert.equal(g.turn,1);assert.equal(g.lowTurns,0);assert.equal(topRank(g.pile),3);
  for(const rank of [3,4,5,6,7,8])assert.equal(legal(c(rank),g.pile,g.lowTurns),true);
@@ -65,7 +67,7 @@ test('starting an active or restored game cannot reroll the opening seat',()=>{
 
 test('seven followed by three resumes from three, including legacy saved piles',()=>{
  const g=aceGame();g.players[0].hand=[c(7),c(6),c(9)];g.players[1].hand=[c(3),c(13)];
- assert(play(g,['7']).ok);assert(play(g,['3']).ok);assert.equal(g.lowTurns,0);assert.equal(g.direction,-1);assert.equal(g.turn,0);
+ assert(play(g,['7']).ok);assert(play(g,['3']).ok);assert.equal(g.lowTurns,0);assert.equal(g.direction,-1);assert.equal(g.turn,1);
  assert.equal(topRank(g.pile),3);assert(legal(c(6),g.pile,g.lowTurns));assert(legal(c(13),g.pile,g.lowTurns));
  g.pile.at(-1).resumeRank=7;assert.equal(topRank(JSON.parse(JSON.stringify(g)).pile),3);
 });

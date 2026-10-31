@@ -36,7 +36,11 @@ export function createTableEffects({sound=()=>{}}={}){
  }
  function copy(node){const clone=node.cloneNode(true);clone.removeAttribute('id');clone.removeAttribute('data-card-id');clone.removeAttribute('data-render-key');clone.removeAttribute('aria-pressed');clone.className='fx-card';clone.disabled=true;clone.tabIndex=-1;clone.style.cssText='';return clone;}
  function capture(result){
-  const pile=document.querySelector('#pile'),r=pile.getBoundingClientRect();
+  const pile=document.querySelector('#pile');let r=pile.getBoundingClientRect();
+  if(matchMedia('(max-width: 700px)').matches&&(!r.width||!r.height)){
+   const area=pile.parentElement.getBoundingClientRect(),style=getComputedStyle(pile),width=parseFloat(style.width),height=parseFloat(style.height);
+   if(area.width&&area.height&&width&&height){const left=area.left+(area.width-width)/2,top=area.top+(area.height-height)/2;r={left,top,right:left+width,bottom:top+height,width,height};}
+  }
   return{pile:r,pileCards:[...pile.children].map(copy),wasBlind:!!result.wasBlind,pileSize:result.pileSize??(parseInt(document.querySelector('.pile-count-text')?.textContent)||pile.children.length),incomingRects:(result.cards||[]).map(c=>document.querySelector(`[data-card-id="${CSS.escape(c.id)}"]`)?.getBoundingClientRect()),incoming:(result.cards||[]).map(c=>{const source=document.querySelector(`[data-card-id="${CSS.escape(c.id)}"]`);const n=source?copy(source):document.createElement('div');n.className='fx-card';n.innerHTML=svgCard(c);return n;}).filter(Boolean),hand:rect('#hand'),opponents:Object.fromEntries([...document.querySelectorAll('.opponent-seat')].map(n=>[n.dataset.seat,n.getBoundingClientRect()])),opponent:rect('#opponent-seats')||rect('.opponent-cards')};
  }
  function pulse(selector,kind='land'){
@@ -75,45 +79,38 @@ export function createTableEffects({sound=()=>{}}={}){
   if(!phone){
    const dip=layer('fx-burn-vignette');
    motion(dip,[{opacity:0},{opacity:1,offset:.16},{opacity:.8,offset:.6},{opacity:0}],{duration:2450,fill:'forwards'});removeLater(dip,2500);
-   const ash=layer('fx-ash');ash.style.cssText=`left:${c.x}px;top:${c.y}px;width:${w*1.8}px;height:${h*.65}px`;
-   motion(ash,[{opacity:0},{opacity:0,offset:.3},{opacity:.7,offset:.58},{opacity:0}],{duration:3200,fill:'forwards'});removeLater(ash,3250);
   }
+  const ash=layer('fx-ash');ash.style.cssText=`left:${c.x}px;top:${c.y}px;width:${w*(phone?1.45:1.8)}px;height:${h*(phone?.32:.65)}px`;
+  motion(ash,[{opacity:0},{opacity:0,offset:.3},{opacity:.7,offset:.58},{opacity:0}],{duration:3200,fill:'forwards'});removeLater(ash,3250);
   const pile=layer('fx-burning-stack magic-burning-stack');pile.style.cssText=`left:${r.left}px;top:${r.top}px;width:${w}px;height:${h}px`;
   const cards=[...snapshot.pileCards,...snapshot.incoming].slice(-5);
   cards.forEach((card,i)=>{card.style.transform=`rotate(${(i-cards.length+1)*-3}deg)`;pile.append(card);if(snapshot.incoming.includes(card))motion(card,[{opacity:0},{opacity:1}],{duration:1,delay:200,fill:'both'});});
   snapshot.incoming.forEach((card,i)=>{const from=snapshot.incomingRects[i];if(!from)return;const flight=layer('fx-pickup');flight.style.cssText=`left:${r.left}px;top:${r.top}px;width:${w}px;height:${h}px`;flight.append(copy(card));motion(flight,[{transform:`translate(${from.left-r.left}px,${from.top-r.top}px) scale(${from.width/w}) rotate(-8deg)`},{transform:'translate(0,0) scale(1) rotate(0)'}],{duration:210,easing:ease,fill:'forwards'});removeLater(flight,220);});
-  const burnFrames=phone?[
-   {filter:'brightness(1)',opacity:1},
-   {filter:'brightness(1.35) sepia(.3)',offset:.22},
-   {filter:'brightness(.32) sepia(1) saturate(.6)',opacity:1,offset:.7},
-   {filter:'brightness(.08)',opacity:0}
-  ]:[{filter:'brightness(1)',transform:'translateY(0)',opacity:1},{filter:'brightness(1.35) sepia(.3)',transform:'translateY(-5px)',offset:.22},{filter:'brightness(.32) sepia(1) saturate(.6)',transform:'translateY(-9px)',opacity:1,offset:.7},{filter:'brightness(.08)',transform:'translateY(-13px)',opacity:0}];
-  motion(pile,burnFrames,{duration:1850,fill:'forwards'});
+  motion(pile,[{filter:'brightness(1)',transform:'translateY(0)',opacity:1},{filter:'brightness(1.35) sepia(.3)',transform:'translateY(-5px)',offset:.22},{filter:'brightness(.32) sepia(1) saturate(.6)',transform:'translateY(-9px)',opacity:1,offset:.7},{filter:'brightness(.08)',transform:'translateY(-13px)',opacity:0}],{duration:1850,fill:'forwards'});
   // The same rising front drives the ragged card mask and the incandescent seam.
   const contour=progress=>{const y=112-progress*140;return `polygon(-30% -30%,130% -30%,${Array.from({length:29},(_,i)=>`${130-i*160/28}% ${y+Math.sin(i*.63+progress*13)*2.3+Math.sin(i*1.7)*1.2}%`).join(',')})`;};
   motion(pile,[{clipPath:contour(0),offset:0},{clipPath:contour(0),offset:.24},...Array.from({length:9},(_,i)=>({clipPath:contour((i+1)/9),offset:.24+(i+1)/9*.76}))],{duration:1800,fill:'forwards'});removeLater(pile,1900);
-  if(!phone){
-   const light=layer('fx-magic-light');light.style.cssText=`left:${c.x}px;top:${c.y}px;width:${w*5}px;height:${h*3.3}px`;
-   motion(light,[{opacity:0},{opacity:1,offset:.16},{opacity:.65,offset:.58},{opacity:0}],{duration:2600,fill:'forwards'});removeLater(light,2650);
-  }
+  const light=layer('fx-magic-light');light.style.cssText=`left:${c.x}px;top:${c.y}px;width:${w*(phone?1.8:5)}px;height:${h*(phone?1.3:3.3)}px`;
+  motion(light,[{opacity:0},{opacity:1,offset:.16},{opacity:.65,offset:.58},{opacity:0}],{duration:2600,fill:'forwards'});removeLater(light,2650);
   const fireCanvas=document.createElement('canvas');fireCanvas.className='fx-magic-fire';own(fireCanvas);
   const fire=createMagicFire(fireCanvas,r,phone);
   if(fire){const dispose=()=>{fire.dispose();remove(fireCanvas);};jobs.add(dispose);later(()=>{dispose();jobs.delete(dispose);},2850);}else remove(fireCanvas);
   // Cache a soft hot sprite once; hundreds of sparks share it without per-frame blur.
   const sprite=document.createElement('canvas');sprite.width=sprite.height=48;const paint=sprite.getContext('2d');
   const gradient=paint.createRadialGradient(24,24,0,24,24,24);gradient.addColorStop(0,'#fffbea');gradient.addColorStop(.12,'#ffe9a8');gradient.addColorStop(.3,'#ffb735b0');gradient.addColorStop(.6,'#fa66052d');gradient.addColorStop(1,'#ed470000');paint.fillStyle=gradient;paint.fillRect(0,0,48,48);
-  const embers=Array.from({length:phone?42:150},()=>({x:rand(-w*.5,w*.5),birth:rand(.25,1.55),life:rand(.65,1.45),vx:rand(-65,65),vy:rand(65,210),phase:rand(0,6.28),size:rand(2,5)}));
-  const burst=Array.from({length:phone?16:55},()=>({angle:rand(0,Math.PI*2),speed:rand(50,330),life:rand(.3,.9),size:rand(1.5,4)}));
-  const flakes=Array.from({length:phone?10:30},()=>({x:rand(-w*.5,w*.5),birth:rand(.75,1.65),vx:rand(-45,45),vy:rand(30,90),spin:rand(-7,7),size:rand(1,3)}));
+  const embers=Array.from({length:phone?42:150},()=>({x:rand(-w*.5,w*.5),birth:rand(.25,1.55),life:rand(.65,1.45),vx:rand(phone?-24:-65,phone?24:65),vy:rand(phone?45:65,phone?130:210),phase:rand(0,6.28),size:rand(2,5)}));
+  const burst=Array.from({length:phone?16:55},()=>({angle:rand(0,Math.PI*2),speed:rand(50,phone?w*1.05:330),life:rand(.3,.9),size:rand(1.5,4)}));
+  const flakes=Array.from({length:phone?10:30},()=>({x:rand(-w*.5,w*.5),birth:rand(.75,1.65),vx:rand(phone?-20:-45,phone?20:45),vy:rand(30,90),spin:rand(-7,7),size:rand(1,3)}));
   const clamp=n=>Math.max(0,Math.min(1,n));
+  const burnClip=phone?{left:r.left-w*.7,top:r.top-h*1.3,width:w*2.4,height:h*2.6}:null;
   animateCanvas('fx-fire fx-magic-particles',2900,(ctx,t)=>{
-   if(phone){const radius=Math.min(5,w/2,h/2);ctx.save();ctx.beginPath();ctx.moveTo(r.left+radius,r.top);ctx.arcTo(r.right,r.top,r.right,r.bottom,radius);ctx.arcTo(r.right,r.bottom,r.left,r.bottom,radius);ctx.arcTo(r.left,r.bottom,r.left,r.top,radius);ctx.arcTo(r.left,r.top,r.right,r.top,radius);ctx.closePath();ctx.clip();}
+   if(phone){ctx.save();ctx.beginPath();ctx.rect(burnClip.left,burnClip.top,burnClip.width,burnClip.height);ctx.clip();}
    fire?.draw(t);
    const energy=clamp((t-.15)/.2)*clamp((2.45-t)/.7),consume=clamp((t-.43)/1.37),edge=r.bottom-h*consume-8*consume;
    ctx.globalCompositeOperation='lighter';
    // A brief lens of light, then thin elliptical arcs winding into the flame.
-   if(t>.17&&t<.7){const age=t-.17,fade=clamp((.7-t)/.35);ctx.globalAlpha=fade*.8;ctx.drawImage(sprite,c.x-w*2.1,r.bottom-h*.55,w*4.2,h*1.1);ctx.globalAlpha=1;
-    ctx.strokeStyle=`rgba(255,218,140,${fade*.6})`;ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(c.x,r.bottom-4,w*(.6+age*2),h*(.08+age*.2),0,0,Math.PI*2);ctx.stroke();}
+   if(t>.17&&t<.7){const age=t-.17,fade=clamp((.7-t)/.35),flareWidth=w*(phone?1.9:4.2),flareHeight=h*(phone?.9:1.1);ctx.globalAlpha=fade*.8;ctx.drawImage(sprite,c.x-flareWidth/2,r.bottom-h*.55,flareWidth,flareHeight);ctx.globalAlpha=1;
+    ctx.strokeStyle=`rgba(255,218,140,${fade*.6})`;ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(c.x,r.bottom-4,w*(phone ? .6+age*.8 : .6+age*2),h*(.08+age*.2),0,0,Math.PI*2);ctx.stroke();}
    for(let j=0;j<(phone?2:3);j++){const age=t-.23-j*.1;if(age<0||age>1.5)continue;const fade=Math.sin(age/1.5*Math.PI)*energy;
     for(let i=0;i<(phone?12:30);i++){const a=i/(phone?11:29),angle=a*Math.PI*2+age*5+j*2.1,radius=w*(.76-age*.23),y=r.bottom-a*h*1.2-age*28;
      const size=2.3+a*1.7;ctx.globalAlpha=fade*a*.65;ctx.drawImage(sprite,c.x+Math.cos(angle)*radius-size,y+Math.sin(angle)*h*.09-size,size*2,size*2);}}
@@ -128,7 +125,7 @@ export function createTableEffects({sound=()=>{}}={}){
    for(const f of flakes){const age=t-f.birth;if(age<0)continue;ctx.save();ctx.translate(c.x+f.x+f.vx*age+Math.sin(age*3)*10,r.bottom-h*clamp((f.birth-.43)/1.37)-f.vy*age);ctx.rotate(age*f.spin);ctx.globalAlpha=clamp(1-age/1.2)*.65;ctx.fillStyle=age<.25?'#f2b971':'#756a57';ctx.fillRect(-f.size,-f.size*.4,f.size*2,f.size*.8);ctx.restore();}
    if(phone)ctx.restore();
   });
-  later(()=>sound('slap',{pan}),210);later(()=>sound('burn',{pan}),170);if(!phone)later(()=>pulse('#burn-count'),1400);
+  later(()=>sound('slap',{pan}),210);later(()=>sound('burn',{pan}),170);later(()=>pulse('#burn-count'),1400);
  }
  // A persistent rule marker, independent of transient particles and move timing.
  function sync(game){
