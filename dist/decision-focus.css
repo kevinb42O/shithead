@@ -1,0 +1,34 @@
+/* Readable live counts; turn cues belong to the table lighting. */
+#game-view .pile-footer #pile-caption:not([hidden]) {
+  font-size: clamp(14px, .85vw, 19px); line-height: 1.4; padding: 4px 10px;
+  color: #fff2d6; background: #281c12ed; border: 1px solid #b58b4e80; border-radius: 4px;
+}
+#game-view .seat-status {
+  top: calc(100% + 5px); font-size: clamp(16px, 1vw, 21px); font-weight: 600;
+  color: #fff2d6; background: #281c12ed; border-radius: 4px; padding: 3px 7px; left: 13%; right: 13%;
+}
+#game-view .seat-wager { top: calc(100% + 42px); font-size: clamp(11px, .75vw, 15px); }
+#game-view .seat-turn-label { display: none !important; }
+#game-view .pile-area.is-empty #pile-caption { display: none !important; }
+/* Broad warm light, brightest behind the active opponent's cards. */
+#game-view .opponent-seat::before {
+  inset: -12% -18% -20%; width: auto; height: auto; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 64%, #fff3be99 0%, #ffdc8370 22%, #ffc15a38 45%, transparent 72%);
+  filter: blur(12px); transform: none; z-index: -2; box-shadow: none;
+}
+#game-view .opponent-seat.is-active::before { opacity: 1; transform: none; }
+#game-view .opponent-seat.is-active .seat-station-art {
+  filter: brightness(1.3) drop-shadow(0 0 14px #ffe0a0aa);
+}
+#game-view .opponent-seat.is-active .seat-avatar {
+  outline: 0; box-shadow: 0 0 20px 7px #ffdda5aa, 0 0 45px 15px #efb95855; filter: brightness(1.13);
+}
+#game-view .opponent-seat.is-active .seat-cards .card {
+  box-shadow: 0 0 20px 5px #f5d78c7a, 0 0 40px 10px #e1af4b38, 0 8px 22px #0009;
+}
+@media (max-width: 700px), (max-height: 650px) {
+  #game-view .seat-status { font-size: 12px; left: 5%; right: 5%; padding: 2px 3px; }
+  #game-view .seat-wager { top: calc(100% + 28px); font-size: 10px; }
+  #game-view .opponent-seat::before { filter: blur(8px); }
+}
+@media (max-width: 360px) { #game-view .seat-status { font-size: 11px; } }

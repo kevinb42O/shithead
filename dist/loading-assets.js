@@ -149,6 +149,10 @@ export const loadingAssets = [
     "bytes": 44974
   },
   {
+    "url": "assets/back-to-menu-button.png",
+    "bytes": 1826558
+  },
+  {
     "url": "assets/bottle-green-table.jpg",
     "bytes": 688454
   },
@@ -207,6 +211,18 @@ export const loadingAssets = [
   {
     "url": "assets/favicon-32x32.png",
     "bytes": 2191
+  },
+  {
+    "url": "assets/fonts/cinzel-bold-latin.woff2",
+    "bytes": 15184
+  },
+  {
+    "url": "assets/fonts/cinzel-decorative-black-latin.woff2",
+    "bytes": 14568
+  },
+  {
+    "url": "assets/fonts/cormorant-garamond-semibold-italic-latin.woff2",
+    "bytes": 23784
   },
   {
     "url": "assets/fortune/bet-button-mirrored.png",
@@ -457,12 +473,12 @@ export const loadingAssets = [
     "bytes": 742037
   },
   {
-    "url": "assets/hearth-menu.png",
-    "bytes": 553507
+    "url": "assets/hearth-menu-cog.png",
+    "bytes": 2528609
   },
   {
-    "url": "assets/hearth-pot.png",
-    "bytes": 987556
+    "url": "assets/hearth-pot-slim.png",
+    "bytes": 1898054
   },
   {
     "url": "assets/hearth-wallet.png",
@@ -493,16 +509,24 @@ export const loadingAssets = [
     "bytes": 2033907
   },
   {
-    "url": "assets/opening-bottle.png",
-    "bytes": 341152
+    "url": "assets/opening-fate-needle.png",
+    "bytes": 405766
+  },
+  {
+    "url": "assets/opening-result-plaque.png",
+    "bytes": 2038976
+  },
+  {
+    "url": "assets/opponent-crest-tray.png",
+    "bytes": 2378696
+  },
+  {
+    "url": "assets/opponent-medallion.png",
+    "bytes": 106346
   },
   {
     "url": "assets/opponent-portraits.png",
     "bytes": 3160423
-  },
-  {
-    "url": "assets/opponent-station.png",
-    "bytes": 1361500
   },
   {
     "url": "assets/pick-your-company.png",
@@ -511,6 +535,34 @@ export const loadingAssets = [
   {
     "url": "assets/pickup-pile-button.png",
     "bytes": 2386022
+  },
+  {
+    "url": "assets/portraits/aurel.png",
+    "bytes": 2810494
+  },
+  {
+    "url": "assets/portraits/cinder.png",
+    "bytes": 2724776
+  },
+  {
+    "url": "assets/portraits/collector-cabinet-mobile.png",
+    "bytes": 2973527
+  },
+  {
+    "url": "assets/portraits/collector-cabinet.png",
+    "bytes": 3039992
+  },
+  {
+    "url": "assets/portraits/isolde.png",
+    "bytes": 2828802
+  },
+  {
+    "url": "assets/portraits/silas.png",
+    "bytes": 2702433
+  },
+  {
+    "url": "assets/portraits/vesper.png",
+    "bytes": 2788634
   },
   {
     "url": "assets/royal-button.png",
@@ -583,6 +635,22 @@ export const loadingAssets = [
   {
     "url": "assets/tavern-tavern.png",
     "bytes": 2251875
+  },
+  {
+    "url": "assets/tavern-title.png",
+    "bytes": 2122056
+  },
+  {
+    "url": "assets/vfx/forge-fireball.png",
+    "bytes": 465145
+  },
+  {
+    "url": "assets/vfx/lantern-mist.png",
+    "bytes": 71713
+  },
+  {
+    "url": "assets/victory-crest.png",
+    "bytes": 2208842
   },
   {
     "url": "assets/webaanzee-wordmark.png",

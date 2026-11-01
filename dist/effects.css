@@ -38,6 +38,9 @@
   height: 100%
 }
 
+/* Decorative card copies must not inherit the global disabled-button fade. */
+.fx-card:disabled { opacity: 1; }
+
 .fx-burning-stack .fx-card {
   box-shadow: 0 3px 5px #03091160
 }
@@ -1260,3 +1263,12 @@ body.reduce-motion .fx-magic-fire,
 body.reduce-motion .fx-magic-light {
   display: none
 }
+
+/* Downloaded, predecoded forge projectile; no filters or fullscreen repaint. */
+.forge-flame-shot { position: fixed; pointer-events: none; z-index: 107; }
+.forge-muzzle-light { position: fixed; pointer-events: none; z-index: 106; transform: translate(-50%,-50%); background: radial-gradient(ellipse,#fff4caa6 0%,#ff9c365e 28%,#ff5a0019 53%,transparent 72%); opacity: 0; will-change: opacity; }
+.forge-waiting-stack:after { display: none; }
+
+/* Cold glass responds at the source; the wind itself is a bounded canvas. */
+.lantern-breath-light { position: fixed; z-index: 43; pointer-events: none; opacity: 0; transform: translate(-50%,-50%); will-change: opacity; background: radial-gradient(ellipse,#e1ffff9c 0%,#8eeafa4a 20%,#3bbfd321 44%,transparent 70%); }
+.fx-rule-cue.wind { color: #d6faff; background: #142d35f2; box-shadow: 0 4px 14px #061a284f; }

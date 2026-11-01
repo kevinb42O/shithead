@@ -195,14 +195,10 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
         onLand(current.mode,1);
         return;
       }
-      onDrop(current.ids,current.targetId,current.mode);
-      const reduced=document.body.classList.contains('reduce-motion')||matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(reduced){current.ghost.remove();onLand(current.mode,current.ids.length);}
-      else {
-        const dx=to.left+to.width/2-(from.left+from.width/2),dy=to.top+to.height/2-(from.top+from.height/2);
-        const flight=current.ghost.animate([{transform:current.ghost.style.transform||'rotate(-5deg) scale(1)',opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(1deg) scale(${Math.min(1,to.width/from.width)})`,opacity:.85,offset:.8},{transform:`translate(${dx}px,${dy}px) rotate(0deg) scale(${Math.min(1,to.width/from.width)})`,opacity:0}],{duration:220,easing:'cubic-bezier(.2,.7,.2,1)',fill:'forwards'});
-        flight.finished.then(()=>{current.ghost.remove();onLand(current.mode,current.ids.length);}).catch(()=>current.ghost.remove());
-      }
+      // Release directly into the shared physical-card flight, with no fading
+      // duplicate ghost or early destination flash.
+      current.ghost.remove();
+      onDrop(current.ids,current.targetId,current.mode,{left:from.left,top:from.top,width:current.width,height:current.height});
     }else {
       if(wasDrag&&!cancel&&current.over&&!current.legal)onReject();else if(wasDrag)onReturn();
       if(current.ghost&&!reducedMotion()&&current.source.isConnected&&!document.hidden){

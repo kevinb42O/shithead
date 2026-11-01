@@ -1,5 +1,6 @@
 import {reconcile} from './rendering.js';
 import {playerName,remaining} from './engine.js';
+import {paintPortrait,portraitFor} from './portraits.js';
 
 // Seat identity follows turn order; positions never move during a hand.
 export function createOpponentSeats({root,card,shown,inspect,nameForSeat=playerName}){
@@ -18,13 +19,15 @@ export function createOpponentSeats({root,card,shown,inspect,nameForSeat=playerN
    const view=seat(who),p=game.players[who],out=!remaining(p),place=game.placements?.indexOf(who)??-1;
    view.node.querySelector('.seat-identity strong').textContent=nameForSeat(who);
    view.node.classList.toggle('is-human-seat', !!game.online);
-   view.node.querySelector('.seat-initial').textContent=game.online?nameForSeat(who).slice(0,1).toUpperCase():'';
+   if(game.online){const portrait=portraitFor(game.onlineMembers?.[who]?.portrait||p.portrait);paintPortrait(view.node.querySelector('.seat-portrait'),portrait.id);view.node.style.setProperty('--seat-light',portrait.color);}
+   else {view.node.querySelector('.seat-portrait').removeAttribute('style');view.node.style.removeProperty('--seat-light');}
+   view.node.querySelector('.seat-initial').textContent='';
    view.node.querySelector('.seat-identity strong').title=nameForSeat(who);
    view.node.querySelector('.seat-heading').setAttribute('aria-label',`Inspect ${nameForSeat(who)}’s public cards`);
    view.node.classList.toggle('is-active',!dealing&&game.phase==='playing'&&game.turn===who);
    if(!dealing&&game.phase==='playing'&&game.turn===who)view.node.setAttribute('aria-current','true');else view.node.removeAttribute('aria-current');
    view.node.classList.toggle('is-out',out);view.node.classList.toggle('is-nervous',!dealing&&!out&&remaining(p)===1);view.node.querySelector('.seat-heading').disabled=dealing;
-   view.status.textContent=out?`${place+1}${['st','nd','rd'][place]||'th'} · Out`:game.phase==='finished'&&game.loser===who?'Shithead':remaining(p)===1?'One card left':`${shown(p.hand).length} in hand`;
+   view.status.textContent=out?`${place+1}${['st','nd','rd'][place]||'th'} · Out`:game.phase==='finished'&&game.loser===who?'Shithead':remaining(p)===1?'One card left':p.hand.length?`${shown(p.hand).length} in hand`:p.up.length?'Playing face up':'Playing blind';
    if(game.online && game.phase==='setup')view.status.textContent=game.onlineMembers?.[who]?.ready?'Ready':'Choosing cards';
    view.node.querySelector('.seat-wager').textContent=game.bet ? (game.bet.settled && game.bet.winner===who ? `${game.bet.pot.toLocaleString()} coins won` : `${game.bet.stake} in`) : '';
    const down=shown(p.down),up=shown(p.up),slots=[];

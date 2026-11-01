@@ -1,0 +1,77 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "pot": {
+      "x": 1140.8125,
+      "y": 342,
+      "width": 184,
+      "height": 138
+    },
+    "filter": "none",
+    "background": "url(\"http://localhost:5173/assets/hearth-pot-slim.png\")",
+    "textFits": true,
+    "overflow": false,
+    "orbActivated": true
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "pot": {
+      "x": 810.8125,
+      "y": 291.828125,
+      "width": 162,
+      "height": 124
+    },
+    "filter": "none",
+    "background": "url(\"http://localhost:5173/assets/hearth-pot-slim.png\")",
+    "textFits": true,
+    "overflow": false,
+    "orbActivated": true
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "pot": {
+      "x": 138.453125,
+      "y": 5,
+      "width": 113.09375,
+      "height": 73
+    },
+    "filter": "none",
+    "background": "url(\"http://localhost:5173/assets/hearth-pot-slim.png\")",
+    "textFits": true,
+    "overflow": false,
+    "orbActivated": true
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "pot": {
+      "x": 110,
+      "y": 5,
+      "width": 100,
+      "height": 73
+    },
+    "filter": "none",
+    "background": "url(\"http://localhost:5173/assets/hearth-pot-slim.png\")",
+    "textFits": true,
+    "overflow": false,
+    "orbActivated": true
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "pot": {
+      "x": 636.046875,
+      "y": 163.796875,
+      "width": 132,
+      "height": 90.09375
+    },
+    "filter": "none",
+    "background": "url(\"http://localhost:5173/assets/hearth-pot-slim.png\")",
+    "textFits": true,
+    "overflow": false,
+    "orbActivated": true
+  }
+]

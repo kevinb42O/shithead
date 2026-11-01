@@ -1,7 +1,11 @@
+import {launchForgeFlame} from './forge-flame.js';
 import {createMagicFire} from './burn-fire.js';
 import {svgCard} from './card-art.js';
 import {playerName} from './engine.js';
 import {createReversalWind,REVERSAL_DURATION,reversalOccurs} from './reversal-wind.js';
+import {createVictoryPresentation} from './victory.js';
+// Forge charge, travel, pile combustion and the last embers all get time to finish.
+export const BURN_DURATION = 4200;
 // Event-driven table theatre. No idle animation loop, network assets or input locks.
 const ease='cubic-bezier(.16,1,.3,1)';
 const reduced=()=>document.body.classList.contains('reduce-motion')||matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -17,22 +21,25 @@ function seatPan(who, total = 2) {
   return 0.42;
 }
 
-export function createTableEffects({sound=()=>{},nameForSeat=playerName}={}){
- let jobs=new Set(),nodes=new Set(),lastTurn=null;
+export function createTableEffects({sound=()=>{},nameForSeat=playerName,onBurn=()=>{},onReplay,onContinue,onMenu,replayState}={}){
+ const resultStage=createVictoryPresentation({sound,nameForSeat,onReplay,onContinue,onMenu,replayState});
+ let jobs=new Set(),nodes=new Set(),lastTurn=null,forgeBusy=false;
  function own(node){node.setAttribute('aria-hidden','true');document.body.append(node);nodes.add(node);return node;}
  function later(fn,ms){const id=setTimeout(()=>{jobs.delete(cancel);fn();},ms);const cancel=()=>clearTimeout(id);jobs.add(cancel);return cancel;}
  function motion(node,frames,options){const a=node.animate(frames,options);const cancel=()=>a.cancel();jobs.add(cancel);a.finished.catch(()=>{}).finally(()=>jobs.delete(cancel));return a;}
  function remove(node){node.remove();nodes.delete(node);}
  function removeLater(node,ms){later(()=>remove(node),ms);}
  function layer(className){const n=document.createElement('div');n.className=className;return own(n);}
- function animateCanvas(className,duration,draw){
+ function animateCanvas(className,duration,draw,bounds=null){
   if(reduced())return;
   const canvas=document.createElement('canvas');canvas.className='table-fx-canvas '+className;own(canvas);
   const ratio=Math.min(devicePixelRatio||1,1.5),w=innerWidth,h=innerHeight;
-  canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio);const ctx=canvas.getContext('2d');if(!ctx){remove(canvas);return;}
-  ctx.scale(ratio,ratio);let frame=0,start=null;
+  const area=bounds||{left:0,top:0,width:w,height:h};
+  if(bounds)canvas.style.cssText=`left:${area.left}px;top:${area.top}px;width:${area.width}px;height:${area.height}px`;
+  canvas.width=Math.ceil(area.width*ratio);canvas.height=Math.ceil(area.height*ratio);const ctx=canvas.getContext('2d');if(!ctx){remove(canvas);return;}
+  ctx.scale(ratio,ratio);ctx.translate(-area.left,-area.top);let frame=0,start=null;
   const cancel=()=>{cancelAnimationFrame(frame);remove(canvas);};jobs.add(cancel);
-  function tick(now){if(start===null)start=now;const t=now-start;if(t>=duration||document.hidden){cancel();jobs.delete(cancel);return;}ctx.clearRect(0,0,w,h);draw(ctx,t/1000,t/duration,w,h);frame=requestAnimationFrame(tick);}
+  function tick(now){if(start===null)start=now;const t=now-start;if(t>=duration||document.hidden){cancel();jobs.delete(cancel);return;}ctx.clearRect(area.left,area.top,area.width,area.height);draw(ctx,t/1000,t/duration,w,h);frame=requestAnimationFrame(tick);}
   frame=requestAnimationFrame(tick);
  }
  function copy(node){const clone=node.cloneNode(true);clone.removeAttribute('id');clone.removeAttribute('data-card-id');clone.removeAttribute('data-render-key');clone.removeAttribute('aria-pressed');clone.className='fx-card';clone.disabled=true;clone.tabIndex=-1;clone.style.cssText='';return clone;}
@@ -58,10 +65,7 @@ export function createTableEffects({sound=()=>{},nameForSeat=playerName}={}){
   motion(glow,[{opacity:0,transform:'translate(-50%,-50%) scale(.75)'},{opacity:combo?.65:.35,offset:.12},{opacity:0,transform:'translate(-50%,-50%) scale(1.4)'}],{duration:420,easing:ease,fill:'forwards'});removeLater(glow,450);
   const bits=Array.from({length:combo?16:7},()=>({angle:rand(0,Math.PI*2),speed:rand(24,combo?100:65),size:rand(.6,1.5)}));
   animateCanvas('fx-felt-dust',460,(ctx,t,p)=>{for(const b of bits){const d=b.speed*t;ctx.fillStyle=`rgba(231,199,121,${(1-p)*.5})`;ctx.beginPath();ctx.ellipse(c.x+Math.cos(b.angle)*(r.width*.5+d),r.bottom-8+Math.sin(b.angle)*d*.4-18*t,b.size,b.size*.6,b.angle,0,Math.PI*2);ctx.fill();}});
-  if(combo){
-   const n=layer('fx-combo');n.textContent=count===2?'Pair':`${count} of a kind`;n.style.cssText=`left:${Math.max(54,Math.min(innerWidth-54,c.x+r.width*.9))}px;top:${r.top+r.height*.7}px`;
-   motion(n,[{opacity:0,transform:'translate(-50%,-80%) scale(.92)'},{opacity:1,transform:'translate(-50%,-100%) scale(1)',offset:.2},{opacity:1,offset:.65},{opacity:0,transform:'translate(-50%,-125%) scale(1)'}],{duration:850,easing:ease,fill:'forwards'});removeLater(n,900);
-  }
+
  }
  function pickup(snapshot,who,pan=0){
   sound('pickup',{pan});
@@ -74,9 +78,21 @@ export function createTableEffects({sound=()=>{},nameForSeat=playerName}={}){
    motion(n,[{transform:`rotate(${i*5-6}deg)`,opacity:1},{transform:`translate(${(destination.x-origin.x)*.35}px,${(destination.y-origin.y)*.2-25}px) rotate(-10deg)`,opacity:1,offset:.35},{transform:`translate(${destination.x-origin.x}px,${destination.y-origin.y}px) scale(.65) rotate(${who?-14:9}deg)`,opacity:0}],{duration:520,delay:i*Math.min(25,260/Math.max(1,count)),easing:'cubic-bezier(.45,0,.2,1)',fill:'forwards'});removeLater(n,850);
   });
  }
- function burn(snapshot,pan=0){
+ function burn(snapshot,pan=0,ignited=false,onIgnite=()=>{}){
   const r=snapshot.pile,c=center(r),w=r.width,h=r.height,phone=matchMedia('(max-width: 700px)').matches;
-  if(reduced()){sound('slap',{pan});const note=layer('fx-burn-note');note.textContent='Pile burned';note.style.cssText=`left:${c.x}px;top:${c.y}px`;if(phone)Object.assign(note.style,{width:`${Math.max(64,w-12)}px`,padding:'4px 6px',fontSize:'11px',lineHeight:'1.2',textAlign:'center'});removeLater(note,900);return;}
+  if(reduced()){onIgnite();sound('slap',{pan});const note=layer('fx-burn-note');note.textContent='Pile burned';note.style.cssText=`left:${c.x}px;top:${c.y}px`;if(phone)Object.assign(note.style,{width:`${Math.max(64,w-12)}px`,padding:'4px 6px',fontSize:'11px',lineHeight:'1.2',textAlign:'center'});removeLater(note,900);return;}
+  const forge = rect('#board-forge');
+  if (!ignited && forge?.width && forge?.height) {
+    const waiting = layer('fx-burning-stack forge-waiting-stack');
+    waiting.style.cssText = `left:${r.left}px;top:${r.top}px;width:${w}px;height:${h}px`;
+    [...snapshot.pileCards,...snapshot.incoming].slice(-5).forEach((card,i) => { const n=copy(card); n.style.transform=`rotate(${(i-2)*-2}deg)`; waiting.append(n); });
+    forgeBusy=true;
+    const cancel=launchForgeFlame({forge,pile:r,own,remove,onImpact:()=>{jobs.delete(cancel);forgeBusy=false;remove(waiting);burn(snapshot,pan,true,onIgnite);}});
+    jobs.add(cancel);
+    sound('free',{pan:-.6});
+    return;
+  }
+  onIgnite();
   if(!phone){
    const dip=layer('fx-burn-vignette');
    motion(dip,[{opacity:0},{opacity:1,offset:.16},{opacity:.8,offset:.6},{opacity:0}],{duration:2450,fill:'forwards'});removeLater(dip,2500);
@@ -85,8 +101,8 @@ export function createTableEffects({sound=()=>{},nameForSeat=playerName}={}){
   motion(ash,[{opacity:0},{opacity:0,offset:.3},{opacity:.7,offset:.58},{opacity:0}],{duration:3200,fill:'forwards'});removeLater(ash,3250);
   const pile=layer('fx-burning-stack magic-burning-stack');pile.style.cssText=`left:${r.left}px;top:${r.top}px;width:${w}px;height:${h}px`;
   const cards=[...snapshot.pileCards,...snapshot.incoming].slice(-5);
-  cards.forEach((card,i)=>{card.style.transform=`rotate(${(i-cards.length+1)*-3}deg)`;pile.append(card);if(snapshot.incoming.includes(card))motion(card,[{opacity:0},{opacity:1}],{duration:1,delay:200,fill:'both'});});
-  snapshot.incoming.forEach((card,i)=>{const from=snapshot.incomingRects[i];if(!from)return;const flight=layer('fx-pickup');flight.style.cssText=`left:${r.left}px;top:${r.top}px;width:${w}px;height:${h}px`;flight.append(copy(card));motion(flight,[{transform:`translate(${from.left-r.left}px,${from.top-r.top}px) scale(${from.width/w}) rotate(-8deg)`},{transform:'translate(0,0) scale(1) rotate(0)'}],{duration:210,easing:ease,fill:'forwards'});removeLater(flight,220);});
+  cards.forEach((card,i)=>{card.style.transform=`rotate(${(i-cards.length+1)*-3}deg)`;pile.append(card);if(!snapshot.physical&&snapshot.incoming.includes(card))motion(card,[{opacity:0},{opacity:1}],{duration:1,delay:200,fill:'both'});});
+  (snapshot.physical?[]:snapshot.incoming).forEach((card,i)=>{const from=snapshot.incomingRects[i];if(!from)return;const flight=layer('fx-pickup');flight.style.cssText=`left:${r.left}px;top:${r.top}px;width:${w}px;height:${h}px`;flight.append(copy(card));motion(flight,[{transform:`translate(${from.left-r.left}px,${from.top-r.top}px) scale(${from.width/w}) rotate(-8deg)`},{transform:'translate(0,0) scale(1) rotate(0)'}],{duration:210,easing:ease,fill:'forwards'});removeLater(flight,220);});
   motion(pile,[{filter:'brightness(1)',transform:'translateY(0)',opacity:1},{filter:'brightness(1.35) sepia(.3)',transform:'translateY(-5px)',offset:.22},{filter:'brightness(.32) sepia(1) saturate(.6)',transform:'translateY(-9px)',opacity:1,offset:.7},{filter:'brightness(.08)',transform:'translateY(-13px)',opacity:0}],{duration:1850,fill:'forwards'});
   // The same rising front drives the ragged card mask and the incandescent seam.
   const contour=progress=>{const y=112-progress*140;return `polygon(-30% -30%,130% -30%,${Array.from({length:29},(_,i)=>`${130-i*160/28}% ${y+Math.sin(i*.63+progress*13)*2.3+Math.sin(i*1.7)*1.2}%`).join(',')})`;};
@@ -136,18 +152,13 @@ export function createTableEffects({sound=()=>{},nameForSeat=playerName}={}){
    ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
    for(const f of flakes){const age=t-f.birth;if(age<0)continue;ctx.save();ctx.translate(c.x+f.x+f.vx*age+Math.sin(age*3)*10,r.bottom-h*clamp((f.birth-.43)/1.37)-f.vy*age);ctx.rotate(age*f.spin);ctx.globalAlpha=clamp(1-age/1.2)*.65;ctx.fillStyle=age<.25?'#f2b971':'#756a57';ctx.fillRect(-f.size,-f.size*.4,f.size*2,f.size*.8);ctx.restore();}
    if(phone)ctx.restore();
-  });
+  },phone?burnClip:{left:Math.max(0,c.x-Math.max(400,w*2.5)),top:Math.max(0,r.top-Math.max(520,h*2.8)),width:Math.min(innerWidth,Math.max(800,w*5)),height:Math.min(innerHeight,r.bottom+150)-Math.max(0,r.top-Math.max(520,h*2.8))});
   later(()=>sound('slap',{pan}),210);later(()=>sound('burn',{pan}),170);later(()=>pulse('#burn-count'),1400);
  }
- // A persistent rule marker, independent of transient particles and move timing.
+ // Keep the board effect in sync without displaying rule reminders.
  function sync(game){
+  resultStage.sync(game);
   document.body.dataset.lowTurns=game.phase==='playing'?game.lowTurns:0;
-  document.querySelector('.fx-low-label')?.remove();
- }
- function cue(text,tone,snapshot,duration=1100){
-  const c=center(snapshot.pile),n=layer('fx-rule-cue '+tone);n.textContent=text;
-  n.style.cssText=`left:${c.x}px;top:${snapshot.pile.top-22}px`;
-  motion(n,[{opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.75},{opacity:0}],{duration,fill:'forwards'});removeLater(n,duration+50);
  }
  function ripple(snapshot,tone='gold'){
   if(reduced())return;
@@ -156,9 +167,14 @@ export function createTableEffects({sound=()=>{},nameForSeat=playerName}={}){
    motion(n,[{transform:'translate(-50%,-50%) scale(.65)',opacity:0},{opacity:.75,offset:.18},{transform:'translate(-50%,-50%) scale(1.7)',opacity:0}],{duration:800,delay:i*100,fill:'both',easing:ease});removeLater(n,1000);}
  }
  function reverse(snapshot,direction){
-  cue(direction===1?'Clockwise':'Counterclockwise','wind',snapshot,reduced()?1100:REVERSAL_DURATION);
   if(reduced()||document.hidden)return;
-  animateCanvas('fx-wind',REVERSAL_DURATION,createReversalWind(snapshot.pile,direction,{width:innerWidth,height:innerHeight}));
+  const wind=createReversalWind(snapshot.pile,direction,{width:innerWidth,height:innerHeight},rect('#board-lantern'));
+  const source=wind.geometry.source;
+  const light=layer('lantern-breath-light');
+  const size=Math.max(96,Math.min(190,snapshot.pile.width*1.5));
+  light.style.cssText=`left:${source.x}px;top:${source.y}px;width:${size}px;height:${size*1.3}px`;
+  motion(light,[{opacity:0},{opacity:.9,offset:.15},{opacity:.65,offset:.4},{opacity:0}],{duration:1150,fill:'both'});removeLater(light,1200);
+  animateCanvas('fx-wind lantern-wind',REVERSAL_DURATION,wind,wind.geometry.bounds);
  }
  function revealOutcome(stage,failed){
   stage.classList.add(failed?'is-failed':'is-safe');sound(failed?'dread':'relief');
@@ -168,48 +184,37 @@ export function createTableEffects({sound=()=>{},nameForSeat=playerName}={}){
   animateCanvas('fx-relief',750,(ctx,t,p)=>{for(const b of sparks){const d=b.speed*t;ctx.strokeStyle=`rgba(255,218,137,${1-p})`;ctx.lineWidth=b.size;ctx.beginPath();ctx.moveTo(c.x+Math.cos(b.angle)*d,c.y+Math.sin(b.angle)*d+45*t*t);ctx.lineTo(c.x+Math.cos(b.angle)*(d+6),c.y+Math.sin(b.angle)*(d+6)+45*t*t);ctx.stroke();}});
  }
  function blindFailure(snapshot,who){
-  cue(`Pick up ${snapshot.pileSize+1} cards`,'danger',snapshot);
   if(reduced())return;
   const n=layer('fx-alert');motion(n,[{opacity:0},{opacity:.65,offset:.18},{opacity:0}],{duration:550,fill:'forwards'});removeLater(n,600);
   const table=document.querySelector('.table');if(table)motion(table,[{transform:'translateX(0)'},{transform:'translateX(-6px)',offset:.18},{transform:'translateX(5px)',offset:.36},{transform:'translateX(-3px)',offset:.55},{transform:'translateX(2px)',offset:.75},{transform:'translateX(0)'}],{duration:360,easing:'ease-out'});
  }
- function victory(won,snapshot,game){
-  const arena=rect('.arena'),c=center(arena);
-  const banner=layer('fx-result '+(won?'is-victory':'is-defeat'));banner.removeAttribute('aria-hidden');banner.setAttribute('role','status');
-  banner.style.cssText=`left:${c.x}px;top:${c.y}px`;
-  const emblem=document.createElement('div');emblem.className='fx-result-emblem';emblem.innerHTML=won?'<svg viewBox="0 0 64 48" aria-hidden="true"><path d="m9 13 12 10L32 7l11 16 12-10-6 27H15Z"/><path d="M17 46h30"/></svg>':'<svg viewBox="0 0 64 48" aria-hidden="true"><path d="m9 7 23 12L55 7l-6 27-17 10-17-10Z"/><path d="m22 27 4 2m12 0 4-2m-13 7h6"/></svg>';
-  const title=document.createElement('strong');title.textContent=won?(game.winner===0?'You win.':'You escaped.'):game.players.length===2?`${nameForSeat(game.winner)} wins.`:'Round over.';const detail=document.createElement('span');detail.textContent=won?`${nameForSeat(game.loser??1)} is the Shithead.`:'You’re the Shithead.';banner.append(emblem,title,detail);
-  if(game.bet?.settled){const payout=document.createElement('span');payout.className='fx-payout';payout.textContent=game.bet.winner===0?`You won ${game.bet.pot.toLocaleString('en-US')} coins`:`${nameForSeat(game.bet.winner)} won the ${game.bet.pot.toLocaleString('en-US')}-coin pot`;banner.append(payout);}
-  if(!reduced()){
-   const fan=document.createElement('div');fan.className='fx-victory-fan';fan.setAttribute('aria-hidden','true');const art=[...snapshot.pileCards,...snapshot.incoming].slice(-3);art.forEach((card,i)=>{const n=copy(card);n.style.setProperty('--fan-angle',`${(i-(art.length-1)/2)*18}deg`);fan.append(n);motion(n,[{transform:'translateY(35px) rotate(0deg)',opacity:0},{transform:`translateY(0) rotate(${(i-(art.length-1)/2)*18}deg)`,opacity:1}],{duration:650,delay:i*70,easing:ease,fill:'forwards'});});banner.prepend(fan);
-   motion(banner,[{opacity:0,transform:'translate(-50%,-42%) scale(.94)',filter:'blur(7px)'},{opacity:1,transform:'translate(-50%,-50%) scale(1)',filter:'blur(0)'}],{duration:700,easing:ease,fill:'both'});
-  }
-  if(won){sound('win');const bits=Array.from({length:110},(_,i)=>({x:i%2?innerWidth*.15:innerWidth*.85,y:innerHeight*.6,vx:(i%2?1:-1)*rand(60,260),vy:rand(-440,-160),spin:rand(-8,8),size:rand(3,7),delay:rand(0,.35),color:['#dfc182','#fff0c5','#f8f5eb','#ac7f43'][i%4]}));
-   animateCanvas('fx-celebration',3400,(ctx,t,p)=>{for(const b of bits){const age=t-b.delay;if(age<0)continue;ctx.save();ctx.translate(b.x+b.vx*age,b.y+b.vy*age+150*age*age);ctx.rotate(age*b.spin);ctx.globalAlpha=Math.max(0,Math.min(1,(3.2-age)*1.5));ctx.fillStyle=b.color;ctx.scale(Math.cos(age*8)*.8,1);ctx.fillRect(-b.size/2,-b.size,b.size,b.size*1.6);ctx.restore();}});
-  }else sound('lose');
- }
  function turn(who){if(lastTurn===who)return;const changed=lastTurn!==null;lastTurn=who;if(changed&&who===0)sound('turn');pulse(who===0?'.status-copy':document.querySelector('.opponent-seat')?`.opponent-seat[data-seat="${who}"] .seat-heading`:'.opponent-info','fade');}
  function run(result,snapshot,game){
-  const previousTurn=lastTurn;clear();lastTurn=previousTurn;
+  const previousTurn=lastTurn;clear(resultStage.early && game.phase==='playing');lastTurn=previousTurn;
   const who=result.who??(result.pickup?1-game.turn:game.turn);
   const pan=seatPan(who,game.players.length);
-  if(result.burn)burn(snapshot,pan);
-  else if(result.pickup)pickup(snapshot,who,pan);
-  else if(result.ok){if(!snapshot.dragged)later(()=>land(result.cards?.length||1,{pan}),reduced()?0:340);}
+  if(result.burn){burn(snapshot,pan,false,()=>onBurn(result,game));}
+  else if(result.pickup&&!snapshot.physical)pickup(snapshot,who,pan);
+  else if(result.ok){if(!snapshot.dragged&&!snapshot.physical)later(()=>land(result.cards?.length||1,{pan}),reduced()?0:340);}
   if(result.blind)blindFailure(snapshot,who);
   if(!result.pickup&&!result.burn){
    const rank=result.cards?.[0]?.rank;
-   if(rank===7){sound('frost',{pan});ripple(snapshot,'ice');cue(`7 or lower · ${game.lowTurns} ${game.lowTurns===1?'play':'plays'}`,'ice',snapshot);}
+   if(rank===7){sound('frost',{pan});ripple(snapshot,'ice');}
    if(rank===15)sound('joker',{pan});
-   if(rank===2){sound('free',{pan});ripple(snapshot);cue(game.lowTurns ? `2 played · 7 or lower · ${game.lowTurns} ${game.lowTurns === 1 ? 'play' : 'plays'} remaining` : 'Free play','gold',snapshot);}
+   if(rank===2){sound('free',{pan});ripple(snapshot);}
   }
   if(reversalOccurs(result)){sound('reverse',{pan});reverse(snapshot,game.direction);}
   sync(game);
   turn(game.turn);
-  if(result.wentOut&&who===0&&game.phase!=='finished'){sound('escape');const note=layer('fx-burn-note');note.textContent='You’re out.';const c=center(rect('#hand'));note.style.cssText=`left:${c.x}px;top:${c.y}px`;removeLater(note,1600);}
-  if(game.phase==='finished')later(()=>victory(game.loser!=null?game.loser!==0:game.winner===0,snapshot,game),result.burn&&!reduced()?1700:300);
+  if(result.wentOut&&who===0&&game.phase!=='finished')later(()=>resultStage.show(game),result.burn&&!reduced()?BURN_DURATION:reduced()?0:450);
+  if(result.wentOut&&who!==0&&game.phase!=='finished'){
+    sound('escape');const note=layer('fx-escape-note');note.textContent=who===0?'You’re out!':`${nameForSeat(who)} is out!`;
+    const seat=who?(snapshot.opponents[who]||snapshot.opponent):snapshot.hand,c=center(seat);
+    note.style.cssText=`left:${c.x}px;top:${c.y}px`;removeLater(note,2500);
+    if(!reduced())motion(note,[{opacity:0,transform:'translate(-50%,-35%) scale(.9)'},{opacity:1,transform:'translate(-50%,-50%) scale(1)',offset:.2},{opacity:1,offset:.8},{opacity:0,transform:'translate(-50%,-65%)'}],{duration:2500,fill:'both'});
+  }
+  if(game.phase==='finished')later(()=>resultStage.show(game),result.burn&&!reduced()?BURN_DURATION:reduced()?0:450);
  }
- function clear(){for(const cancel of jobs)cancel();jobs.clear();for(const node of nodes)node.remove();nodes.clear();lastTurn=null;}
- window.addEventListener('resize',()=>{const banner=document.querySelector('.fx-result');if(!banner)return;const c=center(rect('.arena'));banner.style.left=c.x+'px';banner.style.top=c.y+'px';});
- return{capture,run,clear,pulse,land,sync,revealOutcome,restore(game){sync(game);if(game.phase==='finished')victory(game.loser!=null?game.loser!==0:game.winner===0,{pileCards:[],incoming:[]},game);}};
+ function clear(preserveResult=false){if(!preserveResult)resultStage.clear();forgeBusy=false;for(const cancel of jobs)cancel();jobs.clear();for(const node of nodes)node.remove();nodes.clear();lastTurn=null;}
+ return{capture,run,clear,pulse,land,sync,revealOutcome,get busy(){return forgeBusy||resultStage.blocking;},restore(game){sync(game);if(game.phase==='finished')resultStage.show(game,{restored:true});}};
 }

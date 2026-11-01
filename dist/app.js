@@ -1,5 +1,8 @@
+import { createCardMotion } from './card-motion.js';
+import './menu-controls.js';
 import { createBank } from './bank.js';
 import { createFortune } from './fortune.js';
+import { projectEvent } from './multiplayer/session.js';
 import {tableView,tableEvent} from './multiplayer/table-view.js';
 import { createLivingBoard } from './living-board.js';
 import { animateContributions, animatePayout } from './wager-table.js';
@@ -11,11 +14,12 @@ import { attachCardTouch } from './tactile.js';
 import { createBottleSpin } from './bottle.js';
 import { createOpponentSeats } from './opponents.js';
 import { preloadCardArtwork, svgCard } from './card-art.js';
-import { createTableEffects } from './effects.js';
+import { createTableEffects, BURN_DURATION } from './effects.js';
+import { prepareVictoryFonts } from './victory.js';
 import { REVERSAL_DURATION, reversalOccurs } from './reversal-wind.js';
 import { reconcile, captureCards, animateCards, dealOrder } from './rendering.js';
 import { toggleSelection, dragSelection, attachCardDrag } from './interactions.js';
-import { createHearthstoneSpotlight } from './card-spotlight.js';
+import { createCardSpotlight } from './card-spotlight.js';
 import { createGame, start, swap, play, pickup, zone, legal, rankName, chooseMove, topRank, topCard, aceOptions, assertGame, playerName as soloPlayerName, remaining } from './engine.js';
 const $ = id => document.getElementById(id), KEY = 'shithead-table-v2' + (['localhost', '127.0.0.1'].includes(location.hostname) && new URLSearchParams(location.search).has('qa') ? '-qa' : ''); let game, selected = [], swapHand = null, timer = null, sound = false, stats = { you: 0, fox: 0 }, notice = '', dealing = false, dealVisible = new Set(), dealInFlight = null, dealRun = 0, loadedGame = false, menuOpen = true, sessionStarted = false, fastForward = false, pendingPlayerCount = null, preferences = { playerCount: 2, sound: true, soundPreferenceSet: false, reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches };
 let onlineSession = null, soloGame = null, onlineEventId = 0;
@@ -63,14 +67,21 @@ const saveWarningNode = document.createElement('p');
 saveWarningNode.setAttribute('role', 'status'); saveWarningNode.hidden = !saveWarning;
 saveWarningNode.textContent = 'Your saved game could not be resumed. Start a new game to continue.';
 $('menu-actions').after(saveWarningNode);
-const effects = createTableEffects({ sound: effectSound, nameForSeat: playerName });
+const effects = createTableEffects({ sound: effectSound, nameForSeat: playerName,
+  onReplay: () => newGame(), onContinue: () => schedule(0), onMenu: () => openMenu(),
+  replayState: () => ({label: onlineSession && !onlineSession.host ? 'Awaiting host' : 'Play again', disabled: bankBusy || !!onlineSession && (!onlineSession.host || onlineLocked()), note: onlineSession && !onlineSession.host ? 'The host will deal your next round.' : onlineSession?.paused ? 'A player disconnected. You can return to the tavern.' : ''}),
+  onBurn(result, burnedGame) {
+  if (burnedGame !== game) return;
+  livingBoard.react(result, burnedGame); save();
+} });
+const cardMotion = createCardMotion({ sound: cardSound, land: (...args) => effects.land(...args) });
 const livingBoard = createLivingBoard({ sound: effectSound, interact: prop => {
   if (onlineSession) return onlineSession.interactBoard(prop);
   livingBoard.interact({ prop, seed: crypto.getRandomValues(new Uint32Array(1))[0] });
 } });
-const bottle = createBottleSpin({ sound: cardSound, nameForSeat: playerName });
-let spinning = false, spinRun = 0, finalSequence = 0, finalBusy = false;
-function cancelFinalSequence() { finalSequence++; finalBusy = false; document.querySelector('.final-reveal')?.remove(); $('hand').inert = false; $('pickup').disabled = false; }
+const bottle = createBottleSpin({ sound: cardSound, nameForSeat: playerName, portraitForSeat: who=>onlineSession?game.players[who]?.portrait:null });
+let spinning = false, spinRun = 0, finalSequence = 0, finalBusy = false, activeReveal = null;
+function cancelFinalSequence() { finalSequence++; finalBusy = false; activeReveal?.cancel(); activeReveal = null; document.querySelector('.final-reveal')?.remove(); $('hand').inert = false; $('pickup').disabled = false; }
 function cancelSpin() { spinRun++; bottle.cancel(); spinning = false; }
 async function spinForStart() {
   if (spinning || dealing || game.phase !== 'setup') return;
@@ -120,6 +131,17 @@ function shown(cards) { return dealing ? cards.filter(c => dealVisible.has(c.id)
 // Physical actions and table events share one sample-based mixer.
 function cardSound(kind = 'tap', options) { return gameAudio.play(kind, options); }
 function effectSound(kind, options) { return gameAudio.play(kind, options); }
+let unlockConfirmationTimer;
+document.addEventListener('portrait-shortcut-unlocked', () => {
+  const confirmation = $('unlock-confirmation');
+  clearTimeout(unlockConfirmationTimer);
+  confirmation.textContent = '✦ All characters unlocked!';
+  confirmation.hidden = false;
+  // Restart the flourish if the code is entered again while the notice is visible.
+  confirmation.getAnimations().forEach(animation => { animation.cancel(); animation.play(); });
+  effectSound('reward');
+  unlockConfirmationTimer = setTimeout(() => { confirmation.hidden = true; confirmation.textContent = ''; }, 4200);
+});
 function reserve(who) {
   const p = game.players[who], container = $('player-table'), group = reserveGroups[who];
   const inTray = !who && !dealing && game.phase !== 'setup' && game.phase !== 'finished' && !p.hand.length;
@@ -171,11 +193,11 @@ function chooseSwapCard(c) {
   cardSound('flick'); render();
 }
 function tableSelect(c) {
-  if (onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return;
+  if (finalBusy || cardMotion.busy || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return;
   if (game.phase === 'setup') chooseSwapCard(c); else select(c);
 }
 function select(c) {
-  if (onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return;
+  if (finalBusy || cardMotion.busy || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return;
   if (game.pendingAce) return;
   if (game.phase === 'setup') {
     chooseSwapCard(c); return;
@@ -196,7 +218,7 @@ function select(c) {
     const fourBurnOnly = matching.length >= 4 && !legal(c, game.pile, game.lowTurns);
     if (!legal(c, game.pile, game.lowTurns) && !fourBurnOnly) {
       effectSound('reject');
-      notice = game.lowTurns ? `Play 7 or lower (${game.lowTurns} low ${game.lowTurns === 1 ? 'turn' : 'turns'} left), 4 matching cards to burn, a 2, joker or 10.` : `Match or beat ${rankName(topRank(game.pile))}, or use 4 matching cards to burn, a 2, joker or 10.`;
+      notice = ''; 
       render();
       return;
     }
@@ -237,7 +259,7 @@ function render({ animate = false, skipMotion = [] } = {}) {
   $('play').classList.toggle('royal-button', finished);
   $('play').innerHTML = (dealing && !game.dealComplete) ? 'Skip deal <span>→</span>' : setup ? `Start game <span>→</span>` : finished ? `Play again` : mustPickup ? pickupButtonArt() + `<span class="pickup-required-count">${game.pile.length} ${game.pile.length === 1 ? 'card' : 'cards'}</span>` : selected.length ? `Play ${selected.length === 1 ? 'card' : selected.length + ' cards'} <span>→</span>` : 'Play <span>→</span>';
   if (mustPickup) $('play').setAttribute('aria-label', `Pick up pile. ${game.pile.length} cards. No playable cards.`); else $('play').removeAttribute('aria-label');
-  $('ace-choice').hidden = !choosingAce; $('ace-choice').style.display = choosingAce ? 'flex' : 'none'; if (choosingAce) $('play').hidden = true; $('ace-low').disabled = !choosingAce; $('ace-high').disabled = !choosingAce;
+  $('ace-choice').hidden = true; $('ace-choice').style.display = 'none'; if (choosingAce) $('play').hidden = true; $('ace-low').disabled = !choosingAce; $('ace-high').disabled = !choosingAce;
   document.body.dataset.mustPickup = String(mustPickup);
   document.querySelector('.status-copy').hidden = spinning || (!setup && !finished && !dealing);
   $('pickup').hidden = !canPickup || mustPickup;
@@ -258,60 +280,99 @@ function render({ animate = false, skipMotion = [] } = {}) {
   }
   $('announcement').textContent = dealing ? `Dealing the cards · ${dealVisible.size} of ${game.players.length * 9}` : notice || (!setup && game.log[0]) || 'A good hand starts with a little scheming.';
   let title, detail = ''; if (spinning) title = ''; else if (dealing) title = 'Dealing…'; else if (setup) { const isUp = swapHand && p.up.some(u => u.id === swapHand); title = isUp ? 'Choose a card in hand' : swapHand ? 'Choose a face-up card' : 'Swap cards, or start'; } else if (finished) title = game.loser === 0 ? 'You’re the Shithead' : `${playerName(game.loser)} is the Shithead`; else title = ''; $('announcement').textContent = notice; $('status-title').textContent = title; $('status-title').classList.toggle('win-title', finished); $('status-detail').textContent = detail; $('status-dot').style.background = finished ? '#b78a36' : mustPickup ? '#d49938' : human || setup ? '#618151' : '#b89c56'; $('history-list').replaceChildren(...game.log.slice(0, 60).map(msg => { const li = document.createElement('li'); li.textContent = msg; return li; })); if (focus) document.querySelector(`[data-card-id="${CSS.escape(focus)}"]`)?.focus({ preventScroll: true }); if (previous) animateCards(previous, skipMotion); effects.sync(game); livingBoard.sync(game); updateHandScrollButtons(); syncOnlineControls(); syncSwapGuide(); if (pendingSwapCapture && p.hand.some(c => c.id === pendingSwapCapture.upId) && p.up.some(c => c.id === pendingSwapCapture.handId)) { animateCards(pendingSwapCapture.before); pendingSwapCapture = null; } if (!setup) pendingSwapCapture = null;
+  if (choosingAce && !finalBusy && !activeReveal && !menuOpen) {
+    finalBusy = true; clearTimeout(timer);
+    activeReveal = createCardSpotlight({ card: chosenCard, result: { needsAceChoice: true }, isBlind: false,
+      reducedMotion: preferences.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches, sound: effectSound,
+      onChoose: value => { const ids = game.pendingAce || [...selected]; cancelFinalSequence(); move(ids, value); }
+    });
+  }
+
 }
 let lastPlayedBy = null;
-function after(result, skipMotion = [], payout = false) { if (!result.ok) return;
+function after(result, skipMotion = [], payout = false) {
+  if (!result.ok) return;
   if (!onlineSession && game.bet && !game.bet.settled && Number.isInteger(game.winner)) {
     bankBusy = true;
     settleCurrent().then(paid => { bankBusy = false; after(result, skipMotion, paid); }).catch(error => { bankBusy = false; bankError(error); render(); });
     return;
-  } const previousPhase = document.body.dataset.phase; if (result.pickup && lastPlayedBy !== result.who) renderOpponents.react(lastPlayedBy, 'smug'); if (result.wentOut) renderOpponents.react(result.who, 'out'); lastPlayedBy = result.pickup || result.burn || result.wentOut ? null : result.who; const spectacle = effects.capture(result); spectacle.dragged = skipMotion.length > 0; selected = []; swapHand = null; notice = ''; const paid = payout; result.potPaid = paid; if (paid && game.bet.winner === 0) { effectSound('reward'); effectSound('coins', { shower: true }); } if (paid) notice = game.bet.winner === 0 ? `You won the ${coins(game.bet.pot)}-coin pot!` : `${playerName(game.bet.winner)} won the ${coins(game.bet.pot)}-coin pot.`; if (result.pickup && !skipMotion.length) cardSound('pickup'); if (result.blind) notice = `${playerName(result.who)} flipped ${rankName(result.blind.rank)}. Too low — pick up the pile.`; if (game.phase === 'finished') { if (game.loser !== 0) stats.you++; else stats.fox++; } game.log = game.log.slice(0, 100); render({ animate: !fastForward && !result.pickup, skipMotion }); livingBoard.react(result, game); const nextPhase = document.body.dataset.phase; if (result.who === 0 && previousPhase !== nextPhase && ['up', 'down'].includes(nextPhase)) phaseArrival(nextPhase); if (fastForward && game.phase !== 'finished') effects.clear(); else effects.run(result, spectacle, game); save(); if (result.wentOut && !result.wasBlind && !fastForward && result.cards?.length) { const run = ++finalSequence; finalBusy = true; clearTimeout(timer); createHearthstoneSpotlight({ card: result.cards[0], who: result.who, result, pileSize: result.pileSize || 0, isBlind: false, reducedMotion: preferences.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches, fastForward, sound: effectSound, revealOutcome: effects.revealOutcome, onComplete: () => { if (run !== finalSequence) return; cancelFinalSequence(); render(); if (paid) animatePayout(game.bet.winner); schedule(1000); } }); } else { schedule(fastForward ? 120 : reversalOccurs(result) && !preferences.reducedMotion && !matchMedia('(prefers-reduced-motion: reduce)').matches ? REVERSAL_DURATION + 100 : result.burn ? 2100 : 1000); } }
+  }
+  const previousPhase = document.body.dataset.phase;
+  if (result.pickup && lastPlayedBy !== result.who) renderOpponents.react(lastPlayedBy, 'smug');
+  if (result.wentOut) renderOpponents.react(result.who, 'out');
+  lastPlayedBy = result.pickup || result.burn || result.wentOut ? null : result.who;
+  const spectacle = effects.capture(result);
+  const physical = cardMotion.enabled && !fastForward && !!result.motionSnapshot && !result.wasBlind;
+  spectacle.physical = physical;
+  spectacle.dragged = false;
+  selected = []; swapHand = null; notice = '';
+  const paid = payout; result.potPaid = paid;
+  if (paid) notice = game.bet.winner === 0 ? `You won the ${coins(game.bet.pot)}-coin pot!` : `${playerName(game.bet.winner)} won the ${coins(game.bet.pot)}-coin pot.`;
+  if (result.blind && result.who === 0) notice = '';
+  if (result.blind && result.who !== 0) game.log[0] = `${playerName(result.who)} picked up the pile.`;
+  if (game.phase === 'finished') { if (game.loser !== 0) stats.you++; else stats.fox++; }
+  game.log = game.log.slice(0, 100);
+  const movingIds = physical ? [...(result.cards || []).map(c => c.id), ...game.players[result.who].hand.filter(c => !result.motionSnapshot.hands[result.who].has(c.id)).map(c => c.id)] : skipMotion;
+  render({ animate: !fastForward, skipMotion: movingIds });
+  save();
+  const currentGame = game;
+  const finish = () => {
+    if (game !== currentGame) return;
+    if (menuOpen) { effects.sync(game); return; }
+    if (!result.burn) livingBoard.react(result, game);
+    const nextPhase = document.body.dataset.phase;
+    if (result.who === 0 && previousPhase !== nextPhase && ['up', 'down'].includes(nextPhase)) phaseArrival(nextPhase);
+    if (fastForward && game.phase !== 'finished') effects.clear(); else effects.run(result, spectacle, game);
+    if (paid && game.phase !== 'finished' && game.bet.winner !== 0) animatePayout(game.bet.winner);
+    const sharedBeat = result.burn ? BURN_DURATION : reversalOccurs(result) ? REVERSAL_DURATION + 300 : result.wentOut ? 2500 : 0;
+    if (sharedBeat && !fastForward && game.phase !== 'finished') {
+      const run = ++finalSequence; finalBusy = true; clearTimeout(timer);
+      timer = setTimeout(() => { if (run !== finalSequence || game !== currentGame) return; finalBusy = false; render(); schedule(0); }, sharedBeat);
+    } else schedule(fastForward ? 120 : 1000);
+  };
+  if (result.present) {
+    const present = result.present; delete result.present; present(finish);
+  } else if (physical) {
+    clearTimeout(timer);
+    cardMotion.run(result.motionSnapshot, game, result).then(finish).catch(error => { console.error('Card travel failed', error); cardMotion.cancel(); finish(); });
+  } else finish();
+}
 function phaseArrival(phase) { effectSound('phase'); const panel = $('hand'); panel.classList.remove('phase-arrival'); void panel.offsetWidth; panel.classList.add('phase-arrival'); notice = phase === 'up' ? 'Hand cleared. Your face-up cards are in play.' : 'Face-up cards cleared. The final cards are blind.'; $('announcement').textContent = notice; }
-function playTurn(ids, options = {}, skipMotion = []) {
-  if (bankBusy) return;
-  const who = game.turn, p = game.players[who], pileSize = game.pile.length, prevDeck = game.deck.length;
+function playTurn(ids, options = {}, skipMotion = [], dragFrom = null) {
+  if (bankBusy || effects.busy || cardMotion.busy) return;
+  const motionSnapshot = cardMotion.capture(game, ids);
+  if (dragFrom) ids.forEach((id, i) => motionSnapshot.cards.set(id, { rect: { ...dragFrom, left: dragFrom.left + i * 5, top: dragFrom.top - i * 3 }, back: false }));
+  const who = game.turn, p = game.players[who], pileSize = game.pile.length;
   if (zone(p) !== 'down' || fastForward || game.pendingAce) {
-    const result = play(game, ids, options); result.pileSize = pileSize;
+    const result = play(game, ids, options); result.pileSize = pileSize; result.motionSnapshot = motionSnapshot;
     if (result.needsAceChoice) { notice = 'Choose 1 or high (14) to finish playing this ace.'; effectSound('heartbeat'); render(); save(); return; }
-    if (game.deck.length < prevDeck && !result.pickup) cardSound('draw', { pan: who === 0 ? -0.15 : 0.15, delay: 0.1 });
     after(result, skipMotion);
     return;
   }
   const chosen = p.down.find(c => c.id === ids[0]); if (!chosen) return;
-  const run = ++finalSequence; finalBusy = true; $('hand').inert = true; $('pickup').disabled = true; clearTimeout(timer);
-  const topRankBefore = topRank(game.pile);
-  const lowTurnsBefore = game.lowTurns;
-  // Commit and save before showing a rank: animation cancellation must never undo a flip.
+  const sourceRect = document.querySelector(`[data-card-id="${CSS.escape(chosen.id)}"]`)?.getBoundingClientRect();
+  const topRankBefore = topRank(game.pile), lowTurnsBefore = game.lowTurns;
   const result = play(game, ids, options);
-  result.wasBlind = true; result.pileSize = pileSize;
-  if (result.needsAceChoice) {
-    selected = []; notice = 'Choose 1 or high (14) to finish playing this ace.'; effectSound('heartbeat'); render(); save();
-  } else if (result.ok) after(result, skipMotion);
-  else { cancelFinalSequence(); return; }
-  const reduced = preferences.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches;
-  createHearthstoneSpotlight({
-    card: chosen,
-    who,
-    result,
-    pileSize,
-    topRankBefore,
-    lowTurns: lowTurnsBefore,
-    isBlind: true,
-    reducedMotion: reduced,
-    fastForward,
-    sound: effectSound,
-    revealOutcome: effects.revealOutcome,
-    onComplete: () => {
-      if (run !== finalSequence) return;
-      cancelFinalSequence();
-      render();
-      if (result.potPaid) animatePayout(game.bet.winner);
-      schedule(result.burn ? 2100 : 1000);
-    }
-  });
+  result.wasBlind = true; result.pileSize = pileSize; result.topRankBefore = topRankBefore; result.lowTurns = lowTurnsBefore;
+  if (!result.ok && !result.needsAceChoice) return;
+  save(); // A committed flip survives cancellation and refresh.
+  if (who !== 0) { after(result, skipMotion); return; }
+  const present = complete => {
+    const run = ++finalSequence; finalBusy = true; clearTimeout(timer);
+    $('hand').inert = true; $('pickup').disabled = true;
+    activeReveal = createCardSpotlight({ card: chosen, who, result, isBlind: true, sourceRect,
+      reducedMotion: preferences.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches,
+      sound: effectSound,
+      onChoose: value => { if (run !== finalSequence) return; cancelFinalSequence(); move(game.pendingAce, value); },
+      onComplete: () => { if (run !== finalSequence) return; cancelFinalSequence(); complete(); }
+    });
+  };
+  if (result.needsAceChoice) present(() => {});
+  else { result.present = present; after(result, skipMotion); }
+
 }
 function move(ids, aceValue, dragged = false) {
-  if (bankBusy || finalBusy || spinning || onlineLocked() || game.turn !== 0 || game.phase !== 'playing') return;
+  if (bankBusy || effects.busy || cardMotion.busy || finalBusy || spinning || onlineLocked() || game.turn !== 0 || game.phase !== 'playing') return;
   if (onlineSession) {
     if (zone(game.players[0]) === 'down' && !game.pendingAce) {
       const index = game.players[0].down.findIndex(c => c.id === ids[0]);
@@ -319,13 +380,13 @@ function move(ids, aceValue, dragged = false) {
     } else onlineSession.act('play', {ids, aceValue});
     return;
   }
-  playTurn(ids, { aceValue, requestChoice: true }, dragged ? ids : []);
+  playTurn(ids, { aceValue, requestChoice: true }, dragged ? ids : [], typeof dragged === 'object' ? dragged : null);
 }
 // Rendering must not advance the AI's repeated-position detector.
 function hasPlayableCards(who = game.turn) { const p = game.players[who], z = zone(p); return z === 'down' || p[z].some(c => legal(c, game.pile, game.lowTurns) || p[z].filter(other => other.rank === c.rank).length >= 4); }
-function takePile() { if (bankBusy) return {ok:false}; if (onlineSession) { if (!onlineLocked()) {selected=[]; onlineSession.act('pickup');} return {ok:false}; } const pileSize = game.pile.length; return { ...pickup(game), pileSize }; }
+function takePile() { if (finalBusy || bankBusy || effects.busy || cardMotion.busy) return {ok:false}; if (onlineSession) { if (!onlineLocked()) {selected=[]; onlineSession.act('pickup');} return {ok:false}; } const pileSize = game.pile.length, motionSnapshot = cardMotion.capture(game); return { ...pickup(game), pileSize, motionSnapshot }; }
 function canRunAI() {
-  return !bankBusy && !onlineSession && !finalBusy && !menuOpen && !dealing && !spinning && !document.querySelector('dialog[open]') && game.phase === 'playing' && game.turn !== 0;
+  return !bankBusy && !effects.busy && !cardMotion.busy && !onlineSession && !finalBusy && !menuOpen && !dealing && !spinning && !document.querySelector('dialog[open]') && game.phase === 'playing' && game.turn !== 0;
 }
 function schedule(delay = 1000) {
   clearTimeout(timer);
@@ -335,6 +396,7 @@ function schedule(delay = 1000) {
   }, fastForward ? 120 : delay);
 }
 async function newGame(count = game.players.length, stake = game.bet?.stake || preferences.stake) {
+  cardMotion.cancel();
   if (bankBusy) return false;
   if (!onlineSession && game.bet && !game.bet.settled && Number.isInteger(game.winner)) {
     bankBusy = true;
@@ -359,7 +421,7 @@ async function newGame(count = game.players.length, stake = game.bet?.stake || p
     bankBusy = false; $('restart-dialog').close(); openMenu(); showSetup(true); bankError(error); return false;
   }
   bankBusy = false; saveWarningNode.hidden = true; lastPlayedBy = null; renderOpponents.clear();
-  cancelFinalSequence(); cancelSpin(); effects.clear(); clearTimeout(timer); fastForward = false;
+  cardMotion.cancel(); cancelFinalSequence(); cancelSpin(); effects.clear(); clearTimeout(timer); fastForward = false;
   game = nextGame; selected = []; swapHand = null; notice = ''; loadedGame = true; $('restart-dialog').close(); dealGame();
   return true;
 }
@@ -393,14 +455,14 @@ $('ace-low').onclick = () => { cardSound('confirm'); move(game.pendingAce || sel
 $('play').onclick = () => { if (dealing) { finishDeal(); return; } if (game.phase === 'setup') { spinForStart(); } else if (game.phase === 'finished') newGame(); else { const canPick = !finalBusy && !spinning && game.turn === 0 && game.phase === 'playing' && game.pile.length > 0 && !game.pendingAce; const mustPick = canPick && !selected.length && !hasPlayableCards(0); if (mustPick) after(takePile()); else move(selected); } };
 $('pickup').onclick = () => { if (!finalBusy && !spinning && game.turn === 0) after(takePile()); };
 $('pile').onclick = () => { if (finalBusy || spinning || game.turn !== 0 || game.phase !== 'playing') return; if (selected.length > 0 && zone(game.players[0]) !== 'down') { move(selected); return; } if (game.pile.length > 0 && !game.pendingAce) { after(takePile()); } };
-$('new-game').onclick = () => onlineSession || game.phase === 'finished' ? newGame() : $('restart-dialog').showModal(); $('confirm-restart').onclick = newGame; $('cancel-restart').onclick = () => $('restart-dialog').close(); $('rules').onclick = () => $('rules-dialog').showModal(); $('credits').onclick = () => $('credits-dialog').showModal(); $('rules-credits').onclick = () => { $('rules-dialog').close(); $('credits-dialog').showModal(); }; document.querySelectorAll('.close-dialog,.close-rules').forEach(b => b.onclick = () => b.closest('dialog').close()); document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) { const r = d.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close(); } })); $('history-toggle').onclick = () => { $('history').hidden = !$('history').hidden; $('history-toggle').textContent = $('history').hidden ? 'History' : 'Close history'; $('history-toggle').setAttribute('aria-expanded', String(!$('history').hidden)); }; $('sound').onclick = () => setSound(!sound); document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (game.phase === 'setup' && swapHand && !menuOpen) { e.preventDefault(); selected = []; swapHand = null; notice = ''; render(); return; } if (document.querySelector('.card-spotlight-backdrop')) return; if (!$('history').hidden && !document.querySelector('dialog[open]')) { e.preventDefault(); $('history-toggle').click(); $('mobile-menu-btn').focus({ preventScroll: true }); return; } const openDialog = document.querySelector('dialog[open]'); if (openDialog) return; if (!menuOpen && !$('game-view').hidden) { e.preventDefault(); openInGameMenu(); } } if (e.key === '?' && !document.querySelector('dialog[open]')) $('rules-dialog').showModal(); if (!menuOpen && e.key === 'Enter' && e.target === document.body && !$('play').disabled && !$('play').hidden) $('play').click(); });
+$('new-game').onclick = () => onlineSession || game.phase === 'finished' ? newGame() : $('restart-dialog').showModal(); $('confirm-restart').onclick = newGame; $('cancel-restart').onclick = () => $('restart-dialog').close(); $('rules').onclick = () => $('rules-dialog').showModal(); $('credits').onclick = () => $('credits-dialog').showModal(); $('rules-credits').onclick = () => { $('rules-dialog').close(); $('credits-dialog').showModal(); }; document.querySelectorAll('.close-dialog,.close-rules').forEach(b => b.onclick = () => b.closest('dialog').close()); document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) { const r = d.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close(); } })); $('history-toggle').onclick = () => { $('history').hidden = !$('history').hidden; $('history-toggle').textContent = $('history').hidden ? 'History' : 'Close history'; $('history-toggle').setAttribute('aria-expanded', String(!$('history').hidden)); }; $('sound').onclick = () => setSound(!sound); document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (game.phase === 'setup' && swapHand && !menuOpen) { e.preventDefault(); selected = []; swapHand = null; notice = ''; render(); return; } if (document.querySelector('.card-reveal')) return; if (!$('history').hidden && !document.querySelector('dialog[open]')) { e.preventDefault(); $('history-toggle').click(); $('mobile-menu-btn').focus({ preventScroll: true }); return; } const openDialog = document.querySelector('dialog[open]'); if (openDialog) return; if (!menuOpen && !$('game-view').hidden) { e.preventDefault(); openInGameMenu(); } } if (e.key === '?' && !document.querySelector('dialog[open]')) $('rules-dialog').showModal(); if (!menuOpen && e.key === 'Enter' && e.target === document.body && !$('play').disabled && !$('play').hidden) $('play').click(); });
 attachCardDrag({
   onSwapHint(name) {
     if(name===null){syncSwapGuide();return;}
     $('swap-instruction').textContent = name ? `Release to swap with ${name}.` : 'Move to the other row. Release outside to cancel.';
   },
   onGather() { cardSound('gather'); }, onReturn() { cardSound('return'); }, onLand(mode, count) { if (mode === 'swap') cardSound('tap'); else if (game.pile.length) effects.land(count); }, context(id) {
-    if (bankBusy || menuOpen || dealing || spinning || finalBusy || game.pendingAce || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return null;
+    if (bankBusy || effects.busy || cardMotion.busy || menuOpen || dealing || spinning || finalBusy || game.pendingAce || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return null;
     const p = game.players[0];
     if (game.phase === 'setup') {
       const source = p.hand.some(c => c.id === id) ? 'hand' : p.up.some(c => c.id === id) ? 'up' : null;
@@ -417,8 +479,8 @@ attachCardDrag({
     if (mode === 'swap') {
       const p = game.players[0], fromHand = p.hand.some(c => c.id === ids[0]);
       exchangeCards(fromHand ? ids[0] : targetId, fromHand ? targetId : ids[0], {draggedId: ids[0], from});
-    } else move(ids, undefined, true);
-  }, onReject() { effectSound('reject'); notice = game.lowTurns ? 'Play 7 or lower, 4 matching cards to burn, an ace as 1, a 2, joker or 10.' : 'Match or beat the pile, use 4 matching cards to burn, or play a 2, joker or 10.'; render(); }
+    } else move(ids, undefined, from || true);
+  }, onReject() { effectSound('reject'); notice = ''; render(); }
 });
 
 function seatPan(who, total = 2) {
@@ -463,7 +525,7 @@ function setSound(value, feedback = true, explicitChoice = true) {
   gameAudio.setEnabled(true);
   if (sound && feedback) { const epoch = gameAudio.status().epoch; gameAudio.ready().then(() => { if (sound && gameAudio.status().epoch === epoch) gameAudio.play('on'); }); }
 }
-async function enterGame(fresh = false) {
+export async function enterGame(fresh = false) {
   if (!await ensureCardArtwork()) { showSetup(true); return false; }
   menuMusic.setActive(false);
   menuOpen = false; $('main-menu').hidden = true; $('game-view').hidden = false; $('game-view').inert = false; document.body.classList.remove('menu-open');
@@ -471,7 +533,7 @@ async function enterGame(fresh = false) {
   if (!$('play').hidden) $('play').focus({ preventScroll: true });
   return true;
 }
-function openMenu() { if (onlineSession) { if (game.phase !== 'finished' && !confirm(onlineSession.host ? 'Close this table for everyone and return to the menu?' : 'Leave this table and return to the menu?')) return; endOnlineTable(); } menuMusic.setActive(true); gameAudio.stop(); cancelFinalSequence(); cancelSpin(); effects.clear(); if (dealing) finishDeal(); clearTimeout(timer); menuOpen = true; $('game-view').hidden = true; $('game-view').inert = true; $('main-menu').hidden = false; document.body.classList.add('menu-open'); showSetup(false); $('menu-play').focus({ preventScroll: true }); }
+function openMenu() { if (onlineSession) { if (game.phase !== 'finished' && !confirm(onlineSession.host ? 'Close this table for everyone and return to the menu?' : 'Leave this table and return to the menu?')) return; endOnlineTable(); } menuMusic.setActive(true); gameAudio.stop(); cardMotion.cancel(); cancelFinalSequence(); cancelSpin(); effects.clear(); if (dealing) finishDeal(); clearTimeout(timer); menuOpen = true; $('game-view').hidden = true; $('game-view').inert = true; $('main-menu').hidden = false; document.body.classList.add('menu-open'); showSetup(false); $('menu-play').focus({ preventScroll: true }); }
 function showSetup(show) { $('single-setup').hidden = !show; $('menu-actions').hidden = show; document.querySelector('.menu-center').classList.toggle('choosing-players', show); renderCoins(); if (show) { $('main-menu').scrollTop = 0; document.querySelector('input[name=players]:checked').focus({ preventScroll: true }); } else $('menu-play').focus({ preventScroll: true }); }
 function updateCount(count) {
   preferences.playerCount = count; document.querySelector(`input[name=players][value="${count}"]`).checked = true;
@@ -712,7 +774,8 @@ function syncOnlineControls() {
   }
 }
 function endOnlineTable(keepSession = false) {
-  dealRun++; cancelFinalSequence(); cancelSpin(); clearTimeout(timer); effects.clear();
+  onlineFrames = []; clearTimeout(onlinePresentationTimer);
+  dealRun++; cardMotion.cancel(); cancelFinalSequence(); cancelSpin(); clearTimeout(timer); effects.clear();
   document.querySelectorAll('.deal-flight').forEach(n => n.remove());
   dealing = false; onlineSession = null; onlineEventId = 0;
   game = soloGame || game; soloGame = null; selected = []; swapHand = null; notice = '';
@@ -736,29 +799,38 @@ function adoptPlayedCardNodes(result) {
     node.dataset.cardId = face.id; node.dataset.renderKey = face.id;
   }
 }
-function receiveOnlineTable(session) {
+let onlineFrames = [], onlinePresentationTimer = null;
+function receiveOnlineTable(session, frame = null) {
   if (!session?.view || session.closed) return;
   const localSeat = session.members.findIndex(m => m.id === session.id);
   if (localSeat < 0) return;
+  if (finalBusy && onlineSession === session && !frame && !session.paused) {
+    const captured = structuredClone({view:session.view,event:session.event,message:session.message});
+    if (captured.event?.id !== onlineEventId && onlineFrames.at(-1)?.event?.id !== captured.event?.id) onlineFrames.push(captured);
+    return;
+  }
+  if (session.paused) { onlineFrames = []; clearTimeout(onlinePresentationTimer); cancelFinalSequence(); }
+  const update = frame || session;
   const first = onlineSession !== session;
   if (first) {
     soloGame = game; onlineSession = session; onlineEventId = 0;
     session.onBoardEffect = effect => { if (onlineSession === session) livingBoard.interact(effect); };
-    cancelFinalSequence(); cancelSpin(); effects.clear(); clearTimeout(timer);
+    cardMotion.cancel(); cancelFinalSequence(); cancelSpin(); effects.clear(); clearTimeout(timer);
     dealRun++; dealing = false; selected = []; swapHand = null; lastPlayedBy = null;
     document.querySelectorAll('.deal-flight').forEach(n => n.remove());
     renderOpponents.clear();
   }
   const previousPhase = game.phase;
   const previousBet = game.bet;
-  const next = tableView({...session.view, message:session.message}, localSeat, session.members);
+  const next = tableView({...update.view, message:update.message}, localSeat, session.members);
   next.onlineMembers = Array.from({length:session.members.length},(_,i)=>session.members[(i+localSeat)%session.members.length]);
-  const result = tableEvent(session.event, localSeat, session.members.length, session.members);
+  const result = tableEvent(projectEvent(update.event, localSeat), localSeat, session.members.length, session.members);
   const newEvent = result && result.id !== onlineEventId;
   const potPaid = !first && next.bet?.settled && !previousBet?.settled;
-  if (newEvent) { cancelFinalSequence(); adoptPlayedCardNodes(result); }
+  if (newEvent) { cardMotion.cancel(); cancelFinalSequence(); adoptPlayedCardNodes(result); }
+  const motionSnapshot = newEvent && result.ok ? cardMotion.capture(game, (result.cards || []).map(c => c.id)) : null;
   const spectacle = newEvent && result.ok ? effects.capture(result) : null;
-  if (!first && previousPhase !== 'finished') next.log = newEvent && session.message ? [session.message,...game.log].slice(0,100) : game.log;
+  if (!first && previousPhase !== 'finished') next.log = newEvent && update.message ? [update.message,...game.log].slice(0,100) : game.log;
   game = next;
   document.body.dataset.online = 'true';
   menuOpen = false; $('main-menu').hidden = true; $('main-menu').inert = false;
@@ -782,26 +854,43 @@ function receiveOnlineTable(session) {
     return;
   }
   if (newEvent && spinning) cancelSpin();
-  render({animate:!!newEvent || game.phase === 'setup'});
-  if (potPaid) { animatePayout(game.bet.winner); if (game.bet.winner === 0) { effectSound('reward'); effectSound('coins', {shower:true}); } }
-  if (newEvent && result.ok) {
-    livingBoard.react(result, game);
-    effects.run(result, spectacle, game);
-  }
-  if (newEvent && result.wasBlind && result.reveal) {
-    const run = ++finalSequence;
-    finalBusy = true;
-    createHearthstoneSpotlight({card:result.reveal,who:result.who,result,pileSize:result.pileSize,topRankBefore:result.topRankBefore,lowTurns:result.lowTurns,isBlind:true,reducedMotion:preferences.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches,fastForward:false,sound:effectSound,revealOutcome:effects.revealOutcome,onComplete:()=>{if(run!==finalSequence)return;cancelFinalSequence();render();}});
-  } else if (newEvent && result.wentOut && result.cards?.length) {
+  const physical = cardMotion.enabled && !!motionSnapshot && !result.wasBlind;
+  const motionIds = physical ? [...(result.cards || []).map(c => c.id), ...game.players[result.who].hand.filter(c => !motionSnapshot.hands[result.who].has(c.id)).map(c => c.id)] : [];
+  if (newEvent && (result.ok || result.who === 0 && result.needsAceChoice)) finalBusy = true;
+  render({animate:!!newEvent || game.phase === 'setup', skipMotion:motionIds});
+  if (potPaid && game.phase !== 'finished' && game.bet.winner !== 0) animatePayout(game.bet.winner);
+  const motionGame = game;
+  const finish = () => {
+    if (game !== motionGame || menuOpen) return;
+    if (newEvent && result.ok) { spectacle.physical = physical; if (!result.burn) livingBoard.react(result, game); effects.run(result, spectacle, game); }
+    if (!newEvent) return;
+    const delay = result.burn ? BURN_DURATION : reversalOccurs(result) ? REVERSAL_DURATION + 300 : result.wentOut ? 2500 : result.pickup ? 1100 : 500;
     const run = ++finalSequence; finalBusy = true;
-    createHearthstoneSpotlight({card:result.cards[0],who:result.who,result,pileSize:result.pileSize,isBlind:false,reducedMotion:preferences.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches,fastForward:false,sound:effectSound,revealOutcome:effects.revealOutcome,onComplete:()=>{if(run!==finalSequence)return;cancelFinalSequence();render();}});
-  }
+    clearTimeout(onlinePresentationTimer);
+    onlinePresentationTimer = setTimeout(() => {
+      if (run !== finalSequence || onlineSession !== session) return;
+      finalBusy = false;
+      if (onlineFrames.length) receiveOnlineTable(session, onlineFrames.shift());
+      else render();
+    }, delay);
+  };
+  if (newEvent && result.who === 0 && (result.wasBlind && result.reveal || result.needsAceChoice)) {
+    const run = ++finalSequence; finalBusy = true;
+    const card = result.reveal || game.players[0][zone(game.players[0])].find(c => c.id === game.pendingAce?.[0]);
+    activeReveal = createCardSpotlight({ card, who: 0, result, isBlind: result.wasBlind, sourceRect: motionSnapshot?.cards.get(card.id)?.rect,
+      reducedMotion: preferences.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches, sound: effectSound,
+      onChoose: value => { if (run !== finalSequence) return; cancelFinalSequence(); move(game.pendingAce, value); },
+      onComplete: () => { if (run !== finalSequence) return; cancelFinalSequence(); render(); finish(); }
+    });
+  } else if (physical) cardMotion.run(motionSnapshot, game, result).then(finish).catch(error => { console.error('Card travel failed', error); cardMotion.cancel(); finish(); });
+  else finish();
 }
+
 document.addEventListener('online-table', event => receiveOnlineTable(event.detail));
 document.addEventListener('online-error', event => { if (onlineSession) {notice=event.detail;render();} });
 
 // Startup owns the first reveal; all card faces and enabled audio are ready first.
-export const startupReady = Promise.all([ensureCardArtwork(), gameAudio.ready(), menuMusic.ready()]).then(([cards]) => {
+export const startupReady = Promise.all([ensureCardArtwork(), gameAudio.ready(), menuMusic.ready(), prepareVictoryFonts()]).then(([cards]) => {
   if (!cards) throw new Error('Card artwork could not be prepared');
 });
 

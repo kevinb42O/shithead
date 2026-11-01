@@ -23,7 +23,7 @@ export function createLivingBoard({ sound = () => {}, interact = () => {} } = {}
   const context = canvas.getContext('2d');
   const forge = document.querySelector('#board-forge');
   const lantern = document.querySelector('#board-lantern');
-  let activeGame = null, timer = null;
+  let activeGame = null, timer = null, damageStamp = null;
   const reduced = () => document.body.classList.contains('reduce-motion') || matchMedia('(prefers-reduced-motion: reduce)').matches;
   const propEffects = createPropEffects({ stage, reduced, sound });
   let lastTap = -Infinity;
@@ -33,6 +33,11 @@ export function createLivingBoard({ sound = () => {}, interact = () => {} } = {}
   }
   function draw() {
     const w = innerWidth, h = innerHeight, unit = Math.min(w, h), ratio = Math.min(devicePixelRatio || 1, 2);
+    // Selection/hand renders do not change the stone. Reuse its exact pixels
+    // until damage or viewport geometry changes instead of repainting at 2x.
+    const stamp = `${w}:${h}:${ratio}:${JSON.stringify(activeGame?.boardScars || [])}`;
+    if (stamp === damageStamp) return;
+    damageStamp = stamp;
     canvas.width = Math.round(w * ratio); canvas.height = Math.round(h * ratio);
     if (!context) return;
     context.setTransform(ratio, 0, 0, ratio, 0, 0);

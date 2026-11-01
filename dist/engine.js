@@ -1,4 +1,15 @@
 export const rankName = r => ({ 11: 'J', 12: 'Q', 13: 'K', 14: 'A', 15: 'Joker' })[r] || String(r);
+// Reject the incomplete final bucket so every seat has exactly the same odds.
+export function openingSeat(count, draw = () => globalThis.crypto.getRandomValues(new Uint32Array(1))[0]) {
+    if (![2, 3, 4].includes(count)) throw new RangeError('Choose 2, 3 or 4 players.');
+    const range = 0x100000000, ceiling = range - range % count;
+    let value;
+    do {
+        value = draw();
+        if (!Number.isInteger(value) || value < 0 || value >= range) throw new RangeError('Invalid random draw.');
+    } while (value >= ceiling);
+    return value % count;
+}
 export function topCard(pile) { for (let i = pile.length - 1; i >= 0; i--)if (pile[i].rank !== 15) return pile[i]; return null; }
 export function topRank(pile) { const c = topCard(pile); return c?.rank === 14 ? (c.aceValue ?? 14) : c?.rank ?? null; }
 export function aceOptions(pile, lowTurns = 0) { const top = topCard(pile); if (lowTurns > 0 || !top) return [1]; if (top.rank === 14) return top.aceFromSeven ? [1, 14] : [top.aceValue ?? 14]; return [14]; }
@@ -24,7 +35,7 @@ export function createGame(rng = Math.random, playerCount = 2, {autoArrange = tr
     return { version: 3, deck, players, pile: [], lowTurns: 0, direction: 1, burned: [], turn: 0, phase: 'setup', winner: null, loser: null, placements: [], log: [], moves: 0 };
 }
 const power = c => ({ 2: 17, 15: 16, 10: 18 })[c.rank] || c.rank;
-export function start(g, rng = Math.random) { if (g.phase !== 'setup') return; g.phase = 'playing'; g.turn = Math.floor(rng() * g.players.length); g.log = [`${g.turn === 0 ? 'You start' : playerName(g.turn) + ' starts'}. The bottle has spoken.`]; }
+export function start(g, rng) { if (g.phase !== 'setup') return; const who = rng ? Math.floor(rng() * g.players.length) : openingSeat(g.players.length); g.phase = 'playing'; g.turn = who; g.log = [`${g.turn === 0 ? 'You start' : playerName(g.turn) + ' starts'}. Fate has chosen.`]; }
 export function swap(g, handId, upId) { if (g.phase !== 'setup') return false; const p = g.players[0], h = p.hand.findIndex(c => c.id === handId), u = p.up.findIndex(c => c.id === upId); if (h < 0 || u < 0) return false;[p.hand[h], p.up[u]] = [p.up[u], p.hand[h]]; return true; }
 function refill(g, p) { while (p.hand.length < 3 && g.deck.length) p.hand.push(g.deck.pop()); }
 export function play(g, ids, { aceValue, requestChoice = false } = {}) {

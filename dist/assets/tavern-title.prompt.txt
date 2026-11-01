@@ -1,0 +1,11 @@
+Generated with the built-in image_gen tool; transparent background.
+References: tavern-tavern.png (environment), tavern-lobby-board.png (materials).
+
+Use case: logo-brand
+Asset type: finished transparent game menu title, wide horizontal composition.
+Primary request: Create a beautiful premium illustrated title reading exactly "The Tavern" for this fantasy card-game multiplayer tavern menu. Match the two reference images closely in rendering style and materials. Image 1 is the menu environment style reference, image 2 is its carved wood and brass panel style reference. Generate a NEW isolated title asset, not a menu mockup.
+Style/medium: richly hand-painted stylized fantasy game UI, chunky sculpted forms, painterly warm highlights, convincing antique material detail.
+Text (verbatim): "The Tavern". Correct capitalization, no other text. One line, bold legible bespoke fantasy serif letterforms, subtly irregular crafted shapes, large elegant capital T's, warm ivory-gold faces, thick beveled aged brass edges, deep umber extrusion shadows, amber firelit highlights.
+Composition: compact wide title about 4.5:1 visible artwork aspect ratio. Lettering is the hero and occupies most of the artwork. Nest it over a slim curved dark carved walnut backing with restrained scrolling wood flourishes and brass corner accents echoing the panel reference. Small central brass club-suit detail beneath the words as part of an elegant underline. Avoid a large rectangular board. Elegant symmetry, clear silhouette, exquisite polish. Fully contained silhouette with only a small margin.
+Palette: candlelit golden brass, honey ivory, dark walnut, muted copper. Match reference rather than bright yellow or neon.
+Background: genuinely transparent alpha, empty outside the title and its flourishes, no colored backdrop, no checkerboard, no scene. Must be readable when displayed at 360px wide by roughly 85px tall and also at 280px mobile. No watermark, no extra words, no hanging chains or scenery.

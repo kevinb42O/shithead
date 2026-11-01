@@ -71,7 +71,7 @@ test('an illegal blind three picks up without reversing or showing a reversal', 
   assert.equal(reversalOccurs(result),false);
 });
 
-test('the effects renderer announces reversal even when the same move burns', () => {
+test('reversal keeps its sound without rule popups even when the same move burns', () => {
   const keys = ['document','window','matchMedia','innerWidth','innerHeight'];
   const previous = Object.fromEntries(keys.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]));
   const nodes = [], sounds = [];
@@ -89,7 +89,7 @@ test('the effects renderer announces reversal even when the same move burns', ()
       {pile:{left:450,top:300,width:80,height:115}},
       {phase:'playing',turn:0,direction:-1,players:[{},{}],lowTurns:0});
     assert(sounds.includes('reverse'));
-    assert(nodes.some(n=>n.className==='fx-rule-cue wind' && n.textContent==='Counterclockwise'));
+    assert(!nodes.some(n=>n.className?.startsWith('fx-rule-cue')));
   } finally {
     fx?.clear();
     for (const key of keys) {

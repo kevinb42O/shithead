@@ -26,6 +26,7 @@ export function tableView(view, localSeat, members) {
       up: p.up,
       down,
       name: members[seat].name,
+      portrait: members[seat].portrait,
     };
   });
   return {

@@ -114,3 +114,37 @@ The Fox’s Fortune title, Daily allowance plaque and Bet coins plaque are origi
 ### Fortune cabinet and reel symbols
 
 `dist/assets/fortune/cabinet.png` and `symbols.png` are original artwork generated with the built-in OpenAI ImageGen tool for this local game: a fox-crested walnut, brass and emerald cabinet and a six-cell transparent symbol atlas. Exact generation prompts are retained beside them as `cabinet.prompt.txt` and `symbols.prompt.txt`. Live number drums, symbol reels and lever animation are rendered by the game. Fortune reuses the existing credited lobby background, stake-coin artwork and audio palette. The title and mode-plaque artwork is credited above.
+
+
+### Forge burn projectile
+
+The forge-to-pile flame uses **Fireball Effect** by **Cethiel**, downloaded from https://opengameart.org/content/fireball-effect (https://opengameart.org/sites/default/files/Fireball%20-%20Effect.zip), released under **CC0 1.0**: https://creativecommons.org/publicdomain/zero/1.0/. Its 28 original PNG frames are losslessly padded to 188 x 108 cells and assembled into `dist/assets/vfx/forge-fireball.png`. No AI generation was used for this effect. Original frame artwork is preserved; the runtime adds movement and reflected light.
+# Opening result plaque
+
+`dist/assets/opening-result-plaque.png` is original artwork generated with OpenAI's built-in ImageGen tool on 2026-11-01 for the bottle's first-player announcement. The production prompt is preserved in `dist/assets/opening-result-plaque.prompt.txt`.
+
+### Lantern reversal wind
+
+The wind uses `smoke_01.png` from the **Kenney Particle Pack**, released under **CC0** (https://kenney.nl/assets/particle-pack). Original pack download: https://opengameart.org/sites/default/files/kenney_particlePack.zip. `dist/assets/vfx/lantern-mist.png` preserves the 512 x 512 source luminance as alpha so the original black additive background becomes transparent. The runtime tints this texture icy cyan and combines it with original silk-ribbon geometry and silver motes. No AI generation was used.
+# Opponent crest and card tray
+
+`dist/assets/opponent-crest-tray.png` is original artwork generated with the built-in OpenAI imagegen tool for this project. The production prompt is saved in `dist/assets/opponent-crest-tray.prompt.txt`. It uses the existing Fox, Owl and Raven portrait artwork as separate live overlays. Research and design rationale: `artifacts/opponent-seats/design-research.md`.
+
+
+
+### Victory ceremony
+
+`dist/assets/victory-crest.png` is original transparent artwork generated with the built-in OpenAI ImageGen tool on 2026-11-01, based on the approved concept in `artifacts/victory-review/victory-concept.png`. Its exact production prompt is preserved in `dist/assets/victory-crest.prompt.txt`. The title, result, reward counter, lighting, coin flights and controls are rendered separately by the local game. The ceremony reuses the existing credited victory, reward and coin audio and royal-button artwork.
+
+### The Gilded Company character portraits
+
+`dist/assets/portraits/vesper.png`, `isolde.png`, `cinder.png`, `aurel.png`, and `silas.png` are five original character artworks generated with the built-in OpenAI imagegen tool for this local game. Exact generation prompts are preserved beside each PNG. Their names, titles and stories are original project writing. The original Fox, Owl and Raven remain available alongside them.
+
+
+### Victory typography
+
+The victory screen self-hosts Latin WOFF2 subsets of **Cinzel Decorative Black** and **Cinzel Bold** by Natanael Gama / the Cinzel Project Authors, and **Cormorant Garamond SemiBold Italic** by the Cormorant Project Authors. Source: the official Google Fonts distribution (https://github.com/google/fonts/tree/main/ofl/cinzeldecorative, https://github.com/google/fonts/tree/main/ofl/cinzel, https://github.com/google/fonts/tree/main/ofl/cormorantgaramond). All three are distributed under the SIL Open Font License 1.1; their complete licenses and source URLs are preserved in `dist/assets/fonts/`. No external font request is made by the running game. Regenerate the original downloads with `node scripts/prepare-victory-fonts.mjs`.
+
+### Portrait collector cabinet
+
+`dist/assets/portraits/collector-cabinet.png` and `collector-cabinet-mobile.png` are original transparent cabinet artworks generated with the built-in OpenAI imagegen tool. Exact prompts are preserved beside the assets. The collection reuses the existing painted portrait medallion, gold and teal button artwork, and coin sprite; labels, prices and ownership are live UI.

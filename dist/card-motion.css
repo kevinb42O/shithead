@@ -1,0 +1,9 @@
+/* Fixed flight art stays sharp and escapes every scrolling/clipping ancestor. */
+.card-flight { position: fixed; pointer-events: none; transform-origin: 50% 50%; will-change: transform; contain: layout style; }
+.card-flight-shadow { position: absolute; inset: 1px 2px; border-radius: 5px; box-shadow: 0 5px 12px #0009; background: #0003; will-change: transform, opacity; }
+.card-flight-face { position: absolute; inset: 0; border-radius: 5px; overflow: hidden; background: #fffdf8; }
+.card-flight svg { display: block; width: 100%; height: 100%; }
+.card-flight-back { position: absolute; inset: 0; background: #fffdf8; }
+.card[data-in-transit] { visibility: hidden !important; transition: none !important; }
+.cards-in-motion #hand, .cards-in-motion #pile, .cards-in-motion #play,
+.cards-in-motion #pickup, .cards-in-motion #ace-choice { pointer-events: none; }

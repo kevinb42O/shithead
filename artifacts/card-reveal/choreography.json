@@ -1,0 +1,32 @@
+[
+  {
+    "kind": "reveal",
+    "action": "start",
+    "at": 2375
+  },
+  {
+    "kind": "reveal",
+    "action": "end",
+    "at": 6547
+  },
+  {
+    "kind": "burn",
+    "action": "start",
+    "at": 6547
+  },
+  {
+    "kind": "burn",
+    "action": "end",
+    "at": 7356
+  },
+  {
+    "kind": "burn",
+    "action": "start",
+    "at": 7356
+  },
+  {
+    "kind": "burn",
+    "action": "end",
+    "at": 9259
+  }
+]

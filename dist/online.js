@@ -5,6 +5,9 @@ import { createChat } from "./chat.js";
 import { Session, LIST, DISCOVER } from "./multiplayer/session.js";
 import { MqttWsSignalingClient } from "./multiplayer/signaling.js";
 import { preloadCardArtwork } from "./card-art.js";
+import { portraitFor, paintPortrait } from './portraits.js';
+import { createPortraitPicker } from './portrait-picker.js';
+import { createPortraitStore,installPortraitShortcut } from './portrait-store.js';
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
   if (cls) n.className = cls;
@@ -31,6 +34,8 @@ const bank = createBank({ key: 'shithead-table-v2', changed(wallet) {
   document.dispatchEvent(new CustomEvent('wallet-updated', { detail: wallet }));
 } });
 const tableWallet = createTableWallet(bank);
+const portraitStore=createPortraitStore(bank);
+installPortraitShortcut(portraitStore);
 let accepting = false;
 tableWallet.recover().catch(e => error(e.message));
 const chat = createChat();
@@ -50,27 +55,33 @@ let session = null,
   inRoom = false;
 let lobbyTab = "table";
 let playerName;
+let playerPortrait='fox';
+try { const saved=portraitFor(localStorage.getItem('shithead-online-portrait')).id;playerPortrait=portraitStore.canUse(saved)?saved:'fox'; } catch {}
+function selectPortrait(id) {
+  if(!portraitStore.canUse(id))return;
+  playerPortrait=portraitFor(id).id;
+  try {localStorage.setItem('shithead-online-portrait',playerPortrait);}catch{}
+  if(session && !session.view)session.act('portrait',{portrait:playerPortrait});
+}
 try {
   playerName = localStorage.getItem("shithead-online-name") || "";
 } catch {
   playerName = "";
 }
 const header = el("header", "ol-header");
-const logo = el("img", "ol-logo");
-logo.src = "assets/shithead-title.png";
-logo.alt = "Shithead";
-const exitButton = button("Back to menu", leave, "ol-quiet");
+const exitButton = button("", leave, "ol-back-menu");
+exitButton.setAttribute('aria-label', 'Back to menu');
+exitButton.title = 'Back to menu';
+const backArtwork = el('img', 'ol-back-menu-art');
+backArtwork.src = 'assets/back-to-menu-button.png';
+backArtwork.alt = '';
+backArtwork.draggable = false;
+backArtwork.setAttribute('aria-hidden', 'true');
+exitButton.append(backArtwork);
 const navigation = el("nav", "ol-navigation");
 navigation.setAttribute("aria-label", "Table navigation");
-navigation.append(
-  button(
-    "Rules",
-    () => document.getElementById("rules-dialog").showModal(),
-    "ol-quiet",
-  ),
-  exitButton,
-);
-header.append(logo, navigation);
+navigation.append(exitButton);
+header.append(navigation);
 const body = el("div", "ol-body"),
   status = el("p", "ol-status");
 status.setAttribute("role", "status");
@@ -78,6 +89,16 @@ status.setAttribute("aria-live", "polite");
 root.append(header, body, status);
 function fitLobby() {
   if (!root.clientWidth || !root.clientHeight) return;
+  const stage = body.querySelector('.ol-browse-stage');
+  if (stage) {
+    const desktop = root.clientWidth > 700;
+    const width = body.clientWidth - (desktop ? 16 : 0);
+    const height = body.clientHeight - (desktop ? 26 : 12);
+    const scale = Math.min(desktop ? 2.3 : 1, width / stage.offsetWidth, height / stage.offsetHeight);
+    root.style.setProperty('--browse-scale', Math.max(.1, scale).toFixed(4));
+    root.style.setProperty('--lobby-scale', '1');
+    return;
+  }
   const scale = root.clientWidth > 1100
     ? Math.max(1, Math.min(2.3, (root.clientWidth - 96) / 1100, (root.clientHeight - 120) / 600)) : 1;
   root.style.setProperty("--lobby-scale", scale.toFixed(3));
@@ -128,10 +149,16 @@ function browse() {
   selected = [];
   swapHand = null;
   body.replaceChildren();
-  exitButton.textContent = "Back to menu";
+  exitButton.setAttribute('aria-label', 'Back to menu');
+  exitButton.title = 'Back to menu';
   const intro = el("div", "ol-intro");
   const title = el("h1", "ol-title");
-  title.textContent = "The Tavern";
+  const titleArt = el("img", "ol-title-art");
+  titleArt.src = "assets/tavern-title.png";
+  titleArt.alt = "The Tavern";
+  titleArt.width = 2048;
+  titleArt.height = 768;
+  title.append(titleArt);
   intro.append(el("span", "ol-eyebrow", "THE SHITHEAD CARD CLUB"));
   intro.append(title, el("p", "ol-tagline", "A warm hearth. A full table. Terrible intentions."));
   const layout = el("div", "ol-lobby"),
@@ -150,6 +177,9 @@ function browse() {
     label,
     el("p", "", "2–4 friends. Play for fun, or put a few coins on the table."),
   );
+  const portraitSlot=el('div','portrait-launcher-slot');
+  const updatePortrait=()=>portraitSlot.replaceChildren(createPortraitPicker({value:playerPortrait,store:portraitStore,onSelect:id=>{selectPortrait(id);updatePortrait();portraitSlot.querySelector('button').focus();}}));
+  updatePortrait();create.insertBefore(portraitSlot,label);
   const make = button("Create a table", () => {}, "ol-button ol-primary");
   make.type = "submit";
   create.append(make);
@@ -172,6 +202,9 @@ function browse() {
   const stage = el("div", "ol-browse-stage");
   stage.append(intro, layout);
   body.append(stage);
+  fitLobby();
+  titleArt.addEventListener('load', fitLobby, { once: true });
+  document.fonts.ready.then(fitLobby);
   const draw = () => {
     if (inRoom) return;
     const focusedRoom = list.contains(document.activeElement)
@@ -232,6 +265,7 @@ function browse() {
       (browser?.isConnected()
         ? "Lobby is live. Tables appear here automatically."
         : "Connecting to the card club…");
+    fitLobby();
   };
   browser?.close();
   browser = new MqttWsSignalingClient();
@@ -302,6 +336,7 @@ async function enter(room) {
       }).catch(e => error(e.message));
     },
     error,
+    {portrait:playerPortrait},
   );
   session = joining;
   try {
@@ -337,7 +372,9 @@ function render() {
   const scrollPosition = body.scrollTop;
   body.replaceChildren();
   root.dataset.screen = "waiting";
-  exitButton.textContent = s.host ? "Close table" : "Leave table";
+  const exitLabel = s.host ? 'Close table and return to menu' : 'Leave table and return to menu';
+  exitButton.setAttribute('aria-label', exitLabel);
+  exitButton.title = exitLabel;
   const waiting = el("section", "ol-waiting");
   waiting.dataset.tab = lobbyTab;
   const tabs = el("nav", "ol-mobile-tabs");
@@ -364,7 +401,8 @@ function render() {
     const m=s.members[i], seat=el("section",m ? "ol-seat" : "ol-seat ol-seat-empty"),identity=el("div");
     if (m) {
       identity.append(el("strong","",m.name+(m.id===s.id?" · You":"")),el("span","",!m.connected?"Connecting…":s.stake ? (m.accepted === s.offerId ? "Buy-in accepted ✓" : "Reviewing buy-in") : i===0?"Host":"At the table"));
-      seat.append(el("span","ol-avatar",m.name.slice(0,1).toUpperCase()),identity);
+      const avatar=el('span','ol-avatar');avatar.setAttribute('aria-hidden','true');paintPortrait(avatar,m.portrait);
+      seat.append(avatar,identity);
       if (m.id===s.id) seat.classList.add("ol-seat-you");
     } else {
       identity.append(el("strong","","Open seat"), el("span","","Waiting for a friend"));
@@ -373,6 +411,8 @@ function render() {
     roster.append(seat);
   }
   table.append(roster);
+  const me=s.members.find(m=>m.id===s.id);
+  table.append(createPortraitPicker({value:me?.portrait||playerPortrait,store:portraitStore,onSelect:selectPortrait,disabled:s.busy||s.ended||!s.connected}));
   const stakes = el('section', 'ol-stakes');
   stakes.setAttribute('aria-label', 'Table stakes');
   const stakeHeading = el('div', 'ol-stakes-heading');

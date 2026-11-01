@@ -24,7 +24,7 @@ Run `npm run test:stress` for 3,000 seeded games with randomly chosen legal subs
 
 ## House rules
 
-54 cards, including two jokers. Each player gets 3 hand cards, 3 face up and 3 face down. Before play, swap hand cards with face-up cards. Spin the bottle to choose the opening player with equal odds for every seat. Play matching sets; refill your hand to three after every turn, including pickups, until the stock runs out. Then play face-up cards, then blind cards. Failed blind plays collect the card and pile. A pickup ends your turn. First out takes first place; play continues until only the Shithead is left holding cards.
+54 cards, including two jokers. Each player gets 3 hand cards, 3 face up and 3 face down. Before play, swap hand cards with face-up cards. Spin the Fate Needle to choose the opening player with equal odds for every seat. Play matching sets; refill your hand to three after every turn, including pickups, until the stock runs out. Then play face-up cards, then blind cards. Failed blind plays collect the card and pile. A pickup ends your turn. First out takes first place; play continues until only the Shithead is left holding cards.
 
 - Ace: an opening ace counts as 1; otherwise normally high (14). Ordinary ace-on-ace inherits the existing value. An ace played under a seven restriction is 1. Only that seven-origin ace chain offers 1 or high (14) after all low turns expire. Jokers preserve the underlying ace’s value and chain.
 - 2: always playable, does not reset or cancel the low restriction. Counts as one low play.

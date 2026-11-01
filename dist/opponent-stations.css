@@ -1,155 +1,113 @@
-/* All positions use the original 1100 × 825 painting's coordinate space.
-   The station is never stretched to content; cards scale with the station. */
-body[data-players] #game-view .opponent-seat,
-body[data-online] #game-view .opponent-seat {
-  container-type: inline-size;
-  position: relative;
-  isolation: isolate;
-  box-sizing: border-box;
-  flex: 0 1 270px;
-  width: 270px;
-  max-width: 270px;
-  min-width: 0;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  filter: drop-shadow(0 6px 5px #21120866);
+/* Portrait crest and open tray: coordinates follow the 1536 × 1024 painting.
+   All identities, counts, cards and turn indicators remain live and accessible. */
+body[data-players] #game-view .opponent-seats, body[data-online] #game-view .opponent-seats {
+  width: min(80vw, 1400px); gap: clamp(20px, 4vw, 90px); align-items: flex-start; padding-bottom: 28px;
 }
+body[data-players] #game-view .opponent-seat, body[data-online] #game-view .opponent-seat {
+  --seat-light: #f3b65e; container-type: inline-size; position: relative; isolation: isolate;
+  box-sizing: border-box; flex: 0 1 clamp(280px, 24vw, 400px); width: 400px; max-width: 400px;
+  min-width: 0; height: auto; aspect-ratio: 3 / 2; padding: 0; border: 0; border-radius: 0;
+  background: none; box-shadow: none; filter: drop-shadow(0 7px 5px #21120880);
+}
+#game-view .opponent-seat[data-seat="2"] { --seat-light: #a9dfba; }
+#game-view .opponent-seat[data-seat="3"] { --seat-light: #a8cbed; }
+body[data-players="4"] #game-view .opponent-seat:not(:nth-child(2)) { margin-top: 18px; }
 #game-view .seat-station-art {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: url(assets/opponent-station.png) center / 100% 100% no-repeat;
-  transition: filter 280ms ease-out;
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url(assets/opponent-crest-tray.png) center / 100% 100% no-repeat; transition: filter 300ms ease;
 }
 #game-view .seat-heading {
-  position: absolute;
-  inset: 9% 5% auto;
-  display: block;
-  width: 90%;
-  height: 22%;
-  min-height: 0 !important;
-  margin: 0;
-  padding: 0 !important;
-  border: 0;
-  background: none;
-  overflow: visible;
+  position: absolute; inset: 0 0 auto; width: 100%; height: 58%; display: block;
+  min-height: 0 !important; margin: 0; padding: 0 !important; border: 0; border-radius: 0;
+  background: none; overflow: visible; color: #fff0ce; cursor: zoom-in; box-shadow: none;
 }
 #game-view .seat-heading:disabled { opacity: 1; }
-#game-view .seat-avatar,
-body[data-online] #game-view .seat-avatar {
-  display: grid;
-  place-items: center;
-  position: absolute;
-  left: 1.5%;
-  top: 13%;
-  width: 13.5%;
-  height: auto;
-  aspect-ratio: 1;
-  background: none;
-  border: 0;
-  border-radius: 50%;
-  box-shadow: none;
-  outline: 0;
-  transform: none;
-  filter: none;
+#game-view .seat-heading:hover { background: none; }
+#game-view .seat-heading:focus-visible { outline: none; }
+#game-view .seat-heading:focus-visible .seat-avatar { outline: 2px solid #fff1c2; outline-offset: 5px; }
+#game-view .seat-avatar, body[data-online] #game-view .seat-avatar {
+  display: grid; place-items: center; position: absolute; left: 36.8%; top: 14%; width: 26.4%;
+  height: auto; aspect-ratio: 1; border: 0; border-radius: 50%; background: #2b1b14;
+  box-shadow: inset 0 0 9px #000; outline: 0; transform: none; filter: none;
+  transition: filter 250ms ease, box-shadow 250ms ease;
 }
-/* The painting already supplies the portrait socket and its gold rim. */
-#game-view .seat-avatar::after { display: none; }
+#game-view .seat-avatar::after {
+  content: ''; display: block; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  box-shadow: inset 0 0 5px 2px #24130eaa, inset 0 -7px 10px #24130e66;
+}
 #game-view .seat-portrait { position: absolute; inset: 0; border-radius: 50%; background: url(assets/opponent-portraits.png) left center / 300% 100% no-repeat; }
 #game-view [data-seat="2"] .seat-portrait { background-position: center; }
 #game-view [data-seat="3"] .seat-portrait { background-position: right; }
 #game-view .seat-initial { display: none; }
 #game-view .is-human-seat .seat-portrait { background: #174738 url(assets/bottle-green-table.jpg) center / cover; }
-#game-view .is-human-seat .seat-initial { display: block; position: relative; color: #ffedc2; font: 400 clamp(10px, 8cqw, 23px)/1 Serif, Georgia, serif; text-shadow: 0 1px 2px #160c05; }
-#game-view .seat-identity {
-  position: absolute;
-  left: 20%;
-  right: 7%;
-  top: 36%;
-  height: 49%;
-  display: grid;
-  align-items: center;
-  min-width: 0;
-}
+#game-view .is-human-seat .seat-initial { display: block; position: relative; color: #ffedc2; font: 400 15cqw/1 Serif, Georgia, serif; text-shadow: 0 2px 3px #160c05; }
+#game-view .seat-identity { position: absolute; left: 25%; right: 25%; top: 83%; height: 15%; display: grid; align-items: center; min-width: 0; }
 #game-view .seat-identity strong {
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: center;
-  color: #fff0c9;
-  font: 400 clamp(11px, 7cqw, 21px)/1.05 Serif, Georgia, serif;
-  text-shadow: 0 1px 2px #140b07;
+  display: block; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center;
+  color: #fff0ce; font: 400 clamp(11px, 5.9cqw, 23px)/1.1 Serif, Georgia, serif; text-shadow: 0 2px 2px #140b07;
 }
-#game-view .seat-inspect { position: absolute; right: 0; top: 44%; width: 4%; height: 30%; margin: 0; stroke: #e8c684; opacity: .7; }
+#game-view .seat-inspect { position: absolute; right: 21%; top: 86%; width: 3%; height: 9%; margin: 0; stroke: #e8c684; opacity: 0; transition: opacity 180ms; }
+#game-view .seat-heading:hover .seat-inspect, #game-view .seat-heading:focus-visible .seat-inspect { opacity: 1; }
 #game-view .seat-status {
-  position: absolute;
-  left: 12%;
-  right: 12%;
-  top: 32%;
-  height: 11%;
-  min-height: 0;
-  display: grid;
-  place-items: center;
-  margin: 0;
-  text-align: center;
-  white-space: nowrap;
-  color: #e7cda1;
-  font: 500 clamp(9px, 4.6cqw, 13px)/1.1 DM, Arial, sans-serif;
-  font-variant-numeric: tabular-nums;
+  position: absolute; top: 101%; left: 10%; right: 10%; height: auto; display: block; min-height: 0; margin: 0;
+  text-align: center; white-space: nowrap; color: #fff0cf; font: 500 clamp(10px, 3.6cqw, 13px)/1.4 DM, Arial, sans-serif;
+  font-variant-numeric: tabular-nums; text-shadow: 0 1px 3px #160b03, 0 1px 6px #160b03;
 }
 #game-view .seat-cards {
-  position: absolute;
-  left: 14%;
-  right: 14%;
-  top: 47%;
-  height: 30%;
-  min-height: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 2cqw;
-  padding: 0;
-  margin: 0;
+  position: absolute; left: 13%; right: 13%; top: 59%; height: 39%; min-height: 0;
+  display: flex; justify-content: center; align-items: flex-start; gap: 2cqw; padding: 0; margin: 0;
 }
-#game-view .seat-cards .reserve-slot,
-#game-view .seat-cards .card {
-  --card-w: 15cqw;
-  --card-h: calc(15cqw * 1.447);
-  width: var(--card-w);
-  height: var(--card-h);
-}
-#game-view .seat-cards .reserve-slot { flex: 0 0 15cqw; min-width: 0; min-height: 0; }
-#game-view .seat-cards .reserve-slot > .card:first-child:not(:last-child) { transform: translate(1px, 2px); }
-#game-view .seat-cards .card:hover { transform: translateY(-1px); }
-#game-view .seat-hand { right: 12%; bottom: 21%; width: 4cqw; height: 6cqw; }
-#game-view .seat-hand .card { --card-w: 4cqw; --card-h: 6cqw; }
-#game-view .seat-wager { position: absolute; top: 80%; left: 20%; right: 20%; margin: 0; color: #e7cda1; font: 500 clamp(8px, 3.4cqw, 10px)/1.1 DM, Arial, sans-serif; text-align: center; }
+#game-view .seat-cards .reserve-slot, #game-view .seat-cards .card { --card-w: 18cqw; --card-h: calc(18cqw * 1.447); width: var(--card-w); height: var(--card-h); }
+#game-view .seat-cards .reserve-slot { flex: 0 0 18cqw; min-width: 0; min-height: 0; }
+#game-view .seat-cards .reserve-slot:first-child { rotate: -5deg; translate: 0 1cqw; }
+#game-view .seat-cards .reserve-slot:last-child:not(:first-child) { rotate: 5deg; translate: 0 1cqw; }
+#game-view .seat-cards .reserve-slot > .card:first-child:not(:last-child) { transform: translate(2px, 3px); }
+#game-view .seat-cards .card { box-shadow: 0 3px 5px #160a0480; }
+#game-view .seat-cards .card:hover { transform: translateY(-4px); }
+/* Preserve every concealed card as a real destination for dealing and flights. */
+#game-view .seat-hand { right: 10%; bottom: 4%; width: 5cqw; height: 7.25cqw; rotate: 12deg; z-index: 2; }
+#game-view .seat-hand .card { --card-w: 5cqw; --card-h: 7.25cqw; }
+#game-view .seat-wager { position: absolute; top: 109%; left: 10%; right: 10%; margin: 0; color: #f4d59f; font: 500 clamp(9px, 3cqw, 11px)/1.4 DM, Arial, sans-serif; text-align: center; text-shadow: 0 1px 3px #160b03; }
 #game-view .seat-wager:empty { display: none; }
-#game-view .seat-turn-label { position: absolute; top: 80%; left: 20%; right: 20%; display: none; color: #ffe3a2; font: 600 clamp(8px, 3.4cqw, 10px)/1.1 DM, Arial, sans-serif; text-align: center; }
-#game-view .seat-reaction { top: 100%; left: 4%; max-width: 92%; font-size: 11px; }
+#game-view .seat-turn-label {
+  position: absolute; top: 28%; left: 69%; right: auto; display: none; padding: .4em .7em .4em 1.4em;
+  border: 1px solid #dfbd7a; border-radius: 2px 7px 7px 2px; background: linear-gradient(110deg, #3b291b, #211810);
+  box-shadow: 0 2px 5px #1a0c0a66; color: #fff0ca; font: 600 clamp(9px, 3cqw, 11px)/1 DM, Arial, sans-serif;
+}
+#game-view .seat-turn-label::before { content: ''; position: absolute; left: .55em; top: 50%; translate: 0 -50%; width: .45em; height: .45em; rotate: 45deg; background: #ffdda0; box-shadow: 0 0 7px #ffc260; }
+#game-view .seat-reaction { top: -5cqw; left: -20%; max-width: 140%; z-index: 5; font-size: clamp(10px, 3.7cqw, 13px); }
+#game-view .opponent-seat::before { content: ''; display: block; position: absolute; pointer-events: none; inset: 0 10% 6%; z-index: -2; border: 0; border-radius: 50%; opacity: 0; background: radial-gradient(ellipse, #ffcf7144, #ffbd4420 40%, transparent 70%); transition: opacity 300ms; }
+#game-view .opponent-seat::after { display: none; }
 #game-view .opponent-seat.is-active { background: none; border: 0; }
-#game-view .opponent-seat.is-active .seat-station-art { filter: brightness(1.25) saturate(1.1); }
+#game-view .opponent-seat.is-active::before { opacity: 1; box-shadow: none; }
+#game-view .opponent-seat.is-active .seat-station-art { filter: brightness(1.16) drop-shadow(0 0 4px #f4c56a70); }
+#game-view .opponent-seat.is-active .seat-avatar { outline: 0; box-shadow: 0 0 15px 3px var(--seat-light); filter: brightness(1.08); }
 #game-view .opponent-seat.is-active .seat-turn-label { display: block; }
-#game-view .opponent-seat.is-active .seat-wager { display: none; }
-#game-view .opponent-seat.is-active .seat-avatar { outline: 0; box-shadow: none; }
-#game-view .opponent-seat::before, #game-view .opponent-seat::after { display: none; }
-#game-view .opponent-seat.is-out .seat-station-art { filter: saturate(.5); }
-#game-view .opponent-seat.is-out .seat-cards::after { font-size: clamp(11px, 7cqw, 20px); }
+#game-view .opponent-seat.is-active .seat-status { color: #fff1c8; }
+#game-view .opponent-seat.is-active .seat-cards .card:last-child { box-shadow: 0 2px 7px #160a0480, 0 0 9px #f6d18d55; }
+#game-view .opponent-seat.is-out .seat-station-art { filter: saturate(.5) brightness(.8); }
+#game-view .opponent-seat.is-out .seat-avatar { filter: saturate(.55); }
+#game-view .opponent-seat.is-out .seat-cards { align-items: center; }
+#game-view .opponent-seat.is-out .seat-cards::after { content: 'Escaped'; color: #fff0c6; font: italic 400 clamp(15px, 7cqw, 26px)/1 Serif, Georgia, serif; text-shadow: 0 2px 3px #000; }
+#game-view .opponent-seat.is-nervous .seat-status { color: #ffe1a1; }
+#game-view [data-reaction="smug"] .seat-avatar { filter: brightness(1.17); }
+#game-view [data-reaction="out"] .seat-avatar { filter: brightness(1.2); }
 @media (max-width: 700px) {
-  body[data-players] #game-view .opponent-seat { flex: 1 1 0; width: auto; max-width: 210px; }
+  body[data-players] #game-view .opponent-seats, body[data-online] #game-view .opponent-seats { width: 100%; gap: 4px; padding: 0 0 30px; }
+  body[data-players] #game-view .opponent-seat, body[data-online] #game-view .opponent-seat { flex: 1 1 0; width: auto; max-width: 210px; }
   body[data-players="2"] #game-view .opponent-seat { flex: 0 1 210px; }
-  body[data-players="4"] #game-view .opponent-seats { gap: 4px; }
+  body[data-players="4"] #game-view .opponent-seat:not(:nth-child(2)) { margin-top: 8px; }
+  #game-view .seat-identity { left: 17%; right: 17%; padding: 0 2px; background: #2b190eef; border-block: 1px solid #b98a4a; border-radius: 2px; }
+  #game-view .seat-identity strong { font-size: clamp(10px, 6.3cqw, 15px); }
+  #game-view .seat-turn-label { top: 13%; left: 66%; padding: .35em .4em .35em 1em; font-size: 8px; }
+  #game-view .seat-turn-label::before { left: .35em; width: .35em; height: .35em; }
+  #game-view .seat-status { font-size: 10px; }
+  #game-view .seat-wager { top: calc(101% + 15px); font-size: 9px; }
+  #game-view .seat-inspect { display: none; }
 }
 @media (max-height: 620px) and (min-width: 701px) {
-  body[data-players] #game-view .opponent-seat { flex-basis: min(210px, 38dvh); max-width: min(210px, 38dvh); }
+  body[data-players] #game-view .opponent-seats { width: min(76vw, 850px); padding-top: 22px; gap: 20px; }
+  body[data-players] #game-view .opponent-seat { flex-basis: min(250px, 42dvh); max-width: min(250px, 42dvh); }
 }
-@media (prefers-reduced-motion: reduce) { #game-view .seat-station-art { transition: none; } }
-body.reduce-motion #game-view .seat-station-art { transition: none; }
+@media (prefers-reduced-motion: reduce) { #game-view .seat-station-art, #game-view .seat-avatar, #game-view .opponent-seat::before { transition: none; } }
+body.reduce-motion #game-view .seat-station-art, body.reduce-motion #game-view .seat-avatar, body.reduce-motion #game-view .opponent-seat::before { transition: none; }

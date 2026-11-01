@@ -1,4 +1,5 @@
 import { createMagicFire } from './burn-fire.js';
+import { createFixtureLighting } from './fixture-lighting.js';
 // A seeded, time-based little stage for the two painted board toys. Every
 // player receives the same seed; no frame-rate-dependent particle simulation.
 export function propParticles(seed, count = 100) {
@@ -13,10 +14,12 @@ export function createPropEffects({ stage, reduced, sound }) {
   const ctx = canvas.getContext('2d');
   let scenes = [], frame = 0;
   const buttons = { forge: document.querySelector('#board-forge'), lantern: document.querySelector('#board-lantern') };
+  const lighting = createFixtureLighting({ stage, buttons, reduced });
   function fit() {
     const dpr = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.round(innerWidth * dpr); canvas.height = Math.round(innerHeight * dpr);
     ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
+    lighting.fit();
   }
   function glow(x, y, r, color, alpha = 1, squash = 1) {
     if (r <= 0 || alpha <= 0) return;
@@ -26,16 +29,17 @@ export function createPropEffects({ stage, reduced, sound }) {
     ctx.fillStyle = g; ctx.fillRect(-r, -r, 2 * r, 2 * r); ctx.restore();
   }
   function paint(scene, t) {
-    const fire = scene.prop === 'forge', rect = buttons[scene.prop].getBoundingClientRect();
+    if (scene.prop !== 'forge') return;
+    const fire = true, rect = buttons.forge.getBoundingClientRect();
     const x = rect.left + rect.width * (fire ? .35 : .65), y = rect.top + rect.height * .5;
     const scale = Math.max(.55, Math.min(1.5, Math.min(innerWidth, innerHeight) / 700));
     const attack = Math.min(1, t / .18), fade = Math.max(0, 1 - Math.max(0, t - 1.2) / 1.7);
-    const energy = attack * fade, direction = fire ? 1 : -1;
+    const energy = attack * fade, direction = 1;
     ctx.save(); ctx.translate(x, y); ctx.scale(scale, scale);
     // Warm reflected light on the surrounding stone, then a white-hot core.
     ctx.globalCompositeOperation = 'screen';
-    glow(direction * 35, 0, 225, fire ? '#f46612' : '#13acbc', energy * .46, .76);
-    glow(0, 0, 88, fire ? '#ffac22' : '#2fe5e2', energy * .9, 1.15);
+    glow(direction * 35, 0, 225, fire ? '#f46612' : '#13acbc', energy * (fire ? .46 : .16), .76);
+    glow(0, 0, fire ? 88 : 52, fire ? '#ffac22' : '#2fe5e2', energy * (fire ? .9 : .42), 1.15);
     if (reduced()) { ctx.restore(); return; }
     if (fire) {
       // Smoke rises behind the flame, gathering into soft, rolling curls.
@@ -72,32 +76,19 @@ export function createPropEffects({ stage, reduced, sound }) {
         ctx.strokeStyle = '#ffd793'; ctx.lineWidth = 2 * (1 - wave);
         ctx.beginPath(); ctx.arc(0, 0, 25 + wave * 175, -1.2, 1.2); ctx.stroke(); ctx.restore();
       }
-    } else {
-      // Preserve the lantern's turquoise magic, with orbiting filaments.
-      for (let i = 0; i < 3; i++) {
-        const radius = 38 + i * 23 + Math.sin(t * 3 + i) * 5;
-        ctx.save(); ctx.rotate(t * (i % 2 ? -1 : 1) + i);
-        ctx.scale(1, .55); ctx.globalAlpha = energy * .65;
-        ctx.strokeStyle = i === 1 ? '#b4fff1' : '#3be8e2'; ctx.lineWidth = 1.3;
-        ctx.shadowColor = '#16daca'; ctx.shadowBlur = 12;
-        ctx.beginPath(); ctx.arc(0, 0, radius, i, i + Math.PI * 1.4); ctx.stroke(); ctx.restore();
-      }
-      glow(0, 0, 42, '#c7fff0', energy * .8);
     }
-    // Staggered embers / motes have identical paths on every client.
+    // Furnace embers retain their original shared choreography.
     for (const [i, p] of scene.particles.entries()) {
       const age = t - p.y * .8;
       const life = 1.1 + p.speed * 1.2;
       if (age < 0 || age > life) continue;
       const a = age / life, alpha = Math.sin(Math.PI * a) * fade;
-      const px = fire ? (p.x - .35) * 65 + age * (22 + p.x * 85) + Math.sin(age * 4 + p.phase) * 12
-        : Math.cos(p.phase + age * 2) * (25 + age * 65) - age * 20;
-      const py = fire ? 18 - age * (65 + p.speed * 140) + age * age * 15
-        : Math.sin(p.phase + age * 2) * (25 + age * 55) - age * 22;
-      glow(px, py, 5 + p.size * 4, fire ? '#ff6b11' : '#19dcd1', alpha * .55);
-      ctx.globalAlpha = alpha; ctx.fillStyle = fire ? (i % 3 ? '#ffd16a' : '#fff7d6') : '#bafff3';
-      ctx.save(); ctx.translate(px, py); ctx.rotate(fire ? -.3 : age + p.phase);
-      ctx.fillRect(-1, -1, 1.2 + p.size * 1.5, fire ? 3 + p.size * 5 : 2.5); ctx.restore();
+      const px = (p.x - .35) * 65 + age * (22 + p.x * 85) + Math.sin(age * 4 + p.phase) * 12;
+      const py = 18 - age * (65 + p.speed * 140) + age * age * 15;
+      glow(px, py, 5 + p.size * 4, '#ff6b11', alpha * .55);
+      ctx.globalAlpha = alpha; ctx.fillStyle = i % 3 ? '#ffd16a' : '#fff7d6';
+      ctx.save(); ctx.translate(px, py); ctx.rotate(-.3);
+      ctx.fillRect(-1, -1, 1.2 + p.size * 1.5, 3 + p.size * 5); ctx.restore();
     }
     ctx.restore();
   }
@@ -106,7 +97,7 @@ export function createPropEffects({ stage, reduced, sound }) {
     ctx?.clearRect(0, 0, innerWidth, innerHeight);
     if (document.hidden || document.body.classList.contains('menu-open')) { clear(); return; }
     scenes = scenes.filter(s => {
-      const live = now - s.start < (reduced() ? 850 : 3000);
+      const live = now - s.start < (reduced() ? 1200 : s.prop === 'lantern' ? 4500 : 3000);
       if (!live) s.flame?.dispose();
       return live;
     });
@@ -118,6 +109,7 @@ export function createPropEffects({ stage, reduced, sound }) {
     cancelAnimationFrame(frame); frame = 0;
     scenes.forEach(s => s.flame?.dispose()); scenes = [];
     ctx?.clearRect(0, 0, innerWidth, innerHeight);
+    lighting.clear();
     Object.values(buttons).forEach(b => b.classList.remove('is-awake'));
   }
   fit(); window.addEventListener('resize', fit);
@@ -125,6 +117,9 @@ export function createPropEffects({ stage, reduced, sound }) {
   new MutationObserver(() => { if (document.body.classList.contains('menu-open')) clear(); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   return { clear, play({ prop, seed }) {
     if (!buttons[prop] || !Number.isInteger(seed) || document.hidden || document.body.classList.contains('menu-open')) return;
+    lighting.play(prop);
+    sound(prop === 'forge' ? 'burn' : 'free');
+    if (prop === 'lantern') return;
     if (scenes.length >= 4) scenes.shift().flame?.dispose();
     const scene = { prop, start: performance.now(), particles: propParticles(seed) };
     if (prop === 'forge' && !reduced()) {
@@ -132,7 +127,6 @@ export function createPropEffects({ stage, reduced, sound }) {
       scene.flame = createMagicFire(scene.flameCanvas, { left: -42, top: -100, bottom: 15, width: 84, height: 115 }, { stationary: true, seed });
     }
     scenes.push(scene);
-    sound(prop === 'forge' ? 'burn' : 'free');
     if (!frame) frame = requestAnimationFrame(tick);
   } };
 }

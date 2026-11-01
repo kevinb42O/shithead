@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Cinzel Decorative",
+    "query": "Cinzel+Decorative:wght@900",
+    "file": "cinzel-decorative-black-latin.woff2",
+    "license": "cinzeldecorative",
+    "source": "https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&display=swap",
+    "url": "https://fonts.gstatic.com/s/cinzeldecorative/v19/daaHSScvJGqLYhG8nNt8KPPswUAPniZQa9lESTE.woff2",
+    "bytes": 14568
+  },
+  {
+    "name": "Cinzel",
+    "query": "Cinzel:wght@700",
+    "file": "cinzel-bold-latin.woff2",
+    "license": "cinzel",
+    "source": "https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap",
+    "url": "https://fonts.gstatic.com/s/cinzel/v26/8vIU7ww63mVu7gtR-kwKxNvkNOjw-jHgfY3lDQ.woff2",
+    "bytes": 15184
+  },
+  {
+    "name": "Cormorant Garamond",
+    "query": "Cormorant+Garamond:ital,wght@1,600",
+    "file": "cormorant-garamond-semibold-italic-latin.woff2",
+    "license": "cormorantgaramond",
+    "source": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap",
+    "url": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd5LDf-iNM8.woff2",
+    "bytes": 23784
+  }
+]

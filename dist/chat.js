@@ -1,3 +1,4 @@
+import {paintPortrait} from './portraits.js';
 export function createChat() {
   const root = document.createElement('aside');
   root.className = 'table-chat';
@@ -77,7 +78,7 @@ export function createChat() {
       for (const message of additions) {
         const row = document.createElement('div'), avatar = document.createElement('span'), content = document.createElement('div'), name = document.createElement('strong'), text = document.createElement('p');
         row.className = 'chat-message' + (message.sender === s.id ? ' chat-own' : ''); row.dataset.message = message.id;
-        avatar.className = 'chat-avatar'; avatar.textContent = (message.name || '?').slice(0,1).toUpperCase(); avatar.setAttribute('aria-hidden','true');
+        avatar.className = 'chat-avatar';paintPortrait(avatar,message.portrait||s.members.find(m=>m.id===message.sender)?.portrait);avatar.setAttribute('aria-hidden','true');
         name.textContent = message.sender === s.id ? 'You' : message.name;
         text.textContent = message.text; content.append(name, text); row.append(avatar, content); log.append(row);
       }

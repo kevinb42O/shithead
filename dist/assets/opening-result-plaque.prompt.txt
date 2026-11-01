@@ -1,0 +1,7 @@
+Use case: stylized-concept
+Asset type: production game UI container, transparent PNG, landscape 3:1 canvas.
+Primary request: A single exquisitely crafted fantasy tavern announcement plaque for a premium AAA hand-painted card game. Front facing perfectly horizontal UI asset. The plaque occupies almost the whole canvas, generous transparent margin only around its silhouette. Broad rectangular dark walnut panel with softly beveled corners, sculpted aged bronze and burnished antique gold frame, restrained acanthus carving at the outer corners, small deep emerald inset accents. Thick tactile dimensional edge, warm hearth highlights from upper left, believable painterly wood grain and metal patina, fine engraved craftsmanship. Central panel is extremely dark warm brown, quiet and blank, uninterrupted space for live UI typography and a circular portrait. Frame subtly raised at top and bottom center with tasteful symmetrical sculpted flourishes. Rich premium illustrated board-game artwork, crisp edges and beautifully finished materials, readable silhouette, no oversized ornaments.
+Composition: wide plaque, roughly 3:1 width to height. Interior central 75 percent remains plain dark wood. All ornament stays on outside rim.
+Constraints: ISOLATED ON ACTUAL TRANSPARENT BACKGROUND. No scene, no backdrop, no floor, no cast shadow outside object, no letters, no text, no symbols, no sparkles, no stars, no particles, no characters, no cards, no bottle. One single finished container only.
+
+Generated with the built-in image_gen tool, 2026-11-01.

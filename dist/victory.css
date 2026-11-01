@@ -1,0 +1,104 @@
+/* Self-hosted OFL fonts: carved display, inscription, and a warm italic voice. */
+@font-face { font-family: 'Victory Display'; src: url(assets/fonts/cinzel-decorative-black-latin.woff2) format('woff2'); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Victory Inscription'; src: url(assets/fonts/cinzel-bold-latin.woff2) format('woff2'); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Victory Italic'; src: url(assets/fonts/cormorant-garamond-semibold-italic-latin.woff2) format('woff2'); font-style: italic; font-weight: 600; font-display: swap; }
+/* The room stays fullscreen; the result becomes its central crafted object. */
+.victory-stage {
+  --crest-width: min(1120px, 82vw, calc((100svh - 180px) * 1.33333));
+  position: fixed; inset: 0; z-index: 100;
+  display: grid; place-items: center;
+  overflow: hidden; overscroll-behavior: contain;
+  padding: max(18px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  box-sizing: border-box; isolation: isolate;
+  color: #fff0ce;
+  background: radial-gradient(ellipse at 50% 43%, #28170d0a 12%, #100c0b65 70%, #090a0cb8);
+  backdrop-filter: blur(2px) brightness(.64);
+  animation: victory-room-in 700ms ease-out both;
+}
+.victory-stage *, .victory-stage *::before, .victory-stage *::after { box-sizing: border-box; }
+.victory-stage::before { content: ''; position: fixed; left: -12vw; top: 28%; width: 38vw; height: 45%; border-radius: 50%; pointer-events: none; background: radial-gradient(ellipse, #ffb64b50, #ed792c12 45%, transparent 70%); animation: victory-forge-flare 2300ms ease-out both; }
+.victory-light { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 32%, #ffd78542, #ef9d181a 35%, transparent 65%); animation: victory-light-in 1600ms ease-out both; }
+.victory-rays { position: fixed; width: 130vmax; height: 130vmax; top: -65vmax; left: calc(50% - 65vmax); pointer-events: none; opacity: .23; transform-origin: 50% 50%; background: repeating-conic-gradient(from 165deg, transparent 0deg 7deg, #ffdc8b38 9deg 11deg, transparent 13deg 22deg); mask-image: radial-gradient(circle, transparent 3%, #000 18%, transparent 68%); animation: victory-rays-in 3800ms ease-out both; }
+.victory-composition { width: var(--crest-width); position: relative; display: flex; flex-direction: column; align-items: center; margin: auto; z-index: 2; container-type: inline-size; animation: victory-crest-in 950ms 120ms cubic-bezier(.16,1,.3,1) both; }
+.victory-crest { width: 100%; aspect-ratio: 4/3; position: relative; filter: drop-shadow(0 16px 16px #0c0809a8); }
+.victory-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; user-select: none; pointer-events: none; }
+/* Title is optically centered in the carved sign, independently of font metrics. */
+.victory-title { position: absolute; top: 29%; left: 12%; width: 76%; height: 24%; display: flex; align-items: center; justify-content: center; margin: 0; text-align: center; font: 900 11cqw/1.18 'Victory Display', Georgia, serif; font-synthesis: none; font-kerning: normal; letter-spacing: .015em; word-spacing: .075em; color: #ffe4a1; background-image: linear-gradient(110deg, transparent 32%, #fffbedc4 48%, transparent 64%), linear-gradient(#fff8de 8%, #fff0b1 28%, #e5ae49 45%, #ffe39a 52%, #edc164 66%, #bb7a27 86%, #ffebb4 100%); background-size: 250% 100%, 100% 100%; background-position: 180% 0, 0 0; background-repeat: no-repeat; background-clip: text; -webkit-text-fill-color: transparent; -webkit-text-stroke: .025cqw #a96b2d75; paint-order: stroke fill; filter: drop-shadow(0 -1px 0 #fff3c950) drop-shadow(0 1px 0 #9f5e22) drop-shadow(0 2px 0 #683513) drop-shadow(0 3px 0 #46210c) drop-shadow(0 5px 3px #100704b0); white-space: nowrap; animation: victory-type-gleam 2300ms 700ms ease-out both; }
+.victory-subtitle { position: absolute; top: 51%; left: 17%; width: 66%; margin: 0; display: flex; align-items: center; justify-content: center; gap: 1.8cqw; text-align: center; font: italic 600 3.5cqw/1.12 'Victory Italic', Georgia, serif; letter-spacing: .015em; color: #fff1cd; text-shadow: 0 1px 1px #291205, 0 2px 3px #100803; }
+.victory-subtitle::before, .victory-subtitle::after { content: ''; flex: 0 0 4cqw; height: 1px; background: linear-gradient(90deg, transparent, #dcad5e); }
+.victory-subtitle::after { transform: rotate(180deg); }
+.victory-reward { position: absolute; top: 63%; left: 40%; width: 37%; height: 16%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1cqw; text-align: center; }
+.victory-reward-line { display: flex; align-items: baseline; justify-content: center; gap: 1.25cqw; width: 100%; white-space: nowrap; font: 700 2.6cqw/1 'Victory Inscription', Georgia, serif; font-synthesis: none; letter-spacing: .06em; color: #f5d38a; text-shadow: 0 1px 0 #72400f, 0 2px 3px #180903; }
+.victory-amount { font-size: 6.1cqw; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -.055em; text-align: right; color: #ffe9ab; text-shadow: 0 -1px 0 #fffae670, 0 1px 0 #b27a2b, 0 2px 0 #6f3c13, 0 4px 4px #160904; }
+.victory-amount[hidden] { display: none; }
+.victory-stage.has-payout .victory-reward-label { font-size: max(10px, 2.6cqw); }
+.victory-stage:not(.has-payout) .victory-terms { white-space: normal; text-wrap: balance; overflow-wrap: anywhere; line-height: 1.15; padding-bottom: 2px; overflow: visible; flex-shrink: 0; }
+.victory-terms { margin: 0; color: #ecd9b9; font: 500 1.45cqw/1.3 DM, Arial, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: .01em; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 2px #100803; }
+.victory-detail { position: absolute; top: 84.2%; left: 22%; width: 56%; height: 9.8%; display: flex; align-items: center; justify-content: center; margin: 0; text-align: center; color: #f3dfb8; font: italic 600 2.8cqw/1.2 'Victory Italic', Georgia, serif; letter-spacing: .012em; line-height: 1.04; overflow: hidden; white-space: normal; overflow-wrap: anywhere; text-wrap: balance; text-shadow: 0 1px 2px #160803; }
+.victory-actions { display: flex; align-items: center; flex-direction: column; width: 100%; gap: 7px; margin-top: -1.5cqw; }
+.victory-stage .victory-replay.royal-button { width: 46%; min-width: 196px; max-width: 470px; height: clamp(58px, 7.4cqw, 86px); min-height: 58px; font-family: 'Victory Inscription', Georgia, serif; font-weight: 700; font-size: clamp(18px, 3.1cqw, 32px); line-height: 1.1; padding: 0 28px 2px; border-radius: 0; background-size: 100% 169%; text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; text-shadow: 0 -1px 0 #fff7d14a, 0 2px 1px #082819, 0 3px 4px #04170f; }
+.victory-stage .victory-replay:disabled { opacity: .65; cursor: default; filter: saturate(.5); }
+.victory-menu { appearance: none; border: 0; border-bottom: 1px solid #cfa85d75; padding: 9px 14px; min-height: 44px; background: transparent; color: #f4dfb1; font: italic 600 clamp(18px, 2.6cqw, 25px)/1.2 'Victory Italic', Georgia, serif; letter-spacing: .015em; cursor: pointer; text-shadow: 0 2px 3px #000; }
+.victory-menu:hover { color: #fff8dc; border-color: #ffdc86; }
+.victory-stage button:focus-visible { outline: 3px solid #fff1c6; outline-offset: 4px; }
+.victory-replay-note { color: #edd9b6; font: 12px/1.4 DM, Arial, sans-serif; text-align: center; }
+.victory-replay-note:empty { display: none; }
+.victory-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.victory-sparks { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+.victory-sparks i { position: absolute; left: var(--x); top: var(--y); width: 3px; height: 3px; border-radius: 50%; background: #fff4cb; box-shadow: 0 0 6px 2px #fbb437, 0 0 16px #ff9a27; opacity: 0; animation: victory-ember var(--life) var(--delay) ease-out both; }
+.victory-flying-coin { position: fixed; top: -12px; left: -12px; z-index: 110; width: 24px; height: 24px; border: 2px solid #ffe7a1; border-radius: 50%; background: radial-gradient(ellipse at 35% 25%, #fff1b6, #eab13c 42%, #9e5914 73%, #ffe093 77%); box-shadow: 0 0 10px #ffc95e75, inset 0 0 0 2px #a96520; pointer-events: none; }
+.victory-flying-coin::after { content: '♛'; display: block; text-align: center; font: 16px/20px Georgia,serif; color: #8b4911; }
+body.victory-showing #game-view .hand-panel { visibility: hidden; }
+body.victory-wallet-arrival .player-bankroll { filter: brightness(1.8) drop-shadow(0 0 20px #ffd476); }
+.victory-stage.is-escape .victory-title { font-size: 9.4cqw; }
+.victory-stage.is-defeat { backdrop-filter: blur(2px) brightness(.48) saturate(.7); }
+.victory-stage.is-defeat .victory-art { filter: saturate(.35) brightness(.8); }
+.victory-stage.is-defeat .victory-title { font-size: 8.6cqw; background-image: linear-gradient(#f5e9d7, #bfa58b); background-size: 100% 100%; background-position: 0 0; animation: none; }
+.victory-stage.is-defeat .victory-light { background: radial-gradient(ellipse at 50% 40%, #b7c2c91a, transparent 65%); }
+.victory-stage.is-defeat .victory-rays { display: none; }
+.victory-stage.is-defeat .victory-subtitle { font-size: max(12px, 2.9cqw); }
+.victory-stage.is-defeat .victory-subtitle::before, .victory-stage.is-defeat .victory-subtitle::after { display: none; }
+.victory-stage.is-defeat .victory-reward-line { font-size: 2.6cqw; }
+.victory-stage.is-restored, .victory-stage.is-restored .victory-composition, .victory-stage.is-restored .victory-light, .victory-stage.is-restored .victory-rays, .victory-stage.is-restored .victory-title { animation: none; }
+@keyframes victory-type-gleam { from { background-position: 180% 0, 0 0; } to { background-position: -130% 0, 0 0; } }
+@keyframes victory-room-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes victory-light-in { 0% { opacity: 0; } 45% { opacity: 1; filter: brightness(1.6); } 100% { opacity: 1; filter: brightness(1); } }
+@keyframes victory-crest-in { 0% { opacity: 0; transform: translateY(35px) scale(.87); } 65% { opacity: 1; transform: translateY(-3px) scale(1.015); } 100% { opacity: 1; transform: none; } }
+@keyframes victory-rays-in { from { opacity: 0; transform: rotate(-7deg); } 35% { opacity: .4; } to { opacity: .18; transform: rotate(3deg); } }
+@keyframes victory-ember { 0% { opacity: 0; transform: translate(0, 20px) scale(.5); } 15% { opacity: .9; } 75% { opacity: .6; } 100% { opacity: 0; transform: translate(var(--drift), -140px) scale(.2); } }
+@keyframes victory-forge-flare { 0% { opacity: 0; transform: scale(.7); } 25% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(1); } }
+@media (max-width: 700px) {
+  .victory-stage { --crest-width: min(600px, 104vw, calc((100svh - 180px) * 1.33333)); padding-inline: 0; backdrop-filter: blur(1px) brightness(.57); }
+  .victory-composition { max-width: 100vw; }
+  .victory-stage .victory-replay.royal-button { width: 68%; min-width: 180px; height: 62px; font-size: clamp(17px, 5.1vw, 22px); padding-inline: 16px; }
+  .victory-stage .victory-replay:disabled { font-size: clamp(15px, 4.5vw, 20px); }
+  .victory-subtitle { font-size: max(15px, 4.2cqw); }
+  .victory-reward { left: 39%; width: 39%; gap: 1.5cqw; }
+  .victory-terms { font-size: max(10px, 2.6cqw); letter-spacing: 0; }
+  .victory-detail { font-size: max(13px, 3.4cqw); left: 22%; width: 56%; }
+  .victory-stage.has-long-detail .victory-detail { font-size: max(11px, 3cqw); }
+  .victory-stage:not(.has-payout) .victory-reward { top: 62.5%; height: 17%; gap: 1.1cqw; }
+  .victory-stage:not(.has-payout) .victory-reward-line { font-size: max(11px, 2.6cqw); letter-spacing: .035em; }
+  .victory-stage:not(.has-payout) .victory-terms { white-space: normal; text-wrap: balance; overflow-wrap: anywhere; line-height: 1.1; padding-bottom: 2px; overflow: visible; flex-shrink: 0; }
+  .victory-menu { font-size: 20px; }
+}
+@media (max-height: 500px) and (min-width: 601px) {
+  .victory-stage { --crest-width: min(58vw, calc((100svh - 30px) * 1.33333)); padding: 10px; }
+  .victory-composition { width: min(90vw, 900px, calc((100svh - 30px) * 1.85)); display: grid; grid-template-columns: minmax(0, 1fr) 28%; gap: 12px; }
+  .victory-crest { width: 100%; }
+  .victory-actions { margin: 0; }
+  .victory-stage .victory-replay.royal-button { min-width: 0; width: 100%; font-size: clamp(14px, 2.2vw, 21px); padding-inline: 10px; }
+  .victory-menu { font-size: 16px; }
+  .victory-title { font-size: 7.7cqw; }
+  .victory-stage.is-escape .victory-title { font-size: 6.5cqw; }
+  .victory-stage.is-defeat .victory-title { font-size: 6cqw; }
+  .victory-subtitle { font-size: 2.65cqw; }
+  .victory-reward-line { font-size: 1.9cqw; }
+  .victory-amount { font-size: 4.35cqw; }
+  .victory-terms { font-size: max(10px, 1.4cqw); }
+  .victory-detail { font-size: max(11px, 1.9cqw); }
+}
+@media (prefers-reduced-motion: reduce) { .victory-stage, .victory-stage *, .victory-stage::before { animation: none !important; } .victory-rays, .victory-sparks, .victory-stage::before { display: none; } }
+body.reduce-motion .victory-stage, body.reduce-motion .victory-stage * { animation: none !important; }
+body.reduce-motion .victory-rays, body.reduce-motion .victory-sparks, body.reduce-motion .victory-stage::before { display: none; }
+.victory-stage.is-restored::before, .victory-stage.is-defeat::before { display: none; }

@@ -1,4 +1,5 @@
 import { TABLE_STAKES } from "./stakes.js";
+import { validPortrait, portraitFor } from '../portraits.js';
 import { recordBurn } from "../living-board.js";
 import { MqttWsSignalingClient } from "./signaling.js";
 import {
@@ -53,10 +54,20 @@ export function project(game, seat) {
     boardScars: game.boardScars || [],
   };
 }
+// Pending decisions and failed hidden flips are private to their actor.
+// Successfully played faces and table-wide outcomes stay public.
+export function projectEvent(event, seat) {
+  if (!event) return null;
+  if (event.who === seat) return { ...event };
+  if (event.needsAceChoice) return { id: event.id, who: event.who, waiting: true };
+  const { reveal, blind, ...publicEvent } = event;
+  return publicEvent;
+}
 export class Session {
-  constructor(name, onChange, onError) {
+  constructor(name, onChange, onError, {portrait='fox'}={}) {
     this.id = id();
     this.name = clean(name);
+    this.portrait = portraitFor(portrait).id;
     this.onChange = onChange;
     this.onError = onError;
     this.mqtt = new MqttWsSignalingClient();
@@ -101,7 +112,7 @@ export class Session {
     });
     if (this.host) {
       this.members = [
-        { id: this.id, name: this.name, ready: false, connected: true },
+        { id: this.id, name: this.name, portrait: this.portrait, ready: false, connected: true },
       ];
       this.mqtt.subscribe(DISCOVER, () => this.announce());
     }
@@ -111,10 +122,10 @@ export class Session {
       if (this.host) {
         this.announce();
       } else if (!this.connected)
-        this.publish({ type: "join", name: this.name });
+        this.publish({ type: "join", name: this.name, portrait: this.portrait });
     }, 2500);
     if (this.host) this.announce();
-    else this.publish({ type: "join", name: this.name });
+    else this.publish({ type: "join", name: this.name, portrait: this.portrait });
     this.timeout = setTimeout(() => {
       if (!this.host && !this.connected)
         this.onError(
@@ -184,6 +195,7 @@ export class Session {
       this.members.push({
         id: m.id,
         name: clean(m.name),
+        portrait: portraitFor(m.portrait).id,
         ready: false,
         connected: false,
       });
@@ -392,7 +404,7 @@ export class Session {
       chat: this.chat,
       paused: this.paused,
       message: this.message,
-      event: this.event,
+      event: projectEvent(this.event, seat),
       game: this.game ? project(this.game, seat) : null,
     };
   }
@@ -474,7 +486,7 @@ export class Session {
     const now = Date.now();
     if (!text || now - (this.chatTimes.get(peer) || 0) < 800) return false;
     this.chatTimes.set(peer, now);
-    this.chat.push({ id: id(), sender: member.id, name: member.name, text });
+    this.chat.push({ id: id(), sender: member.id, name: member.name, portrait: portraitFor(member.portrait).id, text });
     this.chat = this.chat.slice(-100);
     this.broadcast();
     return true;
@@ -505,7 +517,11 @@ export class Session {
           ack: m.seq,
         });
     };
-    if (m.type === "stake" && seat === 0 && !this.game) {
+    if (m.type === 'portrait' && !this.game && !this.ended) {
+      if (!this.members[seat].connected || !validPortrait(m.portrait)) return fail('Choose a character from the collection.');
+      this.members[seat].portrait = m.portrait;
+      if (peer === this.id) this.portrait = m.portrait;
+    } else if (m.type === "stake" && seat === 0 && !this.game) {
       if (![0, ...TABLE_STAKES].includes(m.stake)) return fail("Choose a table stake.");
       if (m.stake === this.stake) return;
       this.stake = m.stake;
@@ -550,8 +566,8 @@ export class Session {
     ) {
       this.members[seat].ready = m.ready === true;
       if (this.members.every((p) => p.ready && p.connected)) {
-        start(this.game, random);
-        this.message = `${this.members[this.game.turn].name} starts. The bottle has spoken.`;
+        start(this.game);
+        this.message = `${this.members[this.game.turn].name} starts. Fate has chosen.`;
       }
     } else if (
       m.type === "swap" &&
@@ -619,7 +635,7 @@ export class Session {
         reveal: blindCard || undefined,
       };
       this.message = r.needsAceChoice
-        ? "Choose whether to play this ace as 1 or high."
+        ? `${this.members[seat].name} is choosing…`
         : `${this.members[seat].name} ${r.pickup ? "picked up the pile" : r.burn ? "burned the pile" : r.wentOut ? "escaped!" : "played " + (r.cards || []).map((c) => (c.rank === 15 ? "Joker" : c.rank)).join(" + ")}.`;
     } else
       return fail("Wait for your turn or for everyone to finish setting up.");

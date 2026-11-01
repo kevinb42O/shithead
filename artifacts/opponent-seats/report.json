@@ -1,0 +1,445 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "mode": "normal",
+    "seats": [
+      {
+        "x": 144.015625,
+        "y": 101,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Fox",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.81045532226562,
+        "active": false
+      },
+      {
+        "x": 547.203125,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": false
+      },
+      {
+        "x": 950.390625,
+        "y": 101,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Raven",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 3440,
+    "height": 1440,
+    "mode": "active",
+    "seats": [
+      {
+        "x": 1030,
+        "y": 116,
+        "w": 400,
+        "h": 266.65625,
+        "status": "3 in hand",
+        "name": "The Fox",
+        "nameWidth": 200,
+        "nameScroll": 200,
+        "cardWidth": 80.80517578125,
+        "active": false
+      },
+      {
+        "x": 1520,
+        "y": 98,
+        "w": 400,
+        "h": 266.65625,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 200,
+        "nameScroll": 200,
+        "cardWidth": 80.80517578125,
+        "active": true
+      },
+      {
+        "x": 2010,
+        "y": 116,
+        "w": 400,
+        "h": 266.65625,
+        "status": "3 in hand",
+        "name": "The Raven",
+        "nameWidth": 200,
+        "nameScroll": 200,
+        "cardWidth": 80.80517578125,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "mode": "active",
+    "seats": [
+      {
+        "x": 144,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Fox",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.81045532226562,
+        "active": false
+      },
+      {
+        "x": 950.40625,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": true
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "mode": "normal",
+    "seats": [
+      {
+        "x": 547.203125,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Fox",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "active",
+    "seats": [
+      {
+        "x": 12,
+        "y": 114,
+        "w": 119.328125,
+        "h": 79.546875,
+        "status": "3 in hand",
+        "name": "The Fox",
+        "nameWidth": 75,
+        "nameScroll": 75,
+        "cardWidth": 24.09569549560547,
+        "active": false
+      },
+      {
+        "x": 135.328125,
+        "y": 106,
+        "w": 119.34375,
+        "h": 79.5625,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 75,
+        "nameScroll": 75,
+        "cardWidth": 24.095687866210938,
+        "active": true
+      },
+      {
+        "x": 258.671875,
+        "y": 114,
+        "w": 119.328125,
+        "h": 79.546875,
+        "status": "3 in hand",
+        "name": "The Raven",
+        "nameWidth": 75,
+        "nameScroll": 75,
+        "cardWidth": 24.095672607421875,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "mode": "online",
+    "seats": [
+      {
+        "x": 12,
+        "y": 114,
+        "w": 96,
+        "h": 64,
+        "status": "3 in hand",
+        "name": "Theodore Longlastname",
+        "nameWidth": 59,
+        "nameScroll": 97,
+        "cardWidth": 19.378822326660156,
+        "active": false
+      },
+      {
+        "x": 112,
+        "y": 106,
+        "w": 96,
+        "h": 64,
+        "status": "3 in hand",
+        "name": "Mira",
+        "nameWidth": 59,
+        "nameScroll": 59,
+        "cardWidth": 19.378814697265625,
+        "active": false
+      },
+      {
+        "x": 212,
+        "y": 114,
+        "w": 96,
+        "h": 64,
+        "status": "3 in hand",
+        "name": "Jules",
+        "nameWidth": 59,
+        "nameScroll": 59,
+        "cardWidth": 19.378814697265625,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "active",
+    "seats": [
+      {
+        "x": 156.296875,
+        "y": 56,
+        "w": 163.796875,
+        "h": 109.1875,
+        "status": "3 in hand",
+        "name": "The Fox",
+        "nameWidth": 82,
+        "nameScroll": 82,
+        "cardWidth": 33.07435607910156,
+        "active": false
+      },
+      {
+        "x": 340.09375,
+        "y": 38,
+        "w": 163.796875,
+        "h": 109.1875,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 82,
+        "nameScroll": 82,
+        "cardWidth": 33.0743408203125,
+        "active": true
+      },
+      {
+        "x": 523.890625,
+        "y": 56,
+        "w": 163.796875,
+        "h": 109.1875,
+        "status": "3 in hand",
+        "name": "The Raven",
+        "nameWidth": 82,
+        "nameScroll": 82,
+        "cardWidth": 33.0743408203125,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "mode": "out",
+    "seats": [
+      {
+        "x": 144.015625,
+        "y": 101,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "1st · Out",
+        "name": "The Fox",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "active": false
+      },
+      {
+        "x": 547.203125,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": false
+      },
+      {
+        "x": 950.390625,
+        "y": 101,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Raven",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "blind",
+    "seats": [
+      {
+        "x": 12,
+        "y": 106,
+        "w": 181,
+        "h": 120.65625,
+        "status": "Playing blind",
+        "name": "The Fox",
+        "nameWidth": 115,
+        "nameScroll": 115,
+        "cardWidth": 36.5627326965332,
+        "active": false
+      },
+      {
+        "x": 197,
+        "y": 106,
+        "w": 181,
+        "h": 120.65625,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 115,
+        "nameScroll": 115,
+        "cardWidth": 36.56272888183594,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "mode": "last",
+    "seats": [
+      {
+        "x": 144,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "One card left",
+        "name": "The Fox",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.81045532226562,
+        "active": false
+      },
+      {
+        "x": 950.40625,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "mode": "loser",
+    "seats": [
+      {
+        "x": 144,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "Shithead",
+        "name": "The Fox",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.81045532226562,
+        "active": false
+      },
+      {
+        "x": 950.40625,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": false
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "mode": "reaction",
+    "seats": [
+      {
+        "x": 144.015625,
+        "y": 101,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Fox",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.81045532226562,
+        "active": false
+      },
+      {
+        "x": 547.203125,
+        "y": 83,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Owl",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": false
+      },
+      {
+        "x": 950.390625,
+        "y": 101,
+        "w": 345.59375,
+        "h": 230.390625,
+        "status": "3 in hand",
+        "name": "The Raven",
+        "nameWidth": 173,
+        "nameScroll": 173,
+        "cardWidth": 69.8104248046875,
+        "active": false
+      }
+    ]
+  }
+]

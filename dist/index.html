@@ -40,6 +40,11 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="game-layout.css">
   <link rel="stylesheet" href="effects.css">
+  <link rel="stylesheet" href="victory.css">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cinzel-decorative-black-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cinzel-bold-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-semibold-italic-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="card-reveal.css">
   <link rel="stylesheet" href="menu.css">
   <link rel="stylesheet" href="menu-lighting.css">
   <link rel="stylesheet" href="players.css">
@@ -54,16 +59,20 @@
   <link rel="stylesheet" href="painted-buttons.css">
   <link rel="stylesheet" href="fresh-deal.css">
   <link rel="stylesheet" href="table-setup.css">
-  <link rel="preload" as="image" href="assets/opening-bottle.png">
+  <link rel="preload" as="image" href="assets/opening-fate-needle.png">
+  <link rel="preload" as="image" href="assets/opening-result-plaque.png">
   <link rel="stylesheet" href="online.css">
   <link rel="stylesheet" href="living-board.css">
   <link rel="stylesheet" href="board-fixtures.css">
   <link rel="stylesheet" href="setup-swap.css">
   <link rel="stylesheet" href="opponent-stations.css">
+  <link rel="stylesheet" href="portraits.css">
   <link rel="stylesheet" href="fortune.css">
   <link rel="stylesheet" href="fortune-marquee.css">
   <link rel="preload" as="image" href="assets/ember-hearth-board.jpg" media="(min-width: 701px)">
   <link rel="preload" as="image" href="assets/ember-hearth-mobile.jpg" media="(max-width: 700px)">
+  <link rel="stylesheet" href="card-motion.css">
+  <link rel="stylesheet" href="decision-focus.css">
 </head>
 
 <body class="menu-open booting">
@@ -86,6 +95,7 @@
     </div>
   </section>
   <section id="main-menu" class="main-menu" aria-label="Main menu">
+    <div id="unlock-confirmation" class="unlock-confirmation" role="status" aria-live="polite" aria-atomic="true" hidden></div>
     <div class="menu-top"><span class="menu-club">THE SHITHEAD SOCIAL CLUB</span>
       <div class="menu-top-actions">
         <button id="menu-top-rules" class="menu-quiet" type="button">Rules</button>
@@ -165,8 +175,7 @@
       <p id="pot-outcome" role="status" aria-live="polite"></p>
     </aside>
     <button id="mobile-menu-btn" class="mobile-menu-btn" type="button" aria-label="Open menu" aria-haspopup="dialog" aria-controls="mobile-menu-dialog" title="Open menu (ESC)">
-      <img class="game-menu-button-art" src="assets/hearth-menu.png" alt="" aria-hidden="true" draggable="false">
-      <span class="board-menu-label">Menu</span>
+      <img class="game-menu-button-art" src="assets/hearth-menu-cog.png" alt="" aria-hidden="true" draggable="false">
     </button>
     <header class="topbar" hidden style="display:none!important">
       <a class="wordmark" href="./" aria-label="Shithead home"><img src="assets/shithead-title.png" alt="" width="2146" height="733"></a>
@@ -211,6 +220,7 @@
               <div class="table-stamp" id="table-stamp"><span>THE CARD TABLE</span><strong>Play
                   your<br>luck.</strong><span>SHITHEAD SOCIAL CLUB</span></div>
               <div id="pile" class="pile"></div>
+
               <div class="pile-footer">
                 <div class="pile-caption" id="pile-caption"></div>
                 <button id="start-game-center" class="primary-button royal-button" type="button" hidden>Start Game</button>
@@ -516,7 +526,7 @@
           <div class="rules-zone-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 12a10 10 0 0 1 18-3l2 3M27 5v7h-7M25 20A10 10 0 0 1 7 23l-2-3M5 27v-7h7"/></svg></div>
           <div>
             <h4>The Swap Phase &amp; Bottle Spin</h4>
-            <p>After dealing completes, drag or click to swap cards between your hand and face-up reserve. When ready, the green bottle spins in the center to randomly choose who opens the game with equal odds.</p>
+            <p>After dealing completes, drag or click to swap cards between your hand and face-up reserve. When ready, the brass Fate Needle spins in the center to randomly choose who opens the game with equal odds.</p>
           </div>
         </div>
 

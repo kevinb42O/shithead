@@ -51,11 +51,11 @@ test('two sevens, then two separate threes resume play from three',()=>{
 test('picked-up cards lose old seven threshold when replayed',()=>{const g=aceGame();g.players[0].hand=[{...c(4),resumeRank:7},c(9)];assert(play(g,['4']).ok);assert.equal(topRank(g.pile),4);});
 test('joker-only pile opens with an ace as one',()=>{assert.deepEqual(aceOptions([c(15)]),[1]);});
 
-test('bottle start gives each seat an equal interval for 2–4 players',()=>{
+test('Fate Needle start gives each seat an equal interval for 2–4 players',()=>{
  for(const count of [2,3,4])for(let who=0;who<count;who++){
   for(const offset of [0,.5,.999999]){
    const g=createGame(Math.random,count);start(g,()=>(who+offset)/count);
-   assert.equal(g.turn,who);assert.equal(g.phase,'playing');assert.match(g.log[0],/bottle/);assertGame(g);
+   assert.equal(g.turn,who);assert.equal(g.phase,'playing');assert.match(g.log[0],/Fate/);assertGame(g);
   }
  }
 });
