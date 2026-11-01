@@ -21,7 +21,7 @@ Triples take precedence over pairs. Payout includes the stake: a 25-coin pair re
 
 `dist/coins.js` migrates older wallets while preserving valid balances, including zero; missing daily metadata makes the first allowance available. Existing saved cards remain in the same snapshot. The original fallback refill remains available below 10 coins once the card wager has resolved; it resets the balance to 1,000 and is separate from the additive daily allowance.
 
-Use a current browser on localhost with Web Locks and local storage available. Transactions fail closed when locking is unavailable; storage failures report an error without starting a new spin. This is device-local play money: saves and cooldowns can be altered by editing browser storage or changing the device clock. Clearing storage removes progress. Coins cannot be bought, sold or redeemed. Online multiplayer does not share this wallet.
+Use a current browser on localhost with Web Locks and local storage available. Transactions fail closed when locking is unavailable; storage failures report an error without starting a new spin. This is device-local play money: saves and cooldowns can be altered by editing browser storage or changing the device clock. Clearing storage removes progress. Coins cannot be bought, sold or redeemed. Multiplayer table stakes use this same wallet: each browser reserves its accepted contribution and the first-out winner receives the pot once. Practice tables remain free.
 
 ## Presentation and controls
 

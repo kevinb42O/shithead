@@ -1,3 +1,4 @@
+import { TABLE_STAKES } from "./stakes.js";
 import { recordBurn } from "../living-board.js";
 import { MqttWsSignalingClient } from "./signaling.js";
 import {
@@ -29,6 +30,7 @@ export function project(game, seat) {
     deckCount: game.deck.length,
     burnCount: game.burned.length,
     winner: game.winner,
+    bet: game.bet ? { ...game.bet } : null,
     loser: game.loser,
     placements: game.placements,
     players: game.players.map((p, i) => ({
@@ -72,6 +74,14 @@ export class Session {
     this.busy = false;
     this.pendingSequence = 0;
     this.ended = false;
+    this.chat = [];
+    this.chatTimes = new Map();
+    this.boardEffectTimes = new Map();
+    this.boardEffectSequence = 0;
+    this.lastBoardEffect = 0;
+    this.onBoardEffect = () => {};
+    this.stake = 0;
+    this.offerId = id();
   }
   async open(room) {
     if (this.closed) return;
@@ -134,6 +144,7 @@ export class Session {
         name: `${this.name}’s table`,
         host: this.name,
         count: this.members.length,
+        stake: this.stake,
         state: closed ? "closed" : this.game ? "playing" : "waiting",
         at: Date.now(),
         v: 1,
@@ -291,7 +302,9 @@ export class Session {
       try {
         const m = JSON.parse(e.data);
         if (this.host) this.command(peer, m);
-        else if (
+        else if (m.type === "board-effect") {
+          this.deliverBoardEffect(m);
+        } else if (
           m.type === "snapshot" &&
           Number.isInteger(m.revision) &&
           m.revision >= this.revision
@@ -301,6 +314,9 @@ export class Session {
             this.clearPending();
           this.revision = m.revision;
           this.members = m.members;
+          this.stake = TABLE_STAKES.includes(m.stake) ? m.stake : 0;
+          this.offerId = m.offerId;
+          this.chat = Array.isArray(m.chat) ? m.chat.slice(-100) : [];
           this.view = m.game;
           this.paused = m.paused;
           this.message = m.message || "";
@@ -325,15 +341,27 @@ export class Session {
   disconnected(peer) {
     if (this.closed) return;
     const m = this.members.find((m) => m.id === peer);
-    if (m) {
+    if (m && this.host) {
       m.connected = false;
       if (!this.game) {
         this.members = this.members.filter((m) => m.id !== peer);
         this.links.delete(peer);
-      } else this.paused = true;
+      } else {
+        this.paused = true;
+        if (this.game.bet && !this.game.bet.settled) {
+          this.game.bet.cancelled = true;
+          this.message = 'A player left. The wager is cancelled and all buy-ins are returned.';
+        }
+      }
     }
     if (!this.host) {
       this.paused = true;
+      this.ended = true;
+      this.message = 'The host disconnected. This table has ended.';
+      if (this.view?.bet && !this.view.bet.settled) {
+        this.view.bet.cancelled = true;
+        this.message += ' Your buy-in has been returned.';
+      }
       this.clearPending();
     }
     this.broadcast();
@@ -359,6 +387,9 @@ export class Session {
       revision: this.revision,
       ack: this.lastSequences.get(this.members[seat]?.id) || 0,
       members: this.members,
+      stake: this.stake,
+      offerId: this.offerId,
+      chat: this.chat,
       paused: this.paused,
       message: this.message,
       event: this.event,
@@ -402,8 +433,56 @@ export class Session {
       this.onChange();
     }
   }
+  sendChat(text) {
+    text = String(text || "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, 240);
+    if (!text || this.closed || this.ended || !this.connected) return false;
+    if (this.host) return this.receiveChat(this.id, text);
+    return [...this.links.values()].some((l) => this.send(l, { type: "chat", text }));
+  }
+  // Transient scenery uses its own reliable channel messages. Never lock a
+  // card action, change the game revision, or replay scenery on resync.
+  interactBoard(prop) {
+    if (this.closed || this.ended || !this.connected || !this.view || this.paused) return false;
+    if (prop !== 'forge' && prop !== 'lantern') return false;
+    if (this.host) return this.receiveBoardInteraction(this.id, prop);
+    return [...this.links.values()].some(l => this.send(l, { type: 'board-interact', prop }));
+  }
+  receiveBoardInteraction(peer, prop) {
+    if (!this.host || this.closed || !this.game || this.paused || !['forge', 'lantern'].includes(prop)) return false;
+    if (!this.members.some(m => m.id === peer && m.connected)) return false;
+    const now = Date.now();
+    if (now - (this.boardEffectTimes.get(peer) ?? -Infinity) < 650) return false;
+    this.boardEffectTimes.set(peer, now);
+    const effect = { type: 'board-effect', id: ++this.boardEffectSequence, prop,
+      seed: Math.floor(random() * 4294967296), sender: peer };
+    for (const l of this.links.values()) this.send(l, effect);
+    this.deliverBoardEffect(effect);
+    return true;
+  }
+  deliverBoardEffect(effect) {
+    if (this.closed || !this.view || !Number.isSafeInteger(effect.id) || effect.id <= this.lastBoardEffect ||
+      !['forge', 'lantern'].includes(effect.prop) || !Number.isInteger(effect.seed) || effect.seed < 0 || effect.seed > 4294967295 ||
+      !this.members.some(m => m.id === effect.sender)) return false;
+    this.lastBoardEffect = effect.id;
+    this.onBoardEffect({ id: effect.id, prop: effect.prop, seed: effect.seed, sender: effect.sender });
+    return true;
+  }
+  receiveChat(peer, text) {
+    const member = this.members.find((p) => p.id === peer && p.connected);
+    if (!member || typeof text !== "string") return false;
+    text = text.replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, 240);
+    const now = Date.now();
+    if (!text || now - (this.chatTimes.get(peer) || 0) < 800) return false;
+    this.chatTimes.set(peer, now);
+    this.chat.push({ id: id(), sender: member.id, name: member.name, text });
+    this.chat = this.chat.slice(-100);
+    this.broadcast();
+    return true;
+  }
   command(peer, m) {
     if (this.closed || !m || typeof m !== "object") return;
+    if (m.type === 'board-interact') { this.receiveBoardInteraction(peer, m.prop); return; }
+    if (m.type === "chat") { this.receiveChat(peer, m.text); return; }
     const seat = this.members.findIndex((p) => p.id === peer);
     if (seat >= 0 && m.type === "resync") {
       this.send(this.links.get(peer) || {}, this.snapshot(seat));
@@ -426,11 +505,24 @@ export class Session {
           ack: m.seq,
         });
     };
-    if (m.type === "deal" && seat === 0 && !this.game) {
+    if (m.type === "stake" && seat === 0 && !this.game) {
+      if (![0, ...TABLE_STAKES].includes(m.stake)) return fail("Choose a table stake.");
+      if (m.stake === this.stake) return;
+      this.stake = m.stake;
+      this.offerId = id();
+      for (const p of this.members) p.accepted = null;
+      this.message = this.stake ? "Everyone must accept the buy-in before dealing." : "A friendly practice table. No coins at stake.";
+    } else if (m.type === "accept" && !this.game && this.stake) {
+      if (m.offerId !== this.offerId) return fail("The stake changed. Please review it again.");
+      this.members[seat].accepted = this.offerId;
+    } else if (m.type === "deal" && seat === 0 && !this.game) {
       if (this.members.length < 2 || this.members.some((p) => !p.connected))
         return fail("Wait for at least one friend to connect.");
+      if (this.stake && this.members.some(p => p.accepted !== this.offerId))
+        return fail("Everyone must accept the buy-in first.");
       this.event = null;
       this.game = deal(this.members.length);
+      if (this.stake) this.game.bet = { id: this.offerId, stake: this.stake, pot: this.stake * this.members.length, settled: false, winner: null };
       for (const p of this.members) p.ready = false;
       this.message = "Choose your face-up cards, then press Ready.";
     } else if (
@@ -441,9 +533,16 @@ export class Session {
       this.members.every((p) => p.connected)
     ) {
       this.event = null;
-      this.game = deal(this.members.length);
-      for (const p of this.members) p.ready = false;
-      this.message = "A fresh deal. Arrange your cards, then ready up.";
+      if (this.stake) {
+        this.game = null;
+        this.offerId = id();
+        for (const p of this.members) { p.ready = false; p.accepted = null; }
+        this.message = "A fresh round. Accept the buy-in before the next deal.";
+      } else {
+        this.game = deal(this.members.length);
+        for (const p of this.members) p.ready = false;
+        this.message = "A fresh deal. Arrange your cards, then ready up.";
+      }
     } else if (
       m.type === "ready" &&
       this.game?.phase === "setup" &&
@@ -524,6 +623,10 @@ export class Session {
         : `${this.members[seat].name} ${r.pickup ? "picked up the pile" : r.burn ? "burned the pile" : r.wentOut ? "escaped!" : "played " + (r.cards || []).map((c) => (c.rank === 15 ? "Joker" : c.rank)).join(" + ")}.`;
     } else
       return fail("Wait for your turn or for everyone to finish setting up.");
+    if (this.game?.bet && !this.game.bet.settled && Number.isInteger(this.game.winner)) {
+      this.game.bet.winner = this.game.winner;
+      this.game.bet.settled = true;
+    }
     if (this.game) assertGame(this.game);
     this.broadcast();
     this.announce();
@@ -545,5 +648,6 @@ export class Session {
       l.pc.close();
     }
     this.links.clear();
+    this.onChange();
   }
 }

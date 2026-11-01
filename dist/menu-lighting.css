@@ -1,0 +1,94 @@
+/* Screen-space canvas, painted with the background's exact cover transform.
+   Its negative stacking layer keeps all light behind the live menu controls. */
+.menu-lighting {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  contain: strict;
+}
+.main-menu { overflow-x: hidden; }
+
+/* Light lives behind the controls. These silhouettes use the same image
+   dimensions and crop offsets as the visible art, but are not clipped by it. */
+.main-menu .menu-play.menu-play-illustrated,
+.main-menu .menu-multiplayer-illustrated {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+.main-menu .menu-play-art img,
+.main-menu .menu-multiplayer-art img { filter: none; }
+.main-menu .menu-play-art::after,
+.main-menu .menu-multiplayer-art::after,
+.main-menu .menu-title-illustrated::after { content: none; }
+.main-menu .menu-play.menu-play-illustrated::before,
+.main-menu .menu-multiplayer-illustrated::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--button-light-image) center / 100% 100% no-repeat;
+  /* Blur the alpha-bearing image itself. A CSS mask would crop the blur
+     again at the silhouette, preventing the light from spilling outward. */
+  filter: blur(15px) var(--button-light-color);
+  opacity: .38;
+  animation: menu-backlight 6s ease-in-out infinite;
+  transition: opacity 260ms ease, filter 260ms ease;
+}
+.main-menu .menu-play.menu-play-illustrated::before {
+  --button-light-image: url(assets/lets-play-button.png);
+  --button-light-color: brightness(1.45) saturate(1.6);
+  top: -17%;
+  aspect-ratio: 1945 / 808;
+}
+.main-menu .menu-multiplayer-illustrated::before {
+  --button-light-image: url(assets/multiplayer-button.png);
+  --button-light-color: sepia(1) saturate(2.7) hue-rotate(125deg) brightness(1.5);
+  top: -6%;
+  aspect-ratio: 2172 / 724;
+  animation-delay: -2.7s;
+}
+/* A small, deep contact shadow separates the plaque from the light spill. */
+.main-menu .menu-play.menu-play-illustrated::after,
+.main-menu .menu-multiplayer-illustrated::after {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 5% -8% -20%;
+  pointer-events: none;
+  background: radial-gradient(ellipse, #0706049c 10%, #07060440 42%, transparent 70%);
+  filter: blur(6px);
+}
+.main-menu .menu-play.menu-play-illustrated:is(:hover,:focus-visible),
+.main-menu .menu-multiplayer-illustrated:is(:hover,:focus-visible) {
+  filter: drop-shadow(0 5px 5px #0008);
+}
+.main-menu .menu-play.menu-play-illustrated:is(:hover,:focus-visible)::before,
+.main-menu .menu-multiplayer-illustrated:is(:hover,:focus-visible)::before {
+  animation: none;
+  opacity: .8;
+  filter: blur(19px) var(--button-light-color);
+}
+.main-menu .fortune-entry:is(:hover,:focus-visible) .fortune-entry-coin {
+  filter: drop-shadow(0 0 8px #d8a44c66);
+}
+.main-menu .menu-utilities button:is(:hover,:focus-visible) {
+  filter: drop-shadow(0 0 9px #dbb56f73);
+}
+@keyframes menu-backlight {
+  0%, 100% { opacity: .26; }
+  45% { opacity: .43; }
+  70% { opacity: .34; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .main-menu .menu-play.menu-play-illustrated::before,
+  .main-menu .menu-multiplayer-illustrated::before { animation: none; }
+}
+body.reduce-motion .main-menu .menu-play.menu-play-illustrated::before,
+body.reduce-motion .main-menu .menu-multiplayer-illustrated::before { animation: none; }

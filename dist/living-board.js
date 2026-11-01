@@ -1,3 +1,4 @@
+import { createPropEffects } from './board-prop-effects.js';
 // Board scars are part of the saved deal. All coordinates use the board's
 // center and shorter edge, so damage follows the hearth across device sizes.
 export function seededRandom(seed) {
@@ -14,7 +15,7 @@ export function recordBurn(game, count, seed = Math.floor(Math.random() * 429496
   game.boardScars = [...scars, makeBurnScar(seed, count)].slice(-16);
   return game.boardScars.at(-1);
 }
-export function createLivingBoard({ sound = () => {} } = {}) {
+export function createLivingBoard({ sound = () => {}, interact = () => {} } = {}) {
   const canvas = document.querySelector('#board-damage');
   const shell = document.querySelector('.game-shell');
   const stage = document.querySelector('#board-particles');
@@ -24,6 +25,8 @@ export function createLivingBoard({ sound = () => {} } = {}) {
   const lantern = document.querySelector('#board-lantern');
   let activeGame = null, timer = null;
   const reduced = () => document.body.classList.contains('reduce-motion') || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const propEffects = createPropEffects({ stage, reduced, sound });
+  let lastTap = -Infinity;
   function hearthCenter() {
     const r = document.querySelector('.pile-area')?.getBoundingClientRect();
     return r?.width ? { x: r.left + r.width / 2, y: r.top + r.height / 2 } : { x: innerWidth / 2, y: innerHeight / 2 };
@@ -107,13 +110,11 @@ export function createLivingBoard({ sound = () => {} } = {}) {
       burst(center.x, center.y + 45, rank === 7 || rank === 15 ? 'arcane' : 'dust', .6);
     }
   }
-  forge.addEventListener('click', () => {
-    const r = forge.getBoundingClientRect(); pulse('forge'); burst(r.left + r.width / 2, r.top + r.height / 2, 'fire', 1.5); sound('slap');
-  });
-  lantern.addEventListener('click', () => {
-    const r = lantern.getBoundingClientRect(); pulse('arcane'); burst(r.left + r.width / 2, r.top + r.height / 2, 'arcane', 1.5); sound('free');
+  for (const [button, prop] of [[forge, 'forge'], [lantern, 'lantern']]) button.addEventListener('click', () => {
+    if (performance.now() - lastTap < 650) return;
+    lastTap = performance.now(); interact(prop);
   });
   new ResizeObserver(draw).observe(shell);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) stage.replaceChildren(); });
-  return { sync, react };
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stage.querySelectorAll('.board-spark').forEach(n => n.remove()); });
+  return { sync, react, interact: propEffects.play };
 }

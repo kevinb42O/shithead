@@ -1,3 +1,7 @@
+import { TABLE_STAKES } from "./multiplayer/stakes.js";
+import { createBank } from "./bank.js";
+import { createTableWallet } from "./multiplayer/wallet.js";
+import { createChat } from "./chat.js";
 import { Session, LIST, DISCOVER } from "./multiplayer/session.js";
 import { MqttWsSignalingClient } from "./multiplayer/signaling.js";
 import { preloadCardArtwork } from "./card-art.js";
@@ -23,6 +27,15 @@ const button = (label, fn, cls = "ol-button") => {
   b.onclick = fn;
   return b;
 };
+const bank = createBank({ key: 'shithead-table-v2', changed(wallet) {
+  document.dispatchEvent(new CustomEvent('wallet-updated', { detail: wallet }));
+} });
+const tableWallet = createTableWallet(bank);
+let accepting = false;
+tableWallet.recover().catch(e => error(e.message));
+const chat = createChat();
+const chatStyle = document.createElement("link");
+chatStyle.rel = "stylesheet"; chatStyle.href = "chat.css"; document.head.append(chatStyle);
 const root = el("section", "online");
 root.hidden = true;
 root.setAttribute("aria-label", "Multiplayer card club");
@@ -35,6 +48,7 @@ let session = null,
   swapHand = null,
   notice = "",
   inRoom = false;
+let lobbyTab = "table";
 let playerName;
 try {
   playerName = localStorage.getItem("shithead-online-name") || "";
@@ -62,6 +76,13 @@ const body = el("div", "ol-body"),
 status.setAttribute("role", "status");
 status.setAttribute("aria-live", "polite");
 root.append(header, body, status);
+function fitLobby() {
+  if (!root.clientWidth || !root.clientHeight) return;
+  const scale = root.clientWidth > 1100
+    ? Math.max(1, Math.min(2.3, (root.clientWidth - 96) / 1100, (root.clientHeight - 120) / 600)) : 1;
+  root.style.setProperty("--lobby-scale", scale.toFixed(3));
+}
+new ResizeObserver(fitLobby).observe(root);
 function error(s) {
   notice = s;
   status.textContent = s;
@@ -80,6 +101,7 @@ function leave() {
     return;
   session?.close();
   session = null;
+  chat.update(null);
   browser?.close();
   browser = null;
   clearInterval(interval);
@@ -97,7 +119,9 @@ function show() {
 function browse() {
   session?.close();
   session = null;
+  chat.update(null);
   inRoom = false;
+  lobbyTab = "table";
   notice = "";
   body.scrollTop = 0;
   root.dataset.screen = "lobby";
@@ -107,8 +131,9 @@ function browse() {
   exitButton.textContent = "Back to menu";
   const intro = el("div", "ol-intro");
   const title = el("h1", "ol-title");
-  title.append(art("club-title", "ol-title-art", "The Card Club"));
-  intro.append(title, el("p", "ol-tagline", "Good company. Terrible intentions."));
+  title.textContent = "The Tavern";
+  intro.append(el("span", "ol-eyebrow", "THE SHITHEAD CARD CLUB"));
+  intro.append(title, el("p", "ol-tagline", "A warm hearth. A full table. Terrible intentions."));
   const layout = el("div", "ol-lobby"),
     create = el("form", "ol-create"),
     label = el("label", "", "Your name"),
@@ -120,9 +145,10 @@ function browse() {
   input.autocomplete = "nickname";
   label.append(input);
   create.append(
-    el("h2", "", "Make yourself at home."),
+    el("h2", "", "Host a table"),
+    el("p", "ol-create-welcome", "There’s always room for one more."),
     label,
-    el("p", "", "2–4 friends. No buy-in. Same questionable luck."),
+    el("p", "", "2–4 friends. Play for fun, or put a few coins on the table."),
   );
   const make = button("Create a table", () => {}, "ol-button ol-primary");
   make.type = "submit";
@@ -139,11 +165,13 @@ function browse() {
   const directory = el("section", "ol-directory");
   const directoryHeading = el("div", "ol-directory-heading");
   directoryHeading.append(el("h2", "", "Open tables"), el("span", "ol-table-count", ""));
-  directory.append(directoryHeading);
+  directory.append(directoryHeading, el("p", "ol-directory-subtitle", "Find your people. Take an open seat."));
   const list = el("div", "ol-list");
   directory.append(list);
   layout.append(create, directory);
-  body.append(intro, layout);
+  const stage = el("div", "ol-browse-stage");
+  stage.append(intro, layout);
+  body.append(stage);
   const draw = () => {
     if (inRoom) return;
     const focusedRoom = list.contains(document.activeElement)
@@ -168,7 +196,7 @@ function browse() {
           "No open tables yet. Make one and your friends will see it here.",
         ),
       );
-      empty.append(art("club-empty-table", "ol-empty-art"), emptyCopy);
+      empty.append(art("tavern-table-art", "ol-empty-art"), emptyCopy);
       list.append(empty);
     }
     for (const r of available) {
@@ -176,7 +204,7 @@ function browse() {
       const copy = el("div");
       copy.append(
         el("strong", "", r.name),
-        el("span", "", `${r.count} of 4 seats · Waiting for friends`),
+        el("span", "", `${r.count} of 4 seats · ${TABLE_STAKES.includes(r.stake) ? r.stake + " coins each" : "Practice"}`),
       );
       const joinButton = button("Join table", () => {
         playerName = input.value.trim();
@@ -263,14 +291,15 @@ async function enter(room) {
   clearInterval(interval);
   root.dataset.screen = "loading";
   const loading = el("div", "ol-loading");
-  loading.append(art("club-empty-table", "ol-loading-art"), el("h1", "", "Setting your table…"));
+  loading.append(art("tavern-table-art", "ol-loading-art"), el("h1", "", "Setting your table…"));
   body.replaceChildren(loading);
   status.textContent = "Connecting to your friends…";
   const joining = new Session(
     playerName,
     () => {
-      notice = "";
-      render();
+      tableWallet.sync(joining).then(() => {
+        if (session === joining && !joining.closed) { notice = ""; render(); }
+      }).catch(e => error(e.message));
     },
     error,
   );
@@ -290,32 +319,51 @@ async function enter(room) {
 function render() {
   const s = session;
   if (!s) return;
+  chat.update(s);
   if (s.view) {
     root.hidden = true;
     document.dispatchEvent(new CustomEvent("online-table", { detail: s }));
     return;
   }
-  if (root.hidden) return;
+  if (s.closed) return;
+  if (root.hidden) {
+    document.dispatchEvent(new CustomEvent('online-waiting'));
+    root.hidden = false;
+  }
   const previousFocus = document.activeElement?.dataset.focus;
+  const chatInput = document.querySelector("#table-chat-input");
+  const chatWasFocused = document.activeElement === chatInput;
+  const chatSelection = chatWasFocused ? [chatInput.selectionStart, chatInput.selectionEnd] : null;
+  const scrollPosition = body.scrollTop;
   body.replaceChildren();
   root.dataset.screen = "waiting";
   exitButton.textContent = s.host ? "Close table" : "Leave table";
   const waiting = el("section", "ol-waiting");
-  waiting.append(
-    el("h1", "", s.host ? "Your table is open." : "You’re at the table."),
-    el(
-      "p",
-      "",
-      "Friends can find this table in Open tables. Deal when everyone is seated.",
-    ),
-  );
-  waiting.append(art("club-empty-table", "ol-waiting-art"));
+  waiting.dataset.tab = lobbyTab;
+  const tabs = el("nav", "ol-mobile-tabs");
+  tabs.setAttribute("aria-label", "Waiting room views");
+  for (const [key, label] of [["table", "Your table"], ["chat", "Table talk"]]) {
+    const tab = button(label, () => {
+      lobbyTab = key; waiting.dataset.tab = key;
+      for (const item of tabs.children) item.setAttribute("aria-pressed", String(item.dataset.tab === key));
+    }, "ol-tab");
+    tab.dataset.tab = key; tab.setAttribute("aria-pressed", String(lobbyTab === key)); tabs.append(tab);
+  }
+  waiting.append(tabs);
+  const table = el("div", "ol-table-details");
+  const heading = el("div", "ol-waiting-heading");
+  heading.append(el("h1", "", s.host ? "Your table awaits" : "Welcome to the table"));
+  const scene = el("div", "ol-table-scene");
+  scene.append(art("tavern-table-art", "ol-waiting-art"));
+  const seated = s.members.filter(m => m.connected).length;
+  scene.append(el("span", "ol-seated-count", `${seated} / 4 seats filled`));
+  table.append(heading, scene);
   const roster = el("div", "ol-roster");
   roster.setAttribute("aria-label", "Table seats");
   for (let i=0; i<4; i++) {
     const m=s.members[i], seat=el("section",m ? "ol-seat" : "ol-seat ol-seat-empty"),identity=el("div");
     if (m) {
-      identity.append(el("strong","",m.name+(m.id===s.id?" · You":"")),el("span","",!m.connected?"Connecting…":i===0?"Host":"At the table"));
+      identity.append(el("strong","",m.name+(m.id===s.id?" · You":"")),el("span","",!m.connected?"Connecting…":s.stake ? (m.accepted === s.offerId ? "Buy-in accepted ✓" : "Reviewing buy-in") : i===0?"Host":"At the table"));
       seat.append(el("span","ol-avatar",m.name.slice(0,1).toUpperCase()),identity);
       if (m.id===s.id) seat.classList.add("ol-seat-you");
     } else {
@@ -324,41 +372,58 @@ function render() {
     }
     roster.append(seat);
   }
-  waiting.append(roster);
+  table.append(roster);
+  const stakes = el('section', 'ol-stakes');
+  stakes.setAttribute('aria-label', 'Table stakes');
+  const stakeHeading = el('div', 'ol-stakes-heading');
+  stakeHeading.append(el('h2', '', 'Table stakes'), el('span', 'ol-bankroll', `${tableWallet.balance().toLocaleString()} coins available`));
+  stakes.append(stakeHeading);
+  const choices = el('div', 'ol-stake-choices');
+  choices.setAttribute('role', 'group'); choices.setAttribute('aria-label', 'Coins per player');
+  for (const amount of [0, ...TABLE_STAKES]) {
+    const choice = button(amount ? amount.toLocaleString() : 'Practice', () => s.act('stake', { stake: amount }), amount ? 'ol-stake-coin' : 'ol-stake-practice');
+    choice.setAttribute('aria-label', amount ? `${amount} coins per player` : 'Practice without coins');
+    choice.setAttribute('aria-pressed', String(s.stake === amount));
+    choice.disabled = !s.host || s.ended;
+    choices.append(choice);
+  }
+  stakes.append(choices);
+  const accepted = s.members.filter(m => m.accepted === s.offerId).length;
+  if (s.stake) stakes.append(el('p', 'ol-stake-summary', `${s.stake.toLocaleString()} each · ${(s.stake * s.members.length).toLocaleString()} in the pot · First out wins`));
+  if (s.stake) {
+    const me = s.members.find(m => m.id === s.id), agreed = me?.accepted === s.offerId;
+    const accept = button(accepting ? 'Saving buy-in…' : agreed ? 'Buy-in accepted ✓' : `Accept ${s.stake.toLocaleString()} coins`, async () => {
+      if (accepting) return;
+      accepting = true; render();
+      try { await tableWallet.accept(s); }
+      catch (e) { error(e.message); }
+      finally { accepting = false; if (session === s && !s.closed) render(); }
+    }, 'ol-button ol-primary ol-accept-stake');
+    accept.disabled = accepting || agreed || s.ended || !s.connected || s.busy || tableWallet.balance() < s.stake;
+    stakes.append(accept, el('p', 'ol-stake-help', `${accepted} of ${s.members.length} accepted · Virtual coins only`));
+    stakes.append(el('p', 'ol-stake-help', agreed ? 'Coins held for this round. Leaving ends your wager and returns your buy-in.' : tableWallet.balance() < s.stake ? 'Not enough coins for this buy-in. Ask the host for a lower stake.' : 'Coins are held when you accept. A changed stake returns your buy-in.'));
+  } else stakes.append(el('p', 'ol-stake-help', s.host ? 'Choose a coin to propose a buy-in to everyone.' : 'Your host chooses the stake. Everyone agrees before dealing.'));
+  table.append(stakes);
   const actions = el("div", "ol-actions");
-  actions.append(
-    button("Copy invite", async () => {
-      const url = new URL(location.href);
-      url.hash = "table=" + s.room;
-      try {
-        await navigator.clipboard.writeText(url.href);
-        error("Invite copied. Send it to your friends.");
-      } catch {
-        error("Your invite: " + url.href);
-      }
-    }),
-  );
   if (s.host) {
     const deal = button(
       "Deal the cards",
       () => s.act("deal"),
       "ol-button ol-primary",
     );
-    deal.disabled = s.members.length < 2 || s.members.some((m) => !m.connected);
+    deal.disabled = accepting || s.members.length < 2 || s.members.some((m) => !m.connected || s.stake && m.accepted !== s.offerId);
     actions.append(deal);
   }
   if (s.paused || s.ended) actions.append(button("Back to tables", browse));
-  waiting.append(
-    actions,
-    el(
-      "p",
-      "ol-note",
-      s.host
-        ? "You’re the host. Keep this tab open while playing."
-        : "The host will deal once everyone has joined.",
-    ),
-  );
+  table.append(actions);
+  table.append(el("p", "ol-deal-hint", s.host ? (s.members.length < 2 ? "One more friend and you’re ready to deal." : s.members.some(m => !m.connected) ? "Waiting for everyone to connect…" : s.stake && s.members.some(m => m.accepted !== s.offerId) ? "Waiting for everyone to accept the buy-in." : "Everyone’s here. Let the good luck run out.") : "Your host will deal the cards when everyone’s ready."));
+  const hint = table.querySelector(".ol-deal-hint");
+  table.insertBefore(hint, actions);
+  waiting.append(table);
   body.append(waiting);
+  chat.placeLobby(waiting);
+  body.scrollTop = scrollPosition;
+  if (chatWasFocused) { chatInput.focus({preventScroll:true}); chatInput.setSelectionRange(...chatSelection); }
   if (previousFocus) [...root.querySelectorAll("button")].find(b=>b.dataset.focus === previousFocus && !b.disabled)?.focus({preventScroll:true});
   status.textContent =
     notice ||
@@ -370,6 +435,7 @@ function render() {
 document.addEventListener("online-close", () => {
   session?.close();
   session = null;
+  chat.update(null);
   browser?.close();
   browser = null;
   clearInterval(interval);
@@ -379,3 +445,6 @@ document.addEventListener("online-close", () => {
 const opener = document.querySelector(".menu-multiplayer");
 opener.onclick = show;
 if (new URLSearchParams(location.hash.slice(1)).has("table")) show();
+
+window.addEventListener('pagehide', () => session?.close());
+window.addEventListener('storage', event => { if (event.key === 'shithead-table-v2' && session && !session.view) render(); });

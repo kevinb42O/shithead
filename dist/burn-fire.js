@@ -37,7 +37,7 @@ void main(){
  gl_FragColor=vec4(color,alpha);
 }`;
 
-export function createMagicFire(canvas, pile) {
+export function createMagicFire(canvas, pile, { stationary = false, seed = 0 } = {}) {
  const gl=canvas.getContext('webgl',{alpha:true,premultipliedAlpha:false,antialias:false,depth:false,powerPreference:'low-power'});
  if(!gl)return null;
  let program,buffer;const shaders=[];
@@ -61,7 +61,8 @@ export function createMagicFire(canvas, pile) {
   gl.uniform2f(uniform('u_scale'),pile.width*ratio,pile.height*ratio);
   let disposed=false;
   return {
-   draw(t){if(disposed||gl.isContextLost())return;gl.uniform1f(time,t);gl.uniform1f(energy,Math.min(1,Math.max(0,(t-.16)/.2))*Math.min(1,Math.max(0,(2.25-t)/.65)));gl.uniform1f(consumed,Math.min(1,Math.max(0,(t-.43)/1.37)));gl.drawArrays(gl.TRIANGLES,0,6);},
+   bounds: { left, top, width, height },
+   draw(t){if(disposed||gl.isContextLost())return;gl.uniform1f(time,t+(stationary?(seed>>>0)/4294967296*30:0));gl.uniform1f(energy,Math.min(1,Math.max(0,(t-.16)/.2))*Math.min(1,Math.max(0,((stationary?2.9:2.25)-t)/.65)));gl.uniform1f(consumed,stationary?0:Math.min(1,Math.max(0,(t-.43)/1.37)));gl.drawArrays(gl.TRIANGLES,0,6);},
    dispose(){if(disposed)return;disposed=true;gl.deleteBuffer(buffer);gl.deleteProgram(program);shaders.forEach(s=>gl.deleteShader(s));gl.getExtension('WEBGL_lose_context')?.loseContext();}
   };
  }catch{if(buffer)gl.deleteBuffer(buffer);if(program)gl.deleteProgram(program);shaders.forEach(s=>gl.deleteShader(s));gl.getExtension('WEBGL_lose_context')?.loseContext();return null;}

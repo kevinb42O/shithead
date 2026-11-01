@@ -1,0 +1,1 @@
+Small circular Hearthstone-style utility bezel: dark recessed gunmetal center, restrained aged bronze bevel rim, front-on painted game UI, blank face for live SVG icons, transparent alpha. Cropped to visible alpha and resized to 192px for 40px corner controls.

@@ -13,6 +13,8 @@ Online tables are practice games. Solo saves, scores and virtual-coin wallets ar
 
 ## Shared game presentation
 
+The furnace on the left and turquoise lantern on the right are shared board toys. Click, tap or focus and press Enter to wake either one, including during another player's turn. The host validates each interaction and sends one seeded effect to every player over the reliable game data channels. Flames, smoke, embers and arcane motes follow the same choreography on both screens, anchored to each device's painted fixture. Delivery follows network latency; motion and sound honor each player's accessibility and audio settings. Scenery never locks a card move or changes a deal, and resyncs do not replay old taps. `tests/board-props.test.js` checks both directions through the serialized message path, deduplication, validation and deterministic particles.
+
 The lobby is the only new screen. Dealing opens the original single-player table: same board, hand fan, card artwork, opponent portraits, drag controls, painted buttons, bottle, fire, spotlights and responsive layout. `dist/multiplayer/table-view.js` adapts each private view into `dist/app.js`; it does not render a second game. Every browser sees its own hand in the existing bottom seat. Ready / Not ready replaces Start Game during online setup.
 
 ## Network configuration

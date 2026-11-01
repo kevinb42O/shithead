@@ -15,13 +15,13 @@ export function createFortune({ bank, wallet, reduced, sound, stopSound, soundEn
         <img class="fortune-cabinet" src="assets/fortune/cabinet.png" alt="" draggable="false" decoding="async">
         <div id="fortune-reels" class="fortune-reels" aria-hidden="true"></div>
         <div class="fortune-prize" id="fortune-prize" aria-hidden="true">ON THE HOUSE</div>
-        <div class="fortune-engraving" id="fortune-engraving">ONE FREE ROLL. EVERY DAY.</div>
+        <button id="fortune-roll" class="fortune-roll" type="button">Roll for free</button>
         <button id="fortune-lever" class="fortune-lever" type="button" aria-label="Pull lever for a free daily roll"><span class="fortune-lever-socket"></span><span class="fortune-lever-arm"><span class="fortune-lever-knob"></span></span></button>
         <div class="fortune-particles" aria-hidden="true"></div><div class="fortune-win-announcement" aria-hidden="true" hidden><small></small><strong></strong><span>COINS</span></div>
       </div>
       <div class="fortune-controls">
         <fieldset class="fortune-stakes" id="fortune-stakes" hidden><legend>Coins per spin</legend>${FORTUNE_STAKES.map(n => `<label><input type="radio" name="fortune-stake" value="${n}" ${n === 25 ? 'checked' : ''}><span>${n}</span></label>`).join('')}</fieldset>
-        <div class="fortune-action-row"><button id="fortune-roll" class="fortune-roll" type="button">Roll for free</button><button id="fortune-skip" class="fortune-quiet" type="button" hidden>Skip animation</button></div>
+        <div class="fortune-action-row"><button id="fortune-skip" class="fortune-quiet" type="button" hidden>Skip animation</button></div>
         <div class="fortune-message" role="status" aria-live="polite" aria-atomic="true"><strong id="fortune-result">Your daily allowance is ready.</strong><p id="fortune-detail">Guaranteed 250–2,500 coins. The Fox is feeling generous.</p></div>
       </div>
     </div>
@@ -85,7 +85,6 @@ export function createFortune({ bank, wallet, reduced, sound, stopSound, soundEn
     $('fortune-paid').setAttribute('aria-pressed', String(mode === 'paid'));
     $('fortune-stakes').hidden = mode !== 'paid';
     $('fortune-subtitle').textContent = mode === 'daily' ? 'A little luck. On the house.' : 'The Fox deals in questionable fortunes.';
-    $('fortune-engraving').textContent = mode === 'daily' ? 'ONE FREE ROLL. EVERY DAY.' : 'THREE OF A KIND. ONE FINE FORTUNE.';
     $('fortune-prize').textContent = mode === 'daily' ? 'ON THE HOUSE' : 'MATCH 2× · MATCH 3×';
     const previous = wallet().lastSpin;
     if (previous?.mode === mode && [3, 4].includes(previous.reels?.length)) {

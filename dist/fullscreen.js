@@ -13,6 +13,9 @@ function sync() {
   for (const button of controls) {
     button.hidden = !supported;
     button.disabled = pending;
+    button.setAttribute('aria-pressed', String(fullscreen));
+    button.setAttribute('aria-label', fullscreen ? 'Exit fullscreen' : 'Fullscreen');
+    button.title = fullscreen ? 'Exit fullscreen' : 'Fullscreen';
     button.querySelector('[data-fullscreen-label]').textContent = fullscreen ? 'Exit fullscreen' : 'Fullscreen';
     button.querySelector('[data-fullscreen-icon]').setAttribute('d', fullscreen
       ? 'M3 8h5V3m13 5h-5V3M8 21v-5H3m13 5v-5h5'

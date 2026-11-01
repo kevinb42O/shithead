@@ -1,268 +1,103 @@
-/* Painted card-club materials share the main menu's emerald, walnut and gold. */
-.online[hidden] { display: none !important; }
-.online {
-  --club-ivory: #fff0ce;
-  --club-gold: #e8c684;
-  --club-muted: #d0d9c5;
-  --club-edge: clamp(24px, 4.5vmin, 48px);
-  --club-safe: calc(var(--club-edge) + 18px);
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  height: 100dvh;
-  box-sizing: border-box;
-  padding: var(--club-safe);
-  padding-top: max(var(--club-safe), env(safe-area-inset-top));
-  padding-bottom: max(var(--club-safe), env(safe-area-inset-bottom));
-  color: var(--club-ivory);
-  background: #09271d;
-  font-family: DM, Arial, sans-serif;
-  isolation: isolate;
-  overflow: hidden;
-  scrollbar-color: #b4975d #09271d;
+/* Illustrated tavern lobby. Gameplay continues to use the fullscreen living board. */
+.online[hidden]{display:none!important}
+.online{--club-ivory:#fff0ce;--club-gold:#ebc580;--club-muted:#d6bc95;position:fixed;inset:0;z-index:1000;display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100dvh;box-sizing:border-box;padding:20px 32px 12px;color:var(--club-ivory);font-family:DM,Arial,sans-serif;background:#211107 url(assets/tavern-tavern.png) center/cover no-repeat;isolation:isolate;overflow:hidden;scrollbar-color:#a67739 #26150e}
+.online::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(#170c0980,transparent 28%,#150b0730 75%,#120906b3);box-shadow:inset 0 0 100px #0009}
+.online ::selection{background:#d6b477;color:#27180e}.online button,.online input{font:inherit}.online :focus-visible{outline:3px solid #8de1e8;outline-offset:3px}
+.ol-header{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;max-width:1440px;min-height:50px;margin:auto}.ol-logo{display:block;width:160px;height:auto;filter:drop-shadow(0 4px 3px #0009)}.ol-navigation{display:flex;gap:8px}
+.ol-body{min-height:0;width:100%;box-sizing:border-box;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:10px 8px 16px}.online p{font-size:13px;line-height:1.5;color:var(--club-muted);text-wrap:pretty}
+.ol-intro{text-align:center;margin:0 auto 18px}.ol-eyebrow{display:block;color:#e8c28a;font-size:10px;letter-spacing:3px;line-height:1.5;text-shadow:0 2px 4px #000;margin-bottom:4px}.online .ol-title{font:400 clamp(44px,5vw,68px)/1.1 Serif,Georgia,serif;color:#ffe3a3;margin:0;text-shadow:0 3px #47230d,0 5px 3px #000,0 0 32px #d8903555;letter-spacing:-2px}.online .ol-tagline{font:17px/1.4 Serif,Georgia,serif;color:#ead3ad;margin:8px 0 0;text-shadow:0 2px 3px #000}
+.ol-lobby{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,620px);justify-content:center;gap:26px;max-width:1060px;margin:auto;align-items:stretch}.ol-create,.ol-directory,.ol-table-details{position:relative;min-width:0;box-sizing:border-box;background:url(assets/tavern-lobby-board.png) center/100% 100% no-repeat;filter:drop-shadow(0 16px 16px #0008)}
+.ol-create,.ol-directory{padding:28px 30px 34px;min-height:400px}.online h2{font:400 28px/1.15 Serif,Georgia,serif;color:#ffe1a3;text-align:center;text-shadow:0 2px 3px #160b04;margin:0 0 32px}.ol-create h2{margin-bottom:30px}.online .ol-create-welcome{text-align:center;font:16px Serif,Georgia,serif;color:#e8c99b;margin:0 0 24px}.ol-create label{display:grid;gap:9px;color:#e3c08b;font-size:12px}.online input{box-sizing:border-box;width:100%;height:50px;padding:12px 15px;background:#1e100c;border:1px solid #a37741;border-radius:5px;box-shadow:inset 0 3px 8px #0009,0 1px #e9bc5033;color:#ffefce;font:16px DM,Arial,sans-serif}.online input::placeholder{color:#bba383}.ol-create>p:not(.ol-create-welcome){font-size:11px;margin:16px 0 6px;text-align:center}.ol-create .ol-primary{width:100%;min-height:72px;margin-top:8px}
+.ol-button,.ol-quiet{display:inline-grid;place-items:center;box-sizing:border-box;max-width:100%;min-height:60px;width:200px;padding:10px 25px 12px;border:0;border-radius:8px;background:transparent url(assets/club-teal-button.png) center/100% 133% no-repeat;color:#fff0ca;font:400 21px/1.1 Serif,Georgia,serif!important;text-align:center;text-shadow:0 2px 3px #07140e;cursor:pointer;filter:drop-shadow(0 4px 3px #0008);transition:filter .16s,transform .16s;-webkit-tap-highlight-color:transparent}.ol-primary{background-image:url(assets/club-gold-button.png);text-shadow:0 2px 2px #4b270a;color:#fff4d6;font-weight:600!important;-webkit-text-stroke:.5px #54300c;paint-order:stroke fill}.ol-button:disabled{filter:saturate(.25) brightness(.7);cursor:default}.ol-button:active:enabled,.ol-quiet:active{transform:translateY(2px)}.ol-quiet{width:auto;min-height:44px;min-width:92px;padding:8px 22px;font-size:15px!important}@media(hover:hover){.ol-button:hover:enabled,.ol-quiet:hover{filter:brightness(1.18) drop-shadow(0 5px 6px #0008);transform:translateY(-1px)}}
+.ol-directory-heading{position:relative;display:flex;align-items:center;justify-content:center;min-height:32px}.ol-directory-heading h2{margin:0}.ol-table-count{position:absolute;right:0;top:45px;color:#e3c080;font-size:11px}.online .ol-directory-subtitle{text-align:center;font-size:12px;margin:30px 0 8px}.ol-list{min-height:0}.ol-empty{display:flex;align-items:center;gap:18px;padding:16px 0}.ol-empty-art{display:block;width:53%;max-height:220px;object-fit:contain;filter:drop-shadow(0 8px 8px #0008);mix-blend-mode:lighten}.ol-empty-copy{flex:1}.ol-empty strong{font:25px/1.15 Serif,Georgia,serif;color:#f1d39e}.ol-empty p{font-size:12px;line-height:1.6}.ol-room{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #d8a85a33;padding:16px 0}.ol-room>div{min-width:0}.ol-room strong{display:block;font:22px Serif,Georgia,serif;color:#f6dbab;overflow-wrap:anywhere}.ol-room span{display:block;font-size:11px;color:#cab18c;margin-top:5px}.ol-room .ol-button{width:140px;min-height:50px;font-size:18px!important;flex-shrink:0}.ol-directory>.ol-button{display:block;margin:12px auto}
+.online .ol-status{font-size:11px;color:#dec49b;text-align:center;margin:0;padding:3px 8px 0;text-shadow:0 2px 3px #000;overflow-wrap:anywhere}
+.ol-waiting{display:grid;grid-template-columns:minmax(0,680px) minmax(300px,370px);align-content:center;align-items:stretch;gap:24px;width:100%;max-width:1100px;min-height:100%;margin:auto;box-sizing:border-box;padding:4px 0 8px}.ol-mobile-tabs{display:none}.ol-table-details{display:flex;flex-direction:column;align-items:center;padding:32px 38px 36px}.ol-waiting-heading{text-align:center;width:100%}.online h1{font:400 clamp(26px,2.7vw,36px)/1.1 Serif,Georgia,serif;color:#ffe2ad;text-shadow:0 2px 3px #1b0d06;margin:0 0 10px}.ol-waiting-heading p{margin:25px auto 0;font-size:12px;max-width:45ch}.ol-table-scene{position:relative;width:100%;display:flex;flex-direction:column;align-items:center;margin:0}.ol-waiting-art{display:block;width:240px;max-width:65%;height:160px;object-fit:contain;margin:0;mix-blend-mode:lighten}.ol-seated-count{font-size:10px;letter-spacing:1px;color:#e2bc79;padding:3px 0}.ol-roster{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;margin:10px 0 12px}.ol-seat{display:flex;align-items:center;gap:10px;min-width:0;min-height:65px;box-sizing:border-box;padding:10px 14px;background:linear-gradient(90deg,#9d603322,#180e0a99);border:1px solid #a9794055;border-radius:6px;box-shadow:inset 0 1px #f3ca6622,0 2px 3px #0006}.ol-seat-you{border-color:#d2a14f99;background:linear-gradient(90deg,#79502799,#29180f99)}.ol-seat>div{min-width:0}.ol-seat strong{display:block;font-size:12px;color:#ffdfaa;overflow-wrap:anywhere}.ol-seat span:not(.ol-avatar){display:block;margin-top:4px;font-size:10px;color:#cdb18e}.ol-avatar{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;background:url(assets/setup-stake-coin.png) center/cover;color:#482c15;font:24px Serif,Georgia,serif;border-radius:50%}.ol-seat-empty{border-style:dashed;background:#1c10083d;box-shadow:none}.ol-seat-empty strong{font-weight:400;color:#bda584}.ol-avatar-empty{background:#21130c;border:1px solid #90663977;color:#ac8a5f;font:18px Georgia}
+.ol-actions{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;width:100%}.ol-actions .ol-button{width:40%;min-height:54px;font-size:19px!important}.ol-actions .ol-primary{width:55%;min-height:64px;font-size:23px!important}.online .ol-note{text-align:center;font-size:10px;margin:5px 0 0;color:#baa07d}.online .ol-deal-hint{font-size:11px;text-align:center;margin:8px 0 0;color:#e4c086}.ol-loading{display:grid;place-items:center;align-content:center;min-height:100%;text-align:center}.ol-loading-art{width:260px;max-width:70%;mix-blend-mode:lighten}
+body[data-online] #start-game-center.royal-button{background:transparent url(assets/club-gold-button.png) center/100% 133% no-repeat!important;color:#fff6dc;border:0!important;text-shadow:0 2px 2px #4b270a}body[data-online] #start-game-center.royal-button:disabled{opacity:1;filter:saturate(.25) brightness(.7)}body[data-online] #game-view .seat-avatar{display:grid;place-items:center;background:#153b2c url(assets/setup-stake-coin.png) center/cover;border:0;color:#3c2915;font:400 25px/1 Serif,Georgia,serif}body[data-online] #game-view .opponent-seat{background:transparent url(assets/club-seat-frame.png) center/100% 130% no-repeat;border-radius:0;box-shadow:none;padding-inline:22px}body[data-online] #mobile-menu-dialog .pause-tally{display:none}
+@media(min-width:701px) and (max-width:1000px){.online{padding:16px 20px 10px}.ol-lobby{grid-template-columns:minmax(250px,310px) minmax(0,1fr);gap:16px}.ol-create,.ol-directory{padding-inline:24px}.ol-empty{flex-direction:column;text-align:center;gap:0;padding-top:10px}.ol-empty-art{width:170px;height:140px}.ol-empty p{margin:8px 0}.ol-waiting{grid-template-columns:minmax(0,1fr) minmax(290px,330px);gap:14px}.ol-table-details{padding:30px 26px}.ol-seat{padding:8px;gap:6px}.ol-avatar{flex-basis:28px;width:28px;height:28px;font-size:20px}.ol-actions .ol-button{font-size:16px!important}.ol-actions .ol-primary{font-size:20px!important}}
+@media(max-width:700px){
+.online{padding: max(12px,env(safe-area-inset-top)) 12px max(8px,env(safe-area-inset-bottom));background-position:42% center}.online::before{background:#10090755;box-shadow:inset 0 0 75px #0009}.ol-header{min-height:40px;gap:6px}.ol-logo{width:112px}.ol-navigation{gap:2px}.ol-quiet{min-width:0;min-height:40px;padding:8px 16px;font-size:12px!important}.ol-body{padding:10px 0 12px}.ol-intro{margin:10px 0 16px}.ol-eyebrow{font-size:8px;letter-spacing:2px}.online .ol-title{font-size:48px}.online .ol-tagline{font-size:14px;max-width:30ch;margin:6px auto 0}.ol-lobby{display:flex;flex-direction:column;gap:16px;max-width:460px}.ol-create,.ol-directory{min-height:0;padding:24px 28px 30px}.online h2{font-size:27px}.ol-create h2{margin-bottom:26px}.online .ol-create-welcome{font-size:14px;margin-bottom:14px}.ol-create label{gap:6px}.ol-create>p:not(.ol-create-welcome){margin-top:12px;font-size:10px}.ol-create .ol-primary{min-height:58px;margin-top:5px}.ol-directory{min-height:310px}.ol-directory-heading{min-height:30px}.ol-directory-subtitle{margin-top:28px!important;font-size:11px!important}.ol-table-count{top:40px;font-size:10px}.ol-empty{padding:10px 0;gap:10px}.ol-empty-art{height:145px;width:50%}.ol-empty strong{font-size:22px}.ol-empty p{font-size:11px}.ol-room strong{font-size:19px}.ol-room .ol-button{width:116px;font-size:16px!important;padding-inline:15px}.online .ol-status{font-size:10px;padding:2px 0}
+.ol-waiting{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;align-content:start;max-width:460px;padding:0;min-height:0}.ol-mobile-tabs{display:flex;justify-content:center;gap:6px;padding:3px 20px 5px}.ol-tab{flex:1;min-height:44px;cursor:pointer;border:1px solid #bc8849;border-radius:5px;background:linear-gradient(#50301e,#29180e);box-shadow:inset 0 1px #e9bb6744,0 3px 6px #0008;color:#dbbf91;font:19px Serif,Georgia,serif!important;text-shadow:0 2px 2px #000}.ol-tab[aria-pressed=true]{color:#ffedb9;background:linear-gradient(#8b5c2a,#4f2b14);border-color:#e2bb6c;box-shadow:inset 0 0 8px #efae3033,0 2px 8px #0009}.ol-waiting[data-tab=table]>.chat-in-lobby{display:none}.ol-waiting[data-tab=chat]>.ol-table-details{display:none}.ol-table-details{padding:30px 26px 34px}.online .ol-waiting-heading h1{font-size:27px;margin:0}.ol-waiting-heading p{margin-top:24px;font-size:11px;max-width:28ch}.ol-waiting-art{height:150px;width:230px;max-width:85%}.ol-seated-count{font-size:9px}.ol-roster{gap:7px;margin:10px 0}.ol-seat{min-height:62px;padding:8px;gap:7px}.ol-seat strong{font-size:11px}.ol-seat span:not(.ol-avatar){font-size:9px}.ol-avatar{width:28px;height:28px;flex-basis:28px;font-size:20px}.ol-actions{gap:4px}.ol-actions .ol-button{min-height:49px;width:42%;font-size:16px!important;padding-inline:18px}.ol-actions .ol-primary{min-height:57px;width:56%;font-size:20px!important}.online .ol-note{font-size:9px;max-width:26ch}.online .ol-deal-hint{font-size:10px;margin-top:6px}.ol-loading-art{width:200px}body[data-online] #game-view .seat-avatar{font-size:19px}body[data-online] #game-view .opponent-seat{padding-inline:12px}
 }
-.online::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  border: var(--club-edge) solid transparent;
-  border-image: url(assets/club-window-frame.png) 150 fill / var(--club-edge) / 0 stretch;
+@media(max-width:360px){.online{padding-inline:8px}.ol-logo{width:96px}.ol-quiet{padding-inline:13px;font-size:11px!important}.ol-table-details{padding-inline:23px}.online .ol-waiting-heading h1{font-size:24px}.ol-waiting-art{height:115px}.ol-actions .ol-primary{font-size:18px!important}.ol-seat{padding:7px 5px}.ol-avatar{width:25px;height:25px;flex-basis:25px}.ol-mobile-tabs{padding-inline:15px}}
+@media(max-height:700px) and (min-width:701px){.online{padding-top:12px}.ol-logo{width:130px}.ol-header{min-height:42px}.ol-intro{margin-bottom:12px}.online .ol-title{font-size:48px}.ol-create,.ol-directory{min-height:360px}.ol-create{padding-bottom:28px}.ol-waiting{align-content:start}.ol-table-details{padding-top:28px;padding-bottom:30px}.ol-waiting-art{height:110px}.ol-waiting-heading p{margin-top:18px}.ol-seat{min-height:55px}.ol-roster{margin-block:7px}.online .ol-note{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.online *{transition:none!important;animation:none!important}}.reduce-motion .online *{transition:none!important;animation:none!important}
+/* Preserve the generated alpha and keep lettering clear of sculpted corners. */
+.ol-empty-art,.ol-waiting-art,.ol-loading-art{mix-blend-mode:normal}
+@media(min-width:701px){.ol-waiting-art{height:145px}.ol-table-details{padding-bottom:52px}}
+.ol-mobile-tabs{margin:0;width:100%}.ol-tab{white-space:nowrap;min-width:0}
+/* The composition grows with the viewport, not just the background illustration. */
+.ol-browse-stage{width:100%;max-width:1060px;margin:auto}
+.ol-header{max-width:calc(1100px * var(--lobby-scale,1))}.ol-logo{width:clamp(120px,11vw,200px)}
+@media(min-width:1101px){
+.online[data-screen=waiting] .ol-body,.online[data-screen=lobby] .ol-body{display:grid;align-items:center;justify-items:center}
+.ol-waiting,.ol-browse-stage{zoom:var(--lobby-scale,1)}
+.ol-waiting{min-height:0;align-content:start}
+.ol-browse-stage{max-width:1060px}
 }
-.online ::selection { color: #183426; background: var(--club-gold); }
-.online button, .online input { font: inherit; }
-.ol-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; min-height: 56px; }
-.ol-logo { display: block; width: clamp(130px, 15vw, 190px); height: auto; }
-.ol-navigation { display: flex; align-items: center; gap: 10px; }
-.ol-body { min-height: 0; width: 100%; margin: 0 auto; padding: 8px 10px 20px; box-sizing: border-box; overflow: auto; scrollbar-width: thin; scrollbar-gutter: stable; }
-.ol-intro { margin: 0 auto 24px; text-align: center; }
-.online h1 { margin: 0 0 12px; color: var(--club-ivory); font: 400 clamp(30px, 3.2vw, 46px)/1.1 Serif, Georgia, serif; letter-spacing: -.025em; text-wrap: balance; }
-.online .ol-title { line-height: 0; margin-bottom: 0; }
-.ol-title-art { display: block; width: min(490px, 70%); height: auto; margin: 0 auto; }
-.online p { color: var(--club-muted); font-size: 14px; line-height: 1.6; text-wrap: pretty; }
-.online .ol-tagline { margin: 0; color: var(--club-gold); font: 400 20px/1.4 Serif, Georgia, serif; }
-.ol-lobby { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); gap: clamp(36px, 6vw, 80px); width: min(1040px, 100%); margin: 0 auto; align-items: start; }
-.online h2 { margin: 0 0 22px; color: var(--club-ivory); font: 400 27px/1.2 Serif, Georgia, serif; }
-.ol-create { position: relative; min-width: 0; margin: 0; padding: 22px 0 0; }
-.ol-create label { display: grid; gap: 10px; color: var(--club-gold); font-size: 13px; }
-.online input {
-  box-sizing: border-box;
-  width: 100%;
-  height: 54px;
-  padding: 12px 16px;
-  border: 1px solid #b4975d;
-  border-radius: 7px;
-  color: var(--club-ivory);
-  background: #061e18;
-  box-shadow: inset 0 3px 9px #0005;
-  caret-color: var(--club-gold);
-  font-size: 16px;
-}
-.online input::placeholder { color: #bdc9b6; }
-.online input:hover { border-color: var(--club-gold); }
-.ol-create p { margin: 14px 0 8px; max-width: 33ch; font-size: 13px; }
-.ol-button, .ol-quiet {
-  position: relative;
-  display: inline-grid;
-  place-items: center;
-  box-sizing: border-box;
-  width: 210px;
-  max-width: 100%;
-  min-height: 64px;
-  padding: 10px 30px 13px;
-  border: 0;
-  border-radius: 9px;
-  background: transparent url(assets/club-teal-button.png) center / 100% 133% no-repeat;
-  color: var(--club-ivory);
-  font: 400 21px/1.1 Serif, Georgia, serif !important;
-  text-align: center;
-  text-shadow: 0 2px 2px #00120ee6;
-  cursor: pointer;
-  filter: drop-shadow(0 4px 4px #00110c80);
-  transition: transform 180ms cubic-bezier(.16,1,.3,1), filter 180ms ease-out;
-  -webkit-tap-highlight-color: transparent;
-}
-.ol-primary { background-image: url(assets/club-gold-button.png); color: #fff6dc; text-shadow: 0 2px 2px #4b270a, 0 1px 3px #4b270a; }
-.ol-create .ol-primary { width: 100%; min-height: 84px; margin-top: 8px; font-size: 27px !important; }
-.ol-button:disabled { opacity: 1; filter: saturate(.25) brightness(.7); color: #f0e6d0; cursor: default; }
-.ol-button:active:enabled, .ol-quiet:active { transform: translateY(2px) scale(.98); filter: brightness(.94); }
-@media (hover: hover) {
-  .ol-button:hover:enabled, .ol-quiet:hover { filter: brightness(1.12) drop-shadow(0 5px 5px #00110c80); transform: translateY(-2px); }
-}
-.online :focus-visible { outline: 3px solid #ffe2a1; outline-offset: 4px; }
-.ol-quiet { width: auto; min-width: 110px; min-height: 46px; padding: 10px 24px 12px; font-size: 16px !important; white-space: nowrap; }
-.ol-directory { min-width: 0; padding-top: 22px; }
-.ol-directory-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid #c6a56666; }
-.ol-directory-heading h2 { margin: 0; }
-.ol-table-count { color: var(--club-gold); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.ol-list { min-height: 220px; }
-.ol-room { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 0; border-bottom: 1px solid #c6a56633; }
-.ol-room > div { min-width: 0; }
-.ol-room strong { display: block; font: 400 23px/1.2 Serif, Georgia, serif; overflow-wrap: anywhere; }
-.ol-room span { display: block; margin-top: 6px; color: var(--club-muted); font-size: 12px; }
-.ol-room .ol-button { width: 166px; min-height: 54px; flex: 0 0 auto; font-size: 19px !important; }
-.ol-empty { display: grid; grid-template-columns: minmax(140px, 46%) 1fr; align-items: center; gap: 16px; padding: 20px 0; }
-.ol-empty-art { display: block; width: 100%; height: auto; filter: drop-shadow(0 8px 8px #0003); }
-.ol-empty strong { display: block; color: var(--club-gold); font: 400 26px/1.2 Serif, Georgia, serif; text-wrap: balance; }
-.ol-empty p { max-width: 27ch; font-size: 13px; }
-.online .ol-status { margin: 0; padding: 10px 8px 0; color: var(--club-gold); font-size: 12px; line-height: 1.4; text-align: center; overflow-wrap: anywhere; }
-.ol-waiting { display: grid; justify-items: center; align-content: center; min-height: 100%; box-sizing: border-box; max-width: 1040px; margin: 0 auto; text-align: center; padding: 20px 0 10px; }
-.ol-waiting > p { max-width: 62ch; margin: 0 auto; }
-.ol-waiting-art { display: block; width: clamp(160px, 23dvh, 245px); height: auto; margin: 10px auto 0; }
-.ol-roster { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; gap: 14px; margin: 12px 0 20px; }
-.ol-seat {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  min-width: 0;
-  padding: 18px 12px;
-  border: 1px solid #b4975d66;
-  border-radius: 10px 10px 20px 20px;
-  background: #061e1899;
-}
-.ol-seat-you { border-color: var(--club-gold); }
-.ol-seat > div { min-width: 0; text-align: left; }
-.ol-seat strong { display: block; color: var(--club-ivory); font-size: 14px; overflow-wrap: anywhere; }
-.ol-seat span:not(.ol-avatar) { display: block; margin-top: 5px; color: var(--club-muted); font-size: 12px; }
-.ol-avatar { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; background: #143c30 url(assets/setup-stake-coin.png) center / cover; border-radius: 50%; color: #3c2915; font: 400 27px Serif, Georgia, serif; }
-.ol-seat-empty { border-style: dashed; background: transparent; }
-.ol-seat-empty strong, .ol-seat-empty span:not(.ol-avatar) { color: #b8c8b6; }
-.ol-avatar-empty { background: #09271d; color: #b8c8b6; border: 1px solid #b4975d66; box-sizing: border-box; font-size: 22px; }
-.ol-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px; width: 100%; }
-.ol-actions .ol-primary { width: 270px; min-height: 80px; font-size: 27px !important; }
-.online .ol-note { max-width: 54ch; margin: 12px auto 0; color: var(--club-muted); font-size: 12px; }
-.ol-loading { display: grid; place-items: center; align-content: center; min-height: 100%; text-align: center; }
-.ol-loading-art { width: min(260px, 60%); height: auto; margin-bottom: 16px; }
+.ol-table-details{padding-bottom:52px}
+.online .ol-deal-hint{margin:0 0 7px;font-size:11px;min-height:17px}
+.online .ol-note{margin:4px 0 0;font-size:9px}
+.ol-actions .ol-primary{min-height:60px}
+@media(max-width:700px){.ol-table-details{padding-bottom:38px}.ol-logo{width:112px}.online .ol-deal-hint{font-size:10px}.online .ol-note{font-size:9px}.ol-actions .ol-primary{min-height:57px}}
+@media(max-width:360px){.ol-logo{width:96px}}
 
-/* The online deal uses the exact same living board and controls as solo play. */
-body[data-online] #start-game-center.royal-button {
-  background: transparent url(assets/club-gold-button.png) center / 100% 133% no-repeat !important;
-  color: #fff6dc;
-  border: 0 !important;
-  text-shadow: 0 2px 2px #4b270a, 0 1px 3px #4b270a;
-}
-body[data-online] #start-game-center.royal-button:disabled { opacity: 1; filter: saturate(.25) brightness(.7); }
+/* Table stakes reuse the existing gold coins, teal plaque and carved lobby board. */
+.ol-stakes{align-self:stretch;text-align:center;margin:2px 0 12px;padding:14px 12px 10px;border-block:1px solid #d7a35b55;background:radial-gradient(ellipse at center,#68462533,transparent 75%)}
+.ol-stakes-heading{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}.online .ol-stakes h2{margin:0;font-size:23px;text-align:left}.ol-bankroll{color:#ead1a4;font-size:10px}
+.ol-stake-choices{display:flex;justify-content:center;align-items:center;gap:14px;margin:12px 0 8px}.ol-stake-coin,.ol-stake-practice{position:relative;border:0;cursor:pointer;transition:transform .16s,filter .16s;flex-shrink:0;color:#3c2410;font:600 23px/1 Serif,Georgia,serif!important;text-shadow:0 1px #ffeeb288;background:transparent url(assets/setup-stake-coin.png) center/contain no-repeat;width:62px;height:62px;filter:brightness(.8) saturate(.7)}
+.ol-stake-practice{width:94px;min-height:48px;height:48px;color:#f6dfb4;background-image:url(assets/club-teal-button.png);background-size:100% 133%;font-size:16px!important;text-shadow:0 2px #10281e}.ol-stake-coin[aria-pressed=true]{filter:brightness(1.15) drop-shadow(0 0 7px #f1be5e88);transform:translateY(-3px)}.ol-stake-practice[aria-pressed=true]{filter:brightness(1.2)}
+.ol-stake-coin[aria-pressed=true]::after{content:'✓';position:absolute;bottom:-5px;left:calc(50% - 9px);width:18px;height:18px;border-radius:50%;background:#173e2b;color:#ffe6a1;border:1px solid #e7bc6f;font:12px/18px Arial;text-shadow:none}.ol-stake-choices button:disabled{cursor:default;opacity:1}.ol-stake-choices button:hover:enabled{filter:brightness(1.25);transform:translateY(-2px)}
+.online .ol-stake-summary{margin:7px 0;color:#ffe1a3;font-size:12px}.online .ol-stake-help{margin:4px auto 0;font-size:10px;max-width:48ch}.ol-stakes .ol-accept-stake{width:220px;min-height:52px;font-size:19px!important;margin:3px 0}.ol-waiting-art{height:105px}.ol-waiting-heading p{margin-top:16px}
+@media(max-width:700px){.ol-stakes{padding:11px 0 8px;margin-bottom:10px}.ol-stakes-heading{justify-content:center;gap:5px 12px}.online .ol-stakes h2{font-size:21px}.ol-bankroll{font-size:10px}.ol-stake-choices{gap:8px}.ol-stake-coin{width:48px;height:48px;font-size:20px!important}.ol-stake-practice{width:80px;font-size:14px!important}.online .ol-stake-summary{font-size:10px}.online .ol-stake-help{font-size:9px}.ol-waiting-art{height:100px}.ol-waiting-heading p{margin-top:18px}}
+@media(max-width:360px){.ol-stake-choices{gap:5px}.ol-stake-coin{width:43px;height:46px}.ol-stake-practice{width:73px}.online .ol-stakes h2{font-size:19px}}
 
-@media (max-height: 800px) and (min-width: 701px) {
-  .online { --club-edge: 32px; --club-safe: 48px; }
-  .ol-logo { width: 150px; }
-  .ol-title-art { width: 380px; max-width: 65%; }
-  .ol-intro { margin-bottom: 14px; }
-  .ol-body { padding-top: 0; }
-  .ol-create, .ol-directory { padding-top: 12px; }
-  .ol-waiting { padding-top: 8px; }
-  .ol-waiting-art { width: 155px; margin-top: 0; }
-  .ol-roster { margin: 8px 0 12px; }
-  .ol-seat { padding: 12px 10px; }
-}
-@media (max-width: 850px) and (min-width: 701px) {
-  .ol-lobby { grid-template-columns: 280px minmax(0, 1fr); gap: 28px; }
-  .ol-empty { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 4px; }
-  .ol-empty-art { width: 170px; }
-  .ol-empty p { margin-bottom: 0; }
-  .ol-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 700px) {
-  .online { --club-edge: 20px; --club-safe: 32px; }
-  .ol-header { gap: 8px; min-height: 48px; }
-  .ol-logo { width: 115px; }
-  .ol-navigation { gap: 4px; }
-  .ol-quiet { min-width: 0; min-height: 44px; padding: 8px 16px 10px; font-size: 12px !important; }
-  .ol-body { padding: 12px 3px 12px; }
-  .ol-intro { margin-bottom: 18px; }
-  .ol-title-art { width: min(370px, 100%); max-height: 112px; object-fit: contain; }
-  .online .ol-tagline { font-size: 17px; }
-  .ol-lobby { grid-template-columns: minmax(0, 1fr); gap: 24px; max-width: 440px; }
-  .online h2 { font-size: 24px; margin-bottom: 16px; }
-  .ol-create, .ol-directory { padding: 0; }
-  .ol-create p { max-width: none; margin: 12px 0 4px; }
-  .ol-create .ol-primary { display: grid; width: 270px; min-height: 74px; margin: 4px auto 0; font-size: 25px !important; }
-  .ol-directory-heading { padding-bottom: 12px; }
-  .ol-directory-heading h2 { margin: 0; }
-  .ol-list { min-height: 0; }
-  .ol-empty { grid-template-columns: minmax(105px, 40%) 1fr; gap: 10px; padding: 12px 0; }
-  .ol-empty strong { font-size: 22px; }
-  .ol-empty p { font-size: 12px; margin-bottom: 0; }
-  .online .ol-status { font-size: 11px; padding-top: 8px; }
-  .ol-waiting { padding: 8px 0; align-content: start; }
-  .online h1 { font-size: 31px; }
-  .ol-waiting > p { font-size: 13px; }
-  .ol-waiting-art { width: 145px; margin-top: 4px; }
-  .ol-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 8px 0 16px; }
-  .ol-seat { flex-direction: column; padding: 12px 7px; gap: 7px; }
-  .ol-seat > div { text-align: center; }
-  .ol-seat strong { font-size: 13px; }
-  .ol-seat span:not(.ol-avatar) { font-size: 11px; }
-  .ol-avatar { width: 36px; height: 36px; flex-basis: 36px; font-size: 23px; }
-  .ol-actions { gap: 4px; }
-  .ol-actions .ol-button { width: 210px; min-height: 60px; }
-  .ol-actions .ol-primary { width: 240px; min-height: 70px; font-size: 25px !important; }
-  .ol-room { gap: 8px; padding: 14px 0; }
-  .ol-room strong { font-size: 21px; }
-  .ol-room .ol-button { width: 122px; min-height: 48px; font-size: 16px !important; padding: 8px 20px 10px; }
-}
-@media (max-width: 380px) {
-  .online { --club-edge: 16px; --club-safe: 26px; }
-  .ol-logo { width: 85px; }
-  .ol-quiet { padding-inline: 14px; font-size: 11px !important; }
-  .ol-navigation { gap: 0; }
-  .ol-waiting-art { width: 115px; }
-}
-@media (max-height: 540px) and (min-width: 701px) {
-  .online { --club-edge: 20px; --club-safe: 30px; }
-  .ol-header { min-height: 44px; }
-  .ol-logo { width: 115px; }
-  .ol-intro { display: none; }
-  .ol-waiting-art { display: none; }
-  .ol-roster { margin: 8px 0; }
-  .ol-waiting { align-content: start; }
-}
-@media (prefers-reduced-motion: reduce) { .online *, body[data-online] #start-game-center { transition: none !important; animation: none !important; transform: none !important; } }
-.reduce-motion .online *, .reduce-motion[data-online] #start-game-center { transition: none !important; animation: none !important; transform: none !important; }
+.ol-stake-choices{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px 12px;max-width:390px;margin:10px auto}.ol-stake-practice{grid-column:1/-1;justify-self:center;height:44px;min-height:44px;width:116px}.ol-stake-coin{justify-self:center;width:min(100%,62px);height:auto;aspect-ratio:1;font-size:20px!important}
+@media(max-width:1000px){.ol-stake-choices{gap:10px 5px}.ol-stake-coin{font-size:17px!important}}
+@media(max-width:360px){.ol-stake-coin{font-size:14px!important}.ol-stake-coin[aria-pressed=true]::after{bottom:-8px}}
 
-/* Painted recesses and nameplates complete the shared material family. */
-.online input {
-  border: 0;
-  background: transparent url(assets/club-input-frame.png) center / 100% 180% no-repeat;
-  box-shadow: none;
-  padding-inline: 24px;
-}
-.ol-primary { font-weight: 600 !important; -webkit-text-stroke: .6px #54300c; paint-order: stroke fill; }
-.ol-seat {
-  min-height: 88px;
-  box-sizing: border-box;
-  border: 0;
-  border-radius: 0;
-  padding: 18px 20px;
-  background: transparent url(assets/club-seat-frame.png) center / 100% 140% no-repeat;
-}
-.ol-seat-you { filter: brightness(1.12); }
-.ol-seat-empty { filter: saturate(.45) brightness(.82); }
-.ol-seat-empty strong, .ol-seat-empty span:not(.ol-avatar) { color: #d0d9c5; }
-@media (max-width: 700px) {
-  .ol-seat { min-height: 112px; padding: 18px 12px; }
+@media(min-width:701px){
+  .ol-waiting{height:min(720px,calc((100dvh - 115px) / var(--lobby-scale,1)));grid-template-rows:minmax(0,1fr);align-content:stretch;min-height:0}
+  .ol-table-details{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-bottom:32px}
+  .ol-table-details>*{flex-shrink:0}.ol-waiting-heading{box-sizing:border-box;padding-right:112px;min-height:96px;text-align:left}.online .ol-waiting-heading h1{font-size:28px}.ol-waiting-heading p{margin:12px 0 0;font-size:11px}
+  .ol-table-scene{position:absolute;top:30px;right:28px;width:105px}.ol-waiting-art{width:105px;max-width:100%;height:75px}.ol-seated-count{font-size:8px}.ol-seat{min-height:55px}.ol-roster{margin:8px 0 10px}
+  .online .chat-in-lobby{min-height:0;height:100%}
 }
 
-body[data-online] #game-view .seat-avatar {
-  display: grid;
-  place-items: center;
-  background: #153b2c url(assets/setup-stake-coin.png) center / cover;
-  border: 0;
-  color: #3c2915;
-  font: 400 25px/1 Serif, Georgia, serif;
+@media(min-width:1101px){
+ .ol-stake-choices{display:flex;max-width:none;gap:12px;margin:12px auto;justify-content:center}.ol-stake-practice{width:94px}.ol-stake-coin{width:58px;height:58px;flex:0 0 58px}.ol-waiting-heading{min-height:76px}.ol-seat{min-height:49px;padding-block:7px}.ol-stakes{padding-block:10px 8px}.ol-table-details{padding-top:30px}
 }
-body[data-online] #game-view .opponent-seat {
-  background: transparent url(assets/club-seat-frame.png) center / 100% 130% no-repeat;
-  border-radius: 0;
-  box-shadow: none;
-  padding-inline: 22px;
+@media(max-width:700px){
+ .ol-waiting-heading{box-sizing:border-box;padding-right:75px;min-height:82px;text-align:left}.online .ol-waiting-heading h1{font-size:23px}.ol-waiting-heading p{margin:12px 0 0;font-size:10px}.ol-table-scene{position:absolute;top:27px;right:22px;width:77px}.ol-waiting-art{width:77px;max-width:100%;height:60px}.ol-seated-count{font-size:7px;letter-spacing:0}.ol-seat{min-height:52px;padding-block:6px}.ol-roster{margin-top:7px}.ol-stakes{margin-top:0}.ol-table-details{padding-top:28px}
 }
-@media (max-width: 700px) {
-  body[data-online] #game-view .seat-avatar { font-size: 19px; }
-  body[data-online] #game-view .opponent-seat { padding-inline: 12px; }
+
+/* Fit the waiting-room title below the crest, inside the painted name recess. */
+.online .ol-waiting-heading{padding-right:0}
+.online .ol-waiting-heading h1{position:absolute;left:18%;top:10%;width:60%;height:4.8%;display:grid;place-items:center;margin:0;white-space:nowrap;font-size:26px;line-height:1}
+@media(max-width:1000px){.online .ol-waiting-heading h1{font-size:21px}}
+@media(max-width:700px){.online .ol-waiting-heading h1{font-size:18px}}
+@media(max-width:360px){.online .ol-waiting-heading h1{font-size:17px}}
+
+
+/* Leave the painted title clear and use the lower part of the board. */
+.ol-actions{justify-content:center}
+.ol-actions .ol-primary{width:min(270px,100%);flex:0 1 270px}
+.ol-seat strong{line-height:1.25;overflow-wrap:anywhere}
+@media(min-width:701px){
+ .ol-table-details{padding-bottom:24px}
+ .ol-waiting-heading{min-height:max(102px,16%)}
+ .ol-seat{min-height:58px}
 }
-body[data-online] #mobile-menu-dialog .pause-tally { display: none; }
+@media(max-width:700px){
+ .ol-table-details{padding-bottom:24px}
+ .ol-waiting-heading{min-height:100px}
+ .ol-actions .ol-primary{width:min(240px,100%);flex:0 1 240px}
+ .ol-seat{min-height:58px}
+}
+
+
+/* Reserve the painted lower frame for decoration; keep actions on the leather. */
+.ol-table-details{padding-bottom:clamp(45px,10%,90px)}
+.ol-stakes{margin-bottom:4px;padding-top:8px;padding-bottom:6px}
+.ol-stake-choices{margin-block:6px}
+.online .ol-deal-hint{margin:4px 0 0}

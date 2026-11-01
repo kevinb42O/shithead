@@ -158,7 +158,7 @@ export const loadingAssets = [
   },
   {
     "url": "assets/cards.svg",
-    "bytes": 962487
+    "bytes": 962489
   },
   {
     "url": "assets/club-empty-table.png",
@@ -485,6 +485,10 @@ export const loadingAssets = [
     "bytes": 482895
   },
   {
+    "url": "assets/menu-corner-bezel.png",
+    "bytes": 59629
+  },
+  {
     "url": "assets/multiplayer-button.png",
     "bytes": 2033907
   },
@@ -545,12 +549,40 @@ export const loadingAssets = [
     "bytes": 715554
   },
   {
+    "url": "assets/tavern-chat-frame.png",
+    "bytes": 2646376
+  },
+  {
+    "url": "assets/tavern-chat-mobile.png",
+    "bytes": 2734651
+  },
+  {
     "url": "assets/tavern-loading-mobile.jpg",
     "bytes": 546390
   },
   {
     "url": "assets/tavern-loading.jpg",
     "bytes": 558560
+  },
+  {
+    "url": "assets/tavern-lobby-board.png",
+    "bytes": 2838628
+  },
+  {
+    "url": "assets/tavern-menu-desktop.jpg",
+    "bytes": 595588
+  },
+  {
+    "url": "assets/tavern-menu-mobile.jpg",
+    "bytes": 622072
+  },
+  {
+    "url": "assets/tavern-table-art.png",
+    "bytes": 2591802
+  },
+  {
+    "url": "assets/tavern-tavern.png",
+    "bytes": 2251875
   },
   {
     "url": "assets/webaanzee-wordmark.png",

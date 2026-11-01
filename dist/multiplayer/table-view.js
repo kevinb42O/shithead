@@ -30,6 +30,7 @@ export function tableView(view, localSeat, members) {
   });
   return {
     online: true,
+    bet: view.bet && !view.bet.cancelled ? { ...view.bet, winner: local(view.bet.winner) } : null,
     version: 3,
     players,
     deck: backs(view.deckCount, "online-stock"),

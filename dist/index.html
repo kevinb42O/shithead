@@ -41,6 +41,7 @@
   <link rel="stylesheet" href="game-layout.css">
   <link rel="stylesheet" href="effects.css">
   <link rel="stylesheet" href="menu.css">
+  <link rel="stylesheet" href="menu-lighting.css">
   <link rel="stylesheet" href="players.css">
   <link rel="stylesheet" href="bottle.css">
   <link rel="stylesheet" href="rules.css">
@@ -91,6 +92,12 @@
         <button id="menu-sound" class="menu-quiet" aria-pressed="false">Sound off</button>
       </div>
     </div>
+    <div class="menu-utilities" role="group" aria-label="Menu controls">
+      <button id="menu-rules" type="button" aria-label="Rules" title="Rules"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v15M12 5C8 2 3 4 3 4v14s5-2 9 2c4-4 9-2 9-2V4s-5-2-9 1Z"/></svg></button>
+      <button id="menu-fullscreen" type="button" data-fullscreen aria-label="Fullscreen" title="Fullscreen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path data-fullscreen-icon d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg><span data-fullscreen-label class="menu-control-label">Fullscreen</span></button>
+      <button id="menu-options" type="button" aria-label="Options" title="Options"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.6 2.4-2 .9-2.2-.7-2 3.4 1.7 1.7-.2 2.3L2 14.6 4 18l2.4-.6 1.9 1.2L9 21h4l.7-2.4 1.9-1.2 2.4.6 2-3.4-1.7-1.6-.2-2.3L20 9l-2-3.4-2.2.7-2-.9L13 3Z"/><circle cx="11" cy="12" r="3.1"/></svg></button>
+    </div>
+    <p class="fullscreen-error menu-fullscreen-error" data-fullscreen-error role="status" hidden></p>
     <div class="menu-center">
       <div class="menu-showpiece" aria-hidden="true">
         <div class="menu-orbit"></div>
@@ -116,17 +123,6 @@
           <span class="menu-multiplayer-art" aria-hidden="true"><img src="assets/multiplayer-button.png" alt="" width="2172" height="724" decoding="async" draggable="false"></span>
         </button>
         <button id="menu-fortune" class="fortune-entry" type="button"><span class="fortune-entry-coin" aria-hidden="true"></span><span><strong>Daily Fortune</strong><small id="fortune-entry-status">Free roll ready</small></span><span class="fortune-entry-arrow" aria-hidden="true">›</span></button>
-        <div class="menu-secondary"><button id="menu-rules"><svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 5v15M12 5C8 2 3 4 3 4v14s5-2 9 2c4-4 9-2 9-2V4s-5-2-9 1Z" />
-            </svg>Rules</button><span></span><button id="menu-options"><svg viewBox="0 0 24 24"
-              aria-hidden="true">
-              <path d="M4 7h16M4 17h16" />
-              <circle cx="9" cy="7" r="3" />
-              <circle cx="15" cy="17" r="3" />
-            </svg>Options</button>
-          <button id="menu-fullscreen" type="button" data-fullscreen hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path data-fullscreen-icon d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg><span data-fullscreen-label>Fullscreen</span></button>
-        </div>
-        <p class="fullscreen-error" data-fullscreen-error role="status" hidden></p>
       </div>
       <section id="single-setup" class="single-setup" hidden aria-labelledby="setup-title">
         <button id="setup-back" class="menu-quiet setup-back" type="button" aria-label="Back"><img src="assets/setup-back-button.png" alt="" aria-hidden="true" draggable="false"></button>

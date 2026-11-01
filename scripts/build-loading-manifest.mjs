@@ -15,7 +15,7 @@ for (const dir of ['funny-deck', 'audio']) {
   }
 }
 for (const file of await readdir(path.join(root, 'assets'))) {
-  if (/^club-.*\.png$/.test(file)) assets.add(`assets/${file}`);
+  if (/^(club-|tavern-).*\.png$/.test(file)) assets.add(`assets/${file}`);
 }
 const entries = [];
 for (const url of [...assets].sort()) {

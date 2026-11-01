@@ -1,0 +1,49 @@
+/* Painted walnut, leather and brass chat frames, generated for each aspect ratio. */
+.table-chat{position:fixed;right:18px;bottom:18px;z-index:1001;font:14px DM,Arial,sans-serif;color:#f8e7c3;text-align:left}.table-chat[hidden],.table-chat [hidden]{display:none!important}.table-chat button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}.table-chat :focus-visible{outline:2px solid #83dee6;outline-offset:3px}
+.chat-toggle{display:flex;align-items:center;gap:10px;min-height:48px;padding:10px 24px;color:#ffe5ab;border:1px solid #bd8c42;border-radius:7px;background:linear-gradient(#684321,#2e190e);box-shadow:inset 0 1px #f7d78b77,inset 0 -3px #140a0799,0 5px 10px #000a;text-shadow:0 2px 2px #000;font:20px Serif,Georgia,serif!important}.chat-toggle b{background:#dfbd75;color:#33200f;border-radius:20px;padding:3px 7px;font:12px Arial}
+.chat-panel{position:absolute;bottom:60px;right:0;display:flex;flex-direction:column;box-sizing:border-box;width:min(380px,calc(100vw - 24px));height:min(590px,75dvh);min-height:380px;padding:2% 8% 5%;border:0;border-radius:14px;background:url(assets/tavern-chat-frame.png) center/100% 100% no-repeat;filter:drop-shadow(0 14px 18px #000b);overflow:hidden}
+.chat-panel header{display:flex;align-items:center;gap:8px;box-sizing:border-box;min-height:62px;flex:0 0 12%;padding:5px 6px 10px;text-shadow:0 2px 3px #000}.chat-emblem{display:none}.chat-heading{flex:1;min-width:0}.chat-heading strong{display:block;color:#ffe5b0;font:26px/1.1 Serif,Georgia,serif}.chat-heading small{display:block;color:#cdb18a;font-size:9px;margin-top:5px;white-space:nowrap}.chat-panel header button{min-height:36px;border:0;background:transparent;color:#e4c28d;padding:4px}.chat-panel header .chat-close{font:24px Arial;min-width:28px}.chat-mute{font-size:10px!important}.chat-panel button:hover:enabled{filter:brightness(1.2)}
+.chat-messages{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#aa7c43 #2a190d66;padding:18px 4px 8px}.chat-empty{height:100%;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#ebce98;text-shadow:0 2px 3px #140a06}.chat-empty>span{font:46px Georgia;color:#d4a954;margin-bottom:14px}.chat-empty strong{font:24px/1.2 Serif,Georgia,serif}.chat-empty p{font:12px/1.5 DM,Arial,sans-serif!important;color:#c4aa89!important;max-width:24ch;margin:12px 0!important}
+.chat-message{display:flex;align-items:flex-start;gap:8px;margin-bottom:15px}.chat-avatar{display:grid;place-items:center;flex:0 0 27px;height:27px;background:url(assets/setup-stake-coin.png) center/cover;color:#4a2c16;font:17px Georgia}.chat-message>div{min-width:0;max-width:85%}.chat-message strong{display:block;color:#e1ba78;font-size:10px;font-weight:500;margin:0 0 5px 2px;text-shadow:0 1px #000}.chat-message p{margin:0!important;padding:9px 12px;border:1px solid #ad80453d;border-radius:3px 9px 9px;background:linear-gradient(130deg,#4c301b,#2c1a11);box-shadow:inset 0 1px #eac47c0d,0 2px 4px #0004;color:#fae8c9!important;font:13px/1.5 DM,Arial,sans-serif!important;overflow-wrap:anywhere;white-space:pre-wrap;text-wrap:wrap!important}.chat-own{flex-direction:row-reverse}.chat-own .chat-avatar{display:none}.chat-own strong{text-align:right;color:#a3d4d3}.chat-own p{background:linear-gradient(130deg,#244144,#162e33);border-color:#74a6a04d;border-radius:9px 3px 9px 9px}
+
+.chat-panel form{flex:0 0 17%;display:flex;flex-direction:column;justify-content:center;min-height:79px;box-sizing:border-box;padding:14px 0 2px;margin:0}.chat-compose{display:flex;align-items:center;gap:6px;background:#1c110bbf;border:1px solid #ba874a88;border-radius:5px;padding:4px 5px 4px 10px;box-shadow:inset 0 3px 7px #0008,0 1px #edc57922}.chat-compose:focus-within{border-color:#e4bd74;box-shadow:0 0 8px #e4bd7433}.table-chat .chat-compose input{flex:1;min-width:0;width:0;height:38px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;outline:none;color:#f8edcf;font:16px DM,Arial,sans-serif}.chat-compose input::placeholder{color:#b19a7a}.chat-panel .chat-send{display:grid;place-items:center;flex:0 0 36px;height:36px;border:1px solid #eac77c;border-radius:5px;background:linear-gradient(#b98237,#735023);box-shadow:inset 0 1px #fff0aeaa,inset 0 -2px #49270b;color:#ffe7ac;text-shadow:0 2px #43230c;font:25px Arial}.chat-send:disabled{opacity:.4;cursor:default}.chat-footer{display:flex;justify-content:space-between;gap:7px;margin-top:7px;color:#bba17d;font-size:8px;line-height:1.4}.chat-count{white-space:nowrap;font-variant-numeric:tabular-nums}.chat-label{position:absolute;clip-path:inset(50%)}
+.chat-panel .chat-jump{align-self:center;flex-shrink:0;margin:-6px 0 5px;padding:6px 12px;border:1px solid #bf9c5d;border-radius:4px;background:#5e3f24;color:#ffe4ae;font-size:11px;box-shadow:0 2px 6px #0008}
+.table-chat.chat-in-lobby{position:relative;right:auto;bottom:auto;z-index:auto;width:100%;min-width:0;margin:0;align-self:stretch}.chat-in-lobby .chat-panel{position:relative;right:auto;bottom:auto;width:100%;height:100%;min-height:540px;max-height:680px;padding:2% 8% 5%}.chat-in-lobby .chat-toggle[aria-expanded=true]{display:none}.chat-in-lobby .chat-toggle{margin-left:auto}
+@media(max-width:700px){.table-chat{right:10px;bottom:calc(80px + env(safe-area-inset-bottom))}.chat-panel{position:fixed;right:0;bottom:0;width:100%;height:min(70dvh,570px);min-height:300px;padding:2% 7% max(5%,env(safe-area-inset-bottom));background-image:url(assets/tavern-chat-mobile.png);border-radius:12px}.chat-panel header{flex-basis:15%;min-height:58px;padding:5px 8px 8px}.chat-heading strong{font-size:25px}.chat-heading small{font-size:9px}.chat-panel header button{min-height:40px}.chat-panel header .chat-close{min-width:32px}.chat-messages{padding-top:14px}.chat-panel form{flex-basis:21%;padding-top:13px;min-height:84px}.chat-empty strong{font-size:24px}.chat-empty>span{font-size:40px;margin-bottom:12px}.chat-in-lobby .chat-panel{position:relative;height:clamp(370px,calc(100dvh - 174px),650px);min-height:0;max-height:none;padding:2% 7% 5%;border-radius:12px}.chat-toggle{min-height:44px;font-size:18px!important}}
+@media(max-width:360px){.chat-heading strong{font-size:23px}.chat-heading small{font-size:8px}.chat-panel header{gap:4px;padding-inline:5px}.chat-empty strong{font-size:21px}.chat-empty p{font-size:11px!important}.chat-empty>span{font-size:32px;margin-bottom:8px}}
+@media(max-height:700px) and (min-width:701px){.chat-in-lobby .chat-panel{min-height:470px}.chat-heading strong{font-size:24px}.chat-panel header{min-height:58px}.chat-panel form{min-height:84px}}
+@media(min-width:701px){.chat-panel header{flex:0 0 76px;padding-left:16px;padding-right:10px}.chat-heading strong{font-size:25px}}
+@media(min-width:701px){.chat-panel form{padding-top:2px;padding-bottom:10px}.chat-footer{color:#d0b58b}}
+/* Align live content with the painted header and writing recess. */
+.chat-panel header{position:relative;justify-content:center;padding-inline:30px!important}
+.chat-heading{text-align:center}.chat-heading strong{font-size:27px}.chat-heading small{font-size:9px}
+.chat-panel header .chat-close{position:absolute;right:0;top:50%;transform:translateY(-50%);color:#edce92}
+.chat-panel header .chat-mute{position:absolute;right:0;top:100%;z-index:1;min-height:26px;font-size:9px!important;padding:2px 5px;color:#d8bd91}
+
+.chat-panel form{padding:9px 0 14px;justify-content:center}
+.chat-footer{color:#d9be94;font-size:9px}.chat-feedback{max-width:24ch}.chat-count{align-self:start}
+@media(min-width:701px){.chat-in-lobby .chat-panel{min-height:0;height:100%;max-height:none}.chat-panel header{flex:0 0 76px}.chat-panel form{flex:0 0 17%;min-height:92px}.chat-panel .chat-compose input{height:34px}.chat-panel .chat-send{height:34px;flex-basis:34px}.chat-footer{font-size:8px}}
+@media(max-width:700px){.chat-panel header{padding-inline:28px!important}.chat-heading strong{font-size:26px}.chat-panel form{padding:13px 0 6px}.chat-panel header .chat-mute{top:85%;right:0}.chat-heading small{font-size:8px}}
+/* Chat history must never contribute to the waiting-room grid's size. The
+   table sets the row height; the message log scrolls inside that fixed space. */
+@media(min-width:701px){
+ .table-chat.chat-in-lobby{contain:size;min-height:0}
+ .chat-in-lobby .chat-panel{position:absolute;inset:0;width:100%;height:100%;min-height:0;max-height:none}
+}
+.chat-messages{flex:1 1 0;min-height:0;overflow-y:auto;overflow-x:hidden}
+
+
+/* The artwork's lower leather recess is the composer itself. */
+.chat-panel .chat-messages{position:absolute;top:15%;bottom:23%;left:9%;right:9%;padding:12px 4px 8px}
+.chat-panel .chat-jump{position:absolute;bottom:23%;left:50%;transform:translateX(-50%);z-index:2;white-space:nowrap}
+.chat-panel form{position:absolute;left:9%;right:9%;bottom:7%;height:12%;min-height:0;margin:0;padding:0;display:flex;justify-content:center}
+.chat-panel .chat-compose,.chat-panel .chat-compose:focus-within{flex:1;min-height:0;width:100%;padding:0 8px 0 12px;gap:6px;background:transparent;border:0;box-shadow:none}
+.table-chat .chat-compose input,.chat-panel .chat-compose input{height:100%;min-height:0;padding:0;background:transparent;border:0;box-shadow:none}
+.chat-panel .chat-compose:focus-within{outline:2px solid #d7b47188;outline-offset:-4px;border-radius:10px}
+.chat-panel .chat-footer{position:absolute;left:12px;right:12px;bottom:2px;margin:0;pointer-events:none}
+.chat-panel .chat-feedback{color:#ffcf9c}
+@media(max-width:700px){
+ .chat-panel .chat-messages{top:16%;bottom:27%;left:7%;right:7%}
+ .chat-panel .chat-jump{bottom:27%}
+ .chat-panel form,.chat-in-lobby .chat-panel form{left:7%;right:7%;bottom:5%;height:19%;min-height:0;padding:0}
+}

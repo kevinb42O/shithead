@@ -17,6 +17,16 @@
 .board-prop { position: fixed; top: 37%; width: 9%; height: 19%; z-index: 7; border: 0; padding: 0; background: transparent; cursor: pointer; border-radius: 45%; touch-action: manipulation; }
 .board-forge { left: 0; }
 .board-lantern { right: 0; }
+.prop-cinema { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+/* Keep the painted fixtures hittable above the full-table arena. */
+.board-prop { top: 32.5%; height: 21%; z-index: 30; -webkit-tap-highlight-color: transparent; }
+.board-prop::before { content: ''; position: absolute; inset: 7% 1%; border-radius: 50%; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.board-forge::before { background: radial-gradient(ellipse, #ffda7660, #ff640025 45%, transparent 72%); box-shadow: inset 0 0 24px #ff961c33; }
+.board-lantern::before { background: radial-gradient(ellipse, #a9fff34a, #13dfc822 45%, transparent 72%); }
+.board-prop:hover::before, .board-prop:focus-visible::before { opacity: .6; }
+.board-prop.is-awake::before { opacity: 1; }
+.board-prop.board-forge span { left: 8px; translate: 0; }
+.board-prop.board-lantern span { left: auto; right: 8px; translate: 0; }
 .board-prop span { position: absolute; top: 100%; left: 50%; translate: -50% 0; color: #fff1cc; background: #29170fed; padding: 5px 9px; border-radius: 4px; font: 11px DM, sans-serif; opacity: 0; transition: opacity 150ms; white-space: nowrap; }
 .board-prop:hover span, .board-prop:focus-visible span { opacity: 1; }
 .board-prop:focus-visible { outline: 3px solid #fff1b6; outline-offset: -3px; }
@@ -47,7 +57,7 @@
 @media (max-width: 700px) {
   #game-view .game-shell { background-image: url(assets/ember-hearth-mobile.jpg); background-size: 100% 100%; }
   .board-condition { top: 61px; font-size: 12px; }
-  .board-prop { top: 39%; width: 44px; height: 74px; }
+  .board-prop { top: calc(45.6% - 44px); width: 44px; height: 88px; }
   #game-view .table-stakes { top: calc(13px + env(safe-area-inset-top)); left: 20px; right: auto; width: auto; padding: 0; background: none; box-shadow: none; border-radius: 0; }
   #game-view .player-bankroll { top: calc(39px + env(safe-area-inset-top)); left: 20px; bottom: auto; background: none; padding: 0; border-radius: 0; }
   #game-view .table { padding-top: calc(88px + env(safe-area-inset-top)) !important; }

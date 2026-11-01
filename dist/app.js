@@ -4,6 +4,7 @@ import {tableView,tableEvent} from './multiplayer/table-view.js';
 import { createLivingBoard } from './living-board.js';
 import { animateContributions, animatePayout } from './wager-table.js';
 import { createMenuMusic } from './menu-music.js';
+import { createMenuLighting } from './menu-lighting.js';
 import { createGameAudio } from './audio.js';
 import { STAKES, createWallet, buyIn, settleBet, refillWallet } from './coins.js';
 import { attachCardTouch } from './tactile.js';
@@ -32,6 +33,7 @@ let wallet = createWallet(), saveWarning = false, cardArtworkState = 'idle', car
 const coins = value => value.toLocaleString('en-US');
 const gameAudio = createGameAudio();
 const menuMusic = createMenuMusic();
+createMenuLighting(document.getElementById('main-menu'));
 const PREFERENCES_KEY = KEY.endsWith('-qa') ? 'shithead-preferences-qa' : 'shithead-preferences';
 try { Object.assign(preferences, JSON.parse(localStorage.getItem(PREFERENCES_KEY) || '{}')); } catch { }
 // Older versions persisted their silent default as if the player had chosen it.
@@ -62,7 +64,10 @@ saveWarningNode.setAttribute('role', 'status'); saveWarningNode.hidden = !saveWa
 saveWarningNode.textContent = 'Your saved game could not be resumed. Start a new game to continue.';
 $('menu-actions').after(saveWarningNode);
 const effects = createTableEffects({ sound: effectSound, nameForSeat: playerName });
-const livingBoard = createLivingBoard({ sound: effectSound });
+const livingBoard = createLivingBoard({ sound: effectSound, interact: prop => {
+  if (onlineSession) return onlineSession.interactBoard(prop);
+  livingBoard.interact({ prop, seed: crypto.getRandomValues(new Uint32Array(1))[0] });
+} });
 const bottle = createBottleSpin({ sound: cardSound, nameForSeat: playerName });
 let spinning = false, spinRun = 0, finalSequence = 0, finalBusy = false;
 function cancelFinalSequence() { finalSequence++; finalBusy = false; document.querySelector('.final-reveal')?.remove(); $('hand').inert = false; $('pickup').disabled = false; }
@@ -482,9 +487,9 @@ function renderCoins() {
   $('table-pot').setAttribute('aria-label', bet ? `${coins(bet.pot)} coins` : 'Practice table');
   $('pot-label').textContent = bet?.settled ? (bet.winner === 0 ? 'You won the pot' : `${playerName(bet.winner)} won`) : 'Table pot';
   $('pot-terms').textContent = bet ? `${coins(bet.stake)} each · ${game.players.length} seats` : 'No coins at stake';
-  $('player-stake').textContent = onlineSession ? 'Saved for solo play' : bet ? (bet.settled ? (bet.winner === 0 ? `+${coins(bet.pot - bet.stake)} net` : `${coins(bet.stake)} buy-in paid`) : '') : 'Practice table';
+  $('player-stake').textContent = bet ? (bet.settled ? (bet.winner === 0 ? `+${coins(bet.pot - bet.stake)} net` : `${coins(bet.stake)} buy-in paid`) : '') : 'Practice table';
   $('player-stake').hidden = !$('player-stake').textContent;
-  $('pot-outcome').textContent = onlineSession ? 'Free table · no buy-in' : bet?.settled ? (game.phase === 'finished' ? 'Hand complete.' : 'Pot paid. Play on to find the Shithead.') : 'First out takes it.';
+  $('pot-outcome').textContent = bet?.settled ? (game.phase === 'finished' ? 'Hand complete.' : 'Pot paid. Play on to find the Shithead.') : 'First out takes it.';
   document.querySelector('.table-stakes').classList.toggle('is-settled', !!bet?.settled);
   $('setup-return').textContent = `Your balance after buy-in: ${coins(Math.max(0, wallet.balance - preferences.stake))} · Win: +${coins(preferences.stake * (preferences.playerCount - 1))} net`;
 
@@ -706,13 +711,13 @@ function syncOnlineControls() {
     if (!onlineSession.host) $('play').textContent = 'Waiting for the host';
   }
 }
-function endOnlineTable() {
+function endOnlineTable(keepSession = false) {
   dealRun++; cancelFinalSequence(); cancelSpin(); clearTimeout(timer); effects.clear();
   document.querySelectorAll('.deal-flight').forEach(n => n.remove());
   dealing = false; onlineSession = null; onlineEventId = 0;
   game = soloGame || game; soloGame = null; selected = []; swapHand = null; notice = '';
   delete document.body.dataset.online;
-  document.dispatchEvent(new CustomEvent('online-close'));
+  if (!keepSession) document.dispatchEvent(new CustomEvent('online-close'));
   $('main-menu').inert = false;
   render();
 }
@@ -738,16 +743,19 @@ function receiveOnlineTable(session) {
   const first = onlineSession !== session;
   if (first) {
     soloGame = game; onlineSession = session; onlineEventId = 0;
+    session.onBoardEffect = effect => { if (onlineSession === session) livingBoard.interact(effect); };
     cancelFinalSequence(); cancelSpin(); effects.clear(); clearTimeout(timer);
     dealRun++; dealing = false; selected = []; swapHand = null; lastPlayedBy = null;
     document.querySelectorAll('.deal-flight').forEach(n => n.remove());
     renderOpponents.clear();
   }
   const previousPhase = game.phase;
+  const previousBet = game.bet;
   const next = tableView({...session.view, message:session.message}, localSeat, session.members);
   next.onlineMembers = Array.from({length:session.members.length},(_,i)=>session.members[(i+localSeat)%session.members.length]);
   const result = tableEvent(session.event, localSeat, session.members.length, session.members);
   const newEvent = result && result.id !== onlineEventId;
+  const potPaid = !first && next.bet?.settled && !previousBet?.settled;
   if (newEvent) { cancelFinalSequence(); adoptPlayedCardNodes(result); }
   const spectacle = newEvent && result.ok ? effects.capture(result) : null;
   if (!first && previousPhase !== 'finished') next.log = newEvent && session.message ? [session.message,...game.log].slice(0,100) : game.log;
@@ -775,6 +783,7 @@ function receiveOnlineTable(session) {
   }
   if (newEvent && spinning) cancelSpin();
   render({animate:!!newEvent || game.phase === 'setup'});
+  if (potPaid) { animatePayout(game.bet.winner); if (game.bet.winner === 0) { effectSound('reward'); effectSound('coins', {shower:true}); } }
   if (newEvent && result.ok) {
     livingBoard.react(result, game);
     effects.run(result, spectacle, game);
@@ -795,3 +804,6 @@ document.addEventListener('online-error', event => { if (onlineSession) {notice=
 export const startupReady = Promise.all([ensureCardArtwork(), gameAudio.ready(), menuMusic.ready()]).then(([cards]) => {
   if (!cards) throw new Error('Card artwork could not be prepared');
 });
+
+document.addEventListener('online-waiting', () => { endOnlineTable(true); $('main-menu').hidden = false; $('main-menu').inert = true; });
+document.addEventListener('wallet-updated', event => { wallet = createWallet(event.detail); renderCoins(); });

@@ -13,7 +13,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // Fixtures are appended to intercepted module responses only. The production
 // app has no fixture API, and this suite needs no public broker or dependencies.
 const fixture = `
-window.onlineQA={fixture:async({phase='setup',handCount=3,turn=0}={})=>{
+window.onlineQA={message:(text)=>{session.chat.push({id:crypto.randomUUID(),sender:'friend',name:'Friend',text});render();},waiting:()=>{browser?.close();session?.close();clearInterval(interval);inRoom=true;root.hidden=false;session=new Session('Host',()=>{tableWallet.sync(session).then(render)},error);session.host=true;session.members=[{id:session.id,name:'Host',connected:true,ready:false},{id:'friend',name:'Friend',connected:true,ready:false}];session.announce=()=>{};render();},fixture:async({phase='setup',handCount=3,turn=0}={})=>{
  window.confirm=()=>true;if(session?.view)document.getElementById('back-menu').click();browser?.close();browser=null;session?.close();clearInterval(interval);inRoom=true;notice='';root.hidden=false;await preloadCardArtwork();
  const {createGame,assertGame}=await import('/engine.js');
  const s=new Session('Alexanderthegreatlongname',render,error);session=s;s.host=true;s.announce=()=>{};s.members=Array.from({length:4},(_,i)=>({id:i?'guest-'+i:s.id,name:['Alexanderthegreatlongname','Mira','Theodore Longlastname','Jules'][i],connected:true,ready:false}));
@@ -22,6 +22,15 @@ window.onlineQA={fixture:async({phase='setup',handCount=3,turn=0}={})=>{
  s.game.phase=phase;s.game.turn=turn;assertGame(s.game);s.view=(await import('/multiplayer/session.js')).project(s.game,0);s.message=phase==='setup'?'Arrange your face-up cards, then press Ready.':'Your turn. Choose your cards.';render();document.getElementById('play').click();
 },refresh:()=>render(),busy:value=>{session.busy=value;render()},pile:()=>{session.game.pile.push(session.game.deck.pop());session.view=projectForQA(session);render()},pause:()=>{session.paused=true;render()},browse:()=>browse()};
 function projectForQA(s){return s.view={...s.view,pile:s.game.pile,deckCount:s.game.deck.length}};`;
+const stakeFixture = `
+window.onlineStakeQA={
+ consent:()=>{session.command('friend',{type:'accept',offerId:session.offerId,seq:(session.lastSequences.get('friend')||0)+1})},
+ win:()=>{session.game.winner=0;session.game.bet.winner=0;session.game.bet.settled=true;session.game.phase='finished';session.game.placements=[0];session.game.loser=1;session.broadcast()},
+ rematch:()=>session.act('rematch'),
+ balance:()=>tableWallet.balance(),
+ busy:()=>accepting,
+ accepted:()=>session.members[0].accepted===session.offerId
+};`;
 const fakeBroker = `export class MqttWsSignalingClient { subscribe(){return ()=>{}} async connect(){return true} publish(){} isConnected(){return true} close(){} }`;
 test(
   "online lobby, input safety and responsive table browser regressions",
@@ -107,7 +116,7 @@ test(
             ? (await readFile(
                 new URL("../dist/online.js", import.meta.url),
                 "utf8",
-              )) + fixture
+              )) + fixture + stakeFixture
             : fakeBroker;
           await call("Fetch.fulfillRequest", {
             requestId: request.requestId,
@@ -165,6 +174,112 @@ test(
           assert.deepEqual(errors, []);
         },
       );
+      await t.test("waiting room chat is visible, usable and survives the deal", async () => {
+        await evaluate("onlineQA.waiting()");
+        assert.equal(await evaluate("!document.querySelector('.chat-panel').hidden"), true);
+        await evaluate(`document.querySelector('#table-chat-input').value='Hello table'; document.querySelector('.chat-panel form').requestSubmit()`);
+        assert.equal(await evaluate("document.querySelector('.chat-messages').textContent.includes('Hello table')"), true);
+        await evaluate(`document.querySelector('.ol-actions .ol-primary').click()`);
+        assert.equal(await evaluate("document.querySelector('.chat-messages').textContent.includes('Hello table')"), true);
+      });
+      await t.test("chat preserves drafts, reading position, and safely renders messages", async () => {
+        await evaluate("onlineQA.waiting()");
+        await evaluate(`for(let i=0;i<24;i++)onlineQA.message('Message '+i+' with enough words to fill a conversation.');const input=document.querySelector('#table-chat-input');input.value='Unfinished thought';input.focus();input.setSelectionRange(4,4);document.querySelector('.chat-messages').scrollTop=0;onlineQA.message('<img src=x onerror=alert(1)>');`);
+        assert.equal(await evaluate("document.querySelector('#table-chat-input').value"), 'Unfinished thought');
+        assert.equal(await evaluate("document.activeElement.id"), 'table-chat-input');
+        assert.equal(await evaluate("document.querySelector('#table-chat-input').selectionStart"), 4);
+        assert.equal(await evaluate("document.querySelector('.chat-messages').scrollTop"), 0);
+        assert.equal(await evaluate("document.querySelector('.chat-messages img')"), null);
+        assert.equal(await evaluate("document.querySelector('.chat-jump').hidden"), false);
+        await evaluate("document.querySelector('.chat-jump').click()");
+        assert.equal(await evaluate("document.querySelector('.chat-jump').hidden"), true);
+      });
+      await t.test("lobby and chat fit mobile, tablet, desktop and short landscape screens", async () => {
+        for (const [width,height] of [[320,568],[390,844],[768,1024],[1366,768],[1920,1080],[2778,1286],[3440,1440],[844,390]]) {
+          await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
+          for (const screen of ['browse','waiting']) {
+            await evaluate(`onlineQA.${screen}()`);
+            await sleep(100);
+            const metrics=await evaluate(`(()=>{const body=document.querySelector('.ol-body');return {width:body.clientWidth,scroll:body.scrollWidth,panels:[...document.querySelectorAll('.ol-create,.ol-directory,.ol-table-details,.chat-in-lobby')].map(e=>{const r=e.getBoundingClientRect();return {left:r.left,right:r.right}})}})()`);
+            assert(metrics.scroll<=metrics.width+1,JSON.stringify({width,screen,metrics}));
+            for(const r of metrics.panels)assert(r.left>=0&&r.right<=width+1,JSON.stringify({width,screen,r}));
+            if(screen==='waiting' && width>=1366){
+              const layout=await evaluate(`(()=>{const w=document.querySelector('.ol-waiting').getBoundingClientRect(),c=document.querySelector('.chat-compose').getBoundingClientRect();return {width:w.width,top:w.top,bottom:w.bottom,composerBottom:c.bottom}})()`);
+              const actionPosition=await evaluate(`(()=>{const board=document.querySelector('.ol-table-details').getBoundingClientRect(),button=document.querySelector('.ol-actions .ol-primary').getBoundingClientRect();return {top:board.top,height:board.height,buttonBottom:button.bottom}})()`);
+              assert(actionPosition.buttonBottom <= actionPosition.top + actionPosition.height*.89, JSON.stringify({width,actionPosition}));
+              assert(layout.width>width*.64,JSON.stringify({width,layout}));
+              assert(layout.top>=0&&layout.bottom<height&&layout.composerBottom<height,JSON.stringify({width,layout}));
+            }
+            if(process.env.CAPTURE_ONLINE){
+              const dir=new URL('../artifacts/lobby-chat/',import.meta.url);await mkdir(dir,{recursive:true});
+              const shot=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+              await writeFile(new URL(`${screen}-${width}x${height}.png`,dir),Buffer.from(shot.data,'base64'));
+            }
+            if(screen==='waiting' && width<700){
+              await evaluate(`document.querySelector('.ol-tab[data-tab="chat"]').click();onlineQA.message('Hey! Ready for a game?');onlineQA.refresh()`);
+              assert.equal(await evaluate(`document.querySelector('.ol-waiting').dataset.tab`),'chat');
+              const composer=await evaluate(`(()=>{const r=document.querySelector('.chat-compose').getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right}})()`);
+              assert(composer.top>0&&composer.bottom<height&&composer.left>=0&&composer.right<=width,JSON.stringify({width,composer}));
+              if(process.env.CAPTURE_ONLINE){const shot=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile(new URL(`../artifacts/lobby-chat/chat-${width}x${height}.png`,import.meta.url),Buffer.from(shot.data,'base64'));}
+              await evaluate(`document.querySelector('.ol-tab[data-tab="table"]').click()`);
+            }
+          }
+        }
+      });
+      await t.test("coin stakes use existing art, require agreement, pay once and return rematches to the lobby", async () => {
+        await call('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
+        await evaluate('onlineQA.waiting()');
+        const initial = await evaluate('onlineStakeQA.balance()');
+        assert.deepEqual(await evaluate("[...document.querySelectorAll('.ol-stake-choices button')].map(b=>b.textContent)"), ['Practice','50','100','250','500','1,000']);
+        await evaluate(`document.querySelector('[aria-label="250 coins per player"]').click()`);
+        assert.equal(await evaluate("document.querySelector('.ol-actions .ol-primary').disabled"), true);
+        await evaluate("document.querySelector('.ol-accept-stake').click()");
+        await until('!onlineStakeQA.busy() && onlineStakeQA.accepted()');
+        assert.equal(await evaluate('onlineStakeQA.balance()'),initial-250);
+        await evaluate('onlineQA.refresh();onlineQA.refresh()');
+        assert.equal(await evaluate('onlineStakeQA.balance()'),initial-250);
+        await evaluate(`document.querySelector('[aria-label="100 coins per player"]').click()`);
+        await until(`onlineStakeQA.balance()===${initial}`);
+        for (const [width,height] of [[320,568],[390,844],[768,1024],[1366,768],[1920,1080],[844,390]]) {
+          await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
+          await evaluate('onlineQA.refresh()'); await sleep(80);
+          const metrics=await evaluate(`(()=>{const p=document.querySelector('.ol-stake-choices'),r=p.getBoundingClientRect();return {left:r.left,right:r.right,width:p.clientWidth,scroll:p.scrollWidth,buttons:[...p.children].map(b=>{const q=b.getBoundingClientRect();return {left:q.left,right:q.right,width:q.width,height:q.height}})}})()`);
+          assert(metrics.left>=0 && metrics.right<=width && metrics.scroll<=metrics.width+1,JSON.stringify({width,metrics}));
+          for(const b of metrics.buttons) assert(b.left>=metrics.left-1 && b.right<=metrics.right+1 && b.height>=40,JSON.stringify({width,b}));
+          const dir=new URL('../artifacts/table-stakes/',import.meta.url);await mkdir(dir,{recursive:true});
+          const shot=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+          await writeFile(new URL(`stakes-${width}x${height}.png`,dir),Buffer.from(shot.data,'base64'));
+        }
+        await call('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
+        await evaluate("document.querySelector('.ol-accept-stake').click()");
+        await until('!onlineStakeQA.busy() && onlineStakeQA.accepted()');
+        await evaluate('onlineStakeQA.consent()');
+        await until("!document.querySelector('.ol-actions .ol-primary').disabled");
+        await evaluate("document.querySelector('.ol-actions .ol-primary').click()");
+        await until("document.body.dataset.online==='true'");
+        assert.equal(await evaluate("document.getElementById('table-pot').textContent"),'200');
+        await evaluate('onlineStakeQA.win()'); await until(`onlineStakeQA.balance()===${initial+100}`);
+        await evaluate('onlineQA.refresh()'); assert.equal(await evaluate('onlineStakeQA.balance()'),initial+100);
+        await evaluate('onlineStakeQA.rematch()'); await until("!document.querySelector('.online').hidden");
+        assert.equal(await evaluate("document.querySelector('.ol-actions .ol-primary').disabled"),true);
+        assert.equal(await evaluate('onlineStakeQA.accepted()'),false);
+        assert.deepEqual(errors,[]);
+      });
+      await t.test("message history scrolls without resizing the lobby or composer", async () => {
+        for(const [width,height] of [[390,844],[1366,768],[2778,1286]]){
+          await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
+          await evaluate(`onlineQA.waiting();if(innerWidth<700)document.querySelector('.ol-tab[data-tab="chat"]').click()`);
+          await sleep(80);
+          const measure=()=>evaluate(`(()=>{const rect=s=>{const r=document.querySelector(s).getBoundingClientRect();return [r.x,r.y,r.width,r.height]};const log=document.querySelector('.chat-messages');return {panel:rect('.chat-panel'),lobby:rect('.ol-waiting'),composer:rect('.chat-compose'),scrollHeight:log.scrollHeight,clientHeight:log.clientHeight}})()`);
+          const before=await measure();
+          await evaluate(`for(let i=0;i<60;i++)onlineQA.message('Message '+i+' '+ 'A long chat message that wraps onto several lines. '.repeat(4))`);
+          const after=await measure();
+          for(const key of ['panel','lobby','composer'])for(let i=0;i<4;i++)assert(Math.abs(before[key][i]-after[key][i])<2,JSON.stringify({width,key,before,after}));
+          assert(after.scrollHeight>after.clientHeight*2,JSON.stringify({width,after}));
+          await evaluate(`(()=>{const log=document.querySelector('.chat-messages');log.scrollTop=0})()`);
+          assert.equal(await evaluate(`document.querySelector('.chat-messages').scrollTop`),0);
+        }
+      });
       const sizes = [
         [320, 568],
         [375, 667],
@@ -344,7 +459,7 @@ test(
       ws?.close();
       chrome.kill("SIGTERM");
       await new Promise((r) => chrome.once("exit", r));
-      await rm(profile, { recursive: true, force: true });
+      await rm(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 300 });
     }
   },
 );
