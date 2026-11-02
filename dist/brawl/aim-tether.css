@@ -1,0 +1,29 @@
+/* Forged brass silhouette, internal energy and a target-sized acquisition ring. */
+.target-arrow{color:#c8ece2;filter:none;overflow:visible;--aim-ivory:#fff6d7;--aim-metal:#b7e0d5;--aim-shade:#316d69}
+.target-arrow.is-valid{color:#f7ce78;--aim-metal:#eab65c;--aim-shade:#9c5824}
+.target-arrow #arrow-path{stroke:var(--aim-ivory);stroke-width:2;stroke-linecap:round;filter:drop-shadow(0 2px 3px #14110de0)}
+.target-arrow .aim-sheath{fill:none;stroke:currentColor;stroke-width:7;opacity:.22;stroke-linecap:round}
+.target-arrow.aim-gpu #arrow-path,.target-arrow.aim-gpu .aim-sheath{opacity:0}
+.aim-ribbon{position:fixed;z-index:81;pointer-events:none;display:none;contain:strict}
+.aim-ribbon.active{display:block}
+.aim-blade{stroke:#271e16;stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 5px 5px #10120cbb)}
+.target-arrow:not(.is-valid) .aim-blade{filter:sepia(.3) hue-rotate(95deg) saturate(.55) drop-shadow(0 5px 5px #10120cbb)}
+.aim-ridge{stroke:var(--aim-ivory);stroke-width:1.2;stroke-linecap:round}
+.aim-source,.aim-lock{fill:none;stroke:currentColor;stroke-width:1.3;filter:drop-shadow(0 2px 3px #10120cf0)}
+.aim-source circle:first-child{stroke-dasharray:32 4;stroke-width:2}
+.aim-source-inner{stroke-width:.8;opacity:.6}
+.aim-source-core{fill:var(--aim-ivory);stroke:none}
+.aim-lock-halo{fill:#e7c779;stroke:none;opacity:.045}
+.aim-lock .aim-orbit{stroke-width:2.2;stroke:#e7c779}
+.aim-lock-ticks{stroke:var(--aim-ivory);stroke-width:1.8}
+.aim-lock-teeth{stroke:#fff0c9;stroke-width:1.3}
+.aim-tip{stroke-linejoin:round;filter:drop-shadow(0 3px 3px #10120cf0)}
+.aim-tip-body{fill:url(#aim-metal-ramp);stroke:#271e16;stroke-width:3.5}
+.aim-tip-light{fill:#fff0c9;stroke:none}
+.aim-tip-shade{fill:#b07938;stroke:#e7c779;stroke-width:.8}
+.aim-tip-spine{fill:#fff6d7;stroke:#e7c779;stroke-width:.7}
+.aim-tip-jewel{fill:#173e32;stroke:#e7c779;stroke-width:1.1}
+.aim-tip-fletch{fill:none;stroke:currentColor;stroke-width:2;opacity:.85}
+.aim-mote{fill:var(--aim-ivory)}
+.brawl-app .is-drop-target:not(.crew-slot){outline:1px solid #e7c779!important;outline-offset:4px!important;filter:brightness(1.06)}
+@media(max-width:600px){.aim-source{stroke-width:1.5}.aim-mote:nth-last-child(n+9){display:none}}

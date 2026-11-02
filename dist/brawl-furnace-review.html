@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173e32"><title>Brawl · Furnace Burst review</title>
+  <link rel="icon" href="assets/favicon-32x32.png">
+  <link rel="preload" href="assets/fonts/cinzel-bold-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="tavern-brawl-assets.css"><link rel="stylesheet" href="brawl/game.css"><link rel="stylesheet" href="hearth-controls.css"><link rel="stylesheet" href="brawl/hearth-ui.css"><link rel="stylesheet" href="brawl/card-inspection.css"><link rel="stylesheet" href="brawl/field-effects.css">
+  <link rel="stylesheet" href="brawl/after-midnight.css">
+  <link rel="stylesheet" href="brawl/midnight.css">
+  <link rel="stylesheet" href="brawl/mordren-motion.css">
+  <link rel="stylesheet" href="brawl/vesper-motion.css">
+  <link rel="stylesheet" href="brawl/orun-motion.css">
+  <link rel="stylesheet" href="brawl/nox-motion.css">
+  <link rel="stylesheet" href="brawl/card-emergence.css">
+  <link rel="stylesheet" href="brawl/aim-tether.css">
+  <link rel="stylesheet" href="brawl/arena-depth.css">
+  <link rel="stylesheet" href="brawl/midnight-cards.css">
+  <link rel="stylesheet" href="brawl/midnight-controls.css">
+  <link rel="stylesheet" href="brawl/utilities.css">
+  <script type="module" src="brawl/furnace-review.js"></script>
+</head>
+<body class="brawl-app"><main id="app">
+    <section id="battle" class="table screen" aria-label="Tavern Brawl battle">
+      <div class="midnight-wordmark" aria-hidden="true">Tavern Brawl</div>
+      <header class="battle-header"><button id="battle-menu" class="quiet hearth-button hearth-button-compact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Menu</span></button><p id="battle-mode"></p><div class="utility-actions"><button id="battle-log" class="quiet hearth-button hearth-button-compact" aria-label="Battle history"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 3"/></svg><span>History</span></button></div></header>
+      <div id="opponent-hand" class="opponent-hand" aria-label="Opponent's hidden cards"></div>
+      <button id="enemy-hero" class="hero hero-opponent hero-target" data-target="hero:1" aria-label="Opponent hero"></button><p id="enemy-name" class="hero-name enemy-name"></p>
+      <div id="opponent-crew" class="crew-row opponent-row" aria-label="Opponent's crew"></div>
+      <div id="play-zone" class="play-zone" hidden aria-hidden="true"><span>Release to play</span></div>
+      <div id="player-crew" class="crew-row player-row" aria-label="Your crew"></div>
+      <button id="claim-pot" class="pot" aria-label="Claim the pot"><img id="pot-art" src="assets/tavern-brawl/ui/pot-empty.png" alt=""><span id="pot-count">0</span><small>Claim · 2 energy</small></button>
+      <button id="end-turn" class="end-turn hearth-button hearth-button-primary"><span class="turn-reservoir" aria-hidden="true" hidden><span class="turn-lava"><img class="turn-lava-material" src="assets/tavern-brawl/midnight/materials/molten-lava-still.webp" alt="" aria-hidden="true" draggable="false"></span></span><span class="end-turn-label">End turn</span></button><span id="turn-count" class="turn-count"></span>
+      <p id="turn-clock" class="turn-clock" role="timer" aria-live="off" hidden></p>
+      <div id="turn-label" class="turn-label" role="status"></div>
+      <button id="own-hero" class="hero hero-player hero-target" data-target="hero:0" aria-label="Your hero"></button>
+      <div id="player-station" class="player-station" role="group" aria-label="Your hero power and energy">
+      <button id="hero-power" class="hero-power hearth-button" aria-describedby="power-description"><img id="power-icon" src="assets/tavern-brawl/ui/spell.png" alt=""><span class="hero-power-label"><span id="power-name"></span><small id="power-cost">2 energy</small></span></button><span id="power-description" class="sr-only"></span>
+      <div class="energy" id="energy" aria-label="Your energy"><div id="energy-pips"></div><span id="energy-count"></span></div>
+      </div>
+      <div id="hand" class="hand" aria-label="Your hand"></div>
+      <div id="selection-dock" class="selection-dock" hidden><div id="selected-art"></div><div><strong id="selected-name"></strong><p id="selected-text"></p><button id="commit-card" class="quiet hearth-button hearth-button-compact" hidden>Play card</button><button id="cancel-selection" class="text-action hearth-button hearth-button-compact">Cancel</button></div></div>
+      <p id="battle-prompt" class="sr-only" role="status" aria-live="polite"></p>
+      <div class="deck-status"><p id="resource-warning" class="resource-warning" role="status" aria-live="polite" hidden></p><button id="deck-counts" class="deck-counts" hidden aria-label="Inspect decks and discard piles" aria-describedby="resource-warning"></button></div><div id="effects" class="battle-effects" aria-hidden="true"></div>
+      <div id="mulligan" class="mulligan" hidden><div class="mulligan-copy"><h2>Your opening hand</h2><p>Choose cards to replace, then take your seat.</p><p id="opening-order"></p></div><div id="mulligan-hand" class="mulligan-hand"></div><button id="keep-hand" class="painted primary hearth-button hearth-button-primary">Keep hand</button><p id="mulligan-wait" role="status"></p><p id="mulligan-clock" role="timer" aria-live="off" hidden></p></div>
+      <div id="connection-cover" class="connection-cover" hidden><h2>Keeping your table safe</h2><p id="connection-message"></p><button id="leave-ended" class="quiet hearth-button hearth-button-compact">Return to the tavern</button></div>
+    </section>
+</main></body></html>

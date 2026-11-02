@@ -1,0 +1,42 @@
+[
+  {
+    "alignmentError": 0.00007812499995907274,
+    "controlsClear": true,
+    "fit": true,
+    "h": 1080,
+    "potClear": true,
+    "w": 1920
+  },
+  {
+    "alignmentError": 0.004609374999972715,
+    "controlsClear": true,
+    "fit": true,
+    "h": 720,
+    "potClear": true,
+    "w": 1280
+  },
+  {
+    "alignmentError": null,
+    "controlsClear": true,
+    "fit": true,
+    "h": 844,
+    "potClear": true,
+    "w": 390
+  },
+  {
+    "alignmentError": null,
+    "controlsClear": true,
+    "fit": true,
+    "h": 568,
+    "potClear": true,
+    "w": 320
+  },
+  {
+    "alignmentError": 0.0007031250000011369,
+    "controlsClear": true,
+    "fit": true,
+    "h": 390,
+    "potClear": true,
+    "w": 844
+  }
+]

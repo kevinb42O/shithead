@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "transport": "real WebRTC data channels; local signaling broker",
+  "actions": 106,
+  "customGuestDeck": true,
+  "privateHands": true,
+  "rematch": true,
+  "guestConcession": true,
+  "hostDeparture": true,
+  "errors": []
+}

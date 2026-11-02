@@ -8,9 +8,9 @@ try{
   assert(await page.evaluate(`!!document.getElementById('menu-brawl')`));await page.press('#menu-brawl');await page.wait(`document.getElementById('app')&&!document.getElementById('app').hidden`);
   await page.capture(`${out}/home-desktop.png`);
   // Exercise settings through real keyboard activation, including persistent reduced motion.
-  await page.press('#home [data-settings]');await page.press('#motion-setting',' ');await page.press('#settings-dialog [data-close]');
+  await page.press('#brawl-options');await page.press('#motion-setting',' ');await page.press('#settings-dialog [data-close]');
   // Directly set the checkbox if Space dispatch on the platform does not toggle it.
-  await page.evaluate(`if(!JSON.parse(localStorage.getItem('tavern-brawl-v1')).settings.reducedMotion){document.querySelector('#home [data-settings]').click();const c=document.getElementById('motion-setting');c.checked=true;c.dispatchEvent(new Event('change'));document.querySelector('#settings-dialog [data-close]').click();}`);
+  await page.evaluate(`if(!JSON.parse(localStorage.getItem('tavern-brawl-v1')).settings.reducedMotion){document.querySelector('#brawl-options').click();const c=document.getElementById('motion-setting');c.checked=true;c.dispatchEvent(new Event('change'));document.querySelector('#settings-dialog [data-close]').click();}`);
   await page.press('#quick-duel');await page.press('#start-duel');await page.wait(`!document.getElementById('mulligan').hidden`);await page.capture(`${out}/mulligan-desktop.png`);
   await page.press('#mulligan-hand .card');await page.press('#keep-hand');await page.wait(`JSON.parse(localStorage.getItem('tavern-brawl-v1')).duel.phase==='playing'`);
   let resumed=false,captured=false,actions=0;
@@ -37,6 +37,6 @@ try{
   await page.press('#result-home');await page.press('#open-decks');await page.capture(`${out}/deckbuilder-desktop.png`);assert.equal(await page.evaluate(`document.querySelectorAll('#cards-grid figure').length`),await page.evaluate(`(async()=>{const c=await(await fetch('/assets/tavern-brawl/cards.json')).json();return c.cards.length;})()`));
   await page.press('#cards-grid figure .card');await page.wait(`document.getElementById('card-dialog').open`);await page.capture(`${out}/inspect-desktop.png`);await page.press('#card-dialog [data-close]');
   await page.viewport(390,844);await page.capture(`${out}/deckbuilder-mobile.png`);await page.press('#decks [data-home]');await page.capture(`${out}/home-mobile.png`);
-  await page.press('#new-adventure');await page.wait(`!document.getElementById('trail').hidden`);await page.capture(`${out}/trail-mobile.png`);await page.press('#enter-encounter');await page.wait(`!document.getElementById('mulligan').hidden`);await page.capture(`${out}/mulligan-mobile.png`);
+  await page.press('#new-adventure');await page.wait(`!document.getElementById('trail-setup').hidden`);await page.press('#start-trail');await page.wait(`!document.getElementById('trail').hidden`);await page.capture(`${out}/trail-mobile.png`);await page.press('#enter-encounter');await page.wait(`!document.getElementById('mulligan').hidden`);await page.capture(`${out}/mulligan-mobile.png`);
   assert.deepEqual(page.errors,[],'Unexpected browser errors');await writeFile(`${out}/solo-browser.json`,JSON.stringify({status:'passed',fullDuel:{actions,turns:final.turnNumber,winner:final.winner},resume:resumed,fourBattleSizes:captured,errors:page.errors},null,2)+'\n');console.log('PASS: main-menu entry, settings, complete duel through real controls, resume, four battle sizes, result, deck collection, inspection and adventure entry.',{actions,turns:final.turnNumber});
 }catch(error){if(page){console.error('Browser errors:',page.errors);console.error(await page.evaluate(`document.body.innerText.slice(0,5000)`));await page.capture(`${out}/failure.png`);}throw error;}finally{await browser.close();}

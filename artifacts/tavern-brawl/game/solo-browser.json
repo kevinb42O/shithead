@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "fullDuel": {
+    "actions": 50,
+    "turns": 32,
+    "winner": 0
+  },
+  "resume": true,
+  "fourBattleSizes": true,
+  "errors": []
+}

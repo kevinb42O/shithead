@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "checks": [
+    "Saved Classic deck is identified; recommendation is explicit and does not overwrite it.",
+    "Only confirmation replaces an old trail; chosen deck and challenge persist independently.",
+    "Keeper uses the gentler configuration and exact battle survives reload.",
+    "Full recovery plus four upgrade choices, inspect-before-swap, legal twenty-card replacement.",
+    "Pot heals through real controls; dismiss frees a slot, pays once and does not trigger Last Orders.",
+    "Old resumed battle retains normal pot pricing.",
+    "No browser errors; desktop, phone, small phone and landscape remain fullscreen."
+  ],
+  "errors": []
+}

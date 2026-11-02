@@ -1,0 +1,65 @@
+{
+  "capturedAt": "2026-11-02T17:35:31.668Z",
+  "unitTests": 207,
+  "solo": {
+    "status": "passed",
+    "fullDuel": {
+      "actions": 50,
+      "turns": 31,
+      "winner": 1
+    },
+    "resume": true,
+    "fourBattleSizes": true,
+    "errors": []
+  },
+  "online": {
+    "status": "passed",
+    "publicBroker": true,
+    "twoRealBrowserTabs": true,
+    "heroChoice": true,
+    "readiness": true,
+    "mulligans": true,
+    "disjointPrivateHands": [
+      5,
+      4
+    ],
+    "concession": true,
+    "rematch": true,
+    "leavingForfeits": true,
+    "errors": []
+  },
+  "screens": {
+    "status": "passed",
+    "currentCollection": 49,
+    "expansionInspection": true,
+    "nightglassChoice": true,
+    "toastClearedAcrossScreens": true,
+    "errors": []
+  },
+  "sourceHashes": {
+    "dist/tavern-brawl.html": "609d92f2ce0d6303fd3763a6cbf97a19b92e03c5871589f58fef8d8a726694a9",
+    "dist/index.html": "1b3673963260202ae1fd242aa9b40751d5f79b30c34396b1dc02bbec09b1f372",
+    "dist/brawl-entry.css": "a697f98ac2fbaae7b61c7369937968c1c9acdbcb77e9473971354f2c44548254",
+    "dist/assets/tavern-brawl/cards.json": "dadad9925cbac8036233e5370663641223075bd22bde53333f103689f093acf1",
+    "dist/brawl/adventure.js": "70b3271b407ce11c5f87b32259531ffe2a1204127e5029028bcd8ec1a036302b",
+    "dist/brawl/after-midnight-review.js": "307823a4e004a20e7583a30fc9d8fd123cece964f8b1da64281c875d58a44fcd",
+    "dist/brawl/after-midnight.css": "08b7174dfe56822fe5d9ebd857fdf5b0cb603d61cda79cb15cecb3a19ec33f7b",
+    "dist/brawl/ai.js": "08661de6bc2e3c8de7a5401c29d69174b308b671473ced718c20291f8ae262ae",
+    "dist/brawl/app.js": "3444e68007ebc8291aa2ea729f24a7c8479d7a5248ba587b07fb4ea19c435ef1",
+    "dist/brawl/card-inspection.css": "2f869c21d46e89aae5e0e755d32be671a4fee9d2b0cd4058dcd27ae95d3e2575",
+    "dist/brawl/card-inspection.js": "d225ee1537d2ddbe5128e23f3138e7cc67a4b79e40d2884c90821fe39df936c0",
+    "dist/brawl/card-typography.js": "9fe61c84bac368f8c23419b822ae02038cbe0c06350e09811ec8bbbda255d3a3",
+    "dist/brawl/engine.js": "5094eb23b782431903ecf28851bfd53abe3b6d4933c2af0a773150a252bb0a1e",
+    "dist/brawl/expansion.js": "d5afb51a61c7f86a3866db1eefae499b9850b0afb68627b16396ec046c2df321",
+    "dist/brawl/field-effects.css": "16fd2485565e0a7a929ef6a51ddbe43a43e905742c967c6bd2891601af33be19",
+    "dist/brawl/field-effects.js": "ed7c0337aec5e178742322f1b6e0f27a7e8f1ebf5c5f8f3bad4162491b035e89",
+    "dist/brawl/game.css": "faddff601fa1b0e0efa52d2a399ddb6f78046b6760c43fce9dfda0c7daa43842",
+    "dist/brawl/gestures.js": "3091af73f27217c2a7b1d995cd91dec367b00de4cdd6c8f7be69daae00925c9e",
+    "dist/brawl/hearth-ui.css": "bbe7d2a33905ba2909e9adc1b9cc13ad87e5beda1e6fc31ad039cab653766011",
+    "dist/brawl/legacy-engine.js": "b3c04bc283117792bbc8950bb2e3c2a9e7c699e04e94bcccfb1fdb9b1e05e044",
+    "dist/brawl/network.js": "9671beafb89eaf79010885d59ad2bc127203c9f07d0ea5d39c01c045ecf6275d",
+    "dist/brawl/sound.js": "7561f50a672afbcfa2f71d87db852b33d2ded0bc5f595886b8089807bdc9999e",
+    "dist/brawl/storage.js": "9890c11562856c95d5a2458125becdebf9324fafe68e64ac567150d49f427ae4",
+    "dist/brawl/view.js": "448e21308fe792e9f3c42361d3cdd1d32ba80f262352f37062acea4951f4f1ac"
+  }
+}

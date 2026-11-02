@@ -1,0 +1,103 @@
+/* Shared brass corner controls, matching the main game menu. */
+.brawl-app .brawl-utilities {
+  position: fixed;
+  top: max(24px, calc(env(safe-area-inset-top) + 12px));
+  right: max(28px, calc(env(safe-area-inset-right) + 12px));
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.brawl-app .brawl-utilities button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #d3c9b4;
+  filter: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: color 160ms ease-out;
+}
+/* Keep the hit target and label still; light and press only the painted bezel. */
+.brawl-app .brawl-utilities button::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: url(../assets/menu-corner-bezel.png) center / contain no-repeat;
+  filter: brightness(1) drop-shadow(0 2px 2px #0009);
+  pointer-events: none;
+  transition: filter 180ms ease-out, transform 180ms cubic-bezier(.16,1,.3,1);
+}
+.brawl-app .brawl-utilities svg {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  filter: drop-shadow(0 1px 1px #000);
+  pointer-events: none;
+  transition: transform 180ms cubic-bezier(.16,1,.3,1);
+}
+.brawl-app .brawl-utilities #brawl-options svg { width: 23px; height: 23px; }
+.brawl-app .brawl-utilities button:is(:hover, :focus-visible, :active) { filter: none; }
+.brawl-app .brawl-utilities button:focus-visible { outline: 2px solid #f5d99c; outline-offset: 2px; color: #fff0ce; }
+.brawl-app .brawl-utilities button:focus-visible::before { filter: brightness(1.2) drop-shadow(0 3px 4px #0009); }
+.brawl-app .brawl-utilities button:active:not(:disabled)::before { transform: translateY(1px) scale(.96); filter: brightness(.86) drop-shadow(0 1px 1px #0009); }
+.brawl-app .brawl-utilities button:active:not(:disabled) svg { transform: translateY(1px) scale(.96); }
+.brawl-app .brawl-utilities button:disabled { opacity: .5; cursor: wait; }
+.brawl-app .brawl-utilities button::after {
+  content: attr(aria-label);
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  padding: 7px 10px;
+  background: #211b14f5;
+  border: 1px solid #887248;
+  border-radius: 4px;
+  color: #f4e4bd;
+  box-shadow: 0 4px 10px #0006;
+  font: 12px/1.2 DM, Arial, sans-serif;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 120ms ease-out, visibility 0s linear 120ms;
+}
+.brawl-app .brawl-utilities button:focus-visible:not(:disabled)::after {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.brawl-app .brawl-utilities button[hidden] { display: none; }
+.brawl-app .brawl-fullscreen-error { position: fixed; z-index: 61; top: max(76px, calc(env(safe-area-inset-top) + 64px)); right: max(28px, calc(env(safe-area-inset-right) + 12px)); max-width: min(280px, calc(100% - 48px)); margin: 0; padding: 12px; background: #17120fee; border: 1px solid #826d46; border-radius: 5px; color: #fff0ce; font: 12px/1.5 DM,Arial,sans-serif; }
+.brawl-app .screen-header, .brawl-app .collection-header { padding-right: max(176px, calc(env(safe-area-inset-right) + 160px)); min-height: 76px; }
+.brawl-app .battle-header { right: max(176px, calc(env(safe-area-inset-right) + 160px)); top: max(24px, calc(env(safe-area-inset-top) + 12px)); }
+@media (hover: hover) {
+  .brawl-app .brawl-utilities button:hover:not(:disabled) { color: #fff0ce; }
+  .brawl-app .brawl-utilities button:hover:not(:disabled):not(:active)::before { filter: brightness(1.24) drop-shadow(0 3px 4px #0009) drop-shadow(0 1px 5px #d0a75955); }
+  .brawl-app .brawl-utilities button:hover:not(:disabled)::after { opacity: 1; visibility: visible; transition-delay: 300ms; }
+}
+@media (max-width: 700px) and (orientation: portrait), (orientation: landscape) and (max-height: 540px) {
+  .brawl-app .brawl-utilities { top: max(8px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); }
+  .brawl-app .screen-header, .brawl-app .collection-header { min-height: 60px; padding-right: max(160px, calc(env(safe-area-inset-right) + 152px)); }
+  .brawl-app .battle-header { top: max(8px, env(safe-area-inset-top)); right: max(160px, calc(env(safe-area-inset-right) + 152px)); }
+  .brawl-app .battle-header .hearth-button { min-width: 40px; padding: 8px; }
+  .brawl-app .battle-header .hearth-button span { display: none; }
+  .brawl-app .brawl-fullscreen-error { top: max(60px, calc(env(safe-area-inset-top) + 52px)); right: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brawl-app .brawl-utilities button, .brawl-app .brawl-utilities button::before, .brawl-app .brawl-utilities button::after, .brawl-app .brawl-utilities svg { transition: none; }
+}
+.brawl-app.reduce-motion .brawl-utilities button, .brawl-app.reduce-motion .brawl-utilities button::before, .brawl-app.reduce-motion .brawl-utilities button::after, .brawl-app.reduce-motion .brawl-utilities svg { transition: none; }

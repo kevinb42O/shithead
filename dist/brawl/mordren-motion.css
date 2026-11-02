@@ -1,0 +1,14 @@
+/* Painted body and axe are separate native-alpha atlas regions. */
+.mordren-theatre{z-index:3;background:radial-gradient(ellipse at var(--legend-x) var(--legend-y),#d677241c,transparent 48%)}
+.mordren-actor{position:absolute;transform-origin:50% 90%;pointer-events:none;filter:drop-shadow(8px 15px 15px #02050baa)}
+.mordren-body,.mordren-arm{position:absolute;background-image:url('../assets/tavern-brawl/midnight/legends/mordren-rig-v1.png');background-size:200% 100%;background-repeat:no-repeat}
+.mordren-body{inset:18% 0 0;background-position:left center;transform-origin:50% 88%}
+.mordren-arm{width:72%;height:59%;left:14%;top:0;background-position:right center;transform-origin:27% 80%;z-index:2}
+.mordren-furnace{position:absolute;left:25%;top:38%;width:27%;height:24%;background:radial-gradient(ellipse,#fff4bb9c,#ff9b3433 45%,transparent 72%);mix-blend-mode:screen}
+.mordren-axe-arc{position:absolute;left:4%;top:-2%;width:102%;height:100%;background:url('../assets/tavern-brawl/midnight/materials/soul-cleave-v1.png') center/contain no-repeat;transform-origin:35% 70%;pointer-events:none;z-index:3}
+.mordren-axe-ash{position:absolute;left:10%;top:7%;width:105%;height:95%;background:url('../assets/tavern-brawl/midnight/materials/coal-ash-v1.png') center/contain no-repeat;transform-origin:35% 70%;pointer-events:none;z-index:2}
+.mordren-captive{position:absolute;width:24%;height:30%;background:url('../assets/tavern-brawl/midnight/materials/soul-a-v1.png') center/contain no-repeat;pointer-events:none;z-index:4}
+.mordren-captive-1{background-image:url('../assets/tavern-brawl/midnight/materials/soul-b-v1.png')}
+.mordren-theatre .legend-title{font-size:clamp(16px,2cqw,28px);max-width:82%;padding:8px 18px}
+.signature-snapshot{pointer-events:none!important}
+@media(prefers-reduced-motion:reduce){.mordren-actor,.mordren-axe-arc,.mordren-axe-ash,.mordren-captive{display:none}}

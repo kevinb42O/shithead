@@ -1,0 +1,62 @@
+/* Physical arena cards. Geometry lives inside stable gameplay hit targets, so
+   aiming, slot placement and combat travel keep their existing coordinate space.
+   Never filter/isolate the body: either property flattens its six real planes. */
+.brawl-app .crew-row{--table-pitch:54deg;--table-perspective:850px}
+.brawl-app .opponent-row{--table-pitch:58deg;--table-perspective:1000px}
+.brawl-app .unit,.brawl-app .crew-slot{--table-yaw:0deg;--table-roll:0deg;--arena-lift:0px;--arena-rx:0deg;--arena-ry:0deg;--arena-light:50%;--card-thickness:4px}
+.brawl-app .crew-row>[data-slot="0"]{--table-yaw:-5deg;--table-roll:-2deg}
+.brawl-app .crew-row>[data-slot="2"]{--table-yaw:5deg;--table-roll:2deg}
+.brawl-app .unit{filter:none;overflow:visible;perspective:var(--table-perspective);perspective-origin:50% -35%;isolation:auto}
+.brawl-app .unit-body,.brawl-app .unit-front,.brawl-app .unit-edge,.brawl-app .unit-shadow{position:absolute;display:block;inset:0;border-radius:6px;pointer-events:none}
+.brawl-app .unit-body{transform-style:preserve-3d;transform-origin:50% 62%;transform:translateY(calc(-1 * var(--arena-lift))) rotateX(calc(var(--table-pitch) + var(--arena-rx))) rotateY(calc(var(--table-yaw) + var(--arena-ry))) rotateZ(var(--table-roll));}
+.brawl-app .unit-front{transform:translateZ(var(--card-thickness));backface-visibility:hidden}
+.brawl-app .unit-front::after{content:'';position:absolute;inset:0;border-radius:6px;pointer-events:none;z-index:3;background:linear-gradient(125deg,#ffd18b24,transparent 30%,transparent 66%,#8dbefb20),linear-gradient(110deg,transparent 20%,#fff4d31c 45%,transparent 62%);background-size:100% 100%,230% 100%;background-position:0 0,var(--arena-light) 0;box-shadow:inset 1px 1px 1px #ffe6b37a,inset -1px -1px 1px #b7ddff38}
+.brawl-app .unit-edge{backface-visibility:hidden;border-radius:2px;background:#817055}
+.brawl-app .unit-edge-back{background:#0b111b;box-shadow:0 1px 2px #02050ccc}
+.brawl-app .unit-edge-top{bottom:auto;height:var(--card-thickness);transform-origin:50% 0;transform:rotateX(90deg);background:linear-gradient(#d7c49e,#847052)}
+.brawl-app .unit-edge-bottom{top:auto;height:var(--card-thickness);transform-origin:50% 100%;transform:rotateX(-90deg);background:linear-gradient(#9b8562,#4c4034 70%,#c8b48a);box-shadow:0 1px 2px #030610}
+.brawl-app .unit-edge-left{right:auto;width:var(--card-thickness);transform-origin:0 50%;transform:rotateY(-90deg);background:linear-gradient(90deg,#756049,#dfb67a)}
+.brawl-app .unit-edge-right{left:auto;width:var(--card-thickness);transform-origin:100% 50%;transform:rotateY(90deg);background:linear-gradient(90deg,#a0acb5,#3b414d)}
+.brawl-app .unit-shadow{inset:2% 0 -2%;transform-origin:50% 62%;transform:translate(5px,calc(7px + var(--arena-lift) * .35)) rotateX(var(--table-pitch)) rotateY(var(--table-yaw)) rotateZ(var(--table-roll));background:#02050c80;box-shadow:3px 9px 9px #02050c99,8px 18px 22px #02050c66;opacity:calc(1 - var(--arena-lift) / 60px)}
+.brawl-app .unit .unit-image{box-shadow:inset 0 0 0 2px #0a111a,0 1px 2px #02050c80}
+.brawl-app .unit:hover .unit-image img{scale:1}
+.brawl-app .unit .unit-name{bottom:12%;font-size:clamp(9px,7.5cqw,15px)}
+.brawl-app .unit .unit-cost,.brawl-app .unit .unit-stat{z-index:4}
+.brawl-app .unit .crew-state{top:-18px;font-size:11px;z-index:4}
+.brawl-app .unit.guard::before,.brawl-app .unit.has-last-orders::after{content:none}
+.brawl-app .unit-guard,.brawl-app .unit-last-orders{display:none;position:absolute;pointer-events:none;z-index:4}
+.brawl-app .guard .unit-guard{display:block;right:-9%;top:32%;width:22%;height:22%;background:url('../assets/tavern-brawl/ui/guard.png') center/contain no-repeat}
+.brawl-app .has-last-orders .unit-last-orders{display:block;right:43%;bottom:2%;width:12%;height:7%;border:1px solid #c2a0e7;border-radius:50% 50% 15% 15%;background:#352344}
+/* Light belongs to the card rim rather than an upright rectangle in the air. */
+.brawl-app .crew-row .unit.is-target,.brawl-app .crew-row .unit.is-drop-target{outline:none!important;filter:none}
+.brawl-app .unit.is-target .unit-image{outline:2px solid #f7ce78;outline-offset:3px}
+.brawl-app .unit.is-drop-target .unit-image,.brawl-app .unit.is-selected .unit-image{outline:2px solid #fff0c9;outline-offset:4px}
+.brawl-app .unit:focus-visible{outline:none}
+.brawl-app .unit:focus-visible .unit-image{outline:2px solid #fff2d8;outline-offset:5px}
+/* Recessed empty places use the exact same table angle as occupied cards.
+   The full original button remains the drop and keyboard target. */
+.brawl-app .crew-row .crew-slot{perspective:var(--table-perspective);perspective-origin:50% -35%;border:0;background:none;box-shadow:none;overflow:visible}
+.brawl-app .crew-slot::before{content:'';position:absolute;inset:0;pointer-events:none;border:1px solid #b89a6640;border-radius:5px;background:#070f1826;box-shadow:inset 0 2px 6px #02061070;transform-origin:50% 62%;transform:rotateX(var(--table-pitch)) rotateY(var(--table-yaw)) rotateZ(var(--table-roll))}
+.brawl-app .crew-slot::after{transform:rotateX(var(--table-pitch)) rotate(45deg)}
+.brawl-app .crew-row .crew-slot:hover:not(:disabled){background:none}
+.brawl-app .crew-slot:hover:not(:disabled)::before{border-color:#c3ab7b80;background:#11232f55}
+.brawl-app .crew-slot.is-target::before,.brawl-app .crew-slot.is-drop-target::before{border:2px solid #f7ce78;background:#e7c77922}
+/* Death/return clones carry the same geometry as their live card. */
+.brawl-app .field-remnant{--table-pitch:54deg;--table-perspective:850px;--table-yaw:0deg;--table-roll:0deg;--card-thickness:4px;--arena-lift:0px;--arena-rx:0deg;--arena-ry:0deg;--arena-light:50%;perspective:var(--table-perspective);perspective-origin:50% -35%;filter:none}
+.brawl-app .field-remnant .unit-shadow{display:none}
+@media(max-width:700px) and (orientation:portrait){
+ .brawl-app .crew-row{--table-pitch:44deg;--table-perspective:600px}
+ .brawl-app .opponent-row{--table-pitch:48deg}
+ .brawl-app .unit,.brawl-app .crew-slot{--card-thickness:3px}
+ .brawl-app .unit .unit-name{font-size:8px}
+ .brawl-app .unit .crew-state{font-size:9px;top:-16px}
+ .brawl-app .unit-shadow{box-shadow:2px 6px 7px #02050ca6,5px 10px 14px #02050c66}
+}
+@media(orientation:landscape) and (max-height:540px){
+ .brawl-app .crew-row{--table-pitch:46deg;--table-perspective:650px}
+ .brawl-app .unit .unit-name{font-size:8px}
+ .brawl-app .unit .crew-state{font-size:8px;top:-13px}
+}
+/* Reduced motion retains the physical model and all game-state cues. */
+@media(prefers-reduced-motion:reduce){.brawl-app .unit-body{--arena-lift:0px!important;--arena-rx:0deg!important;--arena-ry:0deg!important}.brawl-app .unit-shadow{--arena-lift:0px!important}}
+.brawl-app.reduce-motion .unit-body,.brawl-app.reduce-motion .unit-shadow{--arena-lift:0px!important;--arena-rx:0deg!important;--arena-ry:0deg!important}

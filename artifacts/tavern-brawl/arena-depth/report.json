@@ -1,0 +1,165 @@
+{
+  "viewports": [
+    {
+      "w": 1440,
+      "h": 900,
+      "geometry": [
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(0.995588, -0.0923612, 0.0165609, 0, 0.0347667, 0.527017, 0.849143, 0, -0.0871557, -0.844821, 0.527903, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(1, 0, 0, 0, 0, 0.529919, 0.848048, 0, 0, -0.848048, 0.529919, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(0.995588, -0.0909809, 0.0229634, 0, 0.0347667, 0.584966, 0.810312, 0, -0.0871557, -0.805938, 0.585549, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(1, 0, 0, 0, 0, 0.587785, 0.809017, 0, 0, -0.809017, 0.587785, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "geometry": [
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(0.995588, -0.0880822, 0.0323477, 0, 0.0347667, 0.666463, 0.744727, 0, -0.0871557, -0.740317, 0.666584, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(1, 0, 0, 0, 0, 0.669131, 0.743145, 0, 0, -0.743145, 0.669131, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(0.995588, -0.0856112, 0.0384132, 0, 0.0347667, 0.716789, 0.696423, 0, -0.0871557, -0.692015, 0.716602, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(1, 0, 0, 0, 0, 0.71934, 0.694658, 0, 0, -0.694658, 0.71934, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "w": 320,
+      "h": 568,
+      "geometry": [
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(0.995588, -0.0880822, 0.0323477, 0, 0.0347667, 0.666463, 0.744727, 0, -0.0871557, -0.740317, 0.666584, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(1, 0, 0, 0, 0, 0.669131, 0.743145, 0, 0, -0.743145, 0.669131, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(0.995588, -0.0856112, 0.0384132, 0, 0.0347667, 0.716789, 0.696423, 0, -0.0871557, -0.692015, 0.716602, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(1, 0, 0, 0, 0, 0.71934, 0.694658, 0, 0, -0.694658, 0.71934, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "w": 844,
+      "h": 390,
+      "geometry": [
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(0.995588, -0.0868996, 0.035402, 0, 0.0347667, 0.692047, 0.721015, 0, -0.0871557, -0.716602, 0.692015, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(1, 0, 0, 0, 0, 0.694658, 0.71934, 0, 0, -0.71934, 0.694658, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(0.995588, -0.0868996, 0.035402, 0, 0.0347667, 0.692047, 0.721015, 0, -0.0871557, -0.716602, 0.692015, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        },
+        {
+          "planes": 6,
+          "depth": "preserve-3d",
+          "matrix": "matrix3d(1, 0, 0, 0, 0, 0.694658, 0.71934, 0, 0, -0.71934, 0.694658, 0, 0, 0, 0, 1)",
+          "foreshortened": true,
+          "visible": true,
+          "hit": true
+        }
+      ]
+    }
+  ],
+  "interaction": {
+    "springLift": 11.676,
+    "stableHitTargets": true,
+    "settle": true,
+    "pauseCleanup": true,
+    "reducedMotion": true,
+    "combatDepth": true
+  },
+  "errors": []
+}

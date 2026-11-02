@@ -1,0 +1,1140 @@
+{
+  "tool": "comp-spec",
+  "version": 1,
+  "createdAt": "2026-11-02T18:43:10.301Z",
+  "comp": ".impeccable/mocks/01-midnight-duel.png",
+  "warnings": [
+    "region midnight-room: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region enemy-hero: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region own-hero: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region crew-art-0: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region crew-art-1: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region crew-art-2: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region crew-art-3: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region hand-art-0: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region hand-art-1: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region hand-art-2: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region hand-art-3: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region hand-art-4: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region pot-vessel: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region end-turn-material: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+  ],
+  "uncoveredInkCells": [],
+  "compSize": {
+    "width": 1586,
+    "height": 992
+  },
+  "aspect": 1.5988,
+  "orientation": "landscape",
+  "palette": [
+    {
+      "hex": "#101114",
+      "coverage": 0.5719
+    },
+    {
+      "hex": "#311f13",
+      "coverage": 0.263
+    },
+    {
+      "hex": "#562f18",
+      "coverage": 0.0599
+    },
+    {
+      "hex": "#1a2c35",
+      "coverage": 0.0558
+    },
+    {
+      "hex": "#6f533a",
+      "coverage": 0.0494
+    }
+  ],
+  "bands": [
+    {
+      "y": 0.6,
+      "strength": 0.2256
+    }
+  ],
+  "regions": [
+    {
+      "id": "midnight-room",
+      "kind": "plate",
+      "note": "Full bleed midnight tavern environment: warm hearth at left, cool moonlit window at right, dark dueling table with slender brass edges. No cards, heroes, controls, numbers or lettering in production painting.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "px": {
+        "x": 0,
+        "y": 0,
+        "w": 1586,
+        "h": 992
+      },
+      "aspect": 1.5988,
+      "palette": [
+        {
+          "hex": "#101114",
+          "coverage": 0.5719
+        },
+        {
+          "hex": "#311f13",
+          "coverage": 0.263
+        },
+        {
+          "hex": "#562f18",
+          "coverage": 0.0599
+        },
+        {
+          "hex": "#1a2c35",
+          "coverage": 0.0558
+        },
+        {
+          "hex": "#6f533a",
+          "coverage": 0.0494
+        }
+      ],
+      "detail": {
+        "energy": 42.491
+      },
+      "medium": "raster",
+      "plate": "assets/plates/midnight-room.png",
+      "text": null
+    },
+    {
+      "id": "wordmark",
+      "kind": "text",
+      "note": "Tavern Brawl title lettering",
+      "grid": null,
+      "box": {
+        "x": 0.02,
+        "y": 0.018,
+        "w": 0.16,
+        "h": 0.06
+      },
+      "px": {
+        "x": 32,
+        "y": 18,
+        "w": 254,
+        "h": 60
+      },
+      "aspect": 4.2333,
+      "palette": [
+        {
+          "hex": "#1b0c08",
+          "coverage": 0.6254
+        },
+        {
+          "hex": "#3d1c0c",
+          "coverage": 0.159
+        },
+        {
+          "hex": "#af8b60",
+          "coverage": 0.1436
+        },
+        {
+          "hex": "#83603f",
+          "coverage": 0.0364
+        },
+        {
+          "hex": "#543d26",
+          "coverage": 0.0357
+        }
+      ],
+      "detail": {
+        "energy": 38.8992
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      },
+      "type": {
+        "comp": {
+          "lines": 1,
+          "glyphs": 9,
+          "capHeightPx": 40,
+          "inkIsDark": false,
+          "allCaps": false,
+          "advance": 0.475,
+          "advTall": 0.475,
+          "advX": 0.4375,
+          "gap": 0.05,
+          "xRatio": 0.7,
+          "stemW": 0.1071,
+          "contrast": 1.6439,
+          "serif": null,
+          "densTall": 0.312,
+          "densX": 0.4653,
+          "weight": 0.312
+        },
+        "widthClass": "condensed",
+        "weightClass": "light",
+        "chosen": {
+          "family": "Advent Pro",
+          "weight": 300,
+          "fontSizePx": 56,
+          "source": "index",
+          "fp": {
+            "lines": 1,
+            "glyphs": 9,
+            "capHeightPx": 40,
+            "inkIsDark": true,
+            "allCaps": false,
+            "advance": 0.55,
+            "advTall": 0.6,
+            "advX": 0.55,
+            "gap": 0.0625,
+            "xRatio": 0.7095,
+            "stemW": 0.0782,
+            "contrast": 1.0172,
+            "serif": 1,
+            "densTall": 0.3322,
+            "densX": 0.3222,
+            "weight": 0.3322
+          },
+          "stamp": "6b4bbee646a1"
+        }
+      }
+    },
+    {
+      "id": "enemy-hero",
+      "kind": "image",
+      "note": "Owl opponent hero portrait above the upper row; painted original animal character.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.365,
+        "y": 0,
+        "w": 0.26,
+        "h": 0.18
+      },
+      "px": {
+        "x": 579,
+        "y": 0,
+        "w": 412,
+        "h": 179
+      },
+      "aspect": 2.3017,
+      "palette": [
+        {
+          "hex": "#131014",
+          "coverage": 0.6046
+        },
+        {
+          "hex": "#3b2117",
+          "coverage": 0.2327
+        },
+        {
+          "hex": "#5d351f",
+          "coverage": 0.0589
+        },
+        {
+          "hex": "#1e293f",
+          "coverage": 0.0528
+        },
+        {
+          "hex": "#4b4242",
+          "coverage": 0.0509
+        }
+      ],
+      "detail": {
+        "energy": 40.1631
+      },
+      "medium": "raster",
+      "plate": "assets/plates/enemy-hero.png",
+      "text": null
+    },
+    {
+      "id": "own-hero",
+      "kind": "image",
+      "note": "Fox player portrait at left of friendly row.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0,
+        "y": 0.385,
+        "w": 0.235,
+        "h": 0.23
+      },
+      "px": {
+        "x": 0,
+        "y": 382,
+        "w": 373,
+        "h": 228
+      },
+      "aspect": 1.636,
+      "palette": [
+        {
+          "hex": "#140f0e",
+          "coverage": 0.6205
+        },
+        {
+          "hex": "#412d1f",
+          "coverage": 0.1902
+        },
+        {
+          "hex": "#55170c",
+          "coverage": 0.0744
+        },
+        {
+          "hex": "#823a19",
+          "coverage": 0.0603
+        },
+        {
+          "hex": "#664226",
+          "coverage": 0.0545
+        }
+      ],
+      "detail": {
+        "energy": 40.5999
+      },
+      "medium": "raster",
+      "plate": "assets/plates/own-hero.png",
+      "text": null
+    },
+    {
+      "id": "crew-art-0",
+      "kind": "image",
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.29,
+        "y": 0.19,
+        "w": 0.125,
+        "h": 0.175
+      },
+      "px": {
+        "x": 460,
+        "y": 188,
+        "w": 198,
+        "h": 174
+      },
+      "aspect": 1.1379,
+      "palette": [
+        {
+          "hex": "#0f0d0f",
+          "coverage": 0.4334
+        },
+        {
+          "hex": "#2e251e",
+          "coverage": 0.2411
+        },
+        {
+          "hex": "#8d8a83",
+          "coverage": 0.1211
+        },
+        {
+          "hex": "#555658",
+          "coverage": 0.1169
+        },
+        {
+          "hex": "#d0b79b",
+          "coverage": 0.0875
+        }
+      ],
+      "detail": {
+        "energy": 35.3348
+      },
+      "medium": "raster",
+      "plate": "assets/plates/crew-art-0.png",
+      "text": null
+    },
+    {
+      "id": "crew-art-1",
+      "kind": "image",
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.415,
+        "y": 0.19,
+        "w": 0.13,
+        "h": 0.175
+      },
+      "px": {
+        "x": 658,
+        "y": 188,
+        "w": 206,
+        "h": 174
+      },
+      "aspect": 1.1839,
+      "palette": [
+        {
+          "hex": "#131418",
+          "coverage": 0.5306
+        },
+        {
+          "hex": "#372d27",
+          "coverage": 0.2145
+        },
+        {
+          "hex": "#6d8ead",
+          "coverage": 0.0961
+        },
+        {
+          "hex": "#574d47",
+          "coverage": 0.0943
+        },
+        {
+          "hex": "#877369",
+          "coverage": 0.0645
+        }
+      ],
+      "detail": {
+        "energy": 33.0367
+      },
+      "medium": "raster",
+      "plate": "assets/plates/crew-art-1.png",
+      "text": null
+    },
+    {
+      "id": "crew-art-2",
+      "kind": "image",
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.29,
+        "y": 0.385,
+        "w": 0.125,
+        "h": 0.22
+      },
+      "px": {
+        "x": 460,
+        "y": 382,
+        "w": 198,
+        "h": 218
+      },
+      "aspect": 0.9083,
+      "palette": [
+        {
+          "hex": "#140f0f",
+          "coverage": 0.4147
+        },
+        {
+          "hex": "#213038",
+          "coverage": 0.2168
+        },
+        {
+          "hex": "#38241e",
+          "coverage": 0.1526
+        },
+        {
+          "hex": "#26545e",
+          "coverage": 0.1232
+        },
+        {
+          "hex": "#522717",
+          "coverage": 0.0927
+        }
+      ],
+      "detail": {
+        "energy": 32.8493
+      },
+      "medium": "raster",
+      "plate": "assets/plates/crew-art-2.png",
+      "text": null
+    },
+    {
+      "id": "crew-art-3",
+      "kind": "image",
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.415,
+        "y": 0.385,
+        "w": 0.13,
+        "h": 0.22
+      },
+      "px": {
+        "x": 658,
+        "y": 382,
+        "w": 206,
+        "h": 218
+      },
+      "aspect": 0.945,
+      "palette": [
+        {
+          "hex": "#151516",
+          "coverage": 0.3352
+        },
+        {
+          "hex": "#3e3123",
+          "coverage": 0.2887
+        },
+        {
+          "hex": "#102d31",
+          "coverage": 0.129
+        },
+        {
+          "hex": "#bcb285",
+          "coverage": 0.1246
+        },
+        {
+          "hex": "#8e8d6c",
+          "coverage": 0.1225
+        }
+      ],
+      "detail": {
+        "energy": 34.0419
+      },
+      "medium": "raster",
+      "plate": "assets/plates/crew-art-3.png",
+      "text": null
+    },
+    {
+      "id": "hand-art-0",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.19,
+        "y": 0.7,
+        "w": 0.14,
+        "h": 0.27
+      },
+      "px": {
+        "x": 301,
+        "y": 694,
+        "w": 222,
+        "h": 268
+      },
+      "aspect": 0.8284,
+      "palette": [
+        {
+          "hex": "#181212",
+          "coverage": 0.5519
+        },
+        {
+          "hex": "#42281c",
+          "coverage": 0.2555
+        },
+        {
+          "hex": "#6f482b",
+          "coverage": 0.1122
+        },
+        {
+          "hex": "#9c623a",
+          "coverage": 0.05
+        },
+        {
+          "hex": "#605249",
+          "coverage": 0.0303
+        }
+      ],
+      "detail": {
+        "energy": 27.9181
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-0.png",
+      "text": null
+    },
+    {
+      "id": "hand-art-1",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.29,
+        "y": 0.65,
+        "w": 0.14,
+        "h": 0.29
+      },
+      "px": {
+        "x": 460,
+        "y": 645,
+        "w": 222,
+        "h": 288
+      },
+      "aspect": 0.7708,
+      "palette": [
+        {
+          "hex": "#151313",
+          "coverage": 0.4575
+        },
+        {
+          "hex": "#3e2a1c",
+          "coverage": 0.261
+        },
+        {
+          "hex": "#704b30",
+          "coverage": 0.1046
+        },
+        {
+          "hex": "#344340",
+          "coverage": 0.0889
+        },
+        {
+          "hex": "#6d6d60",
+          "coverage": 0.0881
+        }
+      ],
+      "detail": {
+        "energy": 37.5845
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-1.png",
+      "text": null
+    },
+    {
+      "id": "hand-art-2",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.4,
+        "y": 0.64,
+        "w": 0.14,
+        "h": 0.29
+      },
+      "px": {
+        "x": 634,
+        "y": 635,
+        "w": 222,
+        "h": 288
+      },
+      "aspect": 0.7708,
+      "palette": [
+        {
+          "hex": "#121212",
+          "coverage": 0.604
+        },
+        {
+          "hex": "#412e1f",
+          "coverage": 0.1823
+        },
+        {
+          "hex": "#714f34",
+          "coverage": 0.1035
+        },
+        {
+          "hex": "#e2bf8d",
+          "coverage": 0.056
+        },
+        {
+          "hex": "#ac835c",
+          "coverage": 0.0543
+        }
+      ],
+      "detail": {
+        "energy": 31.6182
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-2.png",
+      "text": null
+    },
+    {
+      "id": "hand-art-3",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.51,
+        "y": 0.64,
+        "w": 0.14,
+        "h": 0.29
+      },
+      "px": {
+        "x": 809,
+        "y": 635,
+        "w": 222,
+        "h": 288
+      },
+      "aspect": 0.7708,
+      "palette": [
+        {
+          "hex": "#171517",
+          "coverage": 0.7273
+        },
+        {
+          "hex": "#412b1f",
+          "coverage": 0.1379
+        },
+        {
+          "hex": "#3f3c38",
+          "coverage": 0.0579
+        },
+        {
+          "hex": "#664a37",
+          "coverage": 0.0425
+        },
+        {
+          "hex": "#c69c74",
+          "coverage": 0.0344
+        }
+      ],
+      "detail": {
+        "energy": 28.191
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-3.png",
+      "text": null
+    },
+    {
+      "id": "hand-art-4",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.63,
+        "y": 0.62,
+        "w": 0.17,
+        "h": 0.34
+      },
+      "px": {
+        "x": 999,
+        "y": 615,
+        "w": 270,
+        "h": 337
+      },
+      "aspect": 0.8012,
+      "palette": [
+        {
+          "hex": "#111013",
+          "coverage": 0.7007
+        },
+        {
+          "hex": "#302d35",
+          "coverage": 0.1204
+        },
+        {
+          "hex": "#3e2d1a",
+          "coverage": 0.0719
+        },
+        {
+          "hex": "#181035",
+          "coverage": 0.0585
+        },
+        {
+          "hex": "#2f3056",
+          "coverage": 0.0485
+        }
+      ],
+      "detail": {
+        "energy": 39.1894
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-4.png",
+      "text": null
+    },
+    {
+      "id": "pot-vessel",
+      "kind": "image",
+      "note": "Shared brass coin vessel, with live coin count over it.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.76,
+        "y": 0.21,
+        "w": 0.19,
+        "h": 0.16
+      },
+      "px": {
+        "x": 1205,
+        "y": 208,
+        "w": 301,
+        "h": 159
+      },
+      "aspect": 1.8931,
+      "palette": [
+        {
+          "hex": "#180f0c",
+          "coverage": 0.4534
+        },
+        {
+          "hex": "#40220f",
+          "coverage": 0.2486
+        },
+        {
+          "hex": "#663a15",
+          "coverage": 0.1514
+        },
+        {
+          "hex": "#b27032",
+          "coverage": 0.085
+        },
+        {
+          "hex": "#8e5326",
+          "coverage": 0.0616
+        }
+      ],
+      "detail": {
+        "energy": 43.4388
+      },
+      "medium": "raster",
+      "plate": "assets/plates/pot-vessel.png",
+      "text": null
+    },
+    {
+      "id": "end-turn-material",
+      "kind": "image",
+      "note": "Dark teal enamel action surround with slender sculpted brass; no baked lettering.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.79,
+        "y": 0.43,
+        "w": 0.2,
+        "h": 0.15
+      },
+      "px": {
+        "x": 1253,
+        "y": 427,
+        "w": 317,
+        "h": 149
+      },
+      "aspect": 2.1275,
+      "palette": [
+        {
+          "hex": "#182933",
+          "coverage": 0.4034
+        },
+        {
+          "hex": "#0f1010",
+          "coverage": 0.3235
+        },
+        {
+          "hex": "#382315",
+          "coverage": 0.1633
+        },
+        {
+          "hex": "#5e3a20",
+          "coverage": 0.0749
+        },
+        {
+          "hex": "#4c433c",
+          "coverage": 0.0349
+        }
+      ],
+      "detail": {
+        "energy": 32.3736
+      },
+      "medium": "raster",
+      "plate": "assets/plates/end-turn-material.png",
+      "text": null
+    },
+    {
+      "id": "end-turn-label",
+      "kind": "control",
+      "note": "End turn action label, live semantic button",
+      "grid": null,
+      "box": {
+        "x": 0.82,
+        "y": 0.49,
+        "w": 0.15,
+        "h": 0.055
+      },
+      "px": {
+        "x": 1301,
+        "y": 486,
+        "w": 238,
+        "h": 55
+      },
+      "aspect": 4.3273,
+      "palette": [
+        {
+          "hex": "#14232a",
+          "coverage": 0.888
+        },
+        {
+          "hex": "#efcc9c",
+          "coverage": 0.066
+        },
+        {
+          "hex": "#9c8872",
+          "coverage": 0.0173
+        },
+        {
+          "hex": "#cfab87",
+          "coverage": 0.0173
+        },
+        {
+          "hex": "#2b1a0f",
+          "coverage": 0.0113
+        }
+      ],
+      "detail": {
+        "energy": 23.9963
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      }
+    },
+    {
+      "id": "hero-power",
+      "kind": "control",
+      "note": "Sleight of Paw action label",
+      "grid": null,
+      "box": {
+        "x": 0.065,
+        "y": 0.62,
+        "w": 0.15,
+        "h": 0.045
+      },
+      "px": {
+        "x": 103,
+        "y": 615,
+        "w": 238,
+        "h": 45
+      },
+      "aspect": 5.2889,
+      "palette": [
+        {
+          "hex": "#161515",
+          "coverage": 0.8122
+        },
+        {
+          "hex": "#3a2a1b",
+          "coverage": 0.1017
+        },
+        {
+          "hex": "#614931",
+          "coverage": 0.0348
+        },
+        {
+          "hex": "#e8d1ab",
+          "coverage": 0.0287
+        },
+        {
+          "hex": "#b19679",
+          "coverage": 0.0226
+        }
+      ],
+      "detail": {
+        "energy": 32.833
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      }
+    },
+    {
+      "id": "energy",
+      "kind": "control",
+      "note": "Six lit of eight energy sockets and live energy value",
+      "grid": null,
+      "box": {
+        "x": 0.025,
+        "y": 0.668,
+        "w": 0.18,
+        "h": 0.04
+      },
+      "px": {
+        "x": 40,
+        "y": 663,
+        "w": 285,
+        "h": 40
+      },
+      "aspect": 7.125,
+      "palette": [
+        {
+          "hex": "#0a0d13",
+          "coverage": 0.685
+        },
+        {
+          "hex": "#0c1a3f",
+          "coverage": 0.1342
+        },
+        {
+          "hex": "#1dc2f8",
+          "coverage": 0.0876
+        },
+        {
+          "hex": "#563820",
+          "coverage": 0.0466
+        },
+        {
+          "hex": "#364786",
+          "coverage": 0.0466
+        }
+      ],
+      "detail": {
+        "energy": 35.747
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      }
+    },
+    {
+      "id": "utility-0",
+      "kind": "control",
+      "note": "Menu utility",
+      "grid": null,
+      "box": {
+        "x": 0.814,
+        "y": 0.018,
+        "w": 0.044,
+        "h": 0.065
+      },
+      "px": {
+        "x": 1291,
+        "y": 18,
+        "w": 70,
+        "h": 64
+      },
+      "aspect": 1.0938,
+      "palette": [
+        {
+          "hex": "#090d17",
+          "coverage": 0.8222
+        },
+        {
+          "hex": "#172f49",
+          "coverage": 0.0889
+        },
+        {
+          "hex": "#c3a985",
+          "coverage": 0.0343
+        },
+        {
+          "hex": "#265386",
+          "coverage": 0.0303
+        },
+        {
+          "hex": "#948569",
+          "coverage": 0.0242
+        }
+      ],
+      "detail": {
+        "energy": 11.4789
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      }
+    },
+    {
+      "id": "utility-1",
+      "kind": "control",
+      "note": "History utility",
+      "grid": null,
+      "box": {
+        "x": 0.87,
+        "y": 0.018,
+        "w": 0.044,
+        "h": 0.065
+      },
+      "px": {
+        "x": 1380,
+        "y": 18,
+        "w": 70,
+        "h": 64
+      },
+      "aspect": 1.0938,
+      "palette": [
+        {
+          "hex": "#1b364f",
+          "coverage": 0.2913
+        },
+        {
+          "hex": "#3669a2",
+          "coverage": 0.2808
+        },
+        {
+          "hex": "#70b2d9",
+          "coverage": 0.1837
+        },
+        {
+          "hex": "#4f91cb",
+          "coverage": 0.1339
+        },
+        {
+          "hex": "#284f77",
+          "coverage": 0.1102
+        }
+      ],
+      "detail": {
+        "energy": 14.4902
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      }
+    },
+    {
+      "id": "utility-2",
+      "kind": "control",
+      "note": "Rules utility",
+      "grid": null,
+      "box": {
+        "x": 0.923,
+        "y": 0.018,
+        "w": 0.044,
+        "h": 0.065
+      },
+      "px": {
+        "x": 1464,
+        "y": 18,
+        "w": 70,
+        "h": 64
+      },
+      "aspect": 1.0938,
+      "palette": [
+        {
+          "hex": "#1d3a60",
+          "coverage": 0.4444
+        },
+        {
+          "hex": "#0e2031",
+          "coverage": 0.2222
+        },
+        {
+          "hex": "#090d10",
+          "coverage": 0.1495
+        },
+        {
+          "hex": "#29598e",
+          "coverage": 0.1131
+        },
+        {
+          "hex": "#b69871",
+          "coverage": 0.0707
+        }
+      ],
+      "detail": {
+        "energy": 10.0685
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      }
+    }
+  ],
+  "compSha256": "e8d5d12858a513c92e4f0edfc8e3e8d1632f6ee74cdc6df6bc0d8d6fabc61c2c",
+  "regionsSource": {
+    "path": ".impeccable/build/regions.json",
+    "sha256": "3b319a1ad74f63a5d7667e1a27f9d3b36baccfe6e2622cbe992564f7f67122f8"
+  }
+}

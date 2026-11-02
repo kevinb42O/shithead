@@ -112,3 +112,42 @@ body.brawl-app .drag-ghost.is-valid{outline:none}
 
 /* Author display rules must never leave a closed native dialog over the table. */
 .brawl-app dialog:not([open]){display:none!important}
+
+/* Trail choices use the tavern's existing timber, ivory and painted controls. */
+.trail-setup-content{max-width:560px;margin:0 auto 28px;padding:24px 28px 32px;color:#fff0c9;background:#20150ef0;border-radius:7px}
+.trail-setup-content h2{text-align:center;margin:0 0 8px}
+.trail-setup-hero{display:block;width:100px;height:100px;object-fit:contain;margin:0 auto 12px}
+#trail-hero-name{text-align:center;color:#e7c779;margin:0 0 28px}
+.trail-setup-content label{display:block;margin:22px 0 8px;font:18px Brawl,serif;color:#e7c779}
+.trail-setup-content select{width:100%;min-height:48px;font-size:16px}
+.trail-setup-content p{font:15px/1.5 DM,Arial,sans-serif;margin:10px 0 20px}
+.trail-setup-content #trail-start-note{margin-top:28px}
+.trail-setup-content>.painted{display:block;margin:18px auto 0;width:min(100%,340px)}
+.trail-content .trail-rules-note{max-width:680px;margin:16px auto 24px;color:#e2c9a5;font:14px/1.5 DM,Arial,sans-serif}
+#restart-balanced-trail{display:block;margin:16px auto}
+.reward-choices.expanded-rewards{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px;gap:16px}
+.expanded-rewards .reward-choice{min-height:210px;padding:18px}
+.expanded-rewards .reward-choice>img{width:72px;height:72px}
+.reward-offer{display:flex;justify-content:center;margin:24px auto 14px}
+.reward-offer .card{width:140px}
+#reward-offer-name{max-width:560px;margin:12px auto 24px;font:15px/1.5 DM,Arial,sans-serif}
+.replace-option{display:flex;gap:6px;align-items:stretch;max-width:100%}
+.replace-option button:first-child{flex:1;min-width:0;white-space:normal;overflow-wrap:anywhere;line-height:1.3;padding-block:14px}
+.replace-option button:last-child{color:#e7c779}
+@media(max-width:700px){
+ .trail-setup-content{padding:18px 20px 28px;margin-inline:12px}
+ .trail-setup-content h2{font-size:28px}
+ .trail-setup-hero{width:78px;height:78px}
+ .trail-setup-content p{font-size:14px}
+ .reward-choices.expanded-rewards{grid-template-columns:1fr;gap:12px}
+ .expanded-rewards .reward-choice{min-height:112px;padding:15px}
+ .expanded-rewards .reward-choice>img{width:64px;height:64px}
+ .trail-content .trail-rules-note{font-size:13px}
+ .replace-list{display:grid;grid-template-columns:1fr}
+}
+@media(orientation:landscape) and (max-height:540px){
+ .trail-setup-hero{float:right;width:80px;height:80px}
+ .trail-setup-content h2{text-align:left}
+ #trail-hero-name{text-align:left;margin-bottom:12px}
+ .trail-setup-content label{margin-top:16px}
+}

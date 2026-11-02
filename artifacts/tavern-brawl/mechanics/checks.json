@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "opening": true,
+  "fatigueFourSizes": true,
+  "lethalDraw": true,
+  "emptyHandContinues": true,
+  "onlineClock": true,
+  "lavaFourSizes": true,
+  "lavaElapsedTime": true,
+  "reducedMotion": true,
+  "turnRefill": true,
+  "urgencyMotion": true,
+  "forfeitResult": true,
+  "errors": []
+}

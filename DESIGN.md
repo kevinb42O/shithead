@@ -33,7 +33,44 @@ colors:
   card-focus: "#e5c87e"
   focus: "#be8a30"
   history: "#10243e"
+  midnight-ink: "#090e18"
+  midnight-panel: "#101b26"
+  midnight-brass: "#b89a66"
+  midnight-ivory: "#f4e9d4"
+  midnight-muted: "#c7bba7"
+  midnight-cyan: "#82dfe4"
+  midnight-keyword: "#f7d49a"
+  midnight-power-text: "#f3e6cb"
+  midnight-power-name: "#f2dfbc"
+  midnight-power-shadow: "#030910"
+  midnight-power-cost: "#ddcfb8"
+  midnight-power-disabled: "#d5c7b1"
+  midnight-energy-text: "#f3dfba"
+  midnight-control-shadow: "#030710"
+  midnight-turn-text: "#f4dfba"
+  midnight-turn-focus: "#f5dfaf"
 typography:
+  midnight-wordmark:
+    fontFamily: "Serif, Georgia, serif"
+    fontSize: "clamp(22px,2.65cqw,42px)"
+    fontWeight: 400
+    lineHeight: 1.1
+  midnight-card-name:
+    fontFamily: "Serif, Georgia, serif"
+    fontSize: "calc(var(--midnight-name-size,7.4cqw)*1.15)"
+    fontWeight: 400
+    lineHeight: 1.1
+    letterSpacing: "0"
+  midnight-card-rules:
+    fontFamily: "DM, Arial, sans-serif"
+    fontSize: "var(--midnight-rules-size,6cqw)"
+    fontWeight: 500
+    lineHeight: 1.16
+  midnight-dock-title:
+    fontFamily: "Brawl, Georgia, serif"
+    fontSize: "14px"
+    fontWeight: 700
+    lineHeight: 1.25
   seat-name:
     fontFamily: "Serif, Georgia, serif"
     fontSize: "17px"
@@ -66,7 +103,30 @@ typography:
     fontSize: "11px"
     letterSpacing: "1.6px"
     fontWeight: 600
+  midnight-power-name:
+    fontFamily: "Serif, Georgia, serif"
+    fontSize: "clamp(13px,5.7cqw,21px)"
+    fontWeight: 400
+    lineHeight: 1.1
+  midnight-energy-count:
+    fontFamily: "Brawl, Georgia, serif"
+    fontSize: "clamp(12px,5.5cqw,21px)"
+    fontWeight: 700
+    lineHeight: 1
+  midnight-energy-count-phone:
+    fontFamily: "Brawl, Georgia, serif"
+    fontSize: "clamp(11px,7.8cqw,15px)"
+    fontWeight: 700
+    lineHeight: 1
+  midnight-end-turn-phone:
+    fontFamily: "Serif, Georgia, serif"
+    fontSize: "clamp(14px,13cqw,18px)"
+    fontWeight: 400
+    lineHeight: 1.05
 rounded:
+  midnight-art-window: "3px"
+  midnight-card: "5px"
+  midnight-panel: "4px"
   seat: "10px 10px 32px 32px"
   rail-panel: "12px"
   card: "5px"
@@ -76,6 +136,8 @@ rounded:
   chip: "20px"
   avatar: "50%"
 spacing:
+  midnight-utility-gap: "8px"
+  midnight-dock-inset: "12px 14px"
   compact: "4px"
   small: "8px"
   action-gap: "12px"
@@ -83,6 +145,18 @@ spacing:
   hud-edge: "28px"
   dialog-inset: "34px"
 components:
+  midnight-crew-slot:
+    backgroundColor: "#08132224"
+    rounded: "{rounded.midnight-card}"
+  midnight-selection-dock:
+    backgroundColor: "#0b1424f5"
+    textColor: "{colors.midnight-ivory}"
+    rounded: "{rounded.midnight-panel}"
+    padding: "{spacing.midnight-dock-inset}"
+  midnight-utility:
+    backgroundColor: "transparent"
+    textColor: "{colors.midnight-ivory}"
+    padding: "10px 12px"
   hearth-seat:
     backgroundColor: "{colors.hearth-timber}"
     textColor: "{colors.hearth-ivory}"
@@ -125,6 +199,92 @@ components:
 ---
 
 # Design System: Shithead — The Ember Hearth
+
+## Tavern Brawl — Midnight Brawl foundation
+
+This section is scoped to Tavern Brawl. The user selected **A+C**: `01-midnight-duel.png` for the resting composition and `03-legends-after-midnight.png` for the layered legendary summon. Generated production assets were explicitly approved. These decisions extend the project; the Ember Hearth and the historical guidance for other surfaces below retain their scope. The game remains fullscreen and locally developed with `npm run dev` at `http://localhost:5173`; no hosted Site is part of this work.
+
+### Overview
+
+**Creative North Star: “Midnight Duel”**
+
+A cool nocturnal tavern frames an open playing table with warm brass accents. Large original illustrations carry each card's identity, while separate painted brass frames and dark lower panels protect live names, rules and stats. The player hero sits beside the board, leaving the middle available for three crew places per side and brief public-event reactions.
+
+**Key Characteristics:**
+- Fullscreen painted environment with a separate portrait composition.
+- Frameless source illustration and separate painted frames under semantic HTML card information.
+- Restrained brass, warm ivory and cool readiness cues.
+- Brief 2.5D legendary cutouts anchored to actual public crew plays.
+
+### Colors
+
+The normative frontmatter tokens prefixed `midnight-` apply to this Brawl foundation. **Primary:** Midnight brass supplies fine frames and panel edging. **Secondary:** Midnight cyan supplies the cool interaction vocabulary; ready and selected outlines use the more specific CSS state colors. **Neutral:** Midnight ink backs the battlefield, Midnight panel defines the dark material family, Midnight ivory carries primary information and Midnight muted carries secondary information. Preserve the actual translucent panel treatments from `dist/brawl/midnight.css` rather than making every panel opaque.
+
+**The Live Information Rule.** Names, cost, rules, combat stats and game state remain live text over artwork. Generated paintings must not become the source of rules or numbers.
+
+### Typography
+
+`Serif` is the existing locally loaded **DM Serif Display** face. Wordmark, card names and End turn use its 400 weight for natural mixed-case lettering. `Brawl` is the locally loaded **Cinzel bold** face (`dist/assets/fonts/cinzel-bold-latin.woff2`, declared in `dist/tavern-brawl-assets.css`), retained for cost/stat numerals, unit names and selected supporting roles, with Georgia/serif fallbacks. DM Sans (`DM`, then Arial/sans-serif) carries rules and supporting information. The frontmatter records the final wordmark, card-name, rules and dock-title roles.
+
+Card names occupy 66% top, 78% width and 7.8% height. `midnight-typography.js` selects 7.4, 6.5 or 5.7cqw by name length, multiplied by 1.15 for Serif. Its current rules fitter measures actual keyword weight (750) and body weight (500), balances phrases at the largest fitting size and narrows lower crew lines between the stat sockets. The rules recess runs from 74.5% to 94%, with 82% width and 1.16 line height; the size search starts at 8cqw (9.2 for keyword-only text) and stops at 3.1cqw. Cost and stats stay live at 13cqw. Final functional/state labels retain their responsive 11px floor; dense card rules scale with the card and remain inspectable.
+
+The `midnight-power-name`, `midnight-energy-count`, `midnight-energy-count-phone` and `midnight-end-turn-phone` frontmatter roles document the intentional 13/15/18/21px endpoints reported by the component detector. The `midnight-art-window` radius and `midnight-keyword`, `midnight-power-*`, `midnight-energy-text`, `midnight-control-shadow`, `midnight-turn-text` and `midnight-turn-focus` colors likewise document the intended painted-control text, shadow, disabled and focus treatments. These are scoped component choices rather than changes to the classic Ember Hearth palette.
+
+### Layout
+
+Preserve `100dvh` fullscreen play. `dist/brawl/midnight-cards.css` and `midnight-controls.css` are authoritative for this local component refinement. Desktop `#player-station` sits at 2.1% left / 43.5cqh top, 22cqw wide with a 2.416 aspect ratio. The native power button occupies its upper 68%; energy occupies 5% left / 70% top, 90% width and 25% height. Ten painted gem places use a ten-column grid and a live count at 84% left. The round End turn control uses `end-turn-round-v4.png`, sized `clamp(100px,15cqh,170px)` and centered on the station's 43%-height action line. Its right offset is `calc(11.3cqw - var(--turn-size) / 2)`. The own hero sits at 11.2% left / 66% top; the hand centers at 52% left, 54% wide and 29% high, 3.7% above the bottom. Crew places and legal actions retain their established behavior.
+
+Portrait ≤700px places the station at 25% left / 62% top and 43% width (24% / 44% in short portrait). The End turn medallion uses 18cqw with a 44px minimum and aligns through `--turn-center`; the native power control also keeps a 44px minimum. Portrait hero placement is 12% left / 61.5% top, with the hand at 98% width and 21.5% height; the crowded hand retains horizontal scrolling. Short landscape uses 43cqh station top, a `clamp(64px,20cqh,100px)` turn control, hero at 68% top and a 52%-wide / 27%-high hand. Preserve these source-specific placements rather than inferring positions from older concepts.
+
+Menu, History and Rules retain live labels with inline SVG utility icons (23px desktop in the current CSS; 17px portrait/short landscape).
+
+### Elevation & Depth
+
+Painted light supplies environmental depth. Cards and units use compact drop shadows; fine brass edging, inset outlines and a dark lower-face gradient separate artwork from text. Hand perspective is 1200px. Hover/focus/selection lifts desktop cards by 19% and straightens their fan angle; portrait uses 15%. Pointer tilt reaches ±5° around X and ±7° around Y with a moving reflection, disabled for touch and reduced motion. The hand transform transition is .32s `cubic-bezier(.16,1,.3,1)`; unit art hover scales to 1.055 over .35s.
+
+Legendary presentation is a moving **2.5D cutout**, using the matching native-alpha character image, ground glow and title. A public play of Mordren, Vesper, Orun or Mother Nox triggers a 1750ms appearance, with 1350ms ground glow, 1600ms title and removal at 1800ms. The legend title is additionally bounded 74px above the actual hand top to protect the hand; a browser assertion guards against caption/hand overlap. Reduced motion uses a still title removed after 750ms. The sequence decorates committed events and never delays legal moves. It has no articulation, rig or rendered video. Existing combat effects retain source/target travel, anticipation/contact/recoil, numbers, death and return treatments; those are distinct from a future cinematic expansion.
+
+### Shapes
+
+The painted card frame shares a 104% overscan at −2% left / −1% top, correcting transparent-canvas margins so the rails span the physical card. Illustration and reflection share the actual art window at 3% left / 3% top, 94% width and 61.8% height, with three-pixel corners. There is no full rectangular background, border or shadow underlay. Playability, selection and focus follow the painted frame alpha through drop shadows instead of outlining a rectangle. Crew/spell frame variants and live cost/stat sockets share the same coordinate map. Crew field stats reuse original painted attack/health assets. End turn is the separately generated round v4 brass-rim medallion, not the earlier oval v2 extraction.
+
+### Components
+
+- **Card face and crew portrait:** `midnight-art.js` maps all 49 current card IDs to original Midnight illustrations; `view.js` reuses that mapping across card and unit representations. Full-art source files contain no old frame or lettering. A separate `img.midnight-card-frame` sits over card illustration and beneath live labels, choosing the crew or spell/equipment variant. Cost and combat stats remain outside the unit crop.
+- **Player station and hero power:** `#player-station` groups the native hero-power button and energy display over matching painted artwork. `view.js` selects the fox/owl/raven power medallion and lit/spent/locked gems while keeping live energy counts and unchanged game rules. Native controlled gestures, click, keyboard and inspection remain available. The separate selection dock retains its responsive placement.
+- **Legend theatre:** a pointer-transparent, aria-hidden decorative layer. Hidden documents do not start it; blur, resize, visibility changes, page exit and the shared effect lifecycle cancel temporary nodes, timers and animations. Hover state also resets.
+- **Loading:** the app's existing preparation progress preloads all mapped card artwork, four legend sprites and both board plates and the current painted UI assets, alongside retained UI and hero assets, before play.
+
+Asset provenance is recorded in `.impeccable/review/midnight-assets.md`, with exact prompts in `dist/assets/tavern-brawl/midnight/sources/` and extraction rectangles in `manifest.json`. Forty-eight card images are native 256×384; Funeral Velvet is 512×768. Large inspection views retain this native detail limit. Four legendary sprites preserve generated RGBA transparency and translucent edges without chroma key or background removal. The earlier three-UI-asset pass counted 65 rasters; it is historical, not a current total. The new controls use eight v2 extracts from four generated native-alpha sources, prepared by `scripts/tavern-brawl/prepare-midnight-controls.py`. `.impeccable/review/controls-v2/assets.md` verifies all 12 source/derived rasters, exact atlas/trim extraction, preserved RGBA pixels and embedded prompt metadata. The current round `end-turn-round-v4.png` was generated separately and is selected by the authoritative control CSS.
+
+**Implementation boundary:** an aiming-tether prototype was concurrently integrated into gestures and the Brawl HTML. This documentation pass did not verify its visual quality. The advanced GPU magic-targeting/ribbon quality targets and optional rendered signature videos remain **planned** in `BRAWL_CINEMATIC_PLAN.md`; the prototype is not evidence that those targets are complete.
+
+### Do's and Don'ts
+
+- **Do** preserve fullscreen local play, three crew places per side, legal actions, private views, saves, inspection and reachable full hands.
+- **Do** reuse the approved A+C composition and original mapped artwork, retaining source prompts and native alpha.
+- **Do** provide system and saved reduced-motion equivalents and cancel decorative effects when their surface is interrupted.
+- **Don't** bake names, rules or numeric state into generated paintings.
+- **Don't** describe the moving cutouts as articulated characters, rigged animation or rendered video.
+- **Don't** promote a future targeting/cinematic plan into an implementation claim or apply this Brawl theme to unrelated surfaces.
+
+Current local-component evidence: all 49 cards passed the rules-window check; responsive checks covered 1440×900, 1920×1080, 1280×720, 390×844, 320×568 and 844×390. Real hero-power and End turn actions, all three power icons and the 3/8 energy state passed. `npm test` passed 226 tests. The component detector recorded 16 advisories and zero warnings in `.impeccable/review/controls-v2/detector.json`; its new radius, palette and type values are documented above and in frontmatter. Independent scoped review returned ship after the settled energy crop verified three lit, five spent and two locked sockets against 3 / 8; no material fixes remained in the card-frame and generated-control scope. Evidence is under `.impeccable/review/controls-v2/final/`. This is component-refinement validation, not a renewed claim that the older whole-composition approval gate passed.
+
+## Brawl controls — portrait and power order
+
+The desktop control refinement in `dist/brawl/midnight-controls.css` places the power/energy station at 2.1% left / 43.5% top with 22% width, above the player portrait anchored at 11.2% left / 66% top. This keeps the station clear of the lower card fan. Short landscape follows the same order; portrait phones retain the compact portrait/power/turn row above the hand.
+
+End turn is now a genuinely circular medallion using the original built-in ImageGen `midnight/ui/end-turn-round-v4.png`, generated with `heroes/fox.png` as the gold-rim material reference. The native-alpha painting has a hammered gold ring and recessed navy face, with no lettering or projecting side ornaments. The exact prompt is saved alongside it. Live text wraps into two centered lines. Equal CSS width and height enforce a 1:1 silhouette at every breakpoint; keyboard focus follows the circle.
+
+Desktop diameter is `clamp(100px,15cqh,170px)` and its center aligns with the power panel center at 43% of station height. Phones use an 18cqw diameter; short landscape uses `clamp(64px,20cqh,100px)`. The turn count sits beneath the circle. The bowl stays above it and is smaller and raised to 11% top on short landscape to preserve clearance. Native semantics, interaction states and reduced-motion behavior remain. This supersedes the prior oval and rectangular button treatments.
+
+Roundness, bounds and primary control hit targets passed at 1440×900, 1920×1080, 1280×720, 390×844, 320×568 and 844×390. Captures and measured reports are in `artifacts/tavern-brawl/controls-round/`.
+
+## Brawl trail setup and upgrades
+
+The rebalanced trail adds a fullscreen Operate surface using the existing tavern backdrop, hero artwork, Brawl/DM typography and painted club controls. A single dark timber form (`#20150ef0`, warm ivory `#fff0c9`, gold `#e7c779`) protects starting-deck and challenge copy from the background. It is 560px wide on desktop and inset 12px on phones; selectors have 48px targets and 16px text. Long content scrolls inside the screen. The setup explicitly identifies Classic, After Midnight and saved decks, describes fixed per-run challenge, and confirms replacement only after the new run is configured.
+
+Four reward options use the established timber tiles in two columns on desktop and one on phones. Card options show current cost, stats and effects. The replacement screen displays the offered card and pairs every replace action with an inspection control; long names wrap and keep inspection reachable. The battle's existing pot selection dock offers attack or healing in new trails. Dismissal uses existing card inspection or the battle menu and the same highlighted-target interaction. The three-slot fullscreen game board and original assets remain unchanged.
 
 ## Brawl confirmation frame
 
@@ -756,3 +916,132 @@ Browser verification used an isolated 16-card hand: all 34 sampled card/fidget i
 All 49 core and After Midnight cards now obtain cost anchors from their actual PNGs during `scripts/tavern-brawl/catalog.mjs` generation. `measure-cost-layouts.py` reads the supplied artwork paths, isolates the largest sapphire component in the cost region and writes its center to each card’s `layout.cost`; missing/unreliable gems fail generation. It reads pixels without modifying artwork and uses Pillow, also used by the existing asset inspection pipeline. This supersedes the earlier per-card CSS selector calibration. The existing shared `decorateCard` applies the catalog anchors in hand, collection, mulligan, drag and inspection; no generic core cost coordinates may override them.
 
 `test-gem-alignment-browser.mjs` checks all 49 rendered numeral alignment boxes against the catalog, captures actual mixed-set gameplay hands at 1440×900 and 390×844, and checks browser errors. Captures: `artifacts/tavern-brawl/energy-cost/catalog-hand-1440.png`, `catalog-hand-390.png`, and `catalog-all-49.png`.
+
+
+## Brawl aiming ribbon
+
+`dist/brawl/aim-tether.js` and `aim-tether.css` render a broad tapered brass ribbon, a split-blade spearhead with an emerald inset, two moving energy filaments, and a source collar. The SVG silhouette has a shaded metal ramp, dark edge and offset shadow so the arrow reads independently of glow. One reusable transparent WebGL canvas supplies noise-driven internal flow and a bounded pool of 24 motes (8 visible on phones), cropped to the curve at up to 1.5 DPR. Free aim has a verdigris sheath and a pale core; legal targets shift to molten brass. Existing effect ramps `#c8ece2`, `#b7e0d5`, `#316d69`, `#fff6d7`, `#f7ce78`, `#eab65c`, `#9c5824` gain shaded bronze `#603b20` and `#b07938`. These are effect-material colors, not interface tokens.
+
+The target reticle scales to 48% of the smaller target dimension. Four inward teeth and segmented arcs frame the artwork; it acquires with a 185ms settling spring and one quiet, rate-adjusted bundled selection cue through the shared mute/volume mixer. Pointer endpoints remain direct while the curve briefly flexes and damps with fast lateral movement. Crossing the source centerline changes the bow continuously. The ribbon grows over 125ms; invalid release retracts over 185ms. Legal release consumes it from source to target over 210ms with an expanding lock. The engine resolver alone decides legality. Crew placement, game authority and fullscreen layout remain unchanged.
+
+System and saved reduced-motion preferences keep the shaded SVG silhouette, source, head and stationary lock, with no ambient animation or particles. GPU failure/context loss also keeps the SVG silhouette. Interruption, blur, hidden tabs, resizing and menus clear presentation. Screenshots and reference notes live in `artifacts/tavern-brawl/aim-tether/`; `v2-*` captures show the current version. The second pass passed 19 focused geometry, gesture and sound tests, including a centerline continuity regression. Desktop and 390×844 emulated-touch reviews covered legal lock, legal release, touch cancellation, reduced motion and cleanup. A legal attack advanced exactly one revision; the original saved duel was restored. Prior engine/network evidence remains in the first-pass report. No physical-phone or frame-rate certification is claimed.
+
+## Brawl arena card depth
+
+The arena keeps the Midnight Duel artwork and fullscreen composition. `dist/brawl/arena-depth.css` gives crew a real CSS 3D body: one front, one reverse and four thickness planes. Player cards rest at 54° and opponent cards at 58°, with a small slot-specific yaw and roll. Portrait uses 44°/48°, and short landscape uses 46° to protect readable stats. The perspective camera sits above the table; empty places use matching foreshortening. The warm left and cool right material reflections follow the painted fire/window lighting. Card edges use 4px on desktop and 3px on phones, 6px face corners and 2px edge joins; these intentionally describe the physical material rather than a new UI panel style. The edge ramps run from cream/brass (#d7c49e, #dfb67a) through worn cardstock (#817055, #9b8562) to shaded timber/blue (#4c4034, #3b414d), with transparent amber/blue reflections and offset near-black contact/penumbra shadows. Existing compact crew-name/status typography remains 8–15px; inspection remains the full reading surface.
+
+All artwork, costs, names, combat values, Guard and Last Orders markers ride on the front plane. An independent projected shadow stays on the table. The outer semantic button retains its existing geometry for pointer capture, slot handling, targeting and combat travel. `arena-depth.js` runs one demand-driven, velocity-preserving spring scheduler for a 12px lift, shallow pitch/yaw response and moving reflection on hover; keyboard focus gets the same lift. It releases inline state on settling, interruption and page exit, and does no idle work. Both reduced-motion settings retain static perspective and material depth. Death/return clones inherit their original responsive camera and pitch.
+
+Verification: the dedicated `test-arena-depth-browser.mjs` checks all six planes, projected geometry, visible faces and hit targets at 1440×900, 390×844, 320×568 and 844×390; hover lift/settle, stable hit geometry, pause cleanup, reduced motion and retained 3D during attacks also pass. The existing 71-check drop matrix and 70 Brawl tests pass. Screenshots and the depth report are in `artifacts/tavern-brawl/arena-depth/`. Mechanical scan advisories describe the intentional effect-material ramps and inherited compact type sizes. The game remains locally served.
+
+## Brawl Mordren articulated entrance
+
+Mordren now uses a generated native-alpha two-region body/axe atlas, `midnight/legends/mordren-rig-v1.png`, with independent shoulder-pivot motion and torso counter-rotation. This is a 2D articulated composite, not 3D animation or video. The 1,850ms sequence ignites at 180ms, winds up, strikes at 900ms and settles toward its existing crew place. Shared `signature-timing.js` cues coordinate the actor, field effects and bundled sound. Surviving victims temporarily display inert public pre-action snapshots until contact; rules, accessible values, saves and online revisions commit immediately. Removed crew retain their death bodies through contact. New actions settle old presentation; solo AI follow-up and the result dialog allow the short signature to complete. Network deadlines and player input remain authoritative.
+
+The furnace and heat use the existing fire material family, with transparent effect variants #d677241c, #fff4bb9c, #ff9b3433, #ffc36b99, #fff1ba5c, #bd4d2733, #39170350 and #ffe0a3aa. The axe's temporary 7px curved edge is a motion trail, not a UI accent border. Signature title typography spans 16–28px and stays above the hand. These localized light materials are intentional extensions of the existing combat effects. Menus, blur, resizing, hidden tabs, new actions and reduced-motion changes clear owned visuals. Missing/undecoded atlas uses the retained single-cutout fallback; reduced motion uses the existing still title.
+
+`brawl-motion-review.html` is an isolated local synthetic fixture: conserved test decks, actual rules.apply results, no storage or network imports. Replay, reduced motion and audio controls are separate from normal gameplay. Focused desktop/phone/short-landscape captures and the executable browser report live under `artifacts/tavern-brawl/mordren/`. The atlas prompt is retained beside the asset.
+
+## Brawl Vesper articulated entrance
+
+Vesper uses a generated native-alpha three-region atlas (`midnight/legends/vesper-rig-v1.png`): repaired torso with crown and rear knife, independent forward knife arm, and separate flowing cloak. The 1,450ms performance moves laterally into view, winds the shoulder and knife back, cuts at the shared 570ms cue, lets the cloak follow, then contracts toward the actual crew card. The projected title clears the hand; a phone-specific width bound keeps the cloak on-screen. A thin ivory/violet curved blade trail remains local to the actor and implies no enemy target, damage, theft or coin gain. This is articulated 2D illustration, not a 3D rig or rendered video.
+
+`signature-timing.js` distinguishes the short Vesper cue sheet from Mordren's heavy entrance. Reverse/cloth accents use the shared sound mixer; Vesper has no furnace/impact sound. `vesperSetup` requires a resolved Setup event matching this play's UID. Only that event adds the blue protective silhouette and Ward sound; the associated buff uses a small arcane pulse, not the ordinary gold buff shower. Skirmish remains immediately actionable and a legal attack settles the entrance. The actor uses the existing finite animation/timer ownership, missing-atlas cutout fallback, reduced-motion title and interruption cleanup. The localized shadow field #67528d22 extends the existing shadow effect material; the ivory #fff3cb, muted violet #b49bdd, protective #b7e8ff and shadow alpha #67528d33 reuse the established effect families.
+
+The local `brawl-motion-review.html?legend=vesper` page now compares Mordren and Vesper through a labelled native selector, Replay, Setup on/off, reduced motion and sound controls. Setup is demonstrated with a real preceding Coin play. The synthetic conserved decks continue to use the real rules engine and never import storage/network. The original `mordrenReview` testing handle is retained as an alias of the shared `signatureReview`. Evidence is in `artifacts/tavern-brawl/vesper/`; `test-vesper-browser.mjs` verifies both Setup outcomes across four viewport sizes, opponent orientation, immediate Skirmish, reduced motion, repeated play, resize, pause and finite cleanup. Physical-phone performance is not certified by these emulated browser checks. Orun and Mother Nox retain the previous single-cutout entrances.
+
+## Brawl Orun and Mother Nox performances
+
+Orun now uses a native-alpha torso/shield/reaching-wing atlas. Its calibrated pixel regions are x=0–854, 854–1484 and 1484–2172 on a 2172×724 source; CSS samples those regions directly without modifying the generated alpha. Separate torso counter-rotation, shield perspective and wing articulation sit in front of an assembling dark eclipse with fine brass arcs, sparse blue constellation marks and a restrained corona. Actual positive healing creates three measured source-to-hero threads, with motes arriving at the shared 1,100ms restoration cue. Displayed hero health holds its public pre-action value until arrival; authoritative rules and accessible labels update immediately. Full health produces no heal stream or invented number, and restoration is clamped to the actual emitted amount. The 2,100ms performance ends at the real crew anchor.
+
+Mother Nox uses independent repaired torso, staff/gripping forearm and offering-hand/soul layers. Her slower staff oscillation drives two finite toll rings. A resolved sacrificed crew member supplies the incoming stream at 620ms; the toll launches damage to the actual enemy hero for contact at 1,100ms; actual restoration travels back for arrival at 1,400ms. Last Orders healing receives its own earlier 720ms presentation, so an intermediate heal can appear before the later drain. No victim means no sacrifice, damage or restoration paths. At full health no restoration stream appears. A 2,400ms authored sequence settles into the card; the desktop scale keeps Nox's face below the opponent portrait.
+
+`presentationCue` now supplies per-event signature times to field effects, visual health snapshots and grouped sound cues. Hero snapshots are inert, aria-hidden decorative clones; only presentation waits. New actions and interruption restore committed state. Scheduled combat jobs keep the shared effect loop at its active cadence instead of the idle cadence. These are design targets, not physical-device FPS certification.
+
+Both longer sequences offer a native keyboard-accessible Skip effects button outside the decorative aria-hidden layer. Skip clears owned actors, paths, motes, temporary bodies and pending audio and restores final values. Existing live targets remain available throughout. The review page now compares all four legends and exposes actual health (22, 28 or 30), Nox ally/no-ally/Last Orders scenarios, and Vesper Setup. It remains isolated from storage and multiplayer. Original generated PNGs, prompt sidecars, executable review scripts, screenshots and reports live under the existing Brawl asset/artifact folders. The material extensions are localized #a6e4ff16 / #a6e4ff88 and #17364d eclipse light, plus #cba2ed / #67528d88 for bell/soul accents, with existing brass, shadow and healing palettes. These are articulated 2D performances, not 3D character rigs or video assets.
+
+
+## Brawl multiplayer turn reservoir
+
+Online Brawl turns last 30 seconds. The circular End turn medallion retains its painted brass rim and live label, with a clipped molten amber/orange reservoir inside the recessed face. Its liquid level drains vertically from the host-aligned deadline, including during choices, menus and disconnect grace, and refills on each new turn. Rival turns use the same level while the action is disabled. The numeric countdown sits beneath the medallion on desktop and phones; the liquid warms to red-orange in the last ten seconds. Mulligan and finished states hide the reservoir. Solo turns now share this treatment, as specified below.
+
+The small SVG wave crest carries the liquid material; it pauses when the document is hidden. Both saved and system reduced-motion preferences remove crest motion and level interpolation, retaining the current level and seconds. The reservoir is pointer-transparent and aria-hidden; the native button references the existing role=timer via aria-describedby. Level updates run on the existing 250ms clock tick, with no new rendering loop or dependency. Material colors intentionally extend the incumbent fire palette: molten surface #ed9b35, depths #bc451a and #661c10, urgency #ef7137 / #b1321c / #63160e, and live lettering #fff3dc.
+
+Browser verification covers full, half and nearly empty levels at 1440×900, 390×844, 320×568 and 844×390, elapsed-time updates without game actions, both reduced-motion preferences, automatic rival-turn refill and cleanup on finish. Captures are in `artifacts/tavern-brawl/turn-lava/`.
+
+
+### Molten material refinement
+
+The reservoir now contains an original 192×192 procedural canvas material (`brawl/turn-lava.js`): domain-warped cooled rock plates, incandescent amber seams, a white-hot meniscus, slow diagonal currents and small rising gas bubbles. The cached plate texture is generated once; a bounded 24fps canvas loop runs only for an active, visible online turn. System and saved reduced-motion settings retain a still material, and page exit cancels the frame loop. The painted rim and native button stay intact, with a 9% inset inner reservoir, recessed edge shading and warm ivory text protected by a dark letter shadow. The material intentionally adds hot seam colors #ffcf62 / #fb6e16 / #ffd465 and coal-red depths #521008 / #611b11 to the fire palette. No asset generation, dependencies or game-rule changes accompany this visual refinement.
+
+## All four legends emerge from their cards
+
+The user's correction supersedes the earlier free-standing entrance staging. All four articulated actors, and the retained single-cutout fallbacks, now use `card-emergence.js`: the initial transform is calculated from the actual rendered `.unit-front` rectangle, with the actor's bottom-center inside that card's artwork. A small source aperture and brief card illumination precede the unfolding reveal. The actor then grows into its authored performance and contracts back into the same card. Signature plays suppress the unrelated generic crew-travel animation, and arena hover springs pause while the actor is present, keeping the source stable.
+
+The shared staging bounds the peak size and position for all three crew places and both seat orientations. Source position never comes from a guessed screen center or hand rectangle. Card/emitter ownership uses the public played UID. A 48-case desktop/phone browser matrix measures each actor's 90ms birth against its own card, verifies its peak fits the viewport, and checks that scenery shake leaves semantic card hit rectangles unchanged. Reduced motion does not instantiate the spatial reveal, source aperture, scene light or shake.
+
+Mordren receives warm local light, restrained environmental dimming and a finite 3.5px scenery impact. Vesper receives a shadow falloff and a quick local body accent, with no camera shake. Orun receives a cool luminous lift with no shake. Nox receives a deeper shadow falloff and a restrained 1.2px toll vibration. Only the painted `#battle::before` scenery moves, using registered finite custom properties; controls, hand, live cards and targeting geometry stay in place. New transparency variants for these localized materials are #ffae461c, #09050345, #090e1859, #a6e4ff26, #a6e4ff08, #67528d0d, #090e1866, #fff3cb99, #b49bdd66, #fff1bacc, #ffae4677, #edfffacc and #a6e4ff77. They are transient theatrical light, not application chrome or persistent elevation.
+
+
+### Shared solo turn limit and full recess
+
+Quick duels and trail battles now use the same 30-second turn limit and lava countdown as multiplayer. A `soloTurnClock` saved with the game binds each deadline to game ID, turn number and seat. Ordinary moves, choices, menus, home navigation and reloads do not reset it. While on the battle screen, timeout atomically resolves a pending Nightglass top-card choice and ends the current seat’s turn through the existing save lock and rules engine; the next turn receives a new full clock. Outside the battle screen solo play does not advance automatically; resuming settles an expired turn. Solo opening-hand selection remains untimed. Completed matches retain existing result and trail settlement.
+
+The reservoir inset is now 9% of the native button bounds so lava reaches the full blue recess at the inside edge of the painted brass rim, rather than leaving a blue annulus around a smaller inner circle. Full, half and low levels are checked across the existing four viewport sizes.
+
+
+### Generated molten footage replaces the procedural plates
+
+The user rejected the drawn cell/crack material as artificial. It is replaced by original built-in ImageGen artwork at `midnight/materials/molten-lava-source.png`, with the exact generation brief retained in `molten-lava.prompt.txt`. Its photographic molten currents, fine bubbles, dark folds and irregular incandescent flow are baked into a seamless 96-frame, 384×384 animated WebP with a 7.968-second cycle. The source is generated raster artwork, not filmed footage; the movement is shader-based fluid distortion baked offline by `scripts/tavern-brawl/build-lava-loop.mjs` and encoded by `encode-lava-loop.py`. The production app plays `molten-lava-loop.webp` in a native image element; it no longer draws Voronoi plates or simulated bubbles on a canvas.
+
+The whole blue recess still fills up to the inner brass edge. The thick cream/yellow wave stripe is removed; a shallow curved lip, two-pixel warm reflection and recessed edge shading integrate the generated material. The live label retains its dark shadow for legibility over the bright texture. Solo and multiplayer continue to use the same saved/host-authoritative 30-second drain. Reduced motion, hidden pages, finished matches and leaving the battle switch to the 59KB still WebP, avoiding ongoing animated-image decoding. Both WebP assets preload before gameplay.
+
+
+### Physical deadline urgency
+
+During the local player's final ten seconds the End turn medallion gently expands to 1.035× and settles, with a 1.25-second cycle. At five seconds the pulse quickens to .86 seconds; the final three seconds use a .64-second cycle, up to 1.065× scale and a brief subpixel/.7-degree tremor. Individual CSS scale/rotate/translate preserve existing hover and press feedback. Rival turns stay still. Turn changes, zero time, finished games, hidden documents and leaving battle clear or disable motion through clock state. Both reduced-motion preferences remove pulse and tremor while retaining the static warm outline, lava level and numeric urgency. The animation adds no input delay or per-frame JavaScript.
+
+## Brawl ambient room — hearth and moonlight
+
+The ambient-only portion of `field-effects.js` now delegates to `ambient-room.js`, rendered on one pointer-transparent, aria-hidden canvas at z-index −1 inside the isolated battle. It sits over the painted scenery and beneath every semantic game object. Combat/status drawing stays in the foreground. The existing field scheduler owns room updates; no additional RAF loop is introduced.
+
+Desktop and portrait source anchors follow their respective paintings. Three differently timed harmonics modulate local amber hearth illumination, a smaller candle pool and a narrow left-rail reflection; the window receives quiet cool light, with 26 desktop / 14 portrait motes at three apparent depths. Fifteen / eight analytically aged embers rise only from the hearth. Four phased smoke sprites reuse the existing CC0 Kenney `assets/vfx/lantern-mist.png`. There is no new downloaded asset. Effect colors #ff9b43, #ffbd70, #d57b35, #82bcef, #ffc075 and #b4d8f4 are local emitted/reflected light within the incumbent warm-hearth/cool-window vocabulary, not UI tokens.
+
+Dragging and legendary appearances gradually attenuate the room to 24% strength. Canvas width caps at 1280, DPR at 1. Pause, visibility, blur, resize and page exit share the existing field lifecycle. Both reduced-motion paths clear the room; missing smoke still allows the remaining light/air treatment. Held local room time excludes background time. Ambient decoration changes no rules, timers, controls, saves, network messages or hit geometry.
+
+The detailed expansion score and researched material libraries are recorded in `BRAWL_AMBIENT_PLAN.md`; flame footage, articulated scenery, character idles and physical receiver masks remain planned. Browser checks covered five responsive sizes, changing pixels, pause/clear/resume, both reduced-motion paths, pointer priority, drag attenuation, canvas ownership and a Mordren replay. All 231 project tests pass, and the mechanical detector returned no findings on the two changed modules. A 120-frame synchronous submission benchmark averaged .08ms with .20ms p95 on this machine; this excludes whole-page/compositor cost and does not certify phone FPS. Evidence and limits are in `artifacts/tavern-brawl/ambient-room/report.json`.
+
+## Furnace Burst — row-bound flame performance
+
+Furnace Burst now owns a 1,150ms presentation recipe: ignition at 40ms, flame/damage/Ward contact at 360ms, deaths at 450ms, and Last Orders consequences at 470ms. `signature-timing.js` supplies these cues to existing public snapshots, combat jobs and the sound mixer. Rules, accessible values and energy commit immediately; input can settle the presentation as before. The old center-table ring and spray are excluded for this card, and its hit treatment omits generic radial contact rays.
+
+`furnace-burst.js` draws one bounded GPU surface over the actual affected row's three slot rectangles, including empty slots and either caster orientation. Original native-alpha `midnight/materials/furnace-burst-v1.png` supplies fine flame curls, translucent tips and dark gaps. A low-amplitude advected flow distorts this material through a compressed ignition, an eruption and noise-based dissolution into a short absorptive smoke tail and cinders. This is generated raster material animated in a shader, not filmed fire or video. The source alpha is retained; the built-in image-generation prompt sits beside the asset. Startup preloads the material.
+
+The emitter is cropped to the row footprint, with at most a 900×300 render buffer and no independent RAF. It does not move the interface or block targets. The WebGL canvas/program/texture are reused across casts and disposed at page exit. Unsupported WebGL uses a finite 2D version of the same flame artwork; missing texture retains the procedural flame fallback. Context loss cancels the current plume and selects the textured fallback on the next cast. Both reduced-motion paths omit spatial fire while retaining immediate readable outcomes and the existing audio preference. Pause, blur, hidden tab, resize, new actions and leaving battle share the field cleanup lifecycle.
+
+The shader's ignition/floor reflection uses the existing fire family, with ash material RGB .20/.14/.12, amber #f4a044 for a last-resort smoke fallback, and hot cream/orange sampled from the generated painting. These are localized event materials. They add no application chrome, new game state, damage or targeting affordance.
+
+`brawl-furnace-review.html` is an isolated real-engine replay with Mixed / Survive / Ward / Empty scenarios, reduced motion and deterministic peak sampling for development. It uses current production card/control styles and never imports saves or networking. Verification covered 1440×900, 390×844, 320×568 and 844×390, both casting seats, real damage/Ward/death/energy results, unchanged friendly crews, early-versus-contact numbers, finite cleanup, interruption, both reduced-motion paths and a forced non-GPU textured fallback. Evidence, native-alpha statistics and limits are recorded in `artifacts/tavern-brawl/furnace-burst/report.json`.
+
+## Generated combat materials across Brawl
+
+Ordinary combat now shares the existing finite field scheduler with `combat-vfx.js` and the original native-alpha `combat-atlas-v2.png` / `combat-smoke-v2.png` paintings. Light physical cuts use a sharp ivory/brass crescent, heavy hits use directional wood/stone splinters and dust, shadow attacks use a violet smoky knife wake, celestial attacks use a blue crystalline comet, Ward absorbs through a separate shattered shield, and healing closes green/gold ribbons around the actual receiver. Mordren retains the furnace/soul material family and captive-soul cleave. Existing Furnace Burst keeps its row-bound shader performance. Bar Fight uses physical impact rather than fire, and Moonlit Stitch uses restoration material. Artwork has no live numbers or rules.
+
+The atlas sampler aligns each painting's hot core to its real contact point; the off-center physical burst and comet have explicit source anchors. Generated pixels remain in normal alpha composition so smoky interiors retain depth. Directional shards and concise light accents support the painted materials. Weapon windup, contact at 340ms, hold and recovery remain on the shared combat clock. Painted card planes move while semantic targets stay fixed. Public pre-action health/Ward snapshots persist until contact for attacks and targeted casts. A returning body follows its real destination in the hand, with a finite smoke plume at its original crew place; deaths use a separately owned dispersal. The foreground remains pointer-transparent and damage numbers render above it.
+
+There is no extra animation loop or per-attack GPU context. Canvas DPR caps at 1.5 and active scores cap at 48. Repeated actions, pause, resize, blur, visibility, skip and page exit clear owned scores, bodies and scheduled jobs. Both saved and system reduced-motion paths retain immediate readable numbers/state and suppress the spatial effects. The new assets preload in Brawl's existing preparation step, remain inside the local workspace, and retain exact built-in ImageGen prompt sidecars.
+
+`brawl-combat-review.html` is a local isolated fixture with attack-family, outcome, side and reduced-motion controls. It runs real rules with conserved synthetic decks and imports neither storage nor networking. It also offers deterministic samples for QA. `scripts/tavern-brawl/test-combat-vfx-browser.mjs` covers four viewport sizes, both orientations, actual Ward/lethal/reciprocal/hero outcomes, contact timing, stable target bounds, seven visible painted families, representative spells, finite cleanup, repeated actions and both reduced-motion paths. `artifacts/tavern-brawl/combat-v2/` contains captures, native-alpha statistics and the report. Its timing benchmark measures synchronous drawing submission only, not full compositor cost or physical-phone FPS.
+
+Mechanical detection of the review fixture reports inherited shared-game 11px labels, legacy dark background colors, numeric text shadow and transient radial spell light. These are retained incumbent gameplay materials, not new application chrome; the added combat modules produced no additional detector findings.
+
+
+## Mordren — furnace axe and captive souls
+
+The user selected a blend of furnace weight and trapped spirits. Mordren retains his actual-card emergence and the 1,850ms signature clock with contact at 900ms. The arm now holds its loaded pose longer, accelerates into the strike and follows through. A sharp original molten crescent with a ragged coal wake replaces the old CSS border arc; separate soul layers gather at the furnace and stretch through the release. Finite ash, directional material sheets, an impact fan and a cooling scorch connect the axe to the real affected crew on both sides. Only emitted damage/Ward events supply victims: the battlecry adds no hero damage or extra mechanics.
+
+Ordinary Mordren attacks use the same material in a short directed soul cleave on the shared 760ms attack clock, with contact at 340ms. Reciprocal damage appears at the attacker's moved collision location; a lighter counter-hit avoids a second explosion over the empty source slot. All crew have explicit material profiles with a neutral physical fallback. Card planes and projected shadows move while semantic card hit rectangles remain fixed. Live pre-contact snapshots preserve visible values through contact, including Ward and simultaneous deaths; rules and accessible state remain immediate. New commands clear prior visual scores and queued audio while already-playing sound recordings retain their tails.
+
+The original six-ingredient RGBA master, exact ImageGen prompt and source/checksum research are retained under `artifacts/tavern-brawl/attack-research/`. `prepare-mordren-vfx.py` reproduces the six native-alpha crops and the supporting CC0 Cethiel fire-slash flipbook. The signature keeps normal-alpha dark smoke, bone-white souls and narrow hot orange/ivory edges rather than applying additive light to every layer. General combat overlays sit below the legendary theatre/title and above remnant bodies; live damage numbers remain above both.
+
+The local `brawl-motion-review.html` now exposes every crew attacker and Survives/Ward/Both die/Hero outcomes, plus a held-time Mordren material sample for visual QA. Its normal replay continues to run the real rules with synthetic decks, without storage or networking. `test-attack-vfx-browser.mjs` verifies the both-row battlecry, normal Mordren attack, stable hit geometry, five other families, real Ward/mutual/hero outcomes, finite cleanup, skip, resize, pause, repeated actions and reduced motion at four viewport sizes. Evidence is under `artifacts/tavern-brawl/attack-vfx/`. This work remains fullscreen and locally served.

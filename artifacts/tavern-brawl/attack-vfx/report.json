@@ -1,0 +1,163 @@
+{
+  "layouts": [
+    {
+      "name": "desktop",
+      "w": 1440,
+      "h": 900,
+      "scope": {
+        "damage": [
+          "ally",
+          "survivor",
+          "victim",
+          "rival"
+        ],
+        "wards": [
+          "warded"
+        ],
+        "overflow": false
+      },
+      "stableAttackBounds": true
+    },
+    {
+      "name": "phone",
+      "w": 390,
+      "h": 844,
+      "scope": {
+        "damage": [
+          "ally",
+          "survivor",
+          "victim",
+          "rival"
+        ],
+        "wards": [
+          "warded"
+        ],
+        "overflow": false
+      },
+      "stableAttackBounds": true
+    },
+    {
+      "name": "small-phone",
+      "w": 320,
+      "h": 568,
+      "scope": {
+        "damage": [
+          "ally",
+          "survivor",
+          "victim",
+          "rival"
+        ],
+        "wards": [
+          "warded"
+        ],
+        "overflow": false
+      },
+      "stableAttackBounds": true
+    },
+    {
+      "name": "landscape",
+      "w": 844,
+      "h": 390,
+      "scope": {
+        "damage": [
+          "ally",
+          "survivor",
+          "victim",
+          "rival"
+        ],
+        "wards": [
+          "warded"
+        ],
+        "overflow": false
+      },
+      "stableAttackBounds": true
+    }
+  ],
+  "outcomes": [
+    {
+      "scenario": "ward",
+      "events": [
+        {
+          "id": 11,
+          "type": "attack",
+          "seat": 0,
+          "uid": "review-attack:mordren-ashen-host",
+          "target": "warded"
+        },
+        {
+          "id": 12,
+          "type": "ward-break",
+          "target": "warded"
+        },
+        {
+          "id": 13,
+          "type": "damage",
+          "target": "review-attack:mordren-ashen-host",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "scenario": "mutual",
+      "events": [
+        {
+          "id": 11,
+          "type": "attack",
+          "seat": 0,
+          "uid": "review-attack:mordren-ashen-host",
+          "target": "warded"
+        },
+        {
+          "id": 12,
+          "type": "damage",
+          "target": "warded",
+          "amount": 6
+        },
+        {
+          "id": 13,
+          "type": "damage",
+          "target": "review-attack:mordren-ashen-host",
+          "amount": 4
+        },
+        {
+          "id": 14,
+          "type": "death",
+          "seat": 0,
+          "uid": "review-attack:mordren-ashen-host",
+          "card": "mordren-ashen-host"
+        },
+        {
+          "id": 15,
+          "type": "death",
+          "seat": 1,
+          "uid": "warded",
+          "card": "orun-eclipse-warden"
+        }
+      ]
+    },
+    {
+      "scenario": "hero",
+      "events": [
+        {
+          "id": 11,
+          "type": "attack",
+          "seat": 0,
+          "uid": "review-attack:mordren-ashen-host",
+          "target": "hero:1"
+        },
+        {
+          "id": 12,
+          "type": "damage",
+          "target": "hero:1",
+          "amount": 6
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "reduced": true,
+  "pause": true,
+  "rapidReplay": true,
+  "skip": true,
+  "resize": true
+}

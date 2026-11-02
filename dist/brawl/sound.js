@@ -1,10 +1,13 @@
+import {ATTACK,CAST_CONTACT_MS,DEATH_DELAY_MS,summonContact} from './combat-timing.js';
+import {attackProfile} from './attack-profiles.js';
+import {signatureTiming,VESPER,ORUN,NOX,FURNACE,vesperSetup,noxDrain,presentationCue} from './signature-timing.js';
 // Brawl's score uses only the bundled Hearthstone recordings and shared mixer.
 // Recordings keep their natural tails; use gain and event grouping to control overlap.
 // One event batch is one action: reciprocal damage and board clears share a hit.
-export const ATTACK_CONTACT_MS=153; // 340 ms lunge × .45 contact keyframe
+export const ATTACK_CONTACT_MS=ATTACK.contact;
 export function createBrawlSound(audio,{schedule=setTimeout,cancel=clearTimeout,hidden=()=>document.hidden}={}){
-  const timers=new Set();
-  function cancelPending(){for(const timer of timers)cancel(timer);timers.clear();}
+  const timers=new Set();let signaturePending=false;
+  function cancelPending(){signaturePending=false;for(const timer of timers)cancel(timer);timers.clear();}
   function stop(){cancelPending();audio.stop();}
   function cue(kind,options={},after=0){
     if(hidden())return;
@@ -16,40 +19,58 @@ export function createBrawlSound(audio,{schedule=setTimeout,cancel=clearTimeout,
     for(let i=0;i<3;i++)cue('deal',{gain:.32,pan:(i-1)*.14},180+i*130);
     cue('gather',{gain:.24},580);
   }
-  function events(batch,{seat=0,cards={},panFor=()=>0,reduced=false}={}){
+  function events(batch,{seat=0,cards={},panFor=()=>0,reduced=false,attackCard=null}={}){
     if(!batch.length||hidden())return;
     const attack=batch.find(e=>e.type==='attack'),play=batch.find(e=>e.type==='play'),power=batch.find(e=>e.type==='power');
     const origin=attack||play||power||batch.find(e=>e.seat!==undefined);
     const own=origin?.seat===seat,pan=panFor(origin?.target||origin?.uid),weight=own?1:.82;
-    const contact=attack&&!reduced?ATTACK_CONTACT_MS:0;
+    const signature=signatureTiming(batch,reduced);
+    // A newer action settles the previous presentation, including ordinary
+    // attack cues. Already-playing recordings retain their natural tails.
+    if(timers.size||signaturePending||signature)cancelPending();
+    signaturePending=!!signature;
+    const contact=reduced?0:signature?.contact??(attack?ATTACK_CONTACT_MS:play?.target||power?.target?CAST_CONTACT_MS:0);
     const sound=(kind,gain,after=0,extra={})=>cue(kind,{gain:gain*weight,pan,...extra},after);
-    if(attack)sound('reverse',.17,0,{rate:1.45});
+    const profile=attackProfile(attackCard);
+    if(attack)sound('reverse',.17,0,{rate:profile.family==='soul-cleave'?.76:profile.family==='crush'?.85:1.05});
     if(play){
       const card=cards[play.card];
       // Crew lands with weight; tricks and equipment get the lighter card-drop recording.
-      sound(card?.type==='crew'?'slap':'place',card?.type==='crew' ? .56:.38,0,{rate:card?.type==='crew' ? .94:1.1});
+      if(signature?.card===FURNACE.card){
+        sound('reverse',.16,FURNACE.ignite,{rate:.65});sound('burn',.53,FURNACE.contact,{rate:.90});
+      }else if(signature?.card===VESPER.card){
+        sound('reverse',.13,signature.ignite,{rate:1.6});sound('reverse',.25,signature.contact,{rate:1.35});
+        if(vesperSetup(batch))sound('free',.2,signature.contact+80,{rate:1.2});
+      }else if(signature?.card===NOX.card){
+        sound('reverse',.16,signature.ignite,{rate:.7});sound('dread',.3,signature.toll,{rate:.76});
+        const drain=noxDrain(batch);if(drain?.damage)sound('joker',.24,signature.contact,{rate:.8,pan:panFor(drain.damage.target)});
+      }else if(signature?.card===ORUN.card){
+        sound('joker',.18,signature.ignite,{rate:.8});sound('free',.24,signature.release,{rate:.84});
+      }else if(signature){sound('reverse',.2,signature.ignite,{rate:.72});sound('burn',.46,signature.contact,{rate:.82});}
+      else sound(card?.type==='crew'?'slap':'place',card?.type==='crew' ? .56:.38,card?.type==='crew'&&!reduced?summonContact(card.rarity):0,{rate:card?.type==='crew' ? .94:1.1});
       // Effect events supply their own spell sound; only otherwise-silent spells need a cast.
-      if(card?.type!=='crew'&&!batch.some(e=>['damage','heal','stun','return','buff','energy','pot','draw'].includes(e.type)))sound('joker',.28,50);
+      if(card?.type!=='crew'&&signature!==FURNACE&&!batch.some(e=>['damage','heal','stun','return','buff','energy','pot','draw'].includes(e.type)))sound('joker',.28,50);
     }
-    if(play&&cards[play.card]?.rarity==='legendary')sound(play.card==='mother-nox-bellkeeper'?'dread':'free',.35,80);
+    if(!signature&&play&&cards[play.card]?.rarity==='legendary')sound(play.card==='mother-nox-bellkeeper'?'dread':'free',.35,80);
     if(batch.some(e=>e.type==='ward-break'))sound('frost',.24,contact);
-    if(batch.some(e=>e.type==='last-orders'))sound('dread',.18,contact+80);
+    if(batch.some(e=>e.type==='last-orders'))sound('dread',.18,signature===FURNACE?FURNACE.contact+110:contact+80);
     if(power)sound(power.hero==='fox'?'spin':power.hero==='owl'?'joker':'dread',.34);
     const damage=batch.filter(e=>e.type==='damage');
     if(damage.length){
       const amount=Math.max(...damage.map(e=>e.amount)),heroHit=damage.some(e=>e.target.startsWith('hero:'));
       const target=attack?.target||damage[0].target;
-      sound(attack?'slap':play?.card==='bar-fight'?'burn':'joker',Math.min(.72,.4+amount*.035+(heroHit ? .06 : 0)),contact,{pan:panFor(target),rate:amount>=4 ? .82 : 1});
+      if(!signature)sound(attack?(profile.material==='fire'?'burn':profile.material==='shadow'||profile.material==='arcane'?'joker':'slap'):play?.card==='bar-fight'?'slap':['furnace-burst','mordren-ashen-host'].includes(play?.card)?'burn':'joker',Math.min(.72,.4+amount*.035+(heroHit ? .06 : 0)),contact,{pan:panFor(target),rate:amount>=4 ? .82 : 1});
     }
     if(batch.some(e=>e.type==='fatigue'))sound('dread',.34);
     if(batch.some(e=>e.type==='coin'))sound('coins',.23);
-    if(batch.some(e=>e.type==='death'))sound('dread',.23,contact+90,{rate:1.15});
-    if(batch.some(e=>e.type==='heal'))sound('relief',.38,contact);
-    if(batch.some(e=>e.type==='stun'))sound('frost',.42);
-    if(batch.some(e=>e.type==='return')){sound('reverse',.27);sound('return',.34,120);}
-    if(batch.some(e=>e.type==='buff')&&!batch.some(e=>e.type==='claim'))sound('free',.34);
+    if(batch.some(e=>e.type==='death'))sound(signature?.card===NOX.card?'return':'dread',.23,signature===FURNACE?FURNACE.contact+90:signature?.card===NOX.card?NOX.sacrifice:contact+DEATH_DELAY_MS,{rate:1.15});
+    for(const cue of new Set(batch.filter(e=>e.type==='heal').map(e=>presentationCue(batch,e,reduced)??contact))){const event=batch.find(e=>e.type==='heal'&&(presentationCue(batch,e,reduced)??contact)===cue);sound('relief',.38,cue,{pan:panFor(event.target)});}
+    if(batch.some(e=>e.type==='stun'))sound('frost',.42,contact);
+    if(batch.some(e=>e.type==='return')){sound('reverse',.27);sound('return',.34,contact+120);}
+    if(batch.some(e=>e.type==='retire'))sound('return',.26);
+    if(batch.some(e=>e.type==='buff')&&!batch.some(e=>e.type==='claim')&&!vesperSetup(batch))sound('free',.34,contact);
     if(batch.some(e=>e.type==='energy'))sound('free',.38);
-    const claim=batch.find(e=>e.type==='claim');
+    const claim=batch.find(e=>e.type==='claim'||e.type==='cashout');
     if(claim)sound('coins',.48,0,{shower:claim.coins>=6});
     else if(batch.some(e=>e.type==='pot'))sound('coins',.23,80);
     if(batch.some(e=>e.type==='burn')){

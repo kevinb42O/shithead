@@ -1,5 +1,6 @@
 import {decorateCard,tierName,crewCondition} from './expansion.js';
-import {styleCardName,styleCardText} from './card-typography.js';
+import {styleCardName,styleCardText} from './midnight-typography.js';
+import {cardArtwork} from './midnight-art.js';
 import {HEROES,crewSlots} from './engine.js';
 export const ART='assets/tavern-brawl/';
 export const $=id=>document.getElementById(id);
@@ -13,11 +14,10 @@ export function createView(rules,callbacks){
   function cardFace(card,{interactive=true,onClick,uid}={}){
     const node=document.createElement(interactive?'button':'div');node.className='card';if(interactive)node.type='button';
     node.dataset.card=card.id;if(uid)node.dataset.uid=uid;
-    node.append(image(card.art),label('cost',card.cost),styleCardName(label('card-name',card.shortName||card.name),card),styleCardText(label('card-text',card.text),card));
+    node.dataset.type=card.type;node.dataset.faction=card.faction;
+    node.append(image(cardArtwork(card)),label('card-light',''),label('cost',card.cost),styleCardName(label('card-name',card.shortName||card.name),card),styleCardText(label('card-text',card.text),card));
+    const frame=image(card.type==='crew'?'midnight/ui/card-frame.png':'midnight/ui/spell-frame.png');frame.className='midnight-card-frame';frame.setAttribute('aria-hidden','true');node.append(frame);
     if(card.type==='crew'){
-      // Reuse the painted central banner to clear the old shoulder emblems.
-      const banner=image(card.art);banner.className='card-banner';banner.setAttribute('aria-hidden','true');
-      node.insertBefore(banner,node.querySelector('.cost'));
       node.append(label('stat attack',card.attack),label('stat health',card.health));
     }
     decorateCard(node,card);
@@ -40,10 +40,18 @@ export function createView(rules,callbacks){
   function unitNode(unit,seat,local,canAct,turnNumber){
     let node=unitNodes.get(unit.uid);
     if(!node){node=button('','unit',()=>callbacks.unit(unit.uid));node.dataset.uid=unit.uid;node.dataset.target=unit.uid;
-      const art=document.createElement('span');art.className='unit-image';art.append(image(rules.cards[unit.card].art));
+      const art=document.createElement('span');art.className='unit-image';art.append(image(cardArtwork(rules.cards[unit.card])));
       // Cost stays outside the cropped portrait, like the live combat stats.
       const cost=label('unit-cost',rules.cards[unit.card].cost);cost.setAttribute('aria-hidden','true');
-      node.append(art,cost,label('unit-stat attack',''),label('unit-stat health',''),label('crew-state',''));unitNodes.set(unit.uid,node);callbacks.bindDrag?.(node,unit.uid,'attack');
+      // Keep the semantic/gesture body stable; combat animations move this outer
+      // node while its physical card retains its own perspective and thickness.
+      const body=label('unit-body',''),front=label('unit-front',''),shadow=label('unit-shadow','');
+      shadow.setAttribute('aria-hidden','true');
+      const guard=label('unit-guard',''),orders=label('unit-last-orders','');
+      guard.setAttribute('aria-hidden','true');orders.setAttribute('aria-hidden','true');
+      front.append(art,cost,label('unit-name',rules.cards[unit.card].shortName||rules.cards[unit.card].name),label('unit-stat attack',''),label('unit-stat health',''),label('crew-state',''),guard,orders);
+      for(const side of ['back','top','right','bottom','left']){const edge=label(`unit-edge unit-edge-${side}`,'');edge.setAttribute('aria-hidden','true');body.append(edge);}
+      body.append(front);node.append(shadow,body);unitNodes.set(unit.uid,node);callbacks.bindDrag?.(node,unit.uid,'attack');
       node.addEventListener('contextmenu',event=>{event.preventDefault();callbacks.inspect(unit.card,unit.uid);});
     }
     node.dataset.rarity=rules.cards[unit.card].rarity||'common';node.classList.toggle('has-ward',!!unit.ward);node.classList.toggle('has-last-orders',!!(rules.cards[unit.card].deathEffects?.length||unit.deathEffects?.length));
@@ -58,6 +66,7 @@ export function createView(rules,callbacks){
   function renderBattle(view,seat,{canAct=false,selected=null,replacing=new Set(),mode='',locked=false}={}){
     if(lastView&&(lastView.view.id!==view.id||lastView.seat!==seat))reset();
     const me=view.players[seat],enemy=view.players[1-seat];
+    $('battle').dataset.turn=String(view.turn===seat?'own':'enemy');
     $('battle-mode').textContent=mode;$('enemy-name').textContent=enemy.name;hero($('own-hero'),me,seat);hero($('enemy-hero'),enemy,1-seat);
     const backs=[];for(let i=0;i<enemy.handCount;i++){const back=$('opponent-hand').children[i]||image('ui/card-back.png');back.style.setProperty('--angle',`${(i-(enemy.handCount-1)/2)*6}deg`);back.style.setProperty('--lift',`${Math.abs(i-(enemy.handCount-1)/2)*3}px`);backs.push(back);}reconcile($('opponent-hand'),backs);$('opponent-hand').setAttribute('aria-label',`${enemy.handCount} hidden cards`);
     for(const [id,player,s]of [['player-crew',me,seat],['opponent-crew',enemy,1-seat]]){
@@ -76,10 +85,17 @@ export function createView(rules,callbacks){
     layoutHand();
     renderEnergy(me);
     $('hero-power').disabled=!canAct||!view.legal.some(a=>a.type==='power');$('power-name').textContent=HEROES[me.hero].power;$('power-cost').textContent=me.powerUsed?'Used this turn':'2 energy';$('power-description').textContent=HEROES[me.hero].text;
-    $('pot-count').textContent=view.pot;$('pot-art').src=ART+`ui/pot-${view.pot?'full':'empty'}.png`;$('claim-pot').disabled=!canAct||!view.legal.some(a=>a.type==='claim');$('claim-pot').setAttribute('aria-label',`Pot: ${view.pot} coins. Spend two energy for up to three attack this turn.`);
+    const powerArt=ART+`midnight/ui/power-${me.hero}-v2.png`;
+    if(!$('power-icon').src.endsWith(powerArt))$('power-icon').src=powerArt;
+    $('hero-power').dataset.hero=me.hero;
+    const potCost=rules.potCost(view,seat),trail=view.trailVersion===2&&seat===0;
+    $('pot-count').textContent=view.pot;$('pot-art').src=ART+`ui/pot-${view.pot?'full':'empty'}.png`;$('claim-pot').disabled=!canAct||!view.legal.some(a=>['claim','cashout'].includes(a.type));$('claim-pot').setAttribute('aria-label',`Pot: ${view.pot} coins. Spend ${potCost} energy for up to three attack this turn.${trail?' Or restore up to '+rules.potHeal(view)+' hero health.':''}`);
+    $('claim-pot').querySelector('small').textContent=`${trail?'Attack / heal':'Claim'} · ${potCost} energy`;
     $('end-turn').disabled=!canAct||view.phase!=='playing';$('end-turn').querySelector('.end-turn-label').textContent=view.phase==='finished'?'Brawl over':view.turn===seat?'End turn':'Their turn';$('turn-count').textContent=`Turn ${view.turnNumber}`;
     $('turn-label').textContent=view.phase==='playing'?(view.turn===seat?'Your turn':`${enemy.name}'s turn`):'';
-    $('deck-counts').textContent=`Your deck ${me.deckCount} · discard ${me.discard.length} / Rival deck ${enemy.deckCount} · discard ${enemy.discard.length}`;
+    const deckSummary=`Your deck ${me.deckCount} · discard ${me.discard.length} / Rival deck ${enemy.deckCount} · discard ${enemy.discard.length}`;
+    $('deck-counts').replaceChildren(label('deck-detail-full',deckSummary),label('deck-detail-compact',`Deck ${me.deckCount} · discard ${me.discard.length} / Rival ${enemy.deckCount} · ${enemy.discard.length}`));
+    $('deck-counts').setAttribute('aria-label',`Inspect decks and discard piles. ${deckSummary}`);
     const warning=$('resource-warning'),messages=[];
     if(view.phase==='playing'){
       if(me.deckCount===0){
@@ -116,9 +132,11 @@ export function createView(rules,callbacks){
       let pip=track.children[i];
       if(!pip){
         pip=document.createElement('span');pip.className='energy-pip';pip.setAttribute('aria-hidden','true');
-        pip.append(image('ui/energy-off.png'),image('ui/energy-on.png'));track.append(pip);
+        pip.append(image('midnight/ui/energy-spent-v2.png'),image('midnight/ui/energy-lit-v2.png'));track.append(pip);
       }
       const lit=i<player.energy,unlocked=i<Math.max(player.maxEnergy,player.energy);
+      const socket=ART+`midnight/ui/energy-${unlocked?'spent':'locked'}-v2.png`;
+      if(!pip.firstElementChild.src.endsWith(socket))pip.firstElementChild.src=socket;
       const wasLit=!!previous&&i<previous.energy;
       if(!previous||reduce)pip.getAnimations().forEach(animation=>animation.cancel());
       if(previous&&lit!==wasLit){
@@ -160,7 +178,7 @@ export function createView(rules,callbacks){
     if(selected.type==='card'&&selected.slot!==undefined&&actions.some(a=>a.target)){
       const card=rules.cards[lastView?.view.players[lastView.seat].hand.find(c=>c.uid===selected.uid)?.card];
       const slot=$('player-crew').querySelector(`.crew-slot[data-slot="${selected.slot}"]`);
-      if(card?.type==='crew'&&slot){slot.classList.add('is-pending-crew');const art=image(card.art);art.className='pending-crew-art';slot.append(art,label('pending-crew-label','Choose Battlecry target'));}
+      if(card?.type==='crew'&&slot){slot.classList.add('is-pending-crew');const art=image(cardArtwork(card));art.className='pending-crew-art';slot.append(art,label('pending-crew-label','Choose Battlecry target'));}
     }
   }
   function liveNodes(){return [...$('battle').querySelectorAll('[data-target],[data-uid]')].filter(n=>!n.closest('#mulligan')&&n.getClientRects().length);}

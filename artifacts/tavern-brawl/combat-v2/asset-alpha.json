@@ -1,0 +1,18 @@
+{
+  "combat-atlas-v2": {
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "transparentFraction": 0.476199467976888,
+    "partialAlphaFraction": 0.5238005320231119,
+    "bytes": 2241085
+  },
+  "combat-smoke-v2": {
+    "width": 1774,
+    "height": 887,
+    "mode": "RGBA",
+    "transparentFraction": 0.6376553982172658,
+    "partialAlphaFraction": 0.3623446017827342,
+    "bytes": 1197915
+  }
+}

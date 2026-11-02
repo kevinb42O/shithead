@@ -51,6 +51,86 @@
       "hearth-frost": {
         "role": "secondary",
         "displayName": "Low-turn frost"
+      },
+      "midnight-ink": {
+        "displayName": "Midnight ink",
+        "role": "neutral",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-panel": {
+        "displayName": "Midnight panel",
+        "role": "neutral",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-brass": {
+        "displayName": "Midnight brass",
+        "role": "primary",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-ivory": {
+        "displayName": "Midnight ivory",
+        "role": "neutral",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-muted": {
+        "displayName": "Midnight muted",
+        "role": "neutral",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-cyan": {
+        "displayName": "Midnight cyan",
+        "role": "secondary",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-keyword": {
+        "displayName": "Keyword",
+        "role": "secondary",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-power-text": {
+        "displayName": "Power text",
+        "role": "neutral",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-power-name": {
+        "displayName": "Power name",
+        "role": "neutral",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-power-shadow": {
+        "displayName": "Power shadow",
+        "role": "neutral",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-power-cost": {
+        "displayName": "Power cost",
+        "role": "neutral",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-power-disabled": {
+        "displayName": "Power disabled",
+        "role": "neutral",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-energy-text": {
+        "displayName": "Energy text",
+        "role": "neutral",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-control-shadow": {
+        "displayName": "Control shadow",
+        "role": "neutral",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-turn-text": {
+        "displayName": "Turn text",
+        "role": "neutral",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-turn-focus": {
+        "displayName": "Turn focus",
+        "role": "neutral",
+        "scope": "Tavern Brawl controls v2"
       }
     },
     "typographyMeta": {
@@ -69,6 +149,46 @@
       "board-condition": {
         "displayName": "Hearth condition",
         "purpose": "Board name or saved burn count."
+      },
+      "midnight-wordmark": {
+        "displayName": "Midnight wordmark",
+        "purpose": "Existing local DM Serif Display at 400; mixed-case Brawl identity.",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-card-name": {
+        "displayName": "Midnight live card name",
+        "purpose": "Existing local DM Serif Display at 400; length tiers multiplied by 1.15.",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-card-rules": {
+        "displayName": "Midnight live rules",
+        "purpose": "Measured 750 keyword/500 body weight balanced fitter in midnight-typography.js; rules recess 74.5–94%; lower crew lines avoid stat sockets.",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-dock-title": {
+        "displayName": "Midnight action title",
+        "purpose": "Brawl Cinzel title within the selected-action dock.",
+        "scope": "Tavern Brawl"
+      },
+      "midnight-power-name": {
+        "displayName": "midnight power name",
+        "purpose": "Station power name; 13–21px desktop fluid endpoints.",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-energy-count": {
+        "displayName": "midnight energy count",
+        "purpose": "Live station energy count; lining/tabular Cinzel numerals.",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-energy-count-phone": {
+        "displayName": "midnight energy count phone",
+        "purpose": "11–15px responsive energy count.",
+        "scope": "Tavern Brawl controls v2"
+      },
+      "midnight-end-turn-phone": {
+        "displayName": "midnight end turn phone",
+        "purpose": "14–18px responsive Serif round-medallion label.",
+        "scope": "Tavern Brawl controls v2"
       }
     },
     "shadows": [
@@ -106,6 +226,21 @@
         "name": "hearth-pot",
         "value": "0 6px 18px #21120855",
         "purpose": "Desktop pot panel."
+      },
+      {
+        "name": "midnight-unit",
+        "value": "drop-shadow(0 9px 9px #020710b3)",
+        "purpose": "Brawl crew portrait."
+      },
+      {
+        "name": "midnight-hand",
+        "value": "drop-shadow(0 10px 11px #02060fbd)",
+        "purpose": "Brawl resting hand card."
+      },
+      {
+        "name": "midnight-dock",
+        "value": "0 8px 20px #02071080",
+        "purpose": "Brawl selection dock."
       }
     ],
     "motion": [
@@ -143,6 +278,16 @@
         "name": "hearth-reaction",
         "value": "1600ms reaction state, 250ms ease-out illumination; 650–1350ms particles",
         "purpose": "Event-driven material feedback; particles/shake/ambient motion disabled for reduced motion."
+      },
+      {
+        "name": "midnight-hand-transform",
+        "value": "transform .32s cubic-bezier(.16,1,.3,1), filter .25s ease-out",
+        "purpose": "Brawl fan hover/focus/selection."
+      },
+      {
+        "name": "midnight-legend",
+        "value": "1750ms apparition; 1350ms ground; 1600ms title; 1800ms cleanup; reduced still title 750ms",
+        "purpose": "Public legendary crew plays only; moving native-alpha 2.5D cutouts."
       }
     ],
     "breakpoints": [
@@ -153,6 +298,18 @@
       {
         "name": "compact-height",
         "value": "(max-height:620px) and (min-width:701px)"
+      },
+      {
+        "name": "midnight-portrait",
+        "value": "(max-width:700px) and (orientation:portrait)"
+      },
+      {
+        "name": "midnight-short-portrait",
+        "value": "(max-width:700px) and (orientation:portrait) and (max-height:650px)"
+      },
+      {
+        "name": "midnight-short-landscape",
+        "value": "(orientation:landscape) and (max-height:540px)"
       }
     ],
     "cardInteraction": {
@@ -196,6 +353,74 @@
       "props": "Native forge and lantern buttons with focus and labels.",
       "review": "SHIP; .impeccable/review/ember-hearth/*.jpg",
       "authorityNote": "User-pinned Hearthstone-inspired living-board brief prevails over direction seed."
+    },
+    "midnightBrawl": {
+      "scope": "Tavern Brawl only; preserve Ember Hearth and other historical surfaces.",
+      "approval": "A+C resting Midnight Duel plus Legends After Midnight summon; generated production assets explicitly approved.",
+      "sources": [
+        "dist/brawl/midnight.css",
+        "dist/brawl/midnight-typography.js",
+        "dist/brawl/midnight-motion.js",
+        "dist/brawl/midnight-art.js",
+        "dist/brawl/view.js",
+        "dist/brawl/app.js",
+        "dist/brawl/card-typography.js",
+        "dist/brawl/midnight-cards.css",
+        "dist/brawl/midnight-controls.css"
+      ],
+      "assets": {
+        "manifest": "dist/assets/tavern-brawl/midnight/manifest.json",
+        "provenance": ".impeccable/review/midnight-assets.md",
+        "cardCount": 49,
+        "nativeCards": "48 at 256×384; Funeral Velvet at 512×768",
+        "legendCount": 4,
+        "transparency": "Native generated RGBA; translucent edges retained; no background removal or chroma key.",
+        "preload": "Mapped card art, four legend sprites, both board plates and three painted UI assets through preparation progress.",
+        "paintedUI": [
+          "midnight/ui/card-frame.png",
+          "midnight/ui/spell-frame.png",
+          "midnight/ui/end-turn.png"
+        ],
+        "paintedUIProvenance": "Native-alpha paintings with exact sources/*.prompt.txt prompts and embedded metadata.",
+        "controlsV2": {
+          "extractCount": 8,
+          "generatedSourceCount": 4,
+          "verification": ".impeccable/review/controls-v2/assets.md",
+          "script": "scripts/tavern-brawl/prepare-midnight-controls.py",
+          "currentEndTurn": "midnight/ui/end-turn-round-v4.png",
+          "currentEndTurnNote": "Generated separately; CSS source authoritative over earlier oval v2 extraction."
+        }
+      },
+      "narrative": {
+        "northStar": "Midnight Duel",
+        "overview": "A cool nocturnal tavern frames an open playing table with warm brass accents. Large original illustrations carry each card's identity, while separate painted brass frames and dark lower panels protect live names, rules and stats. The player hero sits beside the board, leaving the middle available for three crew places per side and brief public-event reactions.",
+        "keyCharacteristics": [
+          "Fullscreen painted environment with a separate portrait composition.",
+          "Frameless source illustration and separate painted frames under semantic HTML card information.",
+          "Restrained brass, warm ivory and cool readiness cues.",
+          "Brief 2.5D legendary cutouts anchored to actual public crew plays."
+        ]
+      },
+      "implementationBoundary": "Current legends are moving 2.5D cutouts, without articulation, rigging or video. An aiming-tether prototype was concurrently integrated into gestures and HTML; this documentation pass did not verify its visual quality. Advanced GPU targeting/ribbon quality targets and optional signature videos remain planned in BRAWL_CINEMATIC_PLAN.md.",
+      "lifecycle": "Skip hidden-document starts; cancel on blur, resize, visibility change, page exit and shared effect lifecycle; reset hover.",
+      "validation": "226 npm tests passed; 49 rules-window cards; six viewports 1440×900/1920×1080/1280×720/390×844/320×568/844×390; real power and End turn actions, three power icons, 3/8 energy passed. Independent scoped review returned ship; settled 700ms capture verified 3 lit / 5 spent / 2 locked sockets against 3 / 8. No material fixes remained in the requested component scope. Evidence controls-v2/final. Local component refinement, no renewed whole-composition gate pass claim.",
+      "runtime": "Fullscreen, local npm run dev at http://localhost:5173. No hosting.",
+      "typography": "400 local DM Serif Display names/wordmark/End turn; Brawl/Cinzel stats/cost/count; midnight-typography.js balances DM rules using measured 750 keyword and 500 body weights within the 74.5–94% recess.",
+      "paintedFrames": "104% overscan at -2%/-1%; art/reflection window 3%/3%, 94%×61.8%; no full rectangle underlay; selection/focus follow frame alpha. Live cost/stats use shared painted sockets.",
+      "utilityIcons": "Inline SVG Menu/History/Rules icons: actual CSS 23px desktop, 17px portrait and short landscape; primary functional/state labels have 11px minimum final overrides.",
+      "legendTitleClearance": "Title top bounded by actual hand top minus 74px; browser assertion prevents caption/hand collision.",
+      "playerStation": {
+        "desktop": "left 2.1%; top 43.5cqh; width 22cqw; aspect 2.416; own hero top 66%; hand left 52%, width 54%",
+        "portrait": "left 25%; top 62%; width 43%; short portrait left 24%, width 44%",
+        "shortLandscape": "station top 43cqh; hero top 68%; hand width 52%",
+        "nativeControls": "Upper native power button and lower energy display share one painted station; three hero medallions, ten lit/spent/locked gem places and live energy count; rules/controlled gestures unchanged."
+      },
+      "detectorIntent": {
+        "report": ".impeccable/review/controls-v2/detector.json",
+        "advisories": 16,
+        "warnings": 0,
+        "documentedChoices": "3px art-window radius; scoped keyword/power/energy/turn colors and shadows; intentional 13/15/18/21px control typography endpoints."
+      }
     }
   },
   "components": [
@@ -267,6 +492,37 @@
       "description": "Keyboard-accessible prop hit target with a visible label on focus or hover.",
       "html": "<button class=\"ds-hearth-prop\" aria-label=\"Stoke the forge\"><span>Stoke the forge</span></button>",
       "css": ".ds-hearth-prop{position:relative;width:80px;height:110px;border:1px solid #b08a4a;border-radius:45%;background:radial-gradient(ellipse,#ff9b345c,#37271e);cursor:pointer}.ds-hearth-prop span{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#29170fed;color:#fff1cc;padding:5px 9px;border-radius:4px;font:11px DM,Arial,sans-serif;white-space:nowrap;opacity:0;transition:opacity 150ms}.ds-hearth-prop:hover span,.ds-hearth-prop:focus-visible span{opacity:1}.ds-hearth-prop:focus-visible{outline:3px solid #fff1b6;outline-offset:3px}.ds-hearth-prop:active{filter:brightness(1.15)}@media(prefers-reduced-motion:reduce){.ds-hearth-prop span{transition:none}}"
+    },
+    {
+      "name": "Midnight utility action",
+      "kind": "button",
+      "refersTo": "midnight-utility",
+      "description": "Brawl top-right utility action with inline SVG icon and retained Serif label.",
+      "html": "<button class=\"ds-midnight-utility\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 6h16M4 12h16M4 18h16\"/></svg><span>Menu</span></button>",
+      "css": ".ds-midnight-utility{background:none;border:0;border-radius:0;color:var(--midnight-ivory,#f4e9d4);min-height:44px;min-width:52px;display:grid;place-items:center;align-content:center;gap:4px;padding:4px 12px;font:400 15px/1.2 Serif,Georgia,serif;text-shadow:0 2px 5px #030711;cursor:pointer}.ds-midnight-utility:hover{color:#fff7dc;background:#0b182a80}.ds-midnight-utility:focus-visible{outline:3px solid #fff0c9;outline-offset:4px}.ds-midnight-utility svg{width:23px;height:23px;fill:none;stroke:#d7bf91;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}"
+    },
+    {
+      "name": "Midnight crew place",
+      "kind": "button",
+      "refersTo": "midnight-crew-slot",
+      "description": "An empty physical crew place; the example is the empty state without card artwork.",
+      "html": "<button class=\"ds-midnight-slot\" aria-label=\"Empty crew place\"></button>",
+      "css": ".ds-midnight-slot{width:100px;aspect-ratio:.8;border:1px solid #ad93693d;border-radius:5px;background:#08132224;box-shadow:inset 0 1px 14px #02070e30;position:relative}.ds-midnight-slot::after{content:\"\";position:absolute;left:40%;top:43%;width:20%;height:14%;border:1px solid #b89a6633;transform:rotate(45deg)}.ds-midnight-slot:hover{background:#11232f55;border-color:#c3ab7b80}.ds-midnight-slot:focus-visible{outline:3px solid #fff0c9;outline-offset:4px}"
+    },
+    {
+      "name": "Midnight selection dock",
+      "kind": "custom",
+      "refersTo": "midnight-selection-dock",
+      "description": "Dark brass-edged selected-action information panel.",
+      "html": "<aside class=\"ds-midnight-dock\"><strong>Choose a target</strong><p>Select a highlighted character.</p></aside>",
+      "css": ".ds-midnight-dock{width:220px;padding:12px 14px;background:#0b1424f5;border:1px solid #b89a6670;border-radius:4px;color:var(--midnight-ivory,#f4e9d4);box-shadow:0 8px 20px #02071080}.ds-midnight-dock strong{font:700 14px/1.25 Brawl,Georgia,serif;color:#eed7b1}.ds-midnight-dock p{font:12px/1.5 DM,Arial,sans-serif;color:#e0d4bf;margin:8px 0}"
+    },
+    {
+      "name": "Midnight legend title",
+      "kind": "custom",
+      "description": "Live decorative title over the pointer-transparent legend theatre; no image or video simulated in this preview.",
+      "html": "<div class=\"ds-midnight-legend\" aria-hidden=\"true\">Orun, Eclipse Warden</div>",
+      "css": ".ds-midnight-legend{pointer-events:none;color:#fff0d3;text-align:center;padding:10px 24px;background:linear-gradient(90deg,transparent,#08101cf2 16%,#08101cf2 84%,transparent);font:700 24px/1.2 Brawl,Georgia,serif;text-shadow:0 3px 10px #030713;text-wrap:balance}"
     }
   ],
   "narrative": {

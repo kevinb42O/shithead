@@ -1,0 +1,11 @@
+{
+  "unitTests": {"passed":31,"failed":0,"includesSeededCompleteMatches":180},
+  "browser": "Chrome, local http://localhost:5173/tavern-brawl.html",
+  "desktop": {"searchingRibbon":true,"legalGoldLock":true,"escapeClears":true,"invalidDropPreservesRevision":16},
+  "phone": {"viewport":"390x844","emulatedTouch":true,"targetLock":true,"touchCancelPreservesRevision":16,"legalReleaseRevision":17,"reducedMotionStationarySvg":true},
+  "gpuContextLoss": {"svgActive":true,"gpuActive":false,"verifiedVisually":true},
+  "savedDuelRestored":true,
+  "browserConsoleErrorsOnFinalLoad":[],
+  "limitations":["No physical phone or cross-browser performance certification","A frame timing probe timed out; no frame-rate claim is made"],
+  "artifacts":["desktop-search.png","desktop-lock.png","phone-touch-lock.png","phone-reduced-motion.png","desktop-gpu-fallback.png"]
+}

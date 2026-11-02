@@ -3,7 +3,7 @@ import {HEROES} from './engine.js';
 const TABLES='tavern-brawl/v3/tables',DISCOVER='tavern-brawl/v3/discover';
 const clean=value=>String(value||'Guest').replace(/[\u0000-\u001f\u007f]/g,'').trim().slice(0,24)||'Guest';
 const validRoom=value=>typeof value==='string'&&/^[a-zA-Z0-9-]{1,64}$/.test(value);
-export const TURN_MS=75000,MULLIGAN_MS=45000,DISCONNECT_MS=15000;
+export const TURN_MS=30000,MULLIGAN_MS=45000,DISCONNECT_MS=15000;
 const randomSeed=()=>crypto.getRandomValues(new Uint32Array(1))[0];
 export class BrawlDirectory {
   constructor(onChange,onError){this.onChange=onChange;this.onError=onError;this.tables=new Map();this.broker=new MqttWsSignalingClient();this.closed=false;}
@@ -110,7 +110,8 @@ export class BrawlRoom {
     }else return reject('That action is not available at this table.');
     this.broadcast();this.announce();
   }
-  remainingSeconds(){return this.deadline===null?0:Math.max(0,Math.ceil((this.deadline-this.now()-(this.host?0:this.clockOffset))/1000));}
+  remainingMilliseconds(){return this.deadline===null?0:Math.max(0,this.deadline-this.now()-(this.host?0:this.clockOffset));}
+  remainingSeconds(){return Math.ceil(this.remainingMilliseconds()/1000);}
   syncClock(){
     if(!this.host)return;
     const g=this.game,key=g&&g.phase!=='finished'?`${g.id}:${g.phase}:${g.turnNumber}`:null;

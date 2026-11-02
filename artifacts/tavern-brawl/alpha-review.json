@@ -1,0 +1,50 @@
+[
+  {
+    "edgeMaxAlpha" : 34,
+    "file" : "fx-arcane.png",
+    "fullyTransparentFraction" : 0.11021372993203979,
+    "solidEdgePixels" : 0
+  },
+  {
+    "edgeMaxAlpha" : 7,
+    "file" : "fx-heal.png",
+    "fullyTransparentFraction" : 0.11152698022058154,
+    "solidEdgePixels" : 0
+  },
+  {
+    "edgeMaxAlpha" : 8,
+    "file" : "fx-impact.png",
+    "fullyTransparentFraction" : 0.067702498660562077,
+    "solidEdgePixels" : 0
+  },
+  {
+    "edgeMaxAlpha" : 7,
+    "file" : "fx-sand.png",
+    "fullyTransparentFraction" : 0.075989906832298143,
+    "solidEdgePixels" : 0
+  },
+  {
+    "edgeMaxAlpha" : 48,
+    "file" : "fx-smoke.png",
+    "fullyTransparentFraction" : 0.018184037100317307,
+    "solidEdgePixels" : 0
+  },
+  {
+    "edgeMaxAlpha" : 7,
+    "file" : "fx-sparks.png",
+    "fullyTransparentFraction" : 0.024124758482013363,
+    "solidEdgePixels" : 0
+  },
+  {
+    "edgeMaxAlpha" : 2,
+    "file" : "result-crest.png",
+    "fullyTransparentFraction" : 0.29504985754985757,
+    "solidEdgePixels" : 0
+  },
+  {
+    "edgeMaxAlpha" : 1,
+    "file" : "reward-chest.png",
+    "fullyTransparentFraction" : 0.27064292467696188,
+    "solidEdgePixels" : 0
+  }
+]

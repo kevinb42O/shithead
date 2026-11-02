@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "publicBroker": true,
+  "twoRealBrowserTabs": true,
+  "heroChoice": true,
+  "readiness": true,
+  "mulligans": true,
+  "disjointPrivateHands": [
+    5,
+    4
+  ],
+  "concession": true,
+  "rematch": true,
+  "leavingForfeits": true,
+  "errors": []
+}

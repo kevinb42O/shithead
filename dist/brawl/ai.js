@@ -41,6 +41,15 @@ export function chooseAction(rules,game,seat=game.turn,{difficulty='standard',rn
       }
     }
     if(action.type==='claim')score+=rules.find(game,action.target)?.entity.ready?.5:-3;
+    if(action.type==='retire'){
+      // Only consider making room when a crew from the known hand can replace it now.
+      if(p.board.length<3)continue;
+      const follow=rules.legalActions(result.state,seat).filter(a=>a.type==='play'&&p.hand.some(c=>c.uid===a.uid&&rules.definition(c).type==='crew'));
+      let replacement=-Infinity;
+      for(const next of follow){const r=rules.apply(result.state,seat,next);if(r.ok)replacement=Math.max(replacement,(evaluate(r.state)-before)*.9);}
+      if(!Number.isFinite(replacement))continue;
+      score=replacement;
+    }
     // Prefer lethal, then efficient trades; don't cash temporary buffs on exhausted crew.
     if(action.type==='play'&&action.target){
       const d=rules.definition(p.hand.find(c=>c.uid===action.uid));

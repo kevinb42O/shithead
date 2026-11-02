@@ -1,0 +1,619 @@
+{
+  "fixture": "Synthetic renderer fixture plus real native game controls",
+  "cardFits": [
+    {
+      "id": "tavern-rat",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "mouse-guard",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8143408490757668
+    },
+    {
+      "id": "barroom-bruiser",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.909963436928702
+    },
+    {
+      "id": "badger-sentinel",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8143408490757668
+    },
+    {
+      "id": "fox-cutpurse",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.900975015234613
+    },
+    {
+      "id": "raven-cutpurse",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "owl-apprentice",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "hedgehog-watchman",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8143408490757668
+    },
+    {
+      "id": "stoat-gambler",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "hare-runner",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "toad-brewer",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "raccoon-scavenger",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9032602071907374
+    },
+    {
+      "id": "pocket-sand",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9191042047531993
+    },
+    {
+      "id": "last-call",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "loaded-dice",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "bar-fight",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "pilfer",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "second-wind",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "smoke-bomb",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "raven-bargain",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "rusty-dagger",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "oak-shield",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "lucky-coin",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "hearth-lantern",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9212370505789153
+    },
+    {
+      "id": "cinder-rat",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "wickrunner-bat",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8143408490757668
+    },
+    {
+      "id": "ironjaw-bouncer",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8143408490757668
+    },
+    {
+      "id": "lantern-moth",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "bell-tower-marksman",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9055453991468617
+    },
+    {
+      "id": "black-iron-buckler",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "shatter-the-seal",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8965569774527727
+    },
+    {
+      "id": "furnace-burst",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "the-bell-tolls",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "mordren-ashen-host",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9320536258379037
+    },
+    {
+      "id": "sootpaw-lookout",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "cut-the-purse",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8965569774527727
+    },
+    {
+      "id": "gutterglass-duelist",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "house-edge",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9145338208409507
+    },
+    {
+      "id": "vesper-blackpaw-king",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "ashveil-acolyte",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8143408490757668
+    },
+    {
+      "id": "moonlit-stitch",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "nightglass-diviner",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9320536258379037
+    },
+    {
+      "id": "sealed-constellation",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9258074344911639
+    },
+    {
+      "id": "orun-eclipse-warden",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8965569774527727
+    },
+    {
+      "id": "gravewax-collector",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8655291488929514
+    },
+    {
+      "id": "debt-eater",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9320536258379037
+    },
+    {
+      "id": "collect-the-debt",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.8942717854966484
+    },
+    {
+      "id": "funeral-velvet",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9320536258379037
+    },
+    {
+      "id": "mother-nox-bellkeeper",
+      "artWindow": true,
+      "rulesFit": true,
+      "bottom": 0.9333739589681089
+    }
+  ],
+  "viewports": [
+    {
+      "w": 1440,
+      "h": 900,
+      "name": "desktop",
+      "fit": true,
+      "insideStation": true,
+      "stationClear": true,
+      "endClear": true,
+      "selectedOutline": true,
+      "art": true,
+      "positions": {
+        "station": {
+          "x": 30.234375,
+          "y": 391.5,
+          "width": 316.796875,
+          "height": 131.109375,
+          "top": 391.5,
+          "right": 347.03125,
+          "bottom": 522.609375,
+          "left": 30.234375
+        },
+        "end": {
+          "x": 1209.78125,
+          "y": 380.375,
+          "width": 135,
+          "height": 135,
+          "top": 380.375,
+          "right": 1344.78125,
+          "bottom": 515.375,
+          "left": 1209.78125
+        },
+        "hand": {
+          "x": 360,
+          "y": 605.703125,
+          "width": 777.59375,
+          "height": 261,
+          "top": 605.703125,
+          "right": 1137.59375,
+          "bottom": 866.703125,
+          "left": 360
+        }
+      }
+    },
+    {
+      "w": 1920,
+      "h": 1080,
+      "name": "wide-desktop",
+      "fit": true,
+      "insideStation": true,
+      "stationClear": true,
+      "endClear": true,
+      "selectedOutline": true,
+      "art": true,
+      "positions": {
+        "station": {
+          "x": 40.3125,
+          "y": 469.796875,
+          "width": 422.390625,
+          "height": 174.828125,
+          "top": 469.796875,
+          "right": 462.703125,
+          "bottom": 644.625,
+          "left": 40.3125
+        },
+        "end": {
+          "x": 1622.046875,
+          "y": 463.96875,
+          "width": 162,
+          "height": 162,
+          "top": 463.96875,
+          "right": 1784.046875,
+          "bottom": 625.96875,
+          "left": 1622.046875
+        },
+        "hand": {
+          "x": 479.9921875,
+          "y": 726.859375,
+          "width": 1036.796875,
+          "height": 313.1875,
+          "top": 726.859375,
+          "right": 1516.7890625,
+          "bottom": 1040.046875,
+          "left": 479.9921875
+        }
+      }
+    },
+    {
+      "w": 1280,
+      "h": 720,
+      "name": "compact-desktop",
+      "fit": true,
+      "insideStation": true,
+      "stationClear": true,
+      "endClear": true,
+      "selectedOutline": true,
+      "art": true,
+      "positions": {
+        "station": {
+          "x": 26.875,
+          "y": 313.1875,
+          "width": 281.59375,
+          "height": 116.546875,
+          "top": 313.1875,
+          "right": 308.46875,
+          "bottom": 429.734375,
+          "left": 26.875
+        },
+        "end": {
+          "x": 1081.375,
+          "y": 309.3125,
+          "width": 108,
+          "height": 108,
+          "top": 309.3125,
+          "right": 1189.375,
+          "bottom": 417.3125,
+          "left": 1081.375
+        },
+        "hand": {
+          "x": 320,
+          "y": 484.578125,
+          "width": 691.1875,
+          "height": 208.796875,
+          "top": 484.578125,
+          "right": 1011.1875,
+          "bottom": 693.375,
+          "left": 320
+        }
+      }
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "name": "phone",
+      "fit": true,
+      "insideStation": true,
+      "stationClear": true,
+      "endClear": true,
+      "selectedOutline": true,
+      "art": true,
+      "positions": {
+        "station": {
+          "x": 97.5,
+          "y": 523.265625,
+          "width": 167.6875,
+          "height": 69.40625,
+          "top": 523.265625,
+          "right": 265.1875,
+          "bottom": 592.671875,
+          "left": 97.5
+        },
+        "end": {
+          "x": 298.375,
+          "y": 518.015625,
+          "width": 70.1875,
+          "height": 70.1875,
+          "top": 518.015625,
+          "right": 368.5625,
+          "bottom": 588.203125,
+          "left": 298.375
+        },
+        "hand": {
+          "x": 3.90625,
+          "y": 635.546875,
+          "width": 382.1875,
+          "height": 181.453125,
+          "top": 635.546875,
+          "right": 386.09375,
+          "bottom": 817,
+          "left": 3.90625
+        }
+      }
+    },
+    {
+      "w": 320,
+      "h": 568,
+      "name": "small-phone",
+      "fit": true,
+      "insideStation": true,
+      "stationClear": true,
+      "endClear": true,
+      "selectedOutline": true,
+      "art": true,
+      "positions": {
+        "station": {
+          "x": 76.796875,
+          "y": 352.15625,
+          "width": 140.796875,
+          "height": 58.265625,
+          "top": 352.15625,
+          "right": 217.59375,
+          "bottom": 410.421875,
+          "left": 76.796875
+        },
+        "end": {
+          "x": 244.8125,
+          "y": 348.40625,
+          "width": 57.59375,
+          "height": 57.59375,
+          "top": 348.40625,
+          "right": 302.40625,
+          "bottom": 406,
+          "left": 244.8125
+        },
+        "hand": {
+          "x": 3.203125,
+          "y": 430,
+          "width": 313.59375,
+          "height": 119.265625,
+          "top": 430,
+          "right": 316.796875,
+          "bottom": 549.265625,
+          "left": 3.203125
+        }
+      }
+    },
+    {
+      "w": 844,
+      "h": 390,
+      "name": "landscape",
+      "fit": true,
+      "insideStation": true,
+      "stationClear": true,
+      "endClear": true,
+      "selectedOutline": true,
+      "art": true,
+      "positions": {
+        "station": {
+          "x": 15.1875,
+          "y": 167.6875,
+          "width": 185.671875,
+          "height": 76.84375,
+          "top": 167.6875,
+          "right": 200.859375,
+          "bottom": 244.53125,
+          "left": 15.1875
+        },
+        "end": {
+          "x": 709.640625,
+          "y": 161.734375,
+          "width": 78,
+          "height": 78,
+          "top": 161.734375,
+          "right": 787.640625,
+          "bottom": 239.734375,
+          "left": 709.640625
+        },
+        "hand": {
+          "x": 219.4375,
+          "y": 265.203125,
+          "width": 438.875,
+          "height": 105.296875,
+          "top": 265.203125,
+          "right": 658.3125,
+          "bottom": 370.5,
+          "left": 219.4375
+        }
+      }
+    }
+  ],
+  "heroIcons": [
+    "fox",
+    "owl",
+    "raven"
+  ],
+  "energy": true,
+  "realPowerAndEndTurn": true,
+  "errors": [],
+  "settledEnergyOpacity": [
+    {
+      "i": 0,
+      "lit": true,
+      "opacity": 1
+    },
+    {
+      "i": 1,
+      "lit": true,
+      "opacity": 1
+    },
+    {
+      "i": 2,
+      "lit": true,
+      "opacity": 1
+    },
+    {
+      "i": 3,
+      "lit": false,
+      "opacity": 0
+    },
+    {
+      "i": 4,
+      "lit": false,
+      "opacity": 0
+    },
+    {
+      "i": 5,
+      "lit": false,
+      "opacity": 0
+    },
+    {
+      "i": 6,
+      "lit": false,
+      "opacity": 0
+    },
+    {
+      "i": 7,
+      "lit": false,
+      "opacity": 0
+    },
+    {
+      "i": 8,
+      "lit": false,
+      "opacity": 0
+    },
+    {
+      "i": 9,
+      "lit": false,
+      "opacity": 0
+    }
+  ]
+}

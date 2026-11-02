@@ -130,7 +130,8 @@ function leave() {
   clearInterval(interval);
   root.hidden = true;
   document.querySelector("#main-menu").inert = false;
-  document.querySelector(".menu-multiplayer").focus();
+  const returnTo = document.querySelector(".menu-multiplayer");
+  (returnTo.offsetParent ? returnTo : document.querySelector("#menu-play")).focus();
   document.dispatchEvent(new CustomEvent("online-mode", { detail: false }));
 }
 function show() {

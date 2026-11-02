@@ -1,0 +1,110 @@
+[
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/kevin/PROJECTS/ShitHead/dist/brawl/midnight-controls.css",
+    "line": 93,
+    "snippet": "Undocumented color #c74610 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#c74610"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/kevin/PROJECTS/ShitHead/dist/brawl/midnight-controls.css",
+    "line": 95,
+    "snippet": "Undocumented color #ffad4133 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#ffad4133"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/kevin/PROJECTS/ShitHead/dist/brawl/midnight-controls.css",
+    "line": 95,
+    "snippet": "Undocumented color #ffe3a6aa is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#ffe3a6aa"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/kevin/PROJECTS/ShitHead/dist/brawl/midnight-controls.css",
+    "line": 95,
+    "snippet": "Undocumented color #f8ae5180 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#f8ae5180"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/kevin/PROJECTS/ShitHead/dist/brawl/midnight-controls.css",
+    "line": 96,
+    "snippet": "Undocumented color #10080480 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#10080480"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/kevin/PROJECTS/ShitHead/dist/brawl/midnight-controls.css",
+    "line": 97,
+    "snippet": "Undocumented color #fff3dc is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#fff3dc"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/kevin/PROJECTS/ShitHead/dist/brawl/midnight-controls.css",
+    "line": 97,
+    "snippet": "Undocumented color #140703 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#140703"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/kevin/PROJECTS/ShitHead/dist/brawl/midnight-controls.css",
+    "line": 112,
+    "snippet": "Undocumented color #e9ac69 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#e9ac69"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/kevin/PROJECTS/ShitHead/dist/brawl/midnight-controls.css",
+    "line": 115,
+    "snippet": "Undocumented color #e9ac69 is outside DESIGN.md colors",
+    "advisory": true,
+    "ignoreValue": "#e9ac69"
+  }
+]

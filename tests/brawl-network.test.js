@@ -65,7 +65,7 @@ test('late reconnection cannot beat a throttled disconnect timer; guest clocks c
     room.game=rules.create({seed:55,mulligan:false});room.broadcast();room.disconnected('guest');time+=DISCONNECT_MS;
     room.reconnected('guest');assert.equal(room.game.phase,'finished');assert.equal(room.game.winner,0);
     const guest=new BrawlRoom({rules,broker,now:()=>500000});
-    guest.receive({type:'snapshot',revision:1,members:[],game:null,deadline:76000,serverNow:1000});assert.equal(guest.remainingSeconds(),75);guest.close();
+    guest.receive({type:'snapshot',revision:1,members:[],game:null,deadline:31000,serverNow:1000});assert.equal(guest.remainingSeconds(),30);assert.equal(guest.remainingMilliseconds(),30000);guest.now=()=>500125;assert.equal(guest.remainingMilliseconds(),29875);assert.equal(guest.remainingSeconds(),30);guest.now=()=>530001;assert.equal(guest.remainingMilliseconds(),0);assert.equal(guest.remainingSeconds(),0);guest.close();
   }finally{room.close();}
 });
 

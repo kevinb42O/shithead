@@ -1,0 +1,822 @@
+{
+  "tool": "comp-diff",
+  "version": 1,
+  "createdAt": "2026-11-02T19:42:31.677Z",
+  "label": "desktop",
+  "comp": ".impeccable/mocks/01-midnight-duel.png",
+  "build": ".impeccable/review/midnight/desktop.png",
+  "spec": ".impeccable/build/spec.json",
+  "compSize": "1586x992",
+  "buildSize": "1440x900",
+  "align": "top",
+  "overall": 0.5849,
+  "verdict": "contradicted",
+  "scores": {
+    "overall": 0.5849,
+    "structure": 0.3979,
+    "color": 0.8311,
+    "colorIntersection": 0.7841,
+    "paletteMatch": 0.8565,
+    "detail": 0.7115,
+    "detailRaw": 0.7323,
+    "detailAdded": 0.0417,
+    "bands": 0.4
+  },
+  "palette": {
+    "comp": [
+      {
+        "hex": "#101114",
+        "coverage": 0.5524
+      },
+      {
+        "hex": "#311f13",
+        "coverage": 0.2541
+      },
+      {
+        "hex": "#562f18",
+        "coverage": 0.0579
+      },
+      {
+        "hex": "#1a2c35",
+        "coverage": 0.0539
+      },
+      {
+        "hex": "#6f533a",
+        "coverage": 0.0477
+      },
+      {
+        "hex": "#47423f",
+        "coverage": 0.034
+      }
+    ],
+    "build": [
+      {
+        "hex": "#111111",
+        "coverage": 0.3449
+      },
+      {
+        "hex": "#0d1729",
+        "coverage": 0.285
+      },
+      {
+        "hex": "#331d13",
+        "coverage": 0.2038
+      },
+      {
+        "hex": "#5d422b",
+        "coverage": 0.0684
+      },
+      {
+        "hex": "#58280f",
+        "coverage": 0.0593
+      },
+      {
+        "hex": "#3e3d40",
+        "coverage": 0.0386
+      }
+    ]
+  },
+  "regions": [
+    {
+      "id": "midnight-room",
+      "x": 0,
+      "y": 0,
+      "w": 1,
+      "h": 1,
+      "kind": "plate",
+      "score": {
+        "overall": 0.6414,
+        "structure": 0.3979,
+        "color": 0.8311,
+        "colorIntersection": 0.7841,
+        "paletteMatch": 0.8565,
+        "detail": 0.7115,
+        "detailRaw": 0.7323,
+        "detailAdded": 0.0417,
+        "bands": 0.4
+      },
+      "verdict": "contradicted",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 1586,
+          "h": 992
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 1586,
+          "h": 992
+        }
+      }
+    },
+    {
+      "id": "wordmark",
+      "x": 0.02,
+      "y": 0.018,
+      "w": 0.16,
+      "h": 0.06,
+      "kind": "text",
+      "score": {
+        "overall": 0.437,
+        "structure": 0.3083,
+        "color": 0.8054,
+        "colorIntersection": 0.6966,
+        "paletteMatch": 0.8639,
+        "detail": 0.5432,
+        "detailRaw": 0.5953,
+        "detailAdded": 0.1042,
+        "bands": 0
+      },
+      "verdict": "drift",
+      "inkBox": {
+        "comp": {
+          "x": 2,
+          "y": 0,
+          "w": 251,
+          "h": 57
+        },
+        "build": {
+          "x": 3,
+          "y": 0,
+          "w": 250,
+          "h": 59
+        }
+      }
+    },
+    {
+      "id": "enemy-hero",
+      "x": 0.365,
+      "y": 0,
+      "w": 0.26,
+      "h": 0.18,
+      "kind": "image",
+      "score": {
+        "overall": 0.5242,
+        "structure": 0.2734,
+        "color": 0.7068,
+        "colorIntersection": 0.5978,
+        "paletteMatch": 0.7654,
+        "detail": 0.5889,
+        "detailRaw": 0.6566,
+        "detailAdded": 0.1354,
+        "bands": 0.4
+      },
+      "verdict": "contradicted",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 400,
+          "h": 179
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 385,
+          "h": 179
+        }
+      }
+    },
+    {
+      "id": "own-hero",
+      "x": 0,
+      "y": 0.385,
+      "w": 0.235,
+      "h": 0.23,
+      "kind": "image",
+      "score": {
+        "overall": 0.4774,
+        "structure": 0.1978,
+        "color": 0.7501,
+        "colorIntersection": 0.6874,
+        "paletteMatch": 0.7839,
+        "detail": 0.5159,
+        "detailRaw": 0.5576,
+        "detailAdded": 0.0833,
+        "bands": 0.4
+      },
+      "verdict": "contradicted",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 373,
+          "h": 228
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 325,
+          "h": 228
+        }
+      }
+    },
+    {
+      "id": "crew-art-0",
+      "x": 0.29,
+      "y": 0.19,
+      "w": 0.125,
+      "h": 0.175,
+      "kind": "image",
+      "score": {
+        "overall": 0.3844,
+        "structure": 0.1861,
+        "color": 0.5498,
+        "colorIntersection": 0.5291,
+        "paletteMatch": 0.561,
+        "detail": 0.3998,
+        "detailRaw": 0.4102,
+        "detailAdded": 0.0208,
+        "bands": 0.56
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 197,
+          "h": 173
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 198,
+          "h": 174
+        }
+      }
+    },
+    {
+      "id": "crew-art-1",
+      "x": 0.415,
+      "y": 0.19,
+      "w": 0.13,
+      "h": 0.175,
+      "kind": "image",
+      "score": {
+        "overall": 0.4343,
+        "structure": 0.226,
+        "color": 0.677,
+        "colorIntersection": 0.6336,
+        "paletteMatch": 0.7004,
+        "detail": 0.4647,
+        "detailRaw": 0.5168,
+        "detailAdded": 0.1042,
+        "bands": 0.2
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 206,
+          "h": 174
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 206,
+          "h": 174
+        }
+      }
+    },
+    {
+      "id": "crew-art-2",
+      "x": 0.29,
+      "y": 0.385,
+      "w": 0.125,
+      "h": 0.22,
+      "kind": "image",
+      "score": {
+        "overall": 0.3644,
+        "structure": 0.2202,
+        "color": 0.5712,
+        "colorIntersection": 0.4177,
+        "paletteMatch": 0.6539,
+        "detail": 0.3635,
+        "detailRaw": 0.3844,
+        "detailAdded": 0.0417,
+        "bands": 0.2667
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 198,
+          "h": 218
+        },
+        "build": {
+          "x": 1,
+          "y": 0,
+          "w": 197,
+          "h": 218
+        }
+      }
+    },
+    {
+      "id": "crew-art-3",
+      "x": 0.415,
+      "y": 0.385,
+      "w": 0.13,
+      "h": 0.22,
+      "kind": "image",
+      "score": {
+        "overall": 0.3646,
+        "structure": 0.2059,
+        "color": 0.4263,
+        "colorIntersection": 0.359,
+        "paletteMatch": 0.4626,
+        "detail": 0.4078,
+        "detailRaw": 0.4286,
+        "detailAdded": 0.0417,
+        "bands": 0.48
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 1,
+          "w": 206,
+          "h": 217
+        },
+        "build": {
+          "x": 24,
+          "y": 0,
+          "w": 182,
+          "h": 218
+        }
+      }
+    },
+    {
+      "id": "hand-art-0",
+      "x": 0.19,
+      "y": 0.7,
+      "w": 0.14,
+      "h": 0.27,
+      "kind": "image",
+      "score": {
+        "overall": 0.4568,
+        "structure": 0.2423,
+        "color": 0.7329,
+        "colorIntersection": 0.6669,
+        "paletteMatch": 0.7684,
+        "detail": 0.4394,
+        "detailRaw": 0.5175,
+        "detailAdded": 0.1563,
+        "bands": 0.6
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 222,
+          "h": 268
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 222,
+          "h": 268
+        }
+      }
+    },
+    {
+      "id": "hand-art-1",
+      "x": 0.29,
+      "y": 0.65,
+      "w": 0.14,
+      "h": 0.29,
+      "kind": "image",
+      "score": {
+        "overall": 0.4322,
+        "structure": 0.1583,
+        "color": 0.6885,
+        "colorIntersection": 0.5416,
+        "paletteMatch": 0.7677,
+        "detail": 0.467,
+        "detailRaw": 0.5451,
+        "detailAdded": 0.1563,
+        "bands": 0.4286
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 1,
+          "w": 222,
+          "h": 286
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 222,
+          "h": 287
+        }
+      }
+    },
+    {
+      "id": "hand-art-2",
+      "x": 0.4,
+      "y": 0.64,
+      "w": 0.14,
+      "h": 0.29,
+      "kind": "image",
+      "score": {
+        "overall": 0.4725,
+        "structure": 0.1931,
+        "color": 0.6674,
+        "colorIntersection": 0.5853,
+        "paletteMatch": 0.7116,
+        "detail": 0.5147,
+        "detailRaw": 0.5824,
+        "detailAdded": 0.1354,
+        "bands": 0.6682
+      },
+      "verdict": "contradicted",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 222,
+          "h": 288
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 222,
+          "h": 288
+        }
+      }
+    },
+    {
+      "id": "hand-art-3",
+      "x": 0.51,
+      "y": 0.64,
+      "w": 0.14,
+      "h": 0.29,
+      "kind": "image",
+      "score": {
+        "overall": 0.4371,
+        "structure": 0.1772,
+        "color": 0.7334,
+        "colorIntersection": 0.6266,
+        "paletteMatch": 0.7909,
+        "detail": 0.4343,
+        "detailRaw": 0.5541,
+        "detailAdded": 0.2396,
+        "bands": 0.58
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 222,
+          "h": 288
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 222,
+          "h": 288
+        }
+      }
+    },
+    {
+      "id": "hand-art-4",
+      "x": 0.63,
+      "y": 0.62,
+      "w": 0.17,
+      "h": 0.34,
+      "kind": "image",
+      "score": {
+        "overall": 0.3974,
+        "structure": 0.2079,
+        "color": 0.7463,
+        "colorIntersection": 0.6065,
+        "paletteMatch": 0.8216,
+        "detail": 0.3623,
+        "detailRaw": 0.4665,
+        "detailAdded": 0.2083,
+        "bands": 0.3
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 270,
+          "h": 337
+        },
+        "build": {
+          "x": 0,
+          "y": 24,
+          "w": 270,
+          "h": 313
+        }
+      }
+    },
+    {
+      "id": "pot-vessel",
+      "x": 0.76,
+      "y": 0.21,
+      "w": 0.19,
+      "h": 0.16,
+      "kind": "image",
+      "score": {
+        "overall": 0.4034,
+        "structure": 0.2143,
+        "color": 0.5987,
+        "colorIntersection": 0.4238,
+        "paletteMatch": 0.6929,
+        "detail": 0.4202,
+        "detailRaw": 0.4619,
+        "detailAdded": 0.0833,
+        "bands": 0.4
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 302,
+          "h": 159
+        },
+        "build": {
+          "x": 3,
+          "y": 0,
+          "w": 299,
+          "h": 159
+        }
+      }
+    },
+    {
+      "id": "end-turn-material",
+      "x": 0.79,
+      "y": 0.43,
+      "w": 0.2,
+      "h": 0.15,
+      "kind": "image",
+      "score": {
+        "overall": 0.3893,
+        "structure": 0.3327,
+        "color": 0.6214,
+        "colorIntersection": 0.468,
+        "paletteMatch": 0.704,
+        "detail": 0.3038,
+        "detailRaw": 0.4132,
+        "detailAdded": 0.2188,
+        "bands": 0.6
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 317,
+          "h": 148
+        },
+        "build": {
+          "x": 13,
+          "y": 0,
+          "w": 304,
+          "h": 148
+        }
+      }
+    },
+    {
+      "id": "end-turn-label",
+      "x": 0.82,
+      "y": 0.49,
+      "w": 0.15,
+      "h": 0.055,
+      "kind": "control",
+      "score": {
+        "overall": 0.452,
+        "structure": 0.4732,
+        "color": 0.6071,
+        "colorIntersection": 0.2806,
+        "paletteMatch": 0.7828,
+        "detail": 0.1329,
+        "detailRaw": 0.3464,
+        "detailAdded": 0.4271,
+        "bands": 0.28
+      },
+      "verdict": "contradicted",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 224,
+          "h": 49
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 237,
+          "h": 55
+        }
+      }
+    },
+    {
+      "id": "hero-power",
+      "x": 0.065,
+      "y": 0.62,
+      "w": 0.15,
+      "h": 0.045,
+      "kind": "control",
+      "score": {
+        "overall": 0.4018,
+        "structure": 0.3225,
+        "color": 0.6064,
+        "colorIntersection": 0.2806,
+        "paletteMatch": 0.7818,
+        "detail": 0.2225,
+        "detailRaw": 0.3943,
+        "detailAdded": 0.3438,
+        "bands": 0
+      },
+      "verdict": "contradicted",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 238,
+          "h": 45
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 238,
+          "h": 38
+        }
+      }
+    },
+    {
+      "id": "energy",
+      "x": 0.025,
+      "y": 0.668,
+      "w": 0.18,
+      "h": 0.04,
+      "kind": "control",
+      "score": {
+        "overall": 0.3492,
+        "structure": 0.38,
+        "color": 0.4424,
+        "colorIntersection": 0.2329,
+        "paletteMatch": 0.5552,
+        "detail": 0.1166,
+        "detailRaw": 0.2416,
+        "detailAdded": 0.25,
+        "bands": 0.22
+      },
+      "verdict": "contradicted",
+      "inkBox": {
+        "comp": {
+          "x": 7,
+          "y": 0,
+          "w": 267,
+          "h": 39
+        },
+        "build": {
+          "x": 5,
+          "y": 0,
+          "w": 226,
+          "h": 39
+        }
+      }
+    },
+    {
+      "id": "utility-0",
+      "x": 0.814,
+      "y": 0.018,
+      "w": 0.044,
+      "h": 0.065,
+      "kind": "control",
+      "score": {
+        "overall": 0.558,
+        "structure": 0.6059,
+        "color": 0.7982,
+        "colorIntersection": 0.6821,
+        "paletteMatch": 0.8607,
+        "detail": 0.0301,
+        "detailRaw": 0.0822,
+        "detailAdded": 0.1042,
+        "bands": 0.4
+      },
+      "verdict": "missing",
+      "inkBox": {
+        "comp": {
+          "x": 21,
+          "y": 0,
+          "w": 49,
+          "h": 64
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 70,
+          "h": 64
+        }
+      }
+    },
+    {
+      "id": "utility-1",
+      "x": 0.87,
+      "y": 0.018,
+      "w": 0.044,
+      "h": 0.065,
+      "kind": "control",
+      "score": {
+        "overall": 0.3653,
+        "structure": 0.4128,
+        "color": 0.3959,
+        "colorIntersection": 0.1946,
+        "paletteMatch": 0.5043,
+        "detail": 0.205,
+        "detailRaw": 0.2988,
+        "detailAdded": 0.1875,
+        "bands": 0.5
+      },
+      "verdict": "contradicted",
+      "inkBox": {
+        "comp": {
+          "x": 0,
+          "y": 0,
+          "w": 70,
+          "h": 64
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 70,
+          "h": 64
+        }
+      }
+    },
+    {
+      "id": "utility-2",
+      "x": 0.923,
+      "y": 0.018,
+      "w": 0.044,
+      "h": 0.065,
+      "kind": "control",
+      "score": {
+        "overall": 0.4713,
+        "structure": 0.5442,
+        "color": 0.5126,
+        "colorIntersection": 0.3009,
+        "paletteMatch": 0.6266,
+        "detail": 0.2351,
+        "detailRaw": 0.4747,
+        "detailAdded": 0.4792,
+        "bands": 0.2533
+      },
+      "verdict": "drift",
+      "inkBox": {
+        "comp": {
+          "x": 8,
+          "y": 2,
+          "w": 62,
+          "h": 51
+        },
+        "build": {
+          "x": 0,
+          "y": 0,
+          "w": 70,
+          "h": 64
+        }
+      }
+    }
+  ],
+  "files": {
+    "sideBySide": "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/side-by-side.png",
+    "heatmap": "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/heatmap.png",
+    "regionFiles": [
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/midnight-room.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/wordmark.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/enemy-hero.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/own-hero.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/crew-art-0.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/crew-art-1.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/crew-art-2.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/crew-art-3.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/hand-art-0.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/hand-art-1.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/hand-art-2.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/hand-art-3.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/hand-art-4.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/pot-vessel.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/end-turn-material.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/end-turn-label.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/hero-power.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/energy.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/utility-0.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/utility-1.png",
+      "/Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions/utility-2.png"
+    ]
+  }
+}

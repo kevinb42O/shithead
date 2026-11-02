@@ -1,0 +1,97 @@
+{
+  "results": [
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "rect": {
+        "x": 442.203125,
+        "y": 720.203125,
+        "width": 325.59375,
+        "height": 138.15625
+      },
+      "loaded": true,
+      "clearAbove": true,
+      "clearBelow": true,
+      "visible": true,
+      "hit": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "rect": {
+        "x": 202.203125,
+        "y": 630.203125,
+        "width": 325.59375,
+        "height": 138.15625
+      },
+      "loaded": true,
+      "clearAbove": true,
+      "clearBelow": true,
+      "visible": true,
+      "hit": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "rect": {
+        "x": 46.453125,
+        "y": 584.859375,
+        "width": 297.078125,
+        "height": 127.578125
+      },
+      "loaded": true,
+      "clearAbove": true,
+      "clearBelow": true,
+      "visible": true,
+      "hit": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "rect": {
+        "x": 58.796875,
+        "y": 337.109375,
+        "width": 202.390625,
+        "height": 92.421875
+      },
+      "loaded": true,
+      "clearAbove": true,
+      "clearBelow": true,
+      "visible": true,
+      "hit": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "rect": {
+        "x": 483.203125,
+        "y": 212.109375,
+        "width": 229.59375,
+        "height": 99.515625
+      },
+      "loaded": true,
+      "clearAbove": true,
+      "clearBelow": true,
+      "visible": true,
+      "hit": true,
+      "overflow": false
+    }
+  ],
+  "focus": "solid",
+  "navigation": true,
+  "errors": []
+}

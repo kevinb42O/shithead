@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: production transparent VFX texture atlas for an illustrated dark-fantasy tavern card combat game.
+Primary request: Create a spectacular premium hand-painted combat VFX material atlas. A precise 3 by 2 grid of SIX SEPARATE effects, each entirely contained in its own equal-sized cell with generous transparent padding, no overlap across cells. Landscape canvas 1536x1024. Each cell 512x512. Transparent background with real alpha, NO checkerboard or black backdrop.
+Cell row 1 col 1: a razor sharp sweeping ivory and warm brass sword slash crescent, oblique rising right, textured luminous edge with subtle trailing gold sparks, open center, asymmetric dynamic stroke.
+Cell row 1 col 2: a heavy physical collision burst, compact ivory hot contact center, rich ochre angular chips, wood splinters and gritty absorptive brown dust fanning rightward, no fire.
+Cell row 1 col 3: a sinister violet spectral knife slash, long curved pale lilac razor core inside flowing translucent ink-black violet smoke, no skulls, asymmetric lateral motion rightward.
+Cell row 2 col 1: a celestial magic projectile with an icy blue-white star core, elegant curving cyan filaments and crystalline flecks trailing LEFT, flowing comet silhouette moving RIGHT, no circle frame.
+Cell row 2 col 2: a luminous blue magical shield shattering into irregular translucent glass facets, compact white fracture at center and outward angular fragments, three-dimensional volume, open gaps.
+Cell row 2 col 3: emerald and pale-gold restoration wisps, several delicate leafy luminous ribbons curling upward around an OPEN EMPTY center, sparse pollen motes, no cross, no icons.
+Style: high-end painterly game cinematics, sharp confident silhouette with layered fine turbulence and granular detail, excellent at 100 to 250 pixel display size, dramatic but restrained bloom, genuine semi-transparent edges, deep absorptive shadows. NO labels, text, lettering, borders, grid lines, characters, weapons, UI, disks, or full scene. Each cell isolated at its center, all effect edges fade to zero alpha before cell boundary.

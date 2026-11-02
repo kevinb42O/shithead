@@ -1,0 +1,42 @@
+{
+  "fixture": "Synthetic conserved decks; real rules.apply produces damage, Ward break and simultaneous deaths",
+  "layouts": [
+    {
+      "name": "desktop",
+      "w": 1440,
+      "h": 900,
+      "fullscreen": true,
+      "title": true,
+      "pointer": "none"
+    },
+    {
+      "name": "phone",
+      "w": 390,
+      "h": 844,
+      "fullscreen": true,
+      "title": true,
+      "pointer": "none"
+    },
+    {
+      "name": "small-phone",
+      "w": 320,
+      "h": 568,
+      "fullscreen": true,
+      "title": true,
+      "pointer": "none"
+    },
+    {
+      "name": "landscape",
+      "w": 844,
+      "h": 390,
+      "fullscreen": true,
+      "title": true,
+      "pointer": "none"
+    }
+  ],
+  "pauseCleanup": true,
+  "reduced": true,
+  "rapidReplay": true,
+  "resizeCleanup": true,
+  "errors": []
+}

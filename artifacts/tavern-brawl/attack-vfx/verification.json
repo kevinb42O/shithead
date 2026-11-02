@@ -1,0 +1,27 @@
+{
+  "unitTests": {
+    "passed": 238,
+    "failed": 0,
+    "log": "unit-tests.log"
+  },
+  "browserChecks": [
+    "test-attack-vfx-browser.mjs",
+    "test-combat-vfx-browser.mjs",
+    "test-mordren-browser.mjs",
+    "test-card-emergence-browser.mjs"
+  ],
+  "cardEmergenceCases": 48,
+  "gameBoot": {
+    "loaded": true,
+    "runtimeErrors": []
+  },
+  "detector": {
+    "advisories": 16,
+    "warnings": 0,
+    "note": "Inherited Mordren/field effect colors and type sizes already described by the design system; no new warning."
+  },
+  "limitations": [
+    "Desktop and emulated viewport checks; no physical-phone FPS claim.",
+    "Held-time images sample production stage/material code for visual inspection; live browser paths independently validate rules, timing and cleanup."
+  ]
+}

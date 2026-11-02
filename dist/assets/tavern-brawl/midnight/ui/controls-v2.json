@@ -1,0 +1,144 @@
+{
+  "player-station-v2": {
+    "source": "player-station-v2",
+    "region": null,
+    "trim": [
+      16,
+      4,
+      1915,
+      790
+    ],
+    "size": [
+      1899,
+      786
+    ]
+  },
+  "end-turn-v2": {
+    "source": "end-turn-v2",
+    "region": null,
+    "trim": [
+      18,
+      124,
+      1757,
+      759
+    ],
+    "size": [
+      1739,
+      635
+    ]
+  },
+  "power-fox-v2": {
+    "source": "power-icons-v2",
+    "region": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "trim": [
+      8,
+      1,
+      724,
+      699
+    ],
+    "size": [
+      716,
+      698
+    ]
+  },
+  "power-owl-v2": {
+    "source": "power-icons-v2",
+    "region": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "trim": [
+      5,
+      3,
+      721,
+      709
+    ],
+    "size": [
+      716,
+      706
+    ]
+  },
+  "power-raven-v2": {
+    "source": "power-icons-v2",
+    "region": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "trim": [
+      0,
+      2,
+      714,
+      704
+    ],
+    "size": [
+      714,
+      702
+    ]
+  },
+  "energy-lit-v2": {
+    "source": "energy-gems-v2",
+    "region": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "trim": [
+      16,
+      1,
+      715,
+      684
+    ],
+    "size": [
+      699,
+      683
+    ]
+  },
+  "energy-spent-v2": {
+    "source": "energy-gems-v2",
+    "region": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "trim": [
+      11,
+      1,
+      710,
+      684
+    ],
+    "size": [
+      699,
+      683
+    ]
+  },
+  "energy-locked-v2": {
+    "source": "energy-gems-v2",
+    "region": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "trim": [
+      5,
+      1,
+      705,
+      684
+    ],
+    "size": [
+      700,
+      683
+    ]
+  }
+}

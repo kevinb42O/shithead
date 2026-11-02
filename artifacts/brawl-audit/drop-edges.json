@@ -1,0 +1,630 @@
+[
+  {
+    "name": "pointer-slot-0-1440-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-1440-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-1440--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-1440-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-1440--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-1440-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-1440-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-1440--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-1440-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-1440--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-1440-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-1440-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-1440--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-1440-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-1440--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-390-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-390-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-390--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-390-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-390--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-390-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-390-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-390--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-390-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-390--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-390-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-390-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-390--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-390-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-390--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-320-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-320-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-320--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-320-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-320--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-320-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-320-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-320--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-320-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-320--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-320-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-320-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-320--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-320-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-320--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-844-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-844-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-844--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-844-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-0-844--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 0,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-844-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-844-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-844--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-844-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-1-844--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 1,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-844-1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-844-0.5-0.5",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-844--1-1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-844-1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "pointer-slot-2-844--1--1",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "only-hovered-slot-desktop",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "slot-behind-overlapping-layer",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "release-after-lost-pointer-capture",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "quick-release-without-move",
+    "passed": true,
+    "preview": false,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "slow-mouse-grab-remains-draggable",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "slot": 2,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "untargeted-trick-over-friendly-crew",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "untargeted-trick-inside-lit-area",
+    "passed": true,
+    "preview": true,
+    "played": true,
+    "energy": 9,
+    "selected": false
+  },
+  {
+    "name": "occupied-slot-still-cancels",
+    "passed": true,
+    "preview": false,
+    "played": false,
+    "energy": 10,
+    "selected": true
+  },
+  {
+    "name": "outside-table-still-cancels",
+    "passed": true,
+    "preview": false,
+    "played": false,
+    "energy": 10,
+    "selected": true
+  },
+  {
+    "name": "Targeted Battlecry visibly reserves and commits the chosen slot",
+    "passed": true,
+    "pending": true,
+    "committed": true
+  },
+  {
+    "name": "No runtime errors",
+    "passed": true,
+    "errors": []
+  }
+]

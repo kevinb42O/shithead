@@ -1,0 +1,19 @@
+/* Compensate for the transparent canvas around the painted frame so its
+   outer rails span the physical card. Art, labels and sockets share this map. */
+.brawl-app .card{background:none;border:0;box-shadow:none}
+.brawl-app .card>img:not(.midnight-card-frame){inset:auto;left:3%;top:3%;width:94%;height:61.8%;object-fit:cover;object-position:50% 36%;border-radius:3px}
+.brawl-app .card>img.midnight-card-frame{inset:auto;left:-2%;top:-1%;width:104%;height:104%;object-fit:fill;pointer-events:none;z-index:2}
+.brawl-app .card::after,.brawl-app .card.is-playable::before,.brawl-app .card.is-selected::before{display:none}
+.brawl-app .card .card-light{inset:auto;left:3%;top:3%;width:94%;height:61.8%;border-radius:3px}
+.brawl-app .hand .card.is-playable,.brawl-app .hand .card.is-selected,.brawl-app .card:focus-visible{outline:none}
+.brawl-app .card.is-playable>.midnight-card-frame{filter:drop-shadow(0 0 1px #8bd9e4)}
+.brawl-app .card.is-selected>.midnight-card-frame,.brawl-app .card:focus-visible>.midnight-card-frame{filter:drop-shadow(0 0 2px #c1f5f2) drop-shadow(0 0 1px #fff4d5)}
+.brawl-app .card .cost{left:1%;top:.9%;width:24%;height:auto;aspect-ratio:1;background:none;border:0;box-shadow:none;font-size:13cqw;z-index:4}
+.brawl-app .card .stat{width:22%;bottom:3.2%;height:auto;aspect-ratio:1;background:none;border:0;box-shadow:none;font-size:13cqw;z-index:4}
+.brawl-app .card .stat.attack{left:0%;background:none}
+.brawl-app .card .stat.health{right:.5%;background:none}
+.brawl-app .card .card-name,.brawl-app .card[data-set="after-midnight"] .card-name,.brawl-app .card:has(.stat) .card-name{left:11%;top:66%;width:78%;height:7.8%;padding:0;font-family:Serif,Georgia,serif;font-weight:400;font-size:calc(var(--midnight-name-size,7.4cqw)*1.15);line-height:1.1}
+.brawl-app .card .card-text,.brawl-app .card[data-set="after-midnight"] .card-text{left:9%;top:74.5%;width:82%;padding:0;font:500 var(--midnight-rules-size,6cqw)/1.16 DM,Arial,sans-serif;color:#f0e4cf;z-index:3}
+.brawl-app .card .rules-line{display:block;white-space:nowrap}
+.brawl-app .card .card-text strong{font-weight:750;color:#f7d49a}
+.brawl-app .card .card-text.is-keyword-only{font-weight:700}

@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "publicDiscovery": true,
+  "publicSignaling": true,
+  "realWebRTC": true,
+  "privateHand": true,
+  "errors": []
+}

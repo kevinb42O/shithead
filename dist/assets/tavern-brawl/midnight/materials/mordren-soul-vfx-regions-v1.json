@@ -1,0 +1,42 @@
+{
+  "source": "artifacts/tavern-brawl/attack-research/mordren-soul-vfx-source-v1.png",
+  "regions": {
+    "soul-cleave": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "furnace-impact": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "coal-ash": [
+      1024,
+      0,
+      1536,
+      512
+    ],
+    "soul-a": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "soul-b": [
+      520,
+      512,
+      960,
+      1024
+    ],
+    "furnace-scorch": [
+      970,
+      600,
+      1536,
+      920
+    ]
+  },
+  "processing": "Rectangular extraction only. Native generated RGBA and alpha preserved; no chroma key or synthetic alpha."
+}

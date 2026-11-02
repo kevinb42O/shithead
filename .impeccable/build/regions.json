@@ -1,0 +1,249 @@
+{
+  "regions": [
+    {
+      "id": "midnight-room",
+      "kind": "plate",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "note": "Full bleed midnight tavern environment: warm hearth at left, cool moonlit window at right, dark dueling table with slender brass edges. No cards, heroes, controls, numbers or lettering in production painting.",
+      "bleed": true
+    },
+    {
+      "id": "wordmark",
+      "kind": "text",
+      "box": {
+        "x": 0.02,
+        "y": 0.018,
+        "w": 0.16,
+        "h": 0.06
+      },
+      "note": "Tavern Brawl title lettering"
+    },
+    {
+      "id": "enemy-hero",
+      "kind": "image",
+      "box": {
+        "x": 0.365,
+        "y": 0,
+        "w": 0.26,
+        "h": 0.18
+      },
+      "note": "Owl opponent hero portrait above the upper row; painted original animal character.",
+      "bleed": true
+    },
+    {
+      "id": "own-hero",
+      "kind": "image",
+      "box": {
+        "x": 0,
+        "y": 0.385,
+        "w": 0.235,
+        "h": 0.23
+      },
+      "note": "Fox player portrait at left of friendly row.",
+      "bleed": true
+    },
+    {
+      "id": "crew-art-0",
+      "kind": "image",
+      "box": {
+        "x": 0.29,
+        "y": 0.19,
+        "w": 0.125,
+        "h": 0.175
+      },
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "bleed": true
+    },
+    {
+      "id": "crew-art-1",
+      "kind": "image",
+      "box": {
+        "x": 0.415,
+        "y": 0.19,
+        "w": 0.13,
+        "h": 0.175
+      },
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "bleed": true
+    },
+    {
+      "id": "crew-art-2",
+      "kind": "image",
+      "box": {
+        "x": 0.29,
+        "y": 0.385,
+        "w": 0.125,
+        "h": 0.22
+      },
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "bleed": true
+    },
+    {
+      "id": "crew-art-3",
+      "kind": "image",
+      "box": {
+        "x": 0.415,
+        "y": 0.385,
+        "w": 0.13,
+        "h": 0.22
+      },
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "bleed": true
+    },
+    {
+      "id": "hand-art-0",
+      "kind": "image",
+      "box": {
+        "x": 0.19,
+        "y": 0.7,
+        "w": 0.14,
+        "h": 0.27
+      },
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "bleed": true
+    },
+    {
+      "id": "hand-art-1",
+      "kind": "image",
+      "box": {
+        "x": 0.29,
+        "y": 0.65,
+        "w": 0.14,
+        "h": 0.29
+      },
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "bleed": true
+    },
+    {
+      "id": "hand-art-2",
+      "kind": "image",
+      "box": {
+        "x": 0.4,
+        "y": 0.64,
+        "w": 0.14,
+        "h": 0.29
+      },
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "bleed": true
+    },
+    {
+      "id": "hand-art-3",
+      "kind": "image",
+      "box": {
+        "x": 0.51,
+        "y": 0.64,
+        "w": 0.14,
+        "h": 0.29
+      },
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "bleed": true
+    },
+    {
+      "id": "hand-art-4",
+      "kind": "image",
+      "box": {
+        "x": 0.63,
+        "y": 0.62,
+        "w": 0.17,
+        "h": 0.34
+      },
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "bleed": true
+    },
+    {
+      "id": "pot-vessel",
+      "kind": "image",
+      "box": {
+        "x": 0.76,
+        "y": 0.21,
+        "w": 0.19,
+        "h": 0.16
+      },
+      "note": "Shared brass coin vessel, with live coin count over it.",
+      "bleed": true
+    },
+    {
+      "id": "end-turn-material",
+      "kind": "image",
+      "box": {
+        "x": 0.79,
+        "y": 0.43,
+        "w": 0.2,
+        "h": 0.15
+      },
+      "note": "Dark teal enamel action surround with slender sculpted brass; no baked lettering.",
+      "bleed": true
+    },
+    {
+      "id": "end-turn-label",
+      "kind": "control",
+      "box": {
+        "x": 0.82,
+        "y": 0.49,
+        "w": 0.15,
+        "h": 0.055
+      },
+      "note": "End turn action label, live semantic button"
+    },
+    {
+      "id": "hero-power",
+      "kind": "control",
+      "box": {
+        "x": 0.065,
+        "y": 0.62,
+        "w": 0.15,
+        "h": 0.045
+      },
+      "note": "Sleight of Paw action label"
+    },
+    {
+      "id": "energy",
+      "kind": "control",
+      "box": {
+        "x": 0.025,
+        "y": 0.668,
+        "w": 0.18,
+        "h": 0.04
+      },
+      "note": "Six lit of eight energy sockets and live energy value"
+    },
+    {
+      "id": "utility-0",
+      "kind": "control",
+      "box": {
+        "x": 0.814,
+        "y": 0.018,
+        "w": 0.044,
+        "h": 0.065
+      },
+      "note": "Menu utility"
+    },
+    {
+      "id": "utility-1",
+      "kind": "control",
+      "box": {
+        "x": 0.87,
+        "y": 0.018,
+        "w": 0.044,
+        "h": 0.065
+      },
+      "note": "History utility"
+    },
+    {
+      "id": "utility-2",
+      "kind": "control",
+      "box": {
+        "x": 0.923,
+        "y": 0.018,
+        "w": 0.044,
+        "h": 0.065
+      },
+      "note": "Rules utility"
+    }
+  ]
+}

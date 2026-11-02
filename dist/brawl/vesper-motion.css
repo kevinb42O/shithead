@@ -1,0 +1,11 @@
+/* Three original painted alpha regions: cloak, torso and knife arm. */
+.vesper-theatre{z-index:3;background:radial-gradient(ellipse at var(--legend-x) var(--legend-y),#67528d22,transparent 46%)}
+.vesper-actor{position:absolute;transform-origin:50% 75%;pointer-events:none;filter:drop-shadow(6px 13px 13px #02050baa)}
+.vesper-body,.vesper-arm,.vesper-cloak{position:absolute;background-image:url('../assets/tavern-brawl/midnight/legends/vesper-rig-v1.png');background-size:300% 100%;background-repeat:no-repeat;pointer-events:none}
+.vesper-body{left:15%;top:0;width:72%;height:76%;background-position:left center;transform-origin:50% 85%;z-index:2}
+.vesper-arm{left:24%;top:22%;width:63%;height:59%;background-position:center center;transform-origin:20% 18%;z-index:3}
+.vesper-cloak{left:0;top:35%;width:100%;height:65%;background-position:right center;transform-origin:50% 18%;z-index:1}
+.vesper-blade-trail{position:absolute;inset:0;width:100%;height:100%;z-index:4;overflow:visible;pointer-events:none}
+.vesper-ward{position:absolute;left:10%;top:8%;width:80%;height:84%;border:1px solid #b7e8ff;border-radius:45% 45% 40% 40%;box-shadow:3px 8px 13px #67528d33;z-index:0;pointer-events:none}
+.vesper-theatre .legend-title{font-size:clamp(16px,2cqw,28px);max-width:82%;padding:8px 18px}
+@media(prefers-reduced-motion:reduce){.vesper-actor{display:none}}

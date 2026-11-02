@@ -1,0 +1,105 @@
+{
+  "viewports": [
+    [
+      1440,
+      900
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      320,
+      568
+    ],
+    [
+      844,
+      390
+    ]
+  ],
+  "checks": [
+    {
+      "name": "Lethal attacker retains one noninteractive remnant through contact",
+      "passed": true
+    },
+    {
+      "name": "Combat preserves hand nodes",
+      "passed": true
+    },
+    {
+      "name": "Combat remnants and numbers clean up",
+      "passed": true
+    },
+    {
+      "name": "Area damage produces six outcomes and three death remnants",
+      "passed": true
+    },
+    {
+      "name": "Opening a menu clears the entire transient presentation",
+      "passed": true
+    },
+    {
+      "name": "Stun persists on the current crew",
+      "passed": true
+    },
+    {
+      "name": "Stun leaves no transient DOM nodes",
+      "passed": true
+    },
+    {
+      "name": "Pot animation preserves committed buff and coin balance",
+      "passed": true
+    },
+    {
+      "name": "Return leaves one inert visual remnant",
+      "passed": true
+    },
+    {
+      "name": "Return remnant is removed",
+      "passed": true
+    },
+    {
+      "name": "390×844 fullscreen fit",
+      "passed": true
+    },
+    {
+      "name": "Phone canvas matches viewport",
+      "passed": true
+    },
+    {
+      "name": "Saved reduced motion retains immediate readable damage",
+      "passed": true
+    },
+    {
+      "name": "Reduced combat has no spatial field animations",
+      "passed": true
+    },
+    {
+      "details": {
+        "draws": 0
+      },
+      "name": "Reduced motion stops the idle canvas scheduler",
+      "passed": true
+    },
+    {
+      "name": "Reduced outcomes clean up without animation",
+      "passed": true
+    },
+    {
+      "name": "320×568 fullscreen fit",
+      "passed": true
+    },
+    {
+      "name": "844×390 fullscreen fit",
+      "passed": true
+    },
+    {
+      "name": "Device reduced-motion preference respected",
+      "passed": true
+    },
+    {
+      "name": "Final review has no browser runtime errors",
+      "passed": true
+    }
+  ]
+}

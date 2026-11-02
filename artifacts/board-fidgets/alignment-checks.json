@@ -1,0 +1,310 @@
+[
+  {
+    "art": "mobile",
+    "checks": [
+      {
+        "error": 0.00868042310078998,
+        "kind": "dial",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.000002721945463690645,
+        "kind": "press",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.000002721945463690645,
+        "kind": "ball",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 480,
+    "width": 320
+  },
+  {
+    "art": "mobile",
+    "checks": [
+      {
+        "error": 0.007232268651328866,
+        "kind": "dial",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.008677959442138672,
+        "kind": "press",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.008677959442138672,
+        "kind": "ball",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 844,
+    "width": 390
+  },
+  {
+    "art": "mobile",
+    "checks": [
+      {
+        "error": 0.005786975224815194,
+        "kind": "dial",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.004342555999755859,
+        "kind": "press",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.005430668592453003,
+        "kind": "ball",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 932,
+    "width": 430
+  },
+  {
+    "art": "mobile",
+    "checks": [
+      {
+        "error": 0.013020674387615117,
+        "kind": "dial",
+        "minTarget": 48.046878814697266,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.008722583452822619,
+        "kind": "press",
+        "minTarget": 52.734378814697266,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.008722583452822619,
+        "kind": "ball",
+        "minTarget": 52.734378814697266,
+        "sourceImage": "assets/ember-hearth-mobile.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 900,
+    "width": 700
+  },
+  {
+    "art": "desktop",
+    "checks": [
+      {
+        "error": 0.009402950604759042,
+        "kind": "dial",
+        "minTarget": 54.765628814697266,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.008679389953613281,
+        "kind": "press",
+        "minTarget": 54.765628814697266,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.008683443069458008,
+        "kind": "ball",
+        "minTarget": 54.765628814697266,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 900,
+    "width": 701
+  },
+  {
+    "art": "desktop",
+    "checks": [
+      {
+        "error": 0.008676528930664062,
+        "kind": "dial",
+        "minTarget": 43.99305725097656,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.010124127070113786,
+        "kind": "press",
+        "minTarget": 45.703128814697266,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.011957436800003052,
+        "kind": "ball",
+        "minTarget": 45.703128814697266,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 390,
+    "width": 844
+  },
+  {
+    "art": "desktop",
+    "checks": [
+      {
+        "error": 0.011569102605193391,
+        "kind": "dial",
+        "minTarget": 80.02604675292969,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.008686065673828125,
+        "kind": "press",
+        "minTarget": 80.02604675292969,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.008686065673828125,
+        "kind": "ball",
+        "minTarget": 80.02604675292969,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 768,
+    "width": 1024
+  },
+  {
+    "art": "desktop",
+    "checks": [
+      {
+        "error": 0.004340529441833496,
+        "kind": "dial",
+        "minTarget": 100.19097900390624,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.000010967254638671877,
+        "kind": "press",
+        "minTarget": 105.46875762939452,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.0021863579750061035,
+        "kind": "ball",
+        "minTarget": 105.46875762939452,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 900,
+    "width": 1440
+  },
+  {
+    "art": "desktop",
+    "checks": [
+      {
+        "error": 0.004336357116699219,
+        "kind": "dial",
+        "minTarget": 120.23438262939452,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.000064849853515625,
+        "kind": "press",
+        "minTarget": 126.56250762939452,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.004268646240234375,
+        "kind": "ball",
+        "minTarget": 126.56250762939452,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 1080,
+    "width": 1920
+  },
+  {
+    "art": "desktop",
+    "checks": [
+      {
+        "error": 0.004336357116699219,
+        "kind": "dial",
+        "minTarget": 120.23438262939452,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.000064849853515625,
+        "kind": "press",
+        "minTarget": 126.56250762939452,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.004268646240234375,
+        "kind": "ball",
+        "minTarget": 126.56250762939452,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 1080,
+    "width": 2560
+  },
+  {
+    "art": "desktop",
+    "checks": [
+      {
+        "error": 0.000019073486328125,
+        "kind": "dial",
+        "minTarget": 160.31251525878906,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.00010013580322265624,
+        "kind": "press",
+        "minTarget": 168.75001525878906,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      },
+      {
+        "error": 0.00010025501251220704,
+        "kind": "ball",
+        "minTarget": 168.75001525878906,
+        "sourceImage": "assets/ember-hearth-board.jpg",
+        "targetCentered": true
+      }
+    ],
+    "height": 1440,
+    "width": 3440
+  }
+]

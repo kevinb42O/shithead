@@ -1,0 +1,94 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "menu": {
+        "x": 222.5,
+        "y": 646.28125,
+        "right": 507.5,
+        "bottom": 752.28125,
+        "width": 285,
+        "height": 106,
+        "overflow": false
+      },
+      "home": {
+        "horizontal": false,
+        "screen": false
+      },
+      "homeWithResumes": {
+        "horizontal": false,
+        "scroll": false
+      }
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "menu": {
+        "x": 65,
+        "y": 607.65625,
+        "right": 325,
+        "bottom": 689.65625,
+        "width": 260,
+        "height": 82,
+        "overflow": false
+      },
+      "home": {
+        "horizontal": false,
+        "screen": false
+      },
+      "homeWithResumes": {
+        "horizontal": false,
+        "scroll": false
+      }
+    },
+    {
+      "name": "small-mobile",
+      "width": 320,
+      "height": 568,
+      "menu": {
+        "x": 65.703125,
+        "y": 349.328125,
+        "right": 254.296875,
+        "bottom": 417.328125,
+        "width": 188.59375,
+        "height": 68,
+        "overflow": false
+      },
+      "home": {
+        "horizontal": false,
+        "screen": true
+      },
+      "homeWithResumes": {
+        "horizontal": false,
+        "scroll": true
+      }
+    },
+    {
+      "name": "landscape",
+      "width": 844,
+      "height": 390,
+      "menu": {
+        "x": 483.203125,
+        "y": 221.046875,
+        "right": 712.796875,
+        "bottom": 286.046875,
+        "width": 229.59375,
+        "height": 65,
+        "overflow": false
+      },
+      "home": {
+        "horizontal": false,
+        "screen": true
+      },
+      "homeWithResumes": {
+        "horizontal": false,
+        "scroll": true
+      }
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-02",
+  "surface": "Local Brawl / isolated brawl-motion-review.html",
+  "motion": {
+    "activePixelsChange": true,
+    "pauseClearsAndStaysClear": true,
+    "resumeRestores": true,
+    "savedReducedMotionClears": true,
+    "systemReducedMotionClears": true,
+    "dragAttenuates": true,
+    "singleCanvasAfterDestroyingBenchmarkInstance": true,
+    "ariaHidden": true,
+    "pointerEvents": "none",
+    "zIndex": -1
+  },
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "canvasFits": true,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "canvasFits": true,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "canvasFits": true,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "canvasFits": true,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "canvasFits": true,
+      "horizontalOverflow": false
+    }
+  ],
+  "cardHitTargets": "Passed at five initial responsive viewport samples; decoration pointer-events none at exact dimensions.",
+  "performance": {
+    "sampleCount": 120,
+    "meanSubmissionMs": 0.08,
+    "p95SubmissionMs": 0.2,
+    "maxSubmissionMs": 1.1,
+    "scope": "Synchronous 2D draw submission only, 1440x900; does not measure GPU completion or whole-game FPS. Smoke was not explicitly awaited in the isolated benchmark instance."
+  },
+  "legend": "Mordren replay completed through existing rules/field fixture; no logged warnings/errors.",
+  "tests": {
+    "pass": 231,
+    "fail": 0
+  },
+  "smoke": {
+    "path": "dist/assets/vfx/lantern-mist.png",
+    "sha256": "3c1ef6c660eb2dee8be8acb88529edc86bd091ab995c34853be05d38607834df",
+    "source": "Kenney Particle Pack smoke_01.png",
+    "license": "CC0",
+    "reuse": true
+  },
+  "limitations": [
+    "No real touch device or Safari certification",
+    "No new flame footage, scenery articulation, card masks or roughness maps",
+    "Visual review used existing isolated review table, whose controls differ from current production controls"
+  ]
+}

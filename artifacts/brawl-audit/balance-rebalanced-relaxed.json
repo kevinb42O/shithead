@@ -1,0 +1,646 @@
+{
+  "samples": 60,
+  "mode": "rebalanced",
+  "difficulty": "relaxed",
+  "balance": "after-midnight-1",
+  "method": "Seeds 41000+, real mulligans, Standard player AI and challenge-selected enemy AI with independent seeded noise. Alternating first seat for isolated encounters; real seed-selected opener for trails. Rewards prefer Steel, then healing below 23 HP when offered, then another relic, otherwise healing or a legal card swap replacing the lowest-stat crew / lowest-cost non-crew. These are bot baselines, not human win rates.",
+  "isolated": [
+    {
+      "hero": "fox",
+      "scenario": "first",
+      "games": 60,
+      "wins": 60,
+      "draws": 0,
+      "winPercent": 100,
+      "fatigueGames": 0,
+      "meanTurnNumber": 13.066666666666666,
+      "blockedCrewTurnPercent": 33.14121037463977
+    },
+    {
+      "hero": "fox",
+      "scenario": "second-full",
+      "games": 60,
+      "wins": 60,
+      "draws": 0,
+      "winPercent": 100,
+      "fatigueGames": 1,
+      "meanTurnNumber": 19.6,
+      "blockedCrewTurnPercent": 33.57798165137615
+    },
+    {
+      "hero": "fox",
+      "scenario": "second-worn",
+      "games": 60,
+      "wins": 60,
+      "draws": 0,
+      "winPercent": 100,
+      "fatigueGames": 1,
+      "meanTurnNumber": 19.483333333333334,
+      "blockedCrewTurnPercent": 32.34750462107209
+    },
+    {
+      "hero": "fox",
+      "scenario": "second-core",
+      "games": 60,
+      "wins": 54,
+      "draws": 0,
+      "winPercent": 90,
+      "fatigueGames": 36,
+      "meanTurnNumber": 27.166666666666668,
+      "blockedCrewTurnPercent": 17.346938775510203
+    },
+    {
+      "hero": "owl",
+      "scenario": "first",
+      "games": 60,
+      "wins": 60,
+      "draws": 0,
+      "winPercent": 100,
+      "fatigueGames": 2,
+      "meanTurnNumber": 16.1,
+      "blockedCrewTurnPercent": 57.305936073059364
+    },
+    {
+      "hero": "owl",
+      "scenario": "second-full",
+      "games": 60,
+      "wins": 60,
+      "draws": 0,
+      "winPercent": 100,
+      "fatigueGames": 30,
+      "meanTurnNumber": 21,
+      "blockedCrewTurnPercent": 69.96587030716724
+    },
+    {
+      "hero": "owl",
+      "scenario": "second-worn",
+      "games": 60,
+      "wins": 60,
+      "draws": 0,
+      "winPercent": 100,
+      "fatigueGames": 28,
+      "meanTurnNumber": 20.983333333333334,
+      "blockedCrewTurnPercent": 69.45392491467577
+    },
+    {
+      "hero": "owl",
+      "scenario": "second-core",
+      "games": 60,
+      "wins": 59,
+      "draws": 0,
+      "winPercent": 98.33333333333333,
+      "fatigueGames": 60,
+      "meanTurnNumber": 29.65,
+      "blockedCrewTurnPercent": 52.55220417633411
+    },
+    {
+      "hero": "raven",
+      "scenario": "first",
+      "games": 60,
+      "wins": 60,
+      "draws": 0,
+      "winPercent": 100,
+      "fatigueGames": 0,
+      "meanTurnNumber": 14.7,
+      "blockedCrewTurnPercent": 38.63636363636363
+    },
+    {
+      "hero": "raven",
+      "scenario": "second-full",
+      "games": 60,
+      "wins": 60,
+      "draws": 0,
+      "winPercent": 100,
+      "fatigueGames": 4,
+      "meanTurnNumber": 19.816666666666666,
+      "blockedCrewTurnPercent": 39.56442831215971
+    },
+    {
+      "hero": "raven",
+      "scenario": "second-worn",
+      "games": 60,
+      "wins": 59,
+      "draws": 0,
+      "winPercent": 98.33333333333333,
+      "fatigueGames": 2,
+      "meanTurnNumber": 19.666666666666668,
+      "blockedCrewTurnPercent": 34.24908424908425
+    },
+    {
+      "hero": "raven",
+      "scenario": "second-core",
+      "games": 60,
+      "wins": 40,
+      "draws": 0,
+      "winPercent": 66.66666666666667,
+      "fatigueGames": 36,
+      "meanTurnNumber": 28.9,
+      "blockedCrewTurnPercent": 19.075829383886255
+    }
+  ],
+  "trails": [
+    {
+      "hero": "fox",
+      "started": 60,
+      "reached": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        57,
+        57
+      ],
+      "won": [
+        60,
+        60,
+        60,
+        60,
+        57,
+        57,
+        51
+      ],
+      "conditionalWinPercent": [
+        100,
+        100,
+        100,
+        100,
+        95,
+        100,
+        89.47368421052632
+      ],
+      "meanEntryHealth": [
+        30,
+        30,
+        31.4,
+        32.85,
+        34.5,
+        36,
+        36
+      ]
+    },
+    {
+      "hero": "owl",
+      "started": 60,
+      "reached": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        57,
+        56
+      ],
+      "won": [
+        60,
+        60,
+        60,
+        60,
+        57,
+        56,
+        40
+      ],
+      "conditionalWinPercent": [
+        100,
+        100,
+        100,
+        100,
+        95,
+        98.24561403508773,
+        71.42857142857143
+      ],
+      "meanEntryHealth": [
+        30,
+        30,
+        31.4,
+        32.85,
+        34.5,
+        36,
+        36
+      ]
+    },
+    {
+      "hero": "raven",
+      "started": 60,
+      "reached": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        59,
+        59
+      ],
+      "won": [
+        60,
+        60,
+        60,
+        60,
+        59,
+        59,
+        58
+      ],
+      "conditionalWinPercent": [
+        100,
+        100,
+        100,
+        100,
+        98.33333333333333,
+        100,
+        98.30508474576271
+      ],
+      "meanEntryHealth": [
+        30,
+        30,
+        31.4,
+        32.85,
+        34.5,
+        36,
+        36
+      ]
+    }
+  ],
+  "decks": {
+    "fox": {
+      "legalIdentities": 35,
+      "featured": [
+        {
+          "id": "tavern-rat",
+          "cost": 1,
+          "type": "crew"
+        },
+        {
+          "id": "tavern-rat",
+          "cost": 1,
+          "type": "crew"
+        },
+        {
+          "id": "fox-cutpurse",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "fox-cutpurse",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "sootpaw-lookout",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "sootpaw-lookout",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "cut-the-purse",
+          "cost": 2,
+          "type": "trick"
+        },
+        {
+          "id": "cut-the-purse",
+          "cost": 2,
+          "type": "trick"
+        },
+        {
+          "id": "gutterglass-duelist",
+          "cost": 3,
+          "type": "crew"
+        },
+        {
+          "id": "gutterglass-duelist",
+          "cost": 3,
+          "type": "crew"
+        },
+        {
+          "id": "pilfer",
+          "cost": 1,
+          "type": "trick"
+        },
+        {
+          "id": "pilfer",
+          "cost": 1,
+          "type": "trick"
+        },
+        {
+          "id": "ironjaw-bouncer",
+          "cost": 4,
+          "type": "crew"
+        },
+        {
+          "id": "ironjaw-bouncer",
+          "cost": 4,
+          "type": "crew"
+        },
+        {
+          "id": "shatter-the-seal",
+          "cost": 3,
+          "type": "trick"
+        },
+        {
+          "id": "shatter-the-seal",
+          "cost": 3,
+          "type": "trick"
+        },
+        {
+          "id": "house-edge",
+          "cost": 3,
+          "type": "trick"
+        },
+        {
+          "id": "vesper-blackpaw-king",
+          "cost": 6,
+          "type": "crew"
+        },
+        {
+          "id": "mordren-ashen-host",
+          "cost": 8,
+          "type": "crew"
+        },
+        {
+          "id": "furnace-burst",
+          "cost": 5,
+          "type": "trick"
+        }
+      ],
+      "core": [
+        "tavern-rat",
+        "tavern-rat",
+        "mouse-guard",
+        "mouse-guard",
+        "fox-cutpurse",
+        "fox-cutpurse",
+        "stoat-gambler",
+        "stoat-gambler",
+        "hare-runner",
+        "hare-runner",
+        "pocket-sand",
+        "pocket-sand",
+        "last-call",
+        "last-call",
+        "loaded-dice",
+        "loaded-dice",
+        "pilfer",
+        "pilfer",
+        "rusty-dagger",
+        "rusty-dagger"
+      ]
+    },
+    "owl": {
+      "legalIdentities": 32,
+      "featured": [
+        {
+          "id": "tavern-rat",
+          "cost": 1,
+          "type": "crew"
+        },
+        {
+          "id": "tavern-rat",
+          "cost": 1,
+          "type": "crew"
+        },
+        {
+          "id": "owl-apprentice",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "owl-apprentice",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "ashveil-acolyte",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "ashveil-acolyte",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "nightglass-diviner",
+          "cost": 3,
+          "type": "crew"
+        },
+        {
+          "id": "nightglass-diviner",
+          "cost": 3,
+          "type": "crew"
+        },
+        {
+          "id": "badger-sentinel",
+          "cost": 4,
+          "type": "crew"
+        },
+        {
+          "id": "badger-sentinel",
+          "cost": 4,
+          "type": "crew"
+        },
+        {
+          "id": "bar-fight",
+          "cost": 3,
+          "type": "trick"
+        },
+        {
+          "id": "bar-fight",
+          "cost": 3,
+          "type": "trick"
+        },
+        {
+          "id": "shatter-the-seal",
+          "cost": 3,
+          "type": "trick"
+        },
+        {
+          "id": "shatter-the-seal",
+          "cost": 3,
+          "type": "trick"
+        },
+        {
+          "id": "hearth-lantern",
+          "cost": 3,
+          "type": "equipment"
+        },
+        {
+          "id": "hearth-lantern",
+          "cost": 3,
+          "type": "equipment"
+        },
+        {
+          "id": "moonlit-stitch",
+          "cost": 1,
+          "type": "trick"
+        },
+        {
+          "id": "sealed-constellation",
+          "cost": 5,
+          "type": "trick"
+        },
+        {
+          "id": "orun-eclipse-warden",
+          "cost": 7,
+          "type": "crew"
+        },
+        {
+          "id": "mordren-ashen-host",
+          "cost": 8,
+          "type": "crew"
+        }
+      ],
+      "core": [
+        "tavern-rat",
+        "tavern-rat",
+        "mouse-guard",
+        "mouse-guard",
+        "owl-apprentice",
+        "owl-apprentice",
+        "badger-sentinel",
+        "badger-sentinel",
+        "hedgehog-watchman",
+        "hedgehog-watchman",
+        "toad-brewer",
+        "toad-brewer",
+        "second-wind",
+        "second-wind",
+        "bar-fight",
+        "bar-fight",
+        "oak-shield",
+        "oak-shield",
+        "hearth-lantern",
+        "hearth-lantern"
+      ]
+    },
+    "raven": {
+      "legalIdentities": 32,
+      "featured": [
+        {
+          "id": "cinder-rat",
+          "cost": 1,
+          "type": "crew"
+        },
+        {
+          "id": "cinder-rat",
+          "cost": 1,
+          "type": "crew"
+        },
+        {
+          "id": "tavern-rat",
+          "cost": 1,
+          "type": "crew"
+        },
+        {
+          "id": "tavern-rat",
+          "cost": 1,
+          "type": "crew"
+        },
+        {
+          "id": "gravewax-collector",
+          "cost": 3,
+          "type": "crew"
+        },
+        {
+          "id": "gravewax-collector",
+          "cost": 3,
+          "type": "crew"
+        },
+        {
+          "id": "raven-cutpurse",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "raven-cutpurse",
+          "cost": 2,
+          "type": "crew"
+        },
+        {
+          "id": "barroom-bruiser",
+          "cost": 3,
+          "type": "crew"
+        },
+        {
+          "id": "barroom-bruiser",
+          "cost": 3,
+          "type": "crew"
+        },
+        {
+          "id": "debt-eater",
+          "cost": 5,
+          "type": "crew"
+        },
+        {
+          "id": "debt-eater",
+          "cost": 5,
+          "type": "crew"
+        },
+        {
+          "id": "funeral-velvet",
+          "cost": 3,
+          "type": "equipment"
+        },
+        {
+          "id": "funeral-velvet",
+          "cost": 3,
+          "type": "equipment"
+        },
+        {
+          "id": "collect-the-debt",
+          "cost": 4,
+          "type": "trick"
+        },
+        {
+          "id": "collect-the-debt",
+          "cost": 4,
+          "type": "trick"
+        },
+        {
+          "id": "raven-bargain",
+          "cost": 2,
+          "type": "trick"
+        },
+        {
+          "id": "the-bell-tolls",
+          "cost": 7,
+          "type": "trick"
+        },
+        {
+          "id": "mother-nox-bellkeeper",
+          "cost": 8,
+          "type": "crew"
+        },
+        {
+          "id": "mordren-ashen-host",
+          "cost": 8,
+          "type": "crew"
+        }
+      ],
+      "core": [
+        "tavern-rat",
+        "tavern-rat",
+        "mouse-guard",
+        "mouse-guard",
+        "raven-cutpurse",
+        "raven-cutpurse",
+        "barroom-bruiser",
+        "barroom-bruiser",
+        "raccoon-scavenger",
+        "raccoon-scavenger",
+        "toad-brewer",
+        "toad-brewer",
+        "raven-bargain",
+        "raven-bargain",
+        "bar-fight",
+        "bar-fight",
+        "smoke-bomb",
+        "smoke-bomb",
+        "rusty-dagger",
+        "rusty-dagger"
+      ]
+    }
+  }
+}

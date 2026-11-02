@@ -8,8 +8,9 @@ export function validateProfile(value,rules){
   if(value.duel)rules.assert(value.duel);
   const r=value.run;
   if(r){
+    if(r.balanceVersion!==undefined&&r.balanceVersion!==2||r.difficulty!==undefined&&!['relaxed','standard','sharp'].includes(r.difficulty)||r.balanceVersion===2&&r.rulesVersion>=3&&!r.difficulty)throw Error('Unknown trail balance.');
     if(r.rulesVersion!==undefined&&![2,3].includes(r.rulesVersion)||!(r.rulesVersion>=3)&&r.deck?.some(id=>rules.cards[id]?.set==='after-midnight'))throw Error('Unknown adventure rules.');
-    if(!rules.validateDeck(r.deck,r.hero)||!Number.isInteger(r.stage)||r.stage<0||r.stage>7||!['map','battle','reward','won','lost'].includes(r.status)||!Number.isFinite(r.health)||r.health<1||r.health>36||!Array.isArray(r.relics)||r.relics.some(id=>!['steel','pockets','ember'].includes(id))||r.relics.length>5||!Array.isArray(r.choices)||r.choices.length>3)throw Error('Invalid adventure save.');
+    if(!rules.validateDeck(r.deck,r.hero)||!Number.isInteger(r.stage)||r.stage<0||r.stage>7||!['map','battle','reward','won','lost'].includes(r.status)||!Number.isFinite(r.health)||r.health<1||r.health>36||!Array.isArray(r.relics)||r.relics.some(id=>!['steel','pockets','ember'].includes(id))||r.relics.length>5||!Array.isArray(r.choices)||r.choices.length>(r.balanceVersion===2?4:3))throw Error('Invalid adventure save.');
     if(r.game)rules.assert(r.game);
     if(r.status==='battle'&&!r.game)throw Error('Missing encounter.');
     if(r.status==='reward'&&(!r.choices.length||r.choices.some(c=>!c||!['card','heal','relic'].includes(c.type)||c.type==='card'&&!rules.cards[c.card]||c.type==='relic'&&!['steel','pockets','ember'].includes(c.id)||c.type==='heal'&&(!Number.isInteger(c.amount)||c.amount<1||c.amount>30))))throw Error('Invalid adventure reward.');

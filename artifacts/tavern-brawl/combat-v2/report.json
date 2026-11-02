@@ -1,0 +1,86 @@
+{
+  "layouts": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "contact": true,
+      "geometry": true,
+      "bothSeats": true,
+      "pauseCleanup": true
+    },
+    {
+      "name": "phone",
+      "width": 390,
+      "height": 844,
+      "contact": true,
+      "geometry": true,
+      "bothSeats": true,
+      "pauseCleanup": true
+    },
+    {
+      "name": "small-phone",
+      "width": 320,
+      "height": 568,
+      "contact": true,
+      "geometry": true,
+      "bothSeats": true,
+      "pauseCleanup": true
+    },
+    {
+      "name": "landscape",
+      "width": 844,
+      "height": 390,
+      "contact": true,
+      "geometry": true,
+      "bothSeats": true,
+      "pauseCleanup": true
+    }
+  ],
+  "families": [
+    {
+      "name": "blade",
+      "visiblePixels": 29302
+    },
+    {
+      "name": "heavy",
+      "visiblePixels": 26547
+    },
+    {
+      "name": "fire",
+      "visiblePixels": 17009
+    },
+    {
+      "name": "shadow",
+      "visiblePixels": 29282
+    },
+    {
+      "name": "celestial",
+      "visiblePixels": 22386
+    },
+    {
+      "name": "heal",
+      "visiblePixels": 21679
+    },
+    {
+      "name": "return",
+      "visiblePixels": 22834
+    }
+  ],
+  "outcomes": [
+    "ward",
+    "lethal",
+    "reciprocal",
+    "hero"
+  ],
+  "submissionTiming": {
+    "frames": 120,
+    "meanMs": 0.030833333233992257,
+    "p95Ms": 0.10000002384185791,
+    "scope": "Synchronous 2D draw submission only; excludes whole-page compositing and is not physical-phone FPS certification"
+  },
+  "savedReducedMotion": true,
+  "systemReducedMotion": true,
+  "rapidReplayCleanup": true,
+  "errors": []
+}

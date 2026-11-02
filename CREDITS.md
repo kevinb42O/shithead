@@ -159,3 +159,22 @@ The victory screen self-hosts Latin WOFF2 subsets of **Cinzel Decorative Black**
 ### Frost and heat card finishes
 
 `dist/assets/card-materials/seven-frost-overlay.png` and `ten-heat-overlay.png` are original transparent surface textures generated with the built-in OpenAI ImageGen tool on 2026-11-02. The original 1024×1536 RGBA files and generated alpha are preserved. Their exact production prompts are saved in the adjacent `.prompt.txt` files. CSS applies the finishes over exposed sevens and tens, with protected rank corners and reduced opacity; the original card illustrations remain separate.
+
+### Brawl ambient room
+
+Brawl's background smoke reuses the existing `dist/assets/vfx/lantern-mist.png`, derived from Kenney Particle Pack `smoke_01.png` (CC0, https://kenney.nl/assets/particle-pack), with the derivation described above. No additional downloaded texture is introduced by this pass. The hearth/window lighting and bounded ember/dust motion in `dist/brawl/ambient-room.js` are original runtime effects over the existing Midnight board paintings.
+
+### Furnace Burst material
+
+`dist/assets/tavern-brawl/midnight/materials/furnace-burst-v1.png` is original artwork generated with the built-in image-generation tool for this project. Its native RGBA transparency is preserved; the exact production prompt is retained in `furnace-burst-v1.prompt.txt`. The runtime advects and dissolves the image; it is not filmed footage. The fallback can reuse the previously credited Kenney smoke texture if the dedicated flame image is unavailable. Asset dimensions, alpha statistics and SHA-256 are recorded in `artifacts/tavern-brawl/furnace-burst/report.json`.
+
+
+## Mordren furnace and captive-soul combat materials
+
+Six original native-alpha VFX ingredients were generated with the built-in ImageGen tool for this project: molten soul cleave, furnace impact, coal ash, two soul wisps and a cooling scorch. The original 1536×1024 RGBA source and exact prompt are retained in `artifacts/tavern-brawl/attack-research/mordren-soul-vfx-source-v1.png` and `mordren-soul-vfx-v1.prompt.txt`. Runtime crops are `midnight/materials/{soul-cleave,furnace-impact,coal-ash,soul-a,soul-b,furnace-scorch}-v1.png`. Their generated alpha is preserved through rectangular extraction, with regions recorded in `mordren-soul-vfx-regions-v1.json`. These are painted textures animated in real time, not rendered character video.
+
+The supporting six-frame `cethiel-flame-slash.png` uses the first fire-slash sequence from **Weapon Slash — Effect** by **Cethiel**, released under **CC0**: https://opengameart.org/content/weapon-slash-effect . Original archive: https://opengameart.org/sites/default/files/Alternative%203%20Fire.zip . Exact source filename inventory and SHA-256 are in `artifacts/tavern-brawl/attack-research/sources.json`. Frames are centered in 192×192 transparent cells without enlarging their source artwork. Reproduce both the original crops and this strip with `python3 scripts/tavern-brawl/prepare-mordren-vfx.py` (Pillow).
+
+### Expanded Brawl combat atlas and smoke
+
+`dist/assets/tavern-brawl/midnight/materials/combat-atlas-v2.png` and `combat-smoke-v2.png` are original artwork created using the built-in ImageGen tool. Their exact generation briefs, including the smoke layout correction, are retained in the adjacent `.prompt.txt` files. The 1536×1024 six-cell material atlas supplies a brass/ivory blade crescent, physical splinter collision, violet shadow slash, blue celestial comet, Ward fracture and green/gold restoration ribbons. The 1774×887 eight-frame smoke atlas supplies finite death/return plumes. The runtime samples the original RGBA files directly and preserves native transparency. These are painted effects animated at runtime, not recorded footage. Alpha statistics and browser evidence are under `artifacts/tavern-brawl/combat-v2/`.

@@ -1,0 +1,279 @@
+{
+  "fixture": "Synthetic renderer fixture; real gameplay checked separately",
+  "viewports": [
+    {
+      "name": "desktop",
+      "w": 1440,
+      "h": 900,
+      "viewport": true,
+      "slots": true,
+      "art": true,
+      "rects": [
+        {
+          "id": "unit",
+          "left": 443.890625,
+          "top": 189,
+          "right": 591.484375,
+          "bottom": 373.5
+        },
+        {
+          "id": "unit has-ward guard",
+          "left": 631.796875,
+          "top": 189,
+          "right": 779.390625,
+          "bottom": 373.5
+        },
+        {
+          "id": "crew-slot",
+          "left": 819.703125,
+          "top": 189,
+          "right": 967.296875,
+          "bottom": 373.5
+        },
+        {
+          "id": "unit is-ready",
+          "left": 422.28125,
+          "top": 405,
+          "right": 584.28125,
+          "bottom": 607.5
+        },
+        {
+          "id": "unit is-ready",
+          "left": 624.59375,
+          "top": 405,
+          "right": 786.59375,
+          "bottom": 607.5
+        },
+        {
+          "id": "crew-slot",
+          "left": 826.90625,
+          "top": 405,
+          "right": 988.90625,
+          "bottom": 607.5
+        },
+        {
+          "id": "end-turn",
+          "left": 1209.78125,
+          "top": 380.375,
+          "right": 1344.78125,
+          "bottom": 515.375
+        },
+        {
+          "id": "hero-power",
+          "left": 30.234375,
+          "top": 391.5,
+          "right": 347.03125,
+          "bottom": 480.640625
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "w": 390,
+      "h": 844,
+      "viewport": true,
+      "slots": true,
+      "art": true,
+      "rects": [
+        {
+          "id": "unit",
+          "left": 39.7890625,
+          "top": 202.546875,
+          "right": 130.2578125,
+          "bottom": 315.640625
+        },
+        {
+          "id": "unit has-ward guard",
+          "left": 149.7578125,
+          "top": 202.546875,
+          "right": 240.2265625,
+          "bottom": 315.640625
+        },
+        {
+          "id": "crew-slot",
+          "left": 259.7265625,
+          "top": 202.546875,
+          "right": 350.1953125,
+          "bottom": 315.640625
+        },
+        {
+          "id": "unit is-ready",
+          "left": 39.7890625,
+          "top": 362.90625,
+          "right": 130.2578125,
+          "bottom": 476
+        },
+        {
+          "id": "unit is-ready",
+          "left": 149.7578125,
+          "top": 362.90625,
+          "right": 240.2265625,
+          "bottom": 476
+        },
+        {
+          "id": "crew-slot",
+          "left": 259.7265625,
+          "top": 362.90625,
+          "right": 350.1953125,
+          "bottom": 476
+        },
+        {
+          "id": "end-turn",
+          "left": 298.375,
+          "top": 518.015625,
+          "right": 368.5625,
+          "bottom": 588.203125
+        },
+        {
+          "id": "hero-power",
+          "left": 97.5,
+          "top": 523.265625,
+          "right": 265.1875,
+          "bottom": 570.453125
+        }
+      ]
+    },
+    {
+      "name": "small-mobile",
+      "w": 320,
+      "h": 568,
+      "viewport": true,
+      "slots": true,
+      "art": true,
+      "rects": [
+        {
+          "id": "unit",
+          "left": 44.171875,
+          "top": 142,
+          "right": 110.71875,
+          "bottom": 225.1875
+        },
+        {
+          "id": "unit has-ward guard",
+          "left": 126.71875,
+          "top": 142,
+          "right": 193.265625,
+          "bottom": 225.1875
+        },
+        {
+          "id": "crew-slot",
+          "left": 209.265625,
+          "top": 142,
+          "right": 275.8125,
+          "bottom": 225.1875
+        },
+        {
+          "id": "unit is-ready",
+          "left": 44.171875,
+          "top": 249.90625,
+          "right": 110.71875,
+          "bottom": 333.09375
+        },
+        {
+          "id": "unit is-ready",
+          "left": 126.71875,
+          "top": 249.90625,
+          "right": 193.265625,
+          "bottom": 333.09375
+        },
+        {
+          "id": "crew-slot",
+          "left": 209.265625,
+          "top": 249.90625,
+          "right": 275.8125,
+          "bottom": 333.09375
+        },
+        {
+          "id": "end-turn",
+          "left": 244.8125,
+          "top": 348.40625,
+          "right": 302.40625,
+          "bottom": 406
+        },
+        {
+          "id": "hero-power",
+          "left": 76.796875,
+          "top": 352.15625,
+          "right": 217.59375,
+          "bottom": 396.15625
+        }
+      ]
+    },
+    {
+      "name": "landscape",
+      "w": 844,
+      "h": 390,
+      "viewport": true,
+      "slots": true,
+      "art": true,
+      "rects": [
+        {
+          "id": "unit",
+          "left": 296.3359375,
+          "top": 81.890625,
+          "right": 358.7265625,
+          "bottom": 159.890625
+        },
+        {
+          "id": "unit has-ward guard",
+          "left": 382.3515625,
+          "top": 81.890625,
+          "right": 444.7421875,
+          "bottom": 159.890625
+        },
+        {
+          "id": "crew-slot",
+          "left": 468.3671875,
+          "top": 81.890625,
+          "right": 530.7578125,
+          "bottom": 159.890625
+        },
+        {
+          "id": "unit is-ready",
+          "left": 291.6640625,
+          "top": 179.390625,
+          "right": 357.1640625,
+          "bottom": 261.28125
+        },
+        {
+          "id": "unit is-ready",
+          "left": 380.7890625,
+          "top": 179.390625,
+          "right": 446.2890625,
+          "bottom": 261.28125
+        },
+        {
+          "id": "crew-slot",
+          "left": 469.9140625,
+          "top": 179.390625,
+          "right": 535.4140625,
+          "bottom": 261.28125
+        },
+        {
+          "id": "end-turn",
+          "left": 709.640625,
+          "top": 161.734375,
+          "right": 787.640625,
+          "bottom": 239.734375
+        },
+        {
+          "id": "hero-power",
+          "left": 15.1875,
+          "top": 167.6875,
+          "right": 200.859375,
+          "bottom": 219.9375
+        }
+      ]
+    }
+  ],
+  "legends": [
+    "mordren-ashen-host",
+    "vesper-blackpaw-king",
+    "orun-eclipse-warden",
+    "mother-nox-bellkeeper"
+  ],
+  "errors": [],
+  "reducedMotion": true,
+  "pauseCleanup": true,
+  "crowdedHand": true
+}

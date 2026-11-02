@@ -1,0 +1,1621 @@
+{
+  "tool": "comp-spec inspect-map",
+  "version": 1,
+  "referenceOnly": true,
+  "stateChanged": false,
+  "comp": ".impeccable/mocks/01-midnight-duel.png",
+  "compSize": {
+    "width": 1586,
+    "height": 992
+  },
+  "inputRegionCount": 21,
+  "regions": [
+    {
+      "id": "midnight-room",
+      "kind": "plate",
+      "note": "Full bleed midnight tavern environment: warm hearth at left, cool moonlit window at right, dark dueling table with slender brass edges. No cards, heroes, controls, numbers or lettering in production painting.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "px": {
+        "x": 0,
+        "y": 0,
+        "w": 1586,
+        "h": 992
+      },
+      "aspect": 1.5988,
+      "palette": [
+        {
+          "hex": "#101114",
+          "coverage": 0.5719
+        },
+        {
+          "hex": "#311f13",
+          "coverage": 0.263
+        },
+        {
+          "hex": "#562f18",
+          "coverage": 0.0599
+        },
+        {
+          "hex": "#1a2c35",
+          "coverage": 0.0558
+        },
+        {
+          "hex": "#6f533a",
+          "coverage": 0.0494
+        }
+      ],
+      "detail": {
+        "energy": 42.491
+      },
+      "medium": "raster",
+      "plate": "assets/plates/midnight-room.png",
+      "text": null,
+      "number": 1,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 63880,
+        "totalPixels": 1573312,
+        "remainingPixels": 1509432,
+        "excludedFraction": 0.04060224545417565,
+        "fullyExcluded": false,
+        "regions": [
+          {
+            "id": "wordmark",
+            "kind": "text",
+            "cropPx": {
+              "x": 32,
+              "y": 18,
+              "w": 254,
+              "h": 60
+            },
+            "pixels": 15240
+          },
+          {
+            "id": "end-turn-label",
+            "kind": "control",
+            "cropPx": {
+              "x": 1301,
+              "y": 486,
+              "w": 238,
+              "h": 55
+            },
+            "pixels": 13090
+          },
+          {
+            "id": "hero-power",
+            "kind": "control",
+            "cropPx": {
+              "x": 103,
+              "y": 615,
+              "w": 238,
+              "h": 45
+            },
+            "pixels": 10710
+          },
+          {
+            "id": "energy",
+            "kind": "control",
+            "cropPx": {
+              "x": 40,
+              "y": 663,
+              "w": 285,
+              "h": 40
+            },
+            "pixels": 11400
+          },
+          {
+            "id": "utility-0",
+            "kind": "control",
+            "cropPx": {
+              "x": 1291,
+              "y": 18,
+              "w": 70,
+              "h": 64
+            },
+            "pixels": 4480
+          },
+          {
+            "id": "utility-1",
+            "kind": "control",
+            "cropPx": {
+              "x": 1380,
+              "y": 18,
+              "w": 70,
+              "h": 64
+            },
+            "pixels": 4480
+          },
+          {
+            "id": "utility-2",
+            "kind": "control",
+            "cropPx": {
+              "x": 1464,
+              "y": 18,
+              "w": 70,
+              "h": 64
+            },
+            "pixels": 4480
+          }
+        ],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-1.png",
+      "referencePath": "reference-1.png"
+    },
+    {
+      "id": "wordmark",
+      "kind": "text",
+      "note": "Tavern Brawl title lettering",
+      "grid": null,
+      "box": {
+        "x": 0.02,
+        "y": 0.018,
+        "w": 0.16,
+        "h": 0.06
+      },
+      "px": {
+        "x": 32,
+        "y": 18,
+        "w": 254,
+        "h": 60
+      },
+      "aspect": 4.2333,
+      "palette": [
+        {
+          "hex": "#1b0c08",
+          "coverage": 0.6254
+        },
+        {
+          "hex": "#3d1c0c",
+          "coverage": 0.159
+        },
+        {
+          "hex": "#af8b60",
+          "coverage": 0.1436
+        },
+        {
+          "hex": "#83603f",
+          "coverage": 0.0364
+        },
+        {
+          "hex": "#543d26",
+          "coverage": 0.0357
+        }
+      ],
+      "detail": {
+        "energy": 38.8992
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      },
+      "number": 2,
+      "cropPath": "region-2.png"
+    },
+    {
+      "id": "enemy-hero",
+      "kind": "image",
+      "note": "Owl opponent hero portrait above the upper row; painted original animal character.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.365,
+        "y": 0,
+        "w": 0.26,
+        "h": 0.18
+      },
+      "px": {
+        "x": 579,
+        "y": 0,
+        "w": 412,
+        "h": 179
+      },
+      "aspect": 2.3017,
+      "palette": [
+        {
+          "hex": "#131014",
+          "coverage": 0.6046
+        },
+        {
+          "hex": "#3b2117",
+          "coverage": 0.2327
+        },
+        {
+          "hex": "#5d351f",
+          "coverage": 0.0589
+        },
+        {
+          "hex": "#1e293f",
+          "coverage": 0.0528
+        },
+        {
+          "hex": "#4b4242",
+          "coverage": 0.0509
+        }
+      ],
+      "detail": {
+        "energy": 40.1631
+      },
+      "medium": "raster",
+      "plate": "assets/plates/enemy-hero.png",
+      "text": null,
+      "number": 3,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 73748,
+        "remainingPixels": 73748,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-3.png",
+      "referencePath": "reference-3.png"
+    },
+    {
+      "id": "own-hero",
+      "kind": "image",
+      "note": "Fox player portrait at left of friendly row.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0,
+        "y": 0.385,
+        "w": 0.235,
+        "h": 0.23
+      },
+      "px": {
+        "x": 0,
+        "y": 382,
+        "w": 373,
+        "h": 228
+      },
+      "aspect": 1.636,
+      "palette": [
+        {
+          "hex": "#140f0e",
+          "coverage": 0.6205
+        },
+        {
+          "hex": "#412d1f",
+          "coverage": 0.1902
+        },
+        {
+          "hex": "#55170c",
+          "coverage": 0.0744
+        },
+        {
+          "hex": "#823a19",
+          "coverage": 0.0603
+        },
+        {
+          "hex": "#664226",
+          "coverage": 0.0545
+        }
+      ],
+      "detail": {
+        "energy": 40.5999
+      },
+      "medium": "raster",
+      "plate": "assets/plates/own-hero.png",
+      "text": null,
+      "number": 4,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 85044,
+        "remainingPixels": 85044,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-4.png",
+      "referencePath": "reference-4.png"
+    },
+    {
+      "id": "crew-art-0",
+      "kind": "image",
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.29,
+        "y": 0.19,
+        "w": 0.125,
+        "h": 0.175
+      },
+      "px": {
+        "x": 460,
+        "y": 188,
+        "w": 198,
+        "h": 174
+      },
+      "aspect": 1.1379,
+      "palette": [
+        {
+          "hex": "#0f0d0f",
+          "coverage": 0.4334
+        },
+        {
+          "hex": "#2e251e",
+          "coverage": 0.2411
+        },
+        {
+          "hex": "#8d8a83",
+          "coverage": 0.1211
+        },
+        {
+          "hex": "#555658",
+          "coverage": 0.1169
+        },
+        {
+          "hex": "#d0b79b",
+          "coverage": 0.0875
+        }
+      ],
+      "detail": {
+        "energy": 35.3348
+      },
+      "medium": "raster",
+      "plate": "assets/plates/crew-art-0.png",
+      "text": null,
+      "number": 5,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 34452,
+        "remainingPixels": 34452,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-5.png",
+      "referencePath": "reference-5.png"
+    },
+    {
+      "id": "crew-art-1",
+      "kind": "image",
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.415,
+        "y": 0.19,
+        "w": 0.13,
+        "h": 0.175
+      },
+      "px": {
+        "x": 658,
+        "y": 188,
+        "w": 206,
+        "h": 174
+      },
+      "aspect": 1.1839,
+      "palette": [
+        {
+          "hex": "#131418",
+          "coverage": 0.5306
+        },
+        {
+          "hex": "#372d27",
+          "coverage": 0.2145
+        },
+        {
+          "hex": "#6d8ead",
+          "coverage": 0.0961
+        },
+        {
+          "hex": "#574d47",
+          "coverage": 0.0943
+        },
+        {
+          "hex": "#877369",
+          "coverage": 0.0645
+        }
+      ],
+      "detail": {
+        "energy": 33.0367
+      },
+      "medium": "raster",
+      "plate": "assets/plates/crew-art-1.png",
+      "text": null,
+      "number": 6,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 35844,
+        "remainingPixels": 35844,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-6.png",
+      "referencePath": "reference-6.png"
+    },
+    {
+      "id": "crew-art-2",
+      "kind": "image",
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.29,
+        "y": 0.385,
+        "w": 0.125,
+        "h": 0.22
+      },
+      "px": {
+        "x": 460,
+        "y": 382,
+        "w": 198,
+        "h": 218
+      },
+      "aspect": 0.9083,
+      "palette": [
+        {
+          "hex": "#140f0f",
+          "coverage": 0.4147
+        },
+        {
+          "hex": "#213038",
+          "coverage": 0.2168
+        },
+        {
+          "hex": "#38241e",
+          "coverage": 0.1526
+        },
+        {
+          "hex": "#26545e",
+          "coverage": 0.1232
+        },
+        {
+          "hex": "#522717",
+          "coverage": 0.0927
+        }
+      ],
+      "detail": {
+        "energy": 32.8493
+      },
+      "medium": "raster",
+      "plate": "assets/plates/crew-art-2.png",
+      "text": null,
+      "number": 7,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 43164,
+        "remainingPixels": 43164,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-7.png",
+      "referencePath": "reference-7.png"
+    },
+    {
+      "id": "crew-art-3",
+      "kind": "image",
+      "note": "Full art crew portrait with slender brass edges; each live unit varies with the game. Values are separate semantic overlays.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.415,
+        "y": 0.385,
+        "w": 0.13,
+        "h": 0.22
+      },
+      "px": {
+        "x": 658,
+        "y": 382,
+        "w": 206,
+        "h": 218
+      },
+      "aspect": 0.945,
+      "palette": [
+        {
+          "hex": "#151516",
+          "coverage": 0.3352
+        },
+        {
+          "hex": "#3e3123",
+          "coverage": 0.2887
+        },
+        {
+          "hex": "#102d31",
+          "coverage": 0.129
+        },
+        {
+          "hex": "#bcb285",
+          "coverage": 0.1246
+        },
+        {
+          "hex": "#8e8d6c",
+          "coverage": 0.1225
+        }
+      ],
+      "detail": {
+        "energy": 34.0419
+      },
+      "medium": "raster",
+      "plate": "assets/plates/crew-art-3.png",
+      "text": null,
+      "number": 8,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 44908,
+        "remainingPixels": 44908,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-8.png",
+      "referencePath": "reference-8.png"
+    },
+    {
+      "id": "hand-art-0",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.19,
+        "y": 0.7,
+        "w": 0.14,
+        "h": 0.27
+      },
+      "px": {
+        "x": 301,
+        "y": 694,
+        "w": 222,
+        "h": 268
+      },
+      "aspect": 0.8284,
+      "palette": [
+        {
+          "hex": "#181212",
+          "coverage": 0.5519
+        },
+        {
+          "hex": "#42281c",
+          "coverage": 0.2555
+        },
+        {
+          "hex": "#6f482b",
+          "coverage": 0.1122
+        },
+        {
+          "hex": "#9c623a",
+          "coverage": 0.05
+        },
+        {
+          "hex": "#605249",
+          "coverage": 0.0303
+        }
+      ],
+      "detail": {
+        "energy": 27.9181
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-0.png",
+      "text": null,
+      "number": 9,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 216,
+        "totalPixels": 59496,
+        "remainingPixels": 59280,
+        "excludedFraction": 0.003630496167809601,
+        "fullyExcluded": false,
+        "regions": [
+          {
+            "id": "energy",
+            "kind": "control",
+            "cropPx": {
+              "x": 0,
+              "y": 0,
+              "w": 24,
+              "h": 9
+            },
+            "pixels": 216
+          }
+        ],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-9.png",
+      "referencePath": "reference-9.png"
+    },
+    {
+      "id": "hand-art-1",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.29,
+        "y": 0.65,
+        "w": 0.14,
+        "h": 0.29
+      },
+      "px": {
+        "x": 460,
+        "y": 645,
+        "w": 222,
+        "h": 288
+      },
+      "aspect": 0.7708,
+      "palette": [
+        {
+          "hex": "#151313",
+          "coverage": 0.4575
+        },
+        {
+          "hex": "#3e2a1c",
+          "coverage": 0.261
+        },
+        {
+          "hex": "#704b30",
+          "coverage": 0.1046
+        },
+        {
+          "hex": "#344340",
+          "coverage": 0.0889
+        },
+        {
+          "hex": "#6d6d60",
+          "coverage": 0.0881
+        }
+      ],
+      "detail": {
+        "energy": 37.5845
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-1.png",
+      "text": null,
+      "number": 10,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 63936,
+        "remainingPixels": 63936,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-10.png",
+      "referencePath": "reference-10.png"
+    },
+    {
+      "id": "hand-art-2",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.4,
+        "y": 0.64,
+        "w": 0.14,
+        "h": 0.29
+      },
+      "px": {
+        "x": 634,
+        "y": 635,
+        "w": 222,
+        "h": 288
+      },
+      "aspect": 0.7708,
+      "palette": [
+        {
+          "hex": "#121212",
+          "coverage": 0.604
+        },
+        {
+          "hex": "#412e1f",
+          "coverage": 0.1823
+        },
+        {
+          "hex": "#714f34",
+          "coverage": 0.1035
+        },
+        {
+          "hex": "#e2bf8d",
+          "coverage": 0.056
+        },
+        {
+          "hex": "#ac835c",
+          "coverage": 0.0543
+        }
+      ],
+      "detail": {
+        "energy": 31.6182
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-2.png",
+      "text": null,
+      "number": 11,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 63936,
+        "remainingPixels": 63936,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-11.png",
+      "referencePath": "reference-11.png"
+    },
+    {
+      "id": "hand-art-3",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.51,
+        "y": 0.64,
+        "w": 0.14,
+        "h": 0.29
+      },
+      "px": {
+        "x": 809,
+        "y": 635,
+        "w": 222,
+        "h": 288
+      },
+      "aspect": 0.7708,
+      "palette": [
+        {
+          "hex": "#171517",
+          "coverage": 0.7273
+        },
+        {
+          "hex": "#412b1f",
+          "coverage": 0.1379
+        },
+        {
+          "hex": "#3f3c38",
+          "coverage": 0.0579
+        },
+        {
+          "hex": "#664a37",
+          "coverage": 0.0425
+        },
+        {
+          "hex": "#c69c74",
+          "coverage": 0.0344
+        }
+      ],
+      "detail": {
+        "energy": 28.191
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-3.png",
+      "text": null,
+      "number": 12,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 63936,
+        "remainingPixels": 63936,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-12.png",
+      "referencePath": "reference-12.png"
+    },
+    {
+      "id": "hand-art-4",
+      "kind": "image",
+      "note": "Independent full art collectible card, dark lower rules region and slender brass frame, fanned over foreground; live content and values vary.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.63,
+        "y": 0.62,
+        "w": 0.17,
+        "h": 0.34
+      },
+      "px": {
+        "x": 999,
+        "y": 615,
+        "w": 270,
+        "h": 337
+      },
+      "aspect": 0.8012,
+      "palette": [
+        {
+          "hex": "#111013",
+          "coverage": 0.7007
+        },
+        {
+          "hex": "#302d35",
+          "coverage": 0.1204
+        },
+        {
+          "hex": "#3e2d1a",
+          "coverage": 0.0719
+        },
+        {
+          "hex": "#181035",
+          "coverage": 0.0585
+        },
+        {
+          "hex": "#2f3056",
+          "coverage": 0.0485
+        }
+      ],
+      "detail": {
+        "energy": 39.1894
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hand-art-4.png",
+      "text": null,
+      "number": 13,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 90990,
+        "remainingPixels": 90990,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-13.png",
+      "referencePath": "reference-13.png"
+    },
+    {
+      "id": "pot-vessel",
+      "kind": "image",
+      "note": "Shared brass coin vessel, with live coin count over it.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.76,
+        "y": 0.21,
+        "w": 0.19,
+        "h": 0.16
+      },
+      "px": {
+        "x": 1205,
+        "y": 208,
+        "w": 301,
+        "h": 159
+      },
+      "aspect": 1.8931,
+      "palette": [
+        {
+          "hex": "#180f0c",
+          "coverage": 0.4534
+        },
+        {
+          "hex": "#40220f",
+          "coverage": 0.2486
+        },
+        {
+          "hex": "#663a15",
+          "coverage": 0.1514
+        },
+        {
+          "hex": "#b27032",
+          "coverage": 0.085
+        },
+        {
+          "hex": "#8e5326",
+          "coverage": 0.0616
+        }
+      ],
+      "detail": {
+        "energy": 43.4388
+      },
+      "medium": "raster",
+      "plate": "assets/plates/pot-vessel.png",
+      "text": null,
+      "number": 14,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 0,
+        "totalPixels": 47859,
+        "remainingPixels": 47859,
+        "excludedFraction": 0.0,
+        "fullyExcluded": false,
+        "regions": [],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-14.png",
+      "referencePath": "reference-14.png"
+    },
+    {
+      "id": "end-turn-material",
+      "kind": "image",
+      "note": "Dark teal enamel action surround with slender sculpted brass; no baked lettering.",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.79,
+        "y": 0.43,
+        "w": 0.2,
+        "h": 0.15
+      },
+      "px": {
+        "x": 1253,
+        "y": 427,
+        "w": 317,
+        "h": 149
+      },
+      "aspect": 2.1275,
+      "palette": [
+        {
+          "hex": "#182933",
+          "coverage": 0.4034
+        },
+        {
+          "hex": "#0f1010",
+          "coverage": 0.3235
+        },
+        {
+          "hex": "#382315",
+          "coverage": 0.1633
+        },
+        {
+          "hex": "#5e3a20",
+          "coverage": 0.0749
+        },
+        {
+          "hex": "#4c433c",
+          "coverage": 0.0349
+        }
+      ],
+      "detail": {
+        "energy": 32.3736
+      },
+      "medium": "raster",
+      "plate": "assets/plates/end-turn-material.png",
+      "text": null,
+      "number": 15,
+      "reference": {
+        "policy": "plate-reference-v2",
+        "excludedPixels": 13090,
+        "totalPixels": 47233,
+        "remainingPixels": 34143,
+        "excludedFraction": 0.27713674761289775,
+        "fullyExcluded": false,
+        "regions": [
+          {
+            "id": "end-turn-label",
+            "kind": "control",
+            "cropPx": {
+              "x": 48,
+              "y": 59,
+              "w": 238,
+              "h": 55
+            },
+            "pixels": 13090
+          }
+        ],
+        "ignoredContainers": []
+      },
+      "cropPath": "region-15.png",
+      "referencePath": "reference-15.png"
+    },
+    {
+      "id": "end-turn-label",
+      "kind": "control",
+      "note": "End turn action label, live semantic button",
+      "grid": null,
+      "box": {
+        "x": 0.82,
+        "y": 0.49,
+        "w": 0.15,
+        "h": 0.055
+      },
+      "px": {
+        "x": 1301,
+        "y": 486,
+        "w": 238,
+        "h": 55
+      },
+      "aspect": 4.3273,
+      "palette": [
+        {
+          "hex": "#14232a",
+          "coverage": 0.888
+        },
+        {
+          "hex": "#efcc9c",
+          "coverage": 0.066
+        },
+        {
+          "hex": "#9c8872",
+          "coverage": 0.0173
+        },
+        {
+          "hex": "#cfab87",
+          "coverage": 0.0173
+        },
+        {
+          "hex": "#2b1a0f",
+          "coverage": 0.0113
+        }
+      ],
+      "detail": {
+        "energy": 23.9963
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      },
+      "number": 16,
+      "cropPath": "region-16.png"
+    },
+    {
+      "id": "hero-power",
+      "kind": "control",
+      "note": "Sleight of Paw action label",
+      "grid": null,
+      "box": {
+        "x": 0.065,
+        "y": 0.62,
+        "w": 0.15,
+        "h": 0.045
+      },
+      "px": {
+        "x": 103,
+        "y": 615,
+        "w": 238,
+        "h": 45
+      },
+      "aspect": 5.2889,
+      "palette": [
+        {
+          "hex": "#161515",
+          "coverage": 0.8122
+        },
+        {
+          "hex": "#3a2a1b",
+          "coverage": 0.1017
+        },
+        {
+          "hex": "#614931",
+          "coverage": 0.0348
+        },
+        {
+          "hex": "#e8d1ab",
+          "coverage": 0.0287
+        },
+        {
+          "hex": "#b19679",
+          "coverage": 0.0226
+        }
+      ],
+      "detail": {
+        "energy": 32.833
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      },
+      "number": 17,
+      "cropPath": "region-17.png"
+    },
+    {
+      "id": "energy",
+      "kind": "control",
+      "note": "Six lit of eight energy sockets and live energy value",
+      "grid": null,
+      "box": {
+        "x": 0.025,
+        "y": 0.668,
+        "w": 0.18,
+        "h": 0.04
+      },
+      "px": {
+        "x": 40,
+        "y": 663,
+        "w": 285,
+        "h": 40
+      },
+      "aspect": 7.125,
+      "palette": [
+        {
+          "hex": "#0a0d13",
+          "coverage": 0.685
+        },
+        {
+          "hex": "#0c1a3f",
+          "coverage": 0.1342
+        },
+        {
+          "hex": "#1dc2f8",
+          "coverage": 0.0876
+        },
+        {
+          "hex": "#563820",
+          "coverage": 0.0466
+        },
+        {
+          "hex": "#364786",
+          "coverage": 0.0466
+        }
+      ],
+      "detail": {
+        "energy": 35.747
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      },
+      "number": 18,
+      "cropPath": "region-18.png"
+    },
+    {
+      "id": "utility-0",
+      "kind": "control",
+      "note": "Menu utility",
+      "grid": null,
+      "box": {
+        "x": 0.814,
+        "y": 0.018,
+        "w": 0.044,
+        "h": 0.065
+      },
+      "px": {
+        "x": 1291,
+        "y": 18,
+        "w": 70,
+        "h": 64
+      },
+      "aspect": 1.0938,
+      "palette": [
+        {
+          "hex": "#090d17",
+          "coverage": 0.8222
+        },
+        {
+          "hex": "#172f49",
+          "coverage": 0.0889
+        },
+        {
+          "hex": "#c3a985",
+          "coverage": 0.0343
+        },
+        {
+          "hex": "#265386",
+          "coverage": 0.0303
+        },
+        {
+          "hex": "#948569",
+          "coverage": 0.0242
+        }
+      ],
+      "detail": {
+        "energy": 11.4789
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      },
+      "number": 19,
+      "cropPath": "region-19.png"
+    },
+    {
+      "id": "utility-1",
+      "kind": "control",
+      "note": "History utility",
+      "grid": null,
+      "box": {
+        "x": 0.87,
+        "y": 0.018,
+        "w": 0.044,
+        "h": 0.065
+      },
+      "px": {
+        "x": 1380,
+        "y": 18,
+        "w": 70,
+        "h": 64
+      },
+      "aspect": 1.0938,
+      "palette": [
+        {
+          "hex": "#1b364f",
+          "coverage": 0.2913
+        },
+        {
+          "hex": "#3669a2",
+          "coverage": 0.2808
+        },
+        {
+          "hex": "#70b2d9",
+          "coverage": 0.1837
+        },
+        {
+          "hex": "#4f91cb",
+          "coverage": 0.1339
+        },
+        {
+          "hex": "#284f77",
+          "coverage": 0.1102
+        }
+      ],
+      "detail": {
+        "energy": 14.4902
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      },
+      "number": 20,
+      "cropPath": "region-20.png"
+    },
+    {
+      "id": "utility-2",
+      "kind": "control",
+      "note": "Rules utility",
+      "grid": null,
+      "box": {
+        "x": 0.923,
+        "y": 0.018,
+        "w": 0.044,
+        "h": 0.065
+      },
+      "px": {
+        "x": 1464,
+        "y": 18,
+        "w": 70,
+        "h": 64
+      },
+      "aspect": 1.0938,
+      "palette": [
+        {
+          "hex": "#1d3a60",
+          "coverage": 0.4444
+        },
+        {
+          "hex": "#0e2031",
+          "coverage": 0.2222
+        },
+        {
+          "hex": "#090d10",
+          "coverage": 0.1495
+        },
+        {
+          "hex": "#29598e",
+          "coverage": 0.1131
+        },
+        {
+          "hex": "#b69871",
+          "coverage": 0.0707
+        }
+      ],
+      "detail": {
+        "energy": 10.0685
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      },
+      "flags": [
+        {
+          "id": "painted-pixels",
+          "message": "Looks painted: 33 colours beyond its two main tones and soft shading across 39% of it. Drawn in code, this becomes a flat copy."
+        }
+      ],
+      "number": 21,
+      "cropPath": "region-21.png"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "foreground-mask",
+      "regionId": "midnight-room",
+      "message": "wordmark, end-turn-label, hero-power, energy, utility-0, utility-1, utility-2 exclude 4.1% of this reference. Check that the excluded pixels contain foreground, not artwork between separate text elements. Split overly broad foreground bounds; review grouping must not change geometry."
+    },
+    {
+      "severity": "warning",
+      "code": "foreground-mask",
+      "regionId": "hand-art-0",
+      "message": "energy exclude 0.4% of this reference. Check that the excluded pixels contain foreground, not artwork between separate text elements. Split overly broad foreground bounds; review grouping must not change geometry."
+    },
+    {
+      "severity": "warning",
+      "code": "foreground-mask",
+      "regionId": "end-turn-material",
+      "message": "end-turn-label exclude 27.7% of this reference. Check that the excluded pixels contain foreground, not artwork between separate text elements. Split overly broad foreground bounds; review grouping must not change geometry."
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region midnight-room: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region enemy-hero: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region own-hero: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region crew-art-0: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region crew-art-1: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region crew-art-2: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region crew-art-3: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region hand-art-0: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region hand-art-1: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region hand-art-2: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region hand-art-3: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region hand-art-4: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region pot-vessel: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    },
+    {
+      "severity": "warning",
+      "code": "measurement-warning",
+      "regionId": null,
+      "message": "region end-turn-material: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+    }
+  ],
+  "overlaps": [
+    {
+      "a": "midnight-room",
+      "b": "wordmark",
+      "pixels": 15240.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "enemy-hero",
+      "pixels": 73748.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "own-hero",
+      "pixels": 85044.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "crew-art-0",
+      "pixels": 34452.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "crew-art-1",
+      "pixels": 35844.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "crew-art-2",
+      "pixels": 43164.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "crew-art-3",
+      "pixels": 44908.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "hand-art-0",
+      "pixels": 59496.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "hand-art-1",
+      "pixels": 63936.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "hand-art-2",
+      "pixels": 63936.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "hand-art-3",
+      "pixels": 63936.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "hand-art-4",
+      "pixels": 90990.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "pot-vessel",
+      "pixels": 47859.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "end-turn-material",
+      "pixels": 47233.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "end-turn-label",
+      "pixels": 13090.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "hero-power",
+      "pixels": 10710.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "energy",
+      "pixels": 11400.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "utility-0",
+      "pixels": 4480.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "utility-1",
+      "pixels": 4480.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "midnight-room",
+      "b": "utility-2",
+      "pixels": 4480.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "hand-art-0",
+      "b": "hand-art-1",
+      "pixels": 15057.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "hand-art-0",
+      "b": "energy",
+      "pixels": 216.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "hand-art-1",
+      "b": "hand-art-2",
+      "pixels": 13344.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "hand-art-2",
+      "b": "hand-art-3",
+      "pixels": 13536.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "hand-art-3",
+      "b": "hand-art-4",
+      "pixels": 9216.0,
+      "relationship": "overlapping elements"
+    },
+    {
+      "a": "end-turn-material",
+      "b": "end-turn-label",
+      "pixels": 13090.0,
+      "relationship": "overlapping elements"
+    }
+  ],
+  "reviewGroups": {},
+  "uncoveredInkCells": [],
+  "comparisonSheets": [
+    {
+      "path": "comparison-1.png",
+      "regionIds": [
+        "end-turn-material",
+        "midnight-room",
+        "hand-art-0"
+      ]
+    }
+  ]
+}

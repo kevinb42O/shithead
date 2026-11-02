@@ -1,0 +1,29 @@
+COMP-DIFF [desktop] overall 58% (contradicted) structure 40% color 83% detail 71% bands 40%
+PALETTE comp #101114(55%) #311f13(25%) #562f18(6%) #1a2c35(5%) #6f533a(5%)
+PALETTE build #111111(34%) #0d1729(28%) #331d13(20%) #5d422b(7%) #58280f(6%)
+REGION midnight-room      contradicted  64%  structure  40%  color  83%  detail  71%
+REGION wordmark           drift         44%  structure  31%  color  81%  detail  54%
+REGION enemy-hero         contradicted  52%  structure  27%  color  71%  detail  59%
+REGION own-hero           contradicted  48%  structure  20%  color  75%  detail  52%
+REGION crew-art-0         missing       38%  structure  19%  color  55%  detail  40%
+REGION crew-art-1         missing       43%  structure  23%  color  68%  detail  46%
+REGION crew-art-2         missing       36%  structure  22%  color  57%  detail  36%
+REGION crew-art-3         missing       36%  structure  21%  color  43%  detail  41%
+REGION hand-art-0         missing       46%  structure  24%  color  73%  detail  44%
+REGION hand-art-1         missing       43%  structure  16%  color  69%  detail  47%
+REGION hand-art-2         contradicted  47%  structure  19%  color  67%  detail  51%
+REGION hand-art-3         missing       44%  structure  18%  color  73%  detail  43%
+REGION hand-art-4         missing       40%  structure  21%  color  75%  detail  36%
+REGION pot-vessel         missing       40%  structure  21%  color  60%  detail  42%
+REGION end-turn-material  missing       39%  structure  33%  color  62%  detail  30%
+REGION end-turn-label     contradicted  45%  structure  47%  color  61%  detail  13%  +invented detail
+REGION hero-power         contradicted  40%  structure  32%  color  61%  detail  22%  +invented detail
+REGION energy             contradicted  35%  structure  38%  color  44%  detail  12%
+REGION utility-0          missing       56%  structure  61%  color  80%  detail   3%
+REGION utility-1          contradicted  37%  structure  41%  color  40%  detail  21%
+REGION utility-2          drift         47%  structure  54%  color  51%  detail  24%  +invented detail
+FILES side-by-side /Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/side-by-side.png
+FILES heatmap /Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/heatmap.png
+FILES regions 21 under /Users/kevin/PROJECTS/ShitHead/.impeccable/review/midnight/diff/regions
+WORST energy (contradicted, 35%); crew-art-2 (missing, 36%); crew-art-3 (missing, 36%)
+OPEN the side-by-side and the worst region pairs before deciding anything; the numbers rank, the crops decide.

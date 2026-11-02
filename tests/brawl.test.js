@@ -78,7 +78,7 @@ test('brawl: return clears upgrades; simultaneous combat can kill both crew',()=
 test('brawl: results settle once, malformed saves recover, adventure rewards and terminal stages',async()=>{
   const profile=emptyProfile();let g=game();g.phase='finished';g.winner=0;g.players[1].health=0;
   assert(recordResult(profile,g));assert(!recordResult(profile,g));assert.equal(profile.stats.wins,1);validateProfile(profile,rules);
-  const run=createRun('fox',catalog.decks.fox,4,'run-test');startEncounter(rules,run);run.game.phase='finished';run.game.winner=0;run.game.players[1].health=0;run.game.players[0].health=9;
+  const run=createRun('fox',catalog.decks.fox,4,'run-test');delete run.balanceVersion;delete run.difficulty;startEncounter(rules,run);run.game.phase='finished';run.game.winner=0;run.game.players[1].health=0;run.game.players[0].health=9;
   assert(resolveEncounter(rules,run));assert.equal(run.status,'reward');assert.equal(run.stage,1);assert.equal(run.health,17);assert(!resolveEncounter(rules,run));
   assert(claimReward(rules,run,0));assert.equal(run.health,25);assert.equal(run.status,'map');assert(!claimReward(rules,run,0));
   run.stage=6;startEncounter(rules,run);run.game.phase='finished';run.game.winner=0;run.game.players[1].health=0;resolveEncounter(rules,run);assert.equal(run.status,'won');

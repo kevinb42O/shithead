@@ -1,0 +1,58 @@
+{
+  "afterRelease": [
+    false,
+    false,
+    false,
+    false
+  ],
+  "ballAngles": [
+    -2.363086665735912,
+    -2.363086665735912,
+    -2.363086665735912,
+    -2.363086665735912
+  ],
+  "ballSpread": 0,
+  "connections": [
+    "connected",
+    "connected",
+    "connected",
+    "connected",
+    "connected",
+    "connected"
+  ],
+  "fallbackInitiallyHeld": true,
+  "last": [
+    "settle",
+    "settle",
+    "settle",
+    "settle"
+  ],
+  "longHold": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "notches": [
+    "1",
+    "1",
+    "1",
+    "1"
+  ],
+  "outgoing": [
+    8,
+    0,
+    6,
+    57
+  ],
+  "passed": true,
+  "received": [
+    71,
+    71,
+    71,
+    71
+  ],
+  "recovered": true,
+  "unchangedGame": true,
+  "unchangedRevision": true
+}

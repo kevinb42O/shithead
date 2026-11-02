@@ -1,0 +1,16 @@
+/* Original painted armor/feathers; live geometry builds the eclipse and links. */
+.orun-theatre{z-index:3;background:radial-gradient(ellipse at var(--legend-x) var(--legend-y),#a6e4ff16,transparent 47%)}
+.orun-actor{position:absolute;transform-origin:50% 75%;pointer-events:none;filter:drop-shadow(6px 14px 15px #02050baa)}
+.orun-body,.orun-wing,.orun-shield{position:absolute;background-image:url('../assets/tavern-brawl/midnight/legends/orun-rig-v1.png');background-repeat:no-repeat;pointer-events:none}
+.orun-body{left:0;top:12%;width:100%;height:85%;background-size:254.33255% 100%;background-position:left center;transform-origin:50% 80%;z-index:2}
+.orun-wing{left:-13%;top:28%;width:57%;height:60%;background-size:315.69767% 100%;background-position:right center;transform-origin:75% 15%;z-index:4}
+.orun-shield{left:42%;top:40%;width:60%;height:69%;background-size:344.7619% 100%;background-position:55.38262% center;transform-origin:20% 40%;z-index:3}
+.orun-eclipse{position:absolute;left:12%;top:-9%;width:76%;height:76%;z-index:1;overflow:visible;pointer-events:none}
+.orun-eclipse g{transform-origin:100px 100px}
+.orun-healing-threads{position:absolute;inset:0;width:100%;height:100%;z-index:5;overflow:visible;pointer-events:none}
+.orun-healing-mote{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background:#f4e9d4;box-shadow:1px 3px 7px #a6e4ff88;z-index:6;pointer-events:none}
+.orun-theatre .legend-title{font-size:clamp(16px,2cqw,28px);max-width:82%;padding:8px 18px}
+@media(prefers-reduced-motion:reduce){.orun-actor,.orun-healing-threads,.orun-healing-mote{display:none}}
+
+.signature-skip{position:absolute;right:3%;z-index:90;pointer-events:auto;min-height:44px;padding:8px 14px;background:#101b26;color:#f4e9d4;border:1px solid #b89a66;font:14px DM,Arial,sans-serif}
+.signature-skip:focus-visible{outline:2px solid #f4e9d4;outline-offset:3px}

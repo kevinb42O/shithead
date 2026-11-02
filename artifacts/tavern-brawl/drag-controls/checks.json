@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "browser": "Chrome, mouse and emulated touch",
+  "checks": [
+    "Crew hand drop commits once: board 1 to 2, energy 10 to 9, revision 0 to 1",
+    "Attack into protected hero cancels: revision remains 0",
+    "Fox power bypasses Guard: enemy hero 30 to 29, energy 9 to 7",
+    "Crew attack hits Guard: guard health 5 to 2, attacker health 3 to 2",
+    "Pot drag buffs chosen crew: attack 3 to 5, pot 7 to 0, energy 7 to 5",
+    "Touch spell bypasses Guard: enemy hero 29 to 25, energy 5 to 1",
+    "Six-card phone hand scrolls horizontally: scrollLeft 0 to 137, no drag ghost",
+    "Vertical touch targeting previews a legal enemy",
+    "touchCancel leaves revision 5 and energy 10 unchanged, with no arrow or ghost",
+    "Escape while holding a card leaves revision 5 and energy 10 unchanged; release does not play",
+    "Keyboard selection and commit play Pilfer successfully",
+    "320x568 fullscreen: scrollWidth 320 and scrollHeight 568"
+  ],
+  "screenshots": ["desktop-attack.png", "mobile-spell.png"],
+  "note": "Temporary local interaction fixtures were used; the original save is restored after verification."
+}

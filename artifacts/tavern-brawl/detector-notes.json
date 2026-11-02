@@ -1,0 +1,25 @@
+{
+  "ran": true,
+  "targets": [
+    "dist/tavern-brawl-assets.html",
+    "dist/tavern-brawl-assets.css",
+    "dist/tavern-brawl-assets.js"
+  ],
+  "findings": [
+    {
+      "kind": "low-contrast",
+      "claim": "dark pot count on green CSS backing",
+      "assessment": "Painted ivory plaque is the actual background; inspect rendered screenshot."
+    },
+    {
+      "kind": "design-system-font",
+      "claim": "Brawl alias outside DESIGN.md",
+      "assessment": "Brawl aliases the existing locally hosted Cinzel Bold from the victory system."
+    },
+    {
+      "kind": "design-system-advisories",
+      "claim": "Derivative colors, compact sizes and radii differ from historical DESIGN.md token scale.",
+      "assessment": "This isolated art-review route follows the explicitly approved Tavern Brawl concept; existing design files are left intact."
+    }
+  ]
+}

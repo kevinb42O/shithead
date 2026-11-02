@@ -545,6 +545,10 @@ export const loadingAssets = [
     "bytes": 2386022
   },
   {
+    "url": "assets/play-solo-button.png",
+    "bytes": 2008049
+  },
+  {
     "url": "assets/portraits/aurel.png",
     "bytes": 2810494
   },
@@ -621,12 +625,8 @@ export const loadingAssets = [
     "bytes": 804640
   },
   {
-    "url": "assets/tavern-brawl/reference/gameplay-concept.png",
-    "bytes": 2847321
-  },
-  {
-    "url": "assets/tavern-brawl/ui/attack.png",
-    "bytes": 203291
+    "url": "assets/tavern-brawl/ui/attack-v2.png",
+    "bytes": 181127
   },
   {
     "url": "assets/tavern-brawl/ui/button-emerald.png",
@@ -639,6 +639,10 @@ export const loadingAssets = [
   {
     "url": "assets/tavern-brawl/ui/health.png",
     "bytes": 203377
+  },
+  {
+    "url": "assets/tavern-brawl/ui/menu-entry.png",
+    "bytes": 2357292
   },
   {
     "url": "assets/tavern-brawl/ui/pot-empty.png",

@@ -1,0 +1,106 @@
+{
+  "legend": "mordren",
+  "note": "Actual browser screencast, no audio; capture overhead is not an FPS benchmark",
+  "frames": [
+    {
+      "file": "frame-0000.jpg",
+      "timestamp": 1793652997.391562
+    },
+    {
+      "file": "frame-0001.jpg",
+      "timestamp": 1793652997.358231
+    },
+    {
+      "file": "frame-0002.jpg",
+      "timestamp": 1793652997.424893
+    },
+    {
+      "file": "frame-0003.jpg",
+      "timestamp": 1793652998.274825
+    },
+    {
+      "file": "frame-0004.jpg",
+      "timestamp": 1793652998.308156
+    },
+    {
+      "file": "frame-0005.jpg",
+      "timestamp": 1793652998.341486
+    },
+    {
+      "file": "frame-0006.jpg",
+      "timestamp": 1793652998.374818
+    },
+    {
+      "file": "frame-0007.jpg",
+      "timestamp": 1793652998.574799
+    },
+    {
+      "file": "frame-0008.jpg",
+      "timestamp": 1793652998.741455
+    },
+    {
+      "file": "frame-0009.jpg",
+      "timestamp": 1793652998.874777
+    },
+    {
+      "file": "frame-0010.jpg",
+      "timestamp": 1793652999.04143
+    },
+    {
+      "file": "frame-0011.jpg",
+      "timestamp": 1793652999.074761
+    },
+    {
+      "file": "frame-0012.jpg",
+      "timestamp": 1793652999.141424
+    },
+    {
+      "file": "frame-0013.jpg",
+      "timestamp": 1793652999.174754
+    },
+    {
+      "file": "frame-0014.jpg",
+      "timestamp": 1793652999.241415
+    },
+    {
+      "file": "frame-0015.jpg",
+      "timestamp": 1793652999.541392
+    },
+    {
+      "file": "frame-0016.jpg",
+      "timestamp": 1793652999.608054
+    },
+    {
+      "file": "frame-0017.jpg",
+      "timestamp": 1793652999.574723
+    },
+    {
+      "file": "frame-0018.jpg",
+      "timestamp": 1793652999.808035
+    },
+    {
+      "file": "frame-0019.jpg",
+      "timestamp": 1793652999.841366
+    },
+    {
+      "file": "frame-0020.jpg",
+      "timestamp": 1793652999.874697
+    },
+    {
+      "file": "frame-0021.jpg",
+      "timestamp": 1793653000.174676
+    },
+    {
+      "file": "frame-0022.jpg",
+      "timestamp": 1793653000.307996
+    },
+    {
+      "file": "frame-0023.jpg",
+      "timestamp": 1793653000.341327
+    },
+    {
+      "file": "frame-0024.jpg",
+      "timestamp": 1793653000.374658
+    }
+  ]
+}

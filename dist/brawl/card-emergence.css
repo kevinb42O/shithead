@@ -1,0 +1,13 @@
+@property --legend-jolt-x{syntax:'<length>';inherits:true;initial-value:0px}
+@property --legend-jolt-y{syntax:'<length>';inherits:true;initial-value:0px}
+@property --legend-jolt-scale{syntax:'<number>';inherits:true;initial-value:1}
+.brawl-app #battle::before{transform:translate(var(--legend-jolt-x),var(--legend-jolt-y)) scale(var(--legend-jolt-scale))}
+.legend-scene-light{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.legend-scene-light.is-fire{background:radial-gradient(ellipse at var(--legend-x) var(--legend-y),#ffae461c,#09050345 78%)}
+.legend-scene-light.is-shadow{background:radial-gradient(ellipse at var(--legend-x) var(--legend-y),transparent 18%,#090e1859 90%)}
+.legend-scene-light.is-celestial{background:radial-gradient(ellipse at var(--legend-x) var(--legend-y),#a6e4ff26,#a6e4ff08 68%,transparent)}
+.legend-scene-light.is-nox{background:radial-gradient(ellipse at var(--legend-x) var(--legend-y),#67528d0d,#090e1866 90%)}
+.legend-card-portal{position:absolute;z-index:7;border-radius:50%;pointer-events:none;background:radial-gradient(ellipse,#fff3cb99,#b49bdd66 25%,transparent 70%)}
+.legend-card-portal.is-fire{background:radial-gradient(ellipse,#fff1bacc,#ffae4677 32%,transparent 72%)}
+.legend-card-portal.is-celestial{background:radial-gradient(ellipse,#edfffacc,#a6e4ff77 30%,transparent 72%)}
+@media(prefers-reduced-motion:reduce){.legend-scene-light,.legend-card-portal{display:none}.brawl-app #battle::before{transform:none}}

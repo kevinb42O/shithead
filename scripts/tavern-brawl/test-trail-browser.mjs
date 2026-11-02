@@ -27,5 +27,5 @@ try{
     }
   }
   const profile=await page.evaluate(`JSON.parse(localStorage.getItem('tavern-brawl-v1'))`);assert.equal(profile.run.status,'won');assert.equal(profile.stats.runsWon,1);assert.equal(profile.stats.wins,7);assert.equal(profile.stats.bestRun,7);assert.deepEqual(page.errors,[]);
-  await page.capture('artifacts/brawl-audit/completed-trail.png');await writeFile('artifacts/brawl-audit/trail-browser.json',JSON.stringify({status:'passed',stages:7,rewards,resumed:true,stats:profile.stats,errors:page.errors},null,2)+'\n');console.log('PASS: all seven encounter transitions, card/relic/heal rewards, reload/resume, final trail and exactly-once statistics.',rewards);
+  await page.capture('artifacts/brawl-audit/completed-trail.png');await writeFile('artifacts/brawl-audit/trail-browser.json',JSON.stringify({status:'passed',stages:7,rewards,resumed:true,stats:profile.stats,errors:page.errors},null,2)+'\n');console.log('PASS: all seven encounter transitions, available rewards, reload/resume, final trail and exactly-once statistics.',rewards);
 }finally{await browser.close();}

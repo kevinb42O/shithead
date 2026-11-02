@@ -41,6 +41,9 @@ export function createRules(catalog) {
     return deck.every(id=>cards[id]&&(mixed||cards[id].faction==='neutral'||cards[id].faction===hero)&&((counts[id]=(counts[id]||0)+1)<=copyLimit(id)));
   }
   const powerCost=(hero,version=3)=>version>=3&&hero==='owl'?(catalog.heroBalance?.owlPowerCost??2):2;
+  const trailFavor=(g,seat)=>g.trailVersion===2&&seat===0;
+  const potCost=(g,seat)=>trailFavor(g,seat)?1:2;
+  const potHeal=g=>Math.min(6,Math.floor(g.pot/3)*2);
   const copyLimit=id=>cards[id]?.rarity==='legendary'?1:2;
   function emit(g,type,data={}) {g.events.push({id:++g.eventId,type,...data});}
   function log(g,text) {g.log.unshift(text);g.log=g.log.slice(0,30);}
@@ -153,12 +156,12 @@ export function createRules(catalog) {
     }
   }
   function beginTurn(g,seat,{first=false}={}) {
-    g.turn=seat;const p=g.players[seat];p.turns++;p.maxEnergy=Math.min(10,p.maxEnergy+1);p.energy=p.maxEnergy;p.powerUsed=false;p.potUsed=false;p.cardsPlayed=0;
+    g.turn=seat;const p=g.players[seat];p.turns++;p.maxEnergy=Math.min(10,p.maxEnergy+1);p.energy=p.maxEnergy;p.powerUsed=false;p.potUsed=false;p.retireUsed=false;p.cardsPlayed=0;
     for(const unit of p.board)unit.ready=unit.stun===0;
     if(!first||g.version>=2)draw(g,seat);
     emit(g,'turn',{seat,number:g.turnNumber});log(g,`${p.name}'s turn. ${p.energy} energy.`);finish(g);
   }
-  function create({heroes=['fox','owl'],names,seed=1,first,deckLists,health=[30,30],maxHealth=[30,30],relics=[[],[]],openingEnergy=[0,0],id=`brawl-${seed}`,mulligan=true,mixed=false,rulesVersion=3}={}) {
+  function create({heroes=['fox','owl'],names,seed=1,first,deckLists,health=[30,30],maxHealth=[30,30],relics=[[],[]],openingEnergy=[0,0],id=`brawl-${seed}`,mulligan=true,mixed=false,rulesVersion=3,trailVersion}={}) {
     if(rulesVersion<3)return legacy.create({heroes,names,seed,first,deckLists,health,maxHealth,relics,openingEnergy,id,mulligan,mixed});
     const rng=seeded(seed);let serial=0;
     const players=heroes.map((hero,seat)=>{
@@ -171,7 +174,7 @@ export function createRules(catalog) {
       return {hero,name:String(names?.[seat]||HEROES[hero].name).replace(/[\u0000-\u001f]/g,'').slice(0,24),maxHealth:max,health:Math.min(max,health[seat]),deck,hand:[],board:[],discard:[],energy:0,maxEnergy:Math.min(9,Math.max(0,Math.floor(openingEnergy[seat]||0))),fatigue:0,turns:0,mulliganDone:false,powerUsed:false,potUsed:false,relics:[...relics[seat]],steelUsed:false,cardsPlayed:0};
     });
     const opener=first===0||first===1?first:Math.floor(rng()*2);
-    const g={version:3,id:String(id).slice(0,80),seed:seed>>>0,revision:0,phase:mulligan?'mulligan':'playing',players,first:opener,turn:opener,turnNumber:1,pot:0,winner:null,events:[],eventId:0,log:[]};
+    const g={version:3,...(trailVersion!==undefined?{trailVersion}:{}),id:String(id).slice(0,80),seed:seed>>>0,revision:0,phase:mulligan?'mulligan':'playing',players,first:opener,turn:opener,turnNumber:1,pot:0,winner:null,events:[],eventId:0,log:[]};
     draw(g,opener,3+Math.min(2,players[opener].relics.filter(r=>r==='pockets').length));draw(g,1-opener,4+Math.min(2,players[1-opener].relics.filter(r=>r==='pockets').length));
     log(g,`${players[opener].name} goes first.`);
     if(!mulligan){players.forEach(p=>p.mulliganDone=true);startPlaying(g);}
@@ -203,7 +206,11 @@ export function createRules(catalog) {
       const list=p.hero==='fox'?targets(g,seat,'enemy'):p.hero==='raven'?targets(g,seat,'friendly-crew'):[null];
       for(const target of list)actions.push(target?{type:'power',target}:{type:'power'});
     }
-    if(p.energy>=2&&!p.potUsed&&g.pot>=3)for(const u of p.board)actions.push({type:'claim',target:u.uid});
+    if(p.energy>=potCost(g,seat)&&!p.potUsed&&g.pot>=3){
+      for(const u of p.board)actions.push({type:'claim',target:u.uid});
+      if(trailFavor(g,seat)&&p.health<p.maxHealth)actions.push({type:'cashout'});
+    }
+    if(trailFavor(g,seat)&&p.energy>=1&&!p.retireUsed)for(const u of p.board)actions.push({type:'retire',target:u.uid});
     actions.push({type:'end'});return actions;
   }
   const sameAction=(a,b)=>a.type===b.type&&(a.uid||null)===(b.uid||null)&&(a.target||null)===(b.target||null);
@@ -260,8 +267,14 @@ export function createRules(catalog) {
         if(p.hero==='fox'){damage(g,action.target,found.hero?1:(catalog.heroBalance?.foxCrewDamage||1));g.pot++;}
         else if(p.hero==='owl'){draw(g,seat);if(catalog.heroBalance?.owlSelfDamage)damage(g,heroTarget(seat),catalog.heroBalance.owlSelfDamage);}
         else {found.entity.health=0;damage(g,heroTarget(1-seat),2);heal(g,seat,2);}
+      } else if(action.type==='retire') {
+        p.energy--;p.retireUsed=true;p.board=p.board.filter(u=>u.uid!==action.target);p.discard.push(identity(found.entity));
+        emit(g,'retire',{seat,target:action.target,card:found.entity.card});log(g,`${p.name} dismisses ${definition(found.entity).name} to make room. Last Orders does not trigger.`);
+      } else if(action.type==='cashout') {
+        const coins=g.pot,amount=potHeal(g);p.energy-=potCost(g,seat);p.potUsed=true;g.pot=0;
+        emit(g,'cashout',{seat,coins,amount});heal(g,seat,amount);log(g,`${p.name} spends ${coins} pot coins to restore up to ${amount} health.`);
       } else if(action.type==='claim') {
-        const amount=Math.min(3,Math.floor(g.pot/3));p.energy-=2;p.potUsed=true;found.entity.attack+=amount;found.entity.tempAttack+=amount;
+        const amount=Math.min(3,Math.floor(g.pot/3));p.energy-=potCost(g,seat);p.potUsed=true;found.entity.attack+=amount;found.entity.tempAttack+=amount;
         emit(g,'claim',{seat,target:action.target,coins:g.pot,amount});g.pot=0;log(g,`${p.name} claims the pot for +${amount} attack this turn.`);
       } else if(action.type==='end') {
         for(const player of g.players)for(const unit of player.board){unit.attack-=unit.tempAttack;unit.maxHealth-=unit.tempHealth;unit.health=Math.min(unit.health,unit.maxHealth);unit.tempAttack=0;unit.tempHealth=0;}
@@ -277,11 +290,12 @@ export function createRules(catalog) {
   }
   function project(g,seat) {
     if(g.version<3)return legacy.project(g,seat);
-    return {choice:g.choice?{seat:g.choice.seat,...(g.choice.seat===seat?{options:g.choice.options.map(uid=>clone(g.players[seat].deck.find(c=>c.uid===uid)))}:{count:g.choice.options.length})}:null,version:g.version,id:g.id,revision:g.revision,phase:g.phase,turn:g.turn,first:g.first,turnNumber:g.turnNumber,pot:g.pot,winner:g.winner,eventId:g.eventId,events:clone(g.events),log:[...g.log],
+    return {choice:g.choice?{seat:g.choice.seat,...(g.choice.seat===seat?{options:g.choice.options.map(uid=>clone(g.players[seat].deck.find(c=>c.uid===uid)))}:{count:g.choice.options.length})}:null,version:g.version,...(g.trailVersion?{trailVersion:g.trailVersion}:{}),id:g.id,revision:g.revision,phase:g.phase,turn:g.turn,first:g.first,turnNumber:g.turnNumber,pot:g.pot,winner:g.winner,eventId:g.eventId,events:clone(g.events),log:[...g.log],
       players:g.players.map((p,i)=>({hero:p.hero,name:p.name,health:p.health,maxHealth:p.maxHealth,hand:i===seat?clone(p.hand):[],handCount:p.hand.length,deckCount:p.deck.length,board:clone(p.board),discard:clone(p.discard),energy:p.energy,maxEnergy:p.maxEnergy,fatigue:p.fatigue,mulliganDone:p.mulliganDone,powerUsed:p.powerUsed,potUsed:p.potUsed,relics:[...p.relics]})),legal:legalActions(g,seat)};
   }
   function assert(g) {
     if(g?.version<3)return legacy.assert(g);
+    if(g.trailVersion!==undefined&&g.trailVersion!==2)throw Error('Unknown trail rules.');
     if(!g||g.version!==3||!['mulligan','playing','finished'].includes(g.phase)||!Array.isArray(g.players)||g.players.length!==2||![0,1].includes(g.turn)||![0,1].includes(g.first)||!Number.isInteger(g.revision)||g.revision<0||!Number.isInteger(g.turnNumber)||g.turnNumber<1||g.turnNumber>201||!Number.isInteger(g.pot)||g.pot<0||g.pot>1000)throw Error('Invalid brawl state.');
     if(g.choice){const c=g.choice;if(g.phase!=='playing'||c.seat!==g.turn||!Array.isArray(c.options)||c.options.length!==2||new Set(c.options).size!==2||c.options.some((uid,i)=>g.players[c.seat].deck.at(-1-i)?.uid!==uid))throw Error('Invalid pending card choice.');}
     const ids=new Set();
@@ -299,5 +313,5 @@ export function createRules(catalog) {
     if(g.phase==='playing'&&g.players.some(p=>p.health<=0))throw Error('A defeated hero cannot keep playing.');
     return true;
   }
-  return {cards,decks:catalog.decks,featuredDecks:catalog.featuredDecks||catalog.decks,copyLimit,powerCost,fingerprint,version:RULES_VERSION,definition,validateDeck,create,apply,legalActions,project,assert,find,targetKind,targets};
+  return {cards,decks:catalog.decks,featuredDecks:catalog.featuredDecks||catalog.decks,copyLimit,powerCost,potCost,potHeal,fingerprint,version:RULES_VERSION,definition,validateDeck,create,apply,legalActions,project,assert,find,targetKind,targets};
 }

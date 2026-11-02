@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "report": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "brokenImages": [],
+      "overflow": {
+        "x": false,
+        "y": false
+      },
+      "filters": "24/12/8/4",
+      "inspector": "open/Escape/focus passed",
+      "parts": "passed"
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "brokenImages": [],
+      "overflow": {
+        "x": false,
+        "y": false
+      },
+      "filters": "24/12/8/4",
+      "inspector": "open/Escape/focus passed",
+      "parts": "passed"
+    },
+    {
+      "name": "small-mobile",
+      "width": 320,
+      "height": 568,
+      "brokenImages": [],
+      "overflow": {
+        "x": false,
+        "y": false
+      },
+      "filters": "24/12/8/4",
+      "inspector": "open/Escape/focus passed",
+      "parts": "passed"
+    },
+    {
+      "name": "landscape",
+      "width": 844,
+      "height": 390,
+      "brokenImages": [],
+      "overflow": {
+        "x": false,
+        "y": false
+      },
+      "filters": "24/12/8/4",
+      "inspector": "open/Escape/focus passed",
+      "parts": "passed"
+    }
+  ],
+  "errors": []
+}

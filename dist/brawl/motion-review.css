@@ -1,0 +1,9 @@
+/* Review-only controls; ordinary game navigation keeps its original layout. */
+.motion-review .battle-header .utility-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;max-width:70%;gap:2px}
+.motion-review .battle-header .hearth-button{font-size:13px;padding:8px;min-height:44px}
+.motion-review :is(.review-legend,.review-health){background:#101b26;color:#f4e9d4;border:1px solid #b89a66;font:14px Brawl,Georgia,serif;padding:6px;min-height:44px;max-width:110px}
+.motion-review :is(.review-legend,.review-health):focus-visible{outline:2px solid #f4e9d4;outline-offset:2px}
+.motion-review .battle-header>p{max-width:22%;font-size:12px}
+@media(max-width:600px){.motion-review .battle-header .hearth-button{font-size:11px;padding:5px}.motion-review :is(.review-legend,.review-health){font-size:12px;max-width:90px}.motion-review .battle-header .utility-actions{max-width:74%}.motion-review .battle-header>p{top:12%;max-width:28%;font-size:11px}}
+
+.motion-review select[hidden]{display:none}

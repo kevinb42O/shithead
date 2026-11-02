@@ -4,7 +4,7 @@ This document records the locally implemented Tavern Brawl mode on 2 November 20
 
 ## Launch and entry
 
-Run `npm run dev` from the project root. Open http://localhost:5173 and choose the illustrated **Tavern Brawl** button beneath Multiplayer. The button uses the approved gameplay concept and the generated title sign. The mode also opens directly at http://localhost:5173/tavern-brawl.html. The separate art archive remains at `/tavern-brawl-assets.html`.
+Run `npm run dev` from the project root. Open http://localhost:5173 and choose the illustrated **Tavern Brawl** button beneath Multiplayer. The button uses the original transparent `assets/tavern-brawl/ui/menu-entry.png`: a carved walnut and brass sign with midnight-blue enamel, gold lettering and Fox/Raven hero cards. Its exact built-in ImageGen prompt is retained beside the asset. The mode also opens directly at http://localhost:5173/tavern-brawl.html. The separate art archive remains at `/tavern-brawl-assets.html`.
 
 The game is served locally by the existing Node server. No Site was created, published or updated and no deployment is included. All game screens preserve the fullscreen layout; long collections, rules and smaller menus scroll within their screen.
 
@@ -50,23 +50,31 @@ Each costs two energy and can be used once per turn.
 
 ### Shared pot
 
-Fox's power and several crew/trick effects add coins. At three or more coins, a player may spend two energy once per turn to empty the pot and give one friendly crew member +1 attack per three coins, rounded down and capped at +3, for that turn. The pot is an in-battle tactical resource, independent of the saved coin wallet.
+Fox's power and several crew/trick effects add coins. At three or more coins, a player may spend two energy once per turn to empty the pot and give one friendly crew member +1 attack per three coins, rounded down and capped at +3, for that turn. In newly created rebalanced trails, the human player pays one energy and may instead restore 2 hero health per three coins, capped at 6. Healing and attack share the once-per-turn limit and both empty the shared pot. Ordinary duels, multiplayer, and saved older trails retain their existing rules. The pot is an in-battle tactical resource, independent of the saved coin wallet.
 
 ## Adventure and progression
 
-| Stage | Opponent | Hero | Starting health |
-| --- | --- | --- | ---: |
-| 1 | The Cheese Thief | Fox | 24 |
-| 2 | The Lantern Keeper | Owl | 27 |
-| 3 | The Debt Collector | Raven | 28 |
-| 4 | The Dice Master | Fox | 30 |
-| 5 | The Hearth Warden | Owl | 32 |
-| 6 | The Last Caller | Raven | 34 |
-| 7 | The Innkeeper | Owl | 40 |
+Fresh trails use balance version 2, independently of battle rules version 3. The setup screen explicitly chooses the hero's After Midnight, saved, or Classic deck and a challenge. After Midnight is recommended; Classic is identified as having fewer late-game answers. A saved custom deck is offered without overwriting it. Creating a replacement adventure requires confirmation only when the player starts the configured trail. Deck edits do not change an active run.
 
-The player's starter deck is copied from the selected hero's saved deck at run creation. The **House's Favor** grants one extra starting maximum-energy crystal in adventure, so the player's first turn begins with two energy. This advantage is adventure-only; ordinary duels and multiplayer start at one.
+| Stage | Opponent | Hero | Standard health | Relaxed health | Sharp health |
+| --- | --- | --- | ---: | ---: | ---: |
+| 1 | The Cheese Thief | Fox | 20 | 18 | 24 |
+| 2 | The Lantern Keeper | Owl | 24 | 22 | 27 |
+| 3 | The Debt Collector | Raven | 27 | 24 | 28 |
+| 4 | The Dice Master | Fox | 30 | 26 | 30 |
+| 5 | The Hearth Warden | Owl | 32 | 28 | 32 |
+| 6 | The Last Caller | Raven | 34 | 30 | 34 |
+| 7 | The Innkeeper | Owl | 40 | 36 | 40 |
 
-Health carries from fight to fight. A win automatically restores eight health, capped at the run's maximum. After the first six wins, choose one reward: a further eight-point heal, an offered legal card swap, or an available relic. Card swaps keep the deck at twenty cards and enforce two normal copies or one Legendary. In version-3 runs, After Midnight cards can appear as rewards; Legendary offers become eligible after the third victory (stage index 3). Older runs without `rulesVersion` start subsequent encounters under version-2 rules, use core opponent decks and exclude expansion cards from newly generated rewards. Existing rewards remain saved choices. Version-3 encounters use each opponent hero’s featured deck. The incoming card cannot be selected as its own replacement. Reward offers are reproducible from the run seed and stage and persist before they are shown.
+Standard and Relaxed use dedicated teaching decks for the first three fights, without Legendaries. Relaxed further simplifies those decks. Stages four and five introduce featured decks without Mordren; stages six and seven use the complete featured decks. Sharp uses the full featured decks throughout. `encounterConfig` supplies the actual deck and health to both the engine and trail display.
+
+The **House's Favor** grants one extra starting maximum-energy crystal, so the player's first turn begins with two energy. In new trails, the player may also dismiss one friendly crew per turn for one energy, using card inspection or the battle menu. The crew goes to public discard, frees its physical place and triggers no Last Orders or death observers. This provides a deliberate way to replace a low-impact crew on the three-place table. These options are exclusive to the human player's seat in a new trail; they are unavailable in ordinary duels, multiplayer and older saves.
+
+Recovery is automatic and independent of reward selection. **Relaxed** restores full health after a win. **Standard** restores twelve, to at least twenty health, capped at maximum health. **Sharp** restores eight. Challenge is saved at run creation; changing the general computer setting affects duels and future trail defaults, while an active rebalanced trail keeps its challenge. The trail page describes its rules.
+
+After the first six victories, choose one of three distinct legal card swaps or one available relic. The offers include a counter and a crew option where available, plus a flexible third card. The first relic offer is Tempered Steel; later offers are seeded from available relics. If all relics are owned, three card choices remain. Offers are generated from the run seed and stage, stored before display and stable on reload. They enforce faction and copy limits. Legendary offers become eligible after the third win. Reward tiles show energy, crew stats and live effects. Selecting a card opens a replacement screen where the offered card and current cards can be inspected before committing a swap; the incoming identity cannot replace itself.
+
+Runs saved without `balanceVersion: 2` keep their original encounter decks, eight-health rest, heal/card/relic rewards and combat options. Their current battle and future encounters are not migrated. Runs without `rulesVersion` still use version-2 rules and original-card rewards. An older active trail displays an explanation and a link to start a rebalanced replacement, with the normal replacement confirmation. Existing rewards remain saved choices.
 
 | Relic | Limit | Persistent effect |
 | --- | ---: | --- |
@@ -100,7 +108,7 @@ Malformed saves are backed up under `tavern-brawl-v1-recovery` and reset for thi
 
 The host owns the complete rules state. A guest receives its own hand, public crew/discards, health/energy/counts and its legal commands. Opponent hands, deck order and RNG seed are omitted. A pending Diviner choice exposes its card identities only to the choosing seat; the opponent receives its count. Room advertisements and joins include the rules version and a card-rules fingerprint; mismatches are rejected with a reload message. Ready/start/configure/move/concede/rematch commands validate ownership and sequence. Duplicate sequences cannot apply a move twice; acknowledgements and resync keep a delayed command locked until confirmed. A custom guest deck is validated before use. Only the host can start a duel or offer a rematch.
 
-Online opening-hand selection has a 45-second deadline; unconfirmed hands are kept automatically. Each turn has a 75-second deadline and ends automatically when time expires. Menus and connection interruptions do not stop the clock. A lost connection pauses manual play and has a 15-second grace period; failure to reconnect forfeits the match. Explicitly leaving a live table also forfeits. The host remains authoritative for deadlines and rejects late commands. A timed-out pending Diviner choice automatically takes its top card before ending the turn.
+Online opening-hand selection has a 45-second deadline; unconfirmed hands are kept automatically. Each turn has a 30-second deadline and ends automatically when time expires. Menus and connection interruptions do not stop the clock. A lost connection pauses manual play and has a 15-second grace period; failure to reconnect forfeits the match. Explicitly leaving a live table also forfeits. The host remains authoritative for deadlines and rejects late commands. A timed-out pending Diviner choice automatically takes its top card before ending the turn.
 
 Host migration and room recovery after refresh are not implemented. These are friendly trusted-host games: the host can technically inspect the complete state. Public broker availability and NAT/firewall compatibility depend on the network; existing STUN/TURN configuration remains in `dist/network-config.js`.
 
@@ -133,7 +141,7 @@ Invitation links use the current origin. A localhost URL is local to that machin
 
 ## Verification
 
-Run `npm test` for all unit tests, including core and expansion effects, opening hands, legality, Guard, simultaneous combat, fatigue, buffs, pot, storage, gestures, audio and authoritative multiplayer commands. `tests/brawl.test.js` includes 180 complete seeded bot matches.
+Run `npm test` for all unit tests, including core and expansion effects, opening hands, legality, Guard, simultaneous combat, fatigue, buffs, pot, storage, gestures, audio and authoritative multiplayer commands. `tests/brawl.test.js` includes 180 complete seeded bot matches. `tests/brawl-trail-balance.test.js` covers dedicated encounter lists, recovery, reward reproducibility/copy limits, old-run compatibility, pot healing, dismissal and exclusion from ordinary duels. The complete unit suite currently passes 215 tests.
 
 Browser commands, with the local server running:
 
@@ -148,7 +156,7 @@ The final full solo browser test (`solo-browser.json`) completed a 50-action, 31
 
 The latest recorded full `npm test` run in `artifacts/tavern-brawl/game/unit-tests.log` passed 207 tests. `online-ui-browser.json` records a current 49-card build played through real buttons in two browser tabs using the public broker: hero choice, readiness, opening hands, private hands, concession, rematch and leaving forfeiture passed. `current-screens.json` records current 49-card home/inspection and Nightglass choice checks, plus the cleared outgoing toast across home, deck, trail and opening-hand screens. These checks reported no errors.
 
-Evidence is stored in `artifacts/tavern-brawl/game` and `artifacts/brawl-audit`. Automated simulations measure rule consistency and a baseline for tuning; they do not establish competitive balance, manual certification of every expansion matchup, or universal remote-network compatibility. The asset-pack SHIP disposition in the historical art document applies to that earlier asset review; it is not a final approval of the expanded playable game.
+The rebalanced trail browser check is `node scripts/tavern-brawl/test-balance-browser.mjs`. It covers setup, saved deck selection, canceling replacement, fixed challenge, Keeper configuration, reload, reward inspection/swaps, pot healing and dismissal at desktop/phone sizes. Screens and results are in `artifacts/brawl-audit/rebalance`. Reproduce balance measurements with `node scripts/tavern-brawl/audit-balance.mjs 60 rebalanced standard` (or `relaxed`); `baseline standard` retains the original adventure behavior for comparison. The original audit JSON is preserved. Evidence is stored in `artifacts/tavern-brawl/game` and `artifacts/brawl-audit`. Automated simulations measure rule consistency and a baseline for tuning; they do not establish competitive balance, manual certification of every expansion matchup, or universal remote-network compatibility. The asset-pack SHIP disposition in the historical art document applies to that earlier asset review; it is not a final approval of the expanded playable game.
 
 ## Complete card list
 
@@ -205,3 +213,6 @@ The table below is generated from the shipped card definitions. Names and rules 
 | Collect the Debt | After Midnight / epic | raven | trick | 4 | — | Destroy a damaged enemy crew member. Deal 2 damage to your hero. |
 | Funeral Velvet | After Midnight / epic | raven | equipment | 3 | — | Give a friendly crew member +2 health and “Last Orders: restore 4 health to your hero.” |
 | Mother Nox, Bellkeeper | After Midnight / legendary | raven | crew | 8 | 5 / 8 | Battlecry: sacrifice another friendly crew member to deal 4 damage to the enemy hero and restore 4 health to yours. |
+
+
+Solo quick duels and trails now enforce 30-second turns with a deadline saved per game/turn/seat. Lava fills the full blue recess inside the End turn medallion, drains on both human and computer turns, and refills for each new turn. Timeout resolves any pending top-card choice before ending the turn. Actions and reloads preserve the deadline; solo opening-hand selection stays untimed.

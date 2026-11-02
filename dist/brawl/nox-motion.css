@@ -1,0 +1,12 @@
+.nox-theatre{z-index:3;background:radial-gradient(ellipse at var(--legend-x) var(--legend-y),#67528d22,transparent 46%)}
+.nox-actor{position:absolute;transform-origin:50% 80%;pointer-events:none;filter:drop-shadow(7px 15px 16px #02050baa)}
+.nox-body,.nox-arm,.nox-staff{position:absolute;background-image:url('../assets/tavern-brawl/midnight/legends/nox-rig-v1.png');background-size:300% 100%;background-repeat:no-repeat;pointer-events:none}
+.nox-body{inset:8% 0 0;background-position:left center;transform-origin:50% 80%;z-index:1}
+.nox-arm{left:-10%;top:10%;width:80%;height:80%;background-position:right center;transform-origin:58% 85%;z-index:2}
+.nox-staff{left:30%;top:0;width:90%;height:100%;background-position:center center;transform-origin:50% 53%;z-index:3}
+.nox-toll-ring{position:absolute;border:1px solid #cba2ed;border-radius:50%;z-index:4;pointer-events:none}
+.nox-stream{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;overflow:visible}
+.nox-soul-mote{position:absolute;left:-3px;top:-6px;width:6px;height:12px;border-radius:60% 40% 50% 50%;background:#e5d7ff;box-shadow:1px 4px 9px #67528d88;z-index:6;pointer-events:none}
+.nox-soul-mote.is-restoration{background:#f0ffd6}
+.nox-theatre .legend-title{font-size:clamp(16px,2cqw,28px);max-width:82%;padding:8px 18px}
+@media(prefers-reduced-motion:reduce){.nox-actor,.nox-stream,.nox-soul-mote,.nox-toll-ring{display:none}}

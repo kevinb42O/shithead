@@ -1,18 +1,23 @@
+import {MATERIAL_ASSETS} from './combat-materials.js';
+import {syncSoloClock} from './solo-clock.js';
+import {createTurnLava} from './turn-lava.js';
 import {tierName} from './expansion.js';
 import {createRules,HEROES} from './engine.js';
 import {chooseAction} from './ai.js';
-import {createRun,startEncounter,resolveEncounter,claimReward,ENCOUNTERS,RELICS} from './adventure.js';
+import {createRun,startEncounter,resolveEncounter,claimReward,encounterConfig,isRebalancedRun,deckPreset,DIFFICULTIES,ENCOUNTERS,RELICS} from './adventure.js';
 import {createStore,recordResult} from './storage.js';
-import {BrawlRoom,BrawlDirectory} from './network.js';
+import {BrawlRoom,BrawlDirectory,TURN_MS} from './network.js';
 import {createView,ART,$,image,label,button} from './view.js';
 import {createGestures} from './gestures.js';
 import {createFieldEffects} from './field-effects.js';
 import {renderInspection} from './card-inspection.js';
+import {cardArtwork,LEGEND_ART} from './midnight-art.js';
 import {createGameAudio} from '../audio.js';
 import {createBrawlSound,attachBrawlUI} from './sound.js';
 
 let field,gestures,rules,store,profile,view,screen='home',hero='fox',opponent='owl',kind='duel',selected=null,replacing=new Set(),processing=false,aiTimer,resultTimer,toastTimer,lastEventId=0,resultShown='',room=null,directory=null,deckHero='fox',editingDeck=[],filter='all',pendingReward=null,confirmCallback=null;
 const audio=createGameAudio(),sound=createBrawlSound(audio);
+const turnLava=createTurnLava(document.querySelector('.turn-lava-material'));
 const seed=()=>crypto.getRandomValues(new Uint32Array(1))[0];
 const reduced=()=>!!profile?.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;
 const game=()=>kind==='run'?profile?.run?.game:profile?.duel;
@@ -21,10 +26,10 @@ const currentView=()=>room?room.view:game()?rules.project(game(),0):null;
 const modalOpen=()=>!!document.querySelector('dialog[open]');
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4400);}
 function closeDialogs(){document.querySelectorAll('dialog[open]').forEach(d=>d.close());}
-function showDialog(id){field?.setPaused(true);gestures?.cancel();clearTimeout(aiTimer);$(id).showModal();}
+function showDialog(id){sound.cancelPending();field?.setPaused(true);gestures?.cancel();clearTimeout(aiTimer);$(id).showModal();}
 function stopTasks(){clearTimeout(aiTimer);clearTimeout(resultTimer);aiTimer=null;resultTimer=null;}
 function canAct(){const state=currentView();return screen==='battle'&&!modalOpen()&&!processing&&state?.phase==='playing'&&!state.choice&&state.turn===localSeat()&&(!room||!room.busy&&!room.paused&&!room.ended);}
-function selectionActions(){const state=currentView();if(!selected||!state)return [];return state.legal.filter(a=>selected.type==='card'?a.type==='play'&&a.uid===selected.uid:selected.type==='attack'?a.type==='attack'&&a.uid===selected.uid:a.type===selected.type).map(a=>selected.slot!==undefined?{...a,slot:selected.slot}:a);}
+function selectionActions(){const state=currentView();if(!selected||!state)return [];return state.legal.filter(a=>selected.type==='card'?a.type==='play'&&a.uid===selected.uid:selected.type==='attack'?a.type==='attack'&&a.uid===selected.uid:selected.type==='claim'?['claim','cashout'].includes(a.type):a.type===selected.type).map(a=>selected.slot!==undefined?{...a,slot:selected.slot}:a);}
 function select(next){selected=next;audio.play('select');renderSelection();renderHandSelection();}
 function renderHandSelection(){for(const node of $('hand').children){const active=selected?.type==='card'&&selected.uid===node.dataset.uid;node.classList.toggle('is-selected',active);node.classList.toggle('is-placing',active&&selected.slot!==undefined);node.setAttribute('aria-pressed',String(active));}}
 function clearSelection(){selected=null;renderSelection();renderHandSelection();$('target-arrow').classList.remove('active');if(canAct())$('battle-prompt').textContent='Drag a card to play, or drag ready crew onto an enemy.';}
@@ -35,9 +40,10 @@ function renderSelection(){
   if(selected.type==='card'){card=rules.cards[me.hand.find(c=>c.uid===selected.uid)?.card];if(!card){selected=null;$('selection-dock').hidden=true;return;}title=card.name;text=card.text;}
   else if(selected.type==='attack'){const unit=me.board.find(u=>u.uid===selected.uid);if(!unit){clearSelection();return;}card=rules.cards[unit.card];title=card.name;text='Choose a highlighted enemy. Guard must be attacked first.';}
   else if(selected.type==='power'){title=HEROES[me.hero].power;text=HEROES[me.hero].text;}
-  else {title='Claim the pot';text=`Choose a crew member to gain +${Math.min(3,Math.floor(state.pot/3))} attack this turn.`;}
+  else if(selected.type==='retire'){title='Make room';text='Dismiss one friendly crew for 1 energy. It goes to discard without triggering Last Orders. Once per turn.';}
+  else {title='Claim the pot';text=`Spend ${rules.potCost(state,localSeat())} energy and empty the pot: give a crew member +${Math.min(3,Math.floor(state.pot/3))} attack this turn.${state.trailVersion===2?' Or restore up to '+rules.potHeal(state)+' hero health.':''}`;}
   $('selected-name').textContent=title;$('selected-text').textContent=text;$('selected-art').replaceChildren(...(card?[view.cardFace(card,{interactive:false})]:[image(`heroes/${me.hero}.png`)]));
-  const untargeted=actions.find(a=>!a.target);$('commit-card').hidden=!untargeted;$('commit-card').textContent=selected.type==='power'?'Use power':'Play card';
+  const untargeted=actions.find(a=>!a.target);$('commit-card').hidden=!untargeted;$('commit-card').textContent=untargeted?.type==='cashout'?`Restore ${Math.min(rules.potHeal(state),me.maxHealth-me.health)} health`:selected.type==='power'?'Use power':'Play card';
   $('battle-prompt').textContent=untargeted?(card?.type==='crew'?'Drag to an empty crew place, or click a place to play here.':'Play your card, or drag it into the lit area.'):selected.type==='attack'?'Drag onto an enemy, or click a highlighted target.':'Choose a highlighted target.';
 }
 function show(next){
@@ -68,8 +74,28 @@ function renderHome(){
 async function newDuel(){
   closeDialogs();const id=crypto.randomUUID();await store.transact(p=>{p.duel=rules.create({heroes:[hero,opponent],names:['You',HEROES[opponent].name],deckLists:[p.decks[hero]||rules.featuredDecks[hero],rules.featuredDecks[opponent]],seed:seed(),id});});kind='duel';resultShown='';lastEventId=0;show('battle');
 }
-async function newAdventure(){
-  closeDialogs();await store.transact(p=>{p.run=createRun(hero,p.decks[hero]||rules.featuredDecks[hero],seed(),crypto.randomUUID());});kind='run';show('trail');
+function newAdventure(){
+  closeDialogs();
+  $('trail-hero-name').textContent=HEROES[hero].name;
+  $('trail-hero-art').src=ART+`heroes/${hero}.png`;
+  const saved=profile.decks[hero],preset=saved?deckPreset(rules,hero,saved):null;
+  const option=(value,text)=>{const node=document.createElement('option');node.value=value;node.textContent=text;return node;};
+  $('trail-deck').replaceChildren(option('featured','After Midnight · recommended'),...(saved?[option('saved',`Your saved deck · ${preset}`)]:[]),...(!saved||preset!=='Classic'?[option('core','Classic · original cards')]:[]));
+  $('trail-deck').value=saved&&preset==='Custom'?'saved':'featured';
+  $('trail-difficulty').value=profile.settings.difficulty;
+  show('trail-setup');renderTrailSetup();
+}
+function renderTrailSetup(){
+  const choice=$('trail-deck').value,deck=choice==='saved'?profile.decks[hero]:choice==='core'?rules.decks[hero]:rules.featuredDecks[hero];
+  const preset=deckPreset(rules,hero,deck);
+  $('trail-deck-note').textContent=preset==='Classic'?'Classic uses only original cards and has fewer answers to later opponents. After Midnight is recommended while learning.':choice==='saved'?'Your saved twenty-card deck will be copied into this trail. You can improve it between battles.':'A twenty-card deck with removal, defensive answers and late-game crew. Your saved decks stay available.';
+  $('trail-difficulty-note').textContent=DIFFICULTIES[$('trail-difficulty').value].text+' Your choice stays with this trail.';
+  $('trail-start-note').textContent=profile.run&&['map','battle','reward'].includes(profile.run.status)?'Starting this trail will replace your current adventure.':'Seven opponents. Keep your deck, collect upgrades and take a rest between battles.';
+}
+async function beginAdventure(){
+  const deckChoice=$('trail-deck').value,difficulty=$('trail-difficulty').value;
+  const deck=deckChoice==='saved'?profile.decks[hero]:deckChoice==='core'?rules.decks[hero]:rules.featuredDecks[hero];
+  closeDialogs();await store.transact(p=>{p.run=createRun(hero,deck,seed(),crypto.randomUUID(),{difficulty});p.run.startingDeck=deckPreset(rules,hero,deck);});kind='run';show('trail');
 }
 function resumeRun(){kind='run';const status=profile.run?.status;if(status==='battle'){lastEventId=game().eventId;resultShown='';show('battle');}else if(status==='reward')show('rewards');else show('trail');}
 let renderedGameId=null;
@@ -90,15 +116,51 @@ function renderBattle(){
   renderClock();renderChoice(state);
   $('connection-cover').hidden=!room?.paused;$('connection-message').textContent=room?.message||'Your opponent is reconnecting…';$('leave-ended').hidden=!room?.ended;
   if(state.eventId>lastEventId){animateEvents(newGame?[]:state.events.filter(e=>e.id>lastEventId),old,before,state,newGame||oldHand.join(',')!==state.players[seat].hand.map(c=>c.uid).join(','));lastEventId=state.eventId;}
-  if(state.phase==='finished'&&resultShown!==state.id&&!resultTimer){resultTimer=setTimeout(()=>{resultTimer=null;if(screen==='battle'&&currentView()?.id===state.id)presentResult();},reduced()?0:700);}
+  if(state.phase==='finished'&&resultShown!==state.id&&!resultTimer){resultTimer=setTimeout(()=>{resultTimer=null;if(screen==='battle'&&currentView()?.id===state.id)presentResult();},reduced()?0:Math.max(700,field.presentationRemaining()));}
+}
+let soloClockBusy=false;
+function saveSoloState(p,state,mode){
+  if(mode==='run')p.run.game=state;else p.duel=state;
+  if(state.phase==='finished'){
+    recordResult(p,state);
+    if(mode==='run'&&resolveEncounter(rules,p.run)){p.stats.bestRun=Math.max(p.stats.bestRun,p.run.stage);if(p.run.status==='won')p.stats.runsWon++;}
+  }
+}
+function tickSoloClock(){
+  if(room||screen!=='battle'||processing||soloClockBusy||!game()||game().phase!=='playing')return;
+  if(!syncSoloClock(rules,game()).changed)return;
+  const mode=kind,id=game().id;soloClockBusy=true;
+  store.transact(p=>{
+    const original=mode==='run'?p.run?.game:p.duel;
+    if(room||kind!==mode||original?.id!==id)return false;
+    const result=syncSoloClock(rules,original);if(!result.changed)return false;
+    if(result.expired){gestures?.cancel();selected=null;}
+    saveSoloState(p,result.state,mode);
+  }).catch(e=>toast('The turn could not be saved. '+e.message)).finally(()=>{soloClockBusy=false;});
 }
 function renderClock(){
-  const state=currentView(),online=screen==='battle'&&room&&state&&state.phase!=='finished'&&room.deadline!==null;
-  const seconds=online?room.remainingSeconds():0;
-  $('choice-clock').textContent=online&&state.choice?`${seconds}s remaining · top card chosen at timeout`:'';
+  tickSoloClock();
+  const state=currentView(),inBattle=screen==='battle'&&state&&state.phase!=='finished';
+  const online=inBattle&&room&&room.deadline!==null;
+  const solo=inBattle&&!room&&state.phase==='playing';
+  const timedTurn=!!(online||solo)&&state.phase==='playing',end=$('end-turn'),reservoir=end.querySelector('.turn-reservoir');
+  const savedClock=solo?game()?.soloTurnClock:null;
+  const remaining=timedTurn?(room?room.remainingMilliseconds():savedClock?Math.max(0,savedClock.deadline-Date.now()):TURN_MS):0;
+  const seconds=online&&state.phase==='mulligan'?room.remainingSeconds():Math.ceil(remaining/1000);
+  reservoir.hidden=!timedTurn;
+  turnLava.update(timedTurn&&!document.hidden,reduced());
+  end.style.setProperty('--turn-drain',`${100*(1-Math.min(1,remaining/TURN_MS))}%`);
+  end.classList.toggle('is-timed',timedTurn);
+  end.classList.toggle('is-clock-urgent',timedTurn&&seconds>0&&seconds<=10);
+  end.classList.toggle('is-clock-action',timedTurn&&state.turn===localSeat());
+  end.classList.toggle('is-clock-critical',timedTurn&&seconds>0&&seconds<=3);
+  end.style.setProperty('--turn-pulse-period',seconds<=3?'.64s':seconds<=5?'.86s':'1.25s');
+  end.classList.toggle('is-clock-hidden',document.hidden||!timedTurn);
+  if(timedTurn)end.setAttribute('aria-describedby','turn-clock');else end.removeAttribute('aria-describedby');
+  $('choice-clock').textContent=timedTurn&&state.choice?`${seconds}s remaining · top card chosen at timeout`:'';
   for(const [id,phase]of [['turn-clock','playing'],['mulligan-clock','mulligan']]){
-    const node=$(id);node.hidden=!online||state.phase!==phase;
-    if(!node.hidden){node.textContent=phase==='mulligan'?`Keep hand automatically in ${seconds}s`:`${state.turn===localSeat()?'Your turn':'Rival’s turn'} · ${seconds}s`;node.classList.toggle('is-urgent',seconds<=15);}
+    const node=$(id);node.hidden=phase==='playing'?!timedTurn:!online||state.phase!==phase;
+    if(!node.hidden){node.textContent=phase==='mulligan'?`Keep hand automatically in ${seconds}s`:`${state.turn===localSeat()?'Your turn':room?'Rival’s turn':'Their turn'} · ${seconds}s`;node.classList.toggle('is-urgent',seconds<=10);}
   }
 }
 async function act(action,{bot=false}={}){
@@ -111,14 +173,12 @@ async function act(action,{bot=false}={}){
   try{
     const saved=await store.transact(p=>{
       const original=mode==='run'?p.run?.game:p.duel;if(!original||original.id!==expected.id||original.revision!==expected.revision){error='Your table was updated in another tab.';return false;}
-      const result=rules.apply(original,bot?1:0,action);if(!result.ok){error=result.error;return false;}
-      if(mode==='run')p.run.game=result.state;else p.duel=result.state;
-      if(result.state.phase==='finished'){
-        recordResult(p,result.state);
-        if(mode==='run'&&resolveEncounter(rules,p.run)){p.stats.bestRun=Math.max(p.stats.bestRun,p.run.stage);if(p.run.status==='won')p.stats.runsWon++;}
-      }
+      const clock=syncSoloClock(rules,original);
+      if(clock.expired){saveSoloState(p,clock.state,mode);error='Time expired. Your turn ended automatically.';return;}
+      const result=rules.apply(clock.state,bot?1:0,action);if(!result.ok){error=result.error;return false;}
+      saveSoloState(p,syncSoloClock(rules,result.state).state,mode);
     });
-    if(!saved&&error)toast(error);return !!saved;
+    if(error)toast(error);return !!saved;
   }catch(e){toast('The move could not be saved. '+e.message);return false;}
   finally{processing=false;render();}
 }
@@ -128,14 +188,14 @@ function scheduleBot(){
   const theirTurn=g.phase==='mulligan'?!g.players[1].mulliganDone:g.turn===1;if(!theirTurn)return;
   const revision=g.revision,id=g.id;aiTimer=setTimeout(()=>{
     if(screen!=='battle'||room||modalOpen()||document.hidden||game()?.id!==id||game()?.revision!==revision)return;
-    const action=chooseAction(rules,game(),1,{difficulty:profile.settings.difficulty});if(action)act(action,{bot:true});
-  },reduced()?260:g.phase==='mulligan'?420:650+Math.floor(Math.random()*250));
+    const action=chooseAction(rules,game(),1,{difficulty:kind==='run'&&isRebalancedRun(profile.run)?profile.run.difficulty:profile.settings.difficulty});if(action)act(action,{bot:true});
+  },Math.max(field?.presentationRemaining()||0,reduced()?260:g.phase==='mulligan'?420:650+Math.floor(Math.random()*250)));
 }
 function onCard(uid){
   const state=currentView(),card=state?.players[localSeat()].hand.find(c=>c.uid===uid);if(!card)return;
   if(!canAct()){inspect(card.card,uid);return;}
   const actions=state.legal.filter(a=>a.type==='play'&&a.uid===uid);
-  if(!actions.length){audio.play('reject',{gain:.3});inspect(card.card,uid);toast(rules.cards[card.card].cost>state.players[localSeat()].energy?'Not enough energy for that card.':rules.cards[card.card].type==='crew'?'Your three crew places are full.':'There is no valid target for that card.');return;}
+  if(!actions.length){audio.play('reject',{gain:.3});inspect(card.card,uid);toast(rules.cards[card.card].cost>state.players[localSeat()].energy?'Not enough energy for that card.':rules.cards[card.card].type==='crew'?state.trailVersion===2?'Three crew places are full. Inspect your crew to dismiss one for 1 energy.':'Your three crew places are full.':'There is no valid target for that card.');return;}
   if(selected?.type==='card'&&selected.uid===uid){clearSelection();return;}
   select({type:'card',uid});
 }
@@ -164,6 +224,8 @@ function inspect(id,uid){
   $('inspect-card').replaceChildren(view.cardFace(card,{interactive:false}));$('inspect-title').textContent=card.name;
   const state=currentView();let unit;for(const p of state?.players||[])unit||=p.board.find(u=>u.uid===uid);
   renderInspection(card,unit);
+  const retire=canAct()&&state.legal.find(a=>a.type==='retire'&&a.target===uid);
+  $('inspect-retire').hidden=!retire;$('inspect-retire').onclick=()=>{$('card-dialog').close();act(retire);};
   const playable=canAct()&&state.players[localSeat()].hand.some(c=>c.uid===uid)&&state.legal.some(a=>a.type==='play'&&a.uid===uid);
   $('inspect-select').hidden=!playable;$('inspect-select').onclick=()=>{$('card-dialog').close();onCard(uid);};showDialog('card-dialog');
 }
@@ -181,7 +243,7 @@ function animateEvents(events,old,before,state,handChanged){
   const point=target=>{const rect=view.nodeFor(target)?.getBoundingClientRect()||old.get(target);return rect?{x:rect.left+rect.width/2,y:rect.top+rect.height/2}:null;};
   const fatigue=events.filter(e=>e.type==='fatigue');
   if(fatigue.length)toast(fatigue.map(e=>`${e.seat===localSeat()?'Your deck is':'Rival’s deck is'} empty. ${e.amount} fatigue damage.`).join(' '));
-  sound.events(events,{seat:localSeat(),cards:rules.cards,reduced:reduce,panFor:target=>{const p=point(target);return p?Math.max(-.5,Math.min(.5,(p.x/innerWidth-.5)*1.1)):0;}});
+  sound.events(events,{seat:localSeat(),cards:rules.cards,reduced:reduce,attackCard:before.get(events.find(e=>e.type==='attack')?.uid)?.card,panFor:target=>{const p=point(target);return p?Math.max(-.5,Math.min(.5,(p.x/innerWidth-.5)*1.1)):0;}});
   field.play(events,before,localSeat());
   // Combat and health-only updates must never replay draw/reflow motion.
   if(!reduce&&handChanged){
@@ -195,7 +257,10 @@ function presentResult(){
   $('result-title').textContent=draw?'A DRAW':won?'YOU WIN':'LAST CALL';
   const forfeit=state.events.some(e=>e.type==='finish'&&['forfeit','concede'].includes(e.reason));
   $('result-detail').textContent=forfeit?(won?'Your opponent forfeited the battle.':'You forfeited the battle.'):draw?'Even the tavern cannot choose.':won?'The next round is on them.':'A good story. A better rematch.';
-  $('result-summary').textContent=`${state.players[localSeat()].name} vs ${state.players[1-localSeat()].name} · ${state.turnNumber} turns`;
+  const me=state.players[localSeat()],lastDamage=[...state.events].reverse().find(e=>e.type==='damage'&&e.target===`hero:${localSeat()}`),fatigue=state.events.some(e=>e.type==='fatigue'&&e.seat===localSeat());
+  $('result-summary').textContent=`${me.name} vs ${state.players[1-localSeat()].name} · ${state.turnNumber} turns`;
+  if(!room&&kind==='run')$('result-summary').textContent+=` · ${profile.run.startingDeck||deckPreset(rules,profile.run.hero,profile.run.deck)} deck`;
+  if(!won&&!draw&&!forfeit)$('result-summary').textContent+=fatigue?' · Your empty deck caused fatigue damage this action.':lastDamage?` · Final action dealt ${lastDamage.amount} damage to your hero.`:'';
   $('result-next').hidden=!!room&&!room.host;$('result-next').disabled=!!room&&(room.paused||room.ended);
   $('result-next').textContent=room?'Rematch':kind==='run'?profile.run.status==='reward'?'Choose your reward':profile.run.status==='won'?'See your conquered trail':'See your journey':'Deal another duel';
   if(room?.ended)$('result-summary').textContent+=' · Table closed.';
@@ -205,9 +270,11 @@ function presentResult(){
 function renderTrail(){
   const run=profile.run;if(!run){show('home');return;}
   const ended=['won','lost'].includes(run.status),max=30+run.relics.filter(r=>r==='ember').length*3;
+  $('trail-rules-note').textContent=isRebalancedRun(run)?`${DIFFICULTIES[run.difficulty].name} · ${DIFFICULTIES[run.difficulty].text} Pot claims cost 1 energy; you can choose healing instead of attack. Inspect friendly crew to dismiss one for 1 energy.`:'This adventure keeps its original rules. Start a new trail to use the gentler progression and new choices.';
+  $('restart-balanced-trail').hidden=isRebalancedRun(run)||ended;
   $('trail-title').textContent=run.status==='won'?'The tavern knows your name.':run.status==='lost'?'Every trail has another beginning.':'The tavern trail';
   $('trail-status').textContent=run.status==='won'?'All seven tables conquered. Your story is saved.':run.status==='lost'?`${run.stage} of 7 battles won. A new trail brings a new chance.`:`${HEROES[run.hero].name} · ${run.health}/${max} health · ${ENCOUNTERS[run.stage].flavor}`;
-  $('encounters').replaceChildren(...ENCOUNTERS.map((encounter,i)=>{const li=document.createElement('li');li.className=`encounter ${i<run.stage?'complete':i===run.stage?'current':''}`;li.append(image(`heroes/${encounter.hero}.png`),label('',`${i+1}`));const name=document.createElement('strong');name.textContent=encounter.name;const small=document.createElement('small');small.textContent=i<run.stage?'Defeated':i===run.stage&&!ended?'Your next table':`${encounter.health} health`;li.append(name,small);return li;}));
+  $('encounters').replaceChildren(...ENCOUNTERS.map((_,i)=>{const encounter=encounterConfig(rules,run,i),li=document.createElement('li');li.className=`encounter ${i<run.stage?'complete':i===run.stage?'current':''}`;li.append(image(`heroes/${encounter.hero}.png`),label('',`${i+1}`));const name=document.createElement('strong');name.textContent=encounter.name;const small=document.createElement('small');small.textContent=i<run.stage?'Defeated':i===run.stage&&!ended?`Next · ${encounter.health} health`:`${encounter.health} health`;li.append(name,small);return li;}));
   const favor=label('',"The House's Favor · +1 starting energy");favor.title='Begin every adventure battle with one extra maximum energy crystal.';
   $('trail-relics').replaceChildren(favor,...run.relics.map(id=>{const node=label('',RELICS[id].name);node.title=RELICS[id].text;return node;}));
   $('enter-encounter').textContent=ended?'Begin another trail':`Face ${ENCOUNTERS[run.stage].name}`;
@@ -218,19 +285,25 @@ async function enterEncounter(){
 }
 function renderRewards(){
   const run=profile.run;if(run?.status!=='reward'){show('trail');return;}
-  $('reward-subtitle').textContent=`${run.stage}/7 tables won · ${run.health} health after your 8-point rest. Choose one reward.`;
+  $('reward-subtitle').textContent=`${run.stage}/7 tables won · ${run.health} health after resting. ${isRebalancedRun(run)?'Choose a card swap or a permanent relic.':'Choose one reward.'}`;
+  $('reward-choices').classList.toggle('expanded-rewards',isRebalancedRun(run));
   $('reward-choices').hidden=pendingReward!==null;$('replace-card').hidden=pendingReward===null;
   $('reward-choices').replaceChildren(...run.choices.map((choice,index)=>{
     const node=button('','reward-choice',()=>{if(choice.type==='card'){pendingReward=index;renderRewards();}else takeReward(index);});
     node.append(image(choice.type==='card'?rules.cards[choice.card].art:choice.type==='heal'?'cards/second-wind.png':choice.id==='steel'?'cards/rusty-dagger.png':choice.id==='pockets'?'cards/pilfer.png':'cards/hearth-lantern.png'));
-    const name=document.createElement('strong');name.textContent=choice.name;const copy=document.createElement('p');copy.textContent=choice.text;node.append(name,copy);return node;
+    const name=document.createElement('strong');name.textContent=choice.name;const copy=document.createElement('p');const card=choice.type==='card'?rules.cards[choice.card]:null;copy.textContent=card?`${card.cost} energy${card.type==='crew'?` · ${card.attack}/${card.health}`:''}. ${card.text}`:choice.text;node.append(name,copy);return node;
   }));
-  if(pendingReward!==null)$('replace-list').replaceChildren(...[...new Set(run.deck)].map(id=>{const node=button(`${rules.cards[id].name} ×${run.deck.filter(c=>c===id).length}`,'',()=>takeReward(pendingReward,id));node.disabled=id===run.choices[pendingReward]?.card;return node;}));
+  if(pendingReward!==null){
+    const offered=rules.cards[run.choices[pendingReward].card];
+    $('reward-offer').replaceChildren(view.cardFace(offered,{onClick:()=>inspect(offered.id)}));
+    $('reward-offer-name').textContent=`Add ${offered.name} · ${offered.cost} energy. ${offered.text}`;
+    $('replace-list').replaceChildren(...[...new Set(run.deck)].map(id=>{const row=document.createElement('div');row.className='replace-option';const node=button(`Replace ${rules.cards[id].name} ×${run.deck.filter(c=>c===id).length}`,'',()=>takeReward(pendingReward,id));node.disabled=id===run.choices[pendingReward]?.card;const info=button('Inspect','',()=>inspect(id));info.setAttribute('aria-label',`Inspect ${rules.cards[id].name}`);row.append(node,info);return row;}));
+  }
 }
 async function takeReward(index,replaceId){const accepted=await store.transact(p=>claimReward(rules,p.run,index,replaceId));if(!accepted){toast('That card swap is not available. Choose another card.');return;}pendingReward=null;show('trail');audio.play('reward',{gain:.44});}
 function openDecks(){deckHero=hero;editingDeck=[...(profile.decks[deckHero]||rules.featuredDecks[deckHero])];filter='all';show('decks');}
 function renderDecks(){
-  $('deck-summary').textContent=`${HEROES[deckHero].name} · ${editingDeck.length}/20 cards · one of each Legendary, two of other cards. New games use your saved deck.`;
+  $('deck-summary').textContent=`${HEROES[deckHero].name} · ${deckPreset(rules,deckHero,editingDeck)} · ${editingDeck.length}/20 cards · one of each Legendary, two of other cards. ${deckPreset(rules,deckHero,editingDeck)==='Classic'?'Original cards only; After Midnight is recommended for the trail.':'Save to use this deck in your next game.'}`;
   $('save-deck').disabled=!rules.validateDeck(editingDeck,deckHero);$('save-deck').textContent=`Save deck · ${editingDeck.length}/20`;
   $('deck-heroes').replaceChildren(...Object.entries(HEROES).map(([id,hero])=>{const node=button(hero.name,'',()=>{if(id===deckHero)return;const change=()=>{deckHero=id;editingDeck=[...(profile.decks[id]||rules.featuredDecks[id])];renderDecks();};const saved=profile.decks[deckHero]||rules.featuredDecks[deckHero];if(JSON.stringify(saved)!==JSON.stringify(editingDeck))confirmTask('Leave these edits?', 'Your unsaved deck changes will be left behind.','Switch hero',change);else change();});node.setAttribute('aria-pressed',String(id===deckHero));return node;}));
   for(const node of $('decks').querySelectorAll('[data-filter]'))node.setAttribute('aria-pressed',String(node.dataset.filter===filter));
@@ -304,7 +377,10 @@ function bindControls(){
   document.querySelectorAll('[data-rules]').forEach(node=>node.onclick=()=>showDialog('rules-dialog'));
   document.querySelectorAll('[data-settings]').forEach(node=>node.onclick=()=>{$('sound-setting').checked=profile.settings.sound;$('motion-setting').checked=profile.settings.reducedMotion;$('difficulty-setting').value=profile.settings.difficulty;showDialog('settings-dialog');});
   $('sound-setting').onchange=()=>store.transact(p=>{p.settings.sound=$('sound-setting').checked;sound.stop();audio.setEnabled(p.settings.sound);if(p.settings.sound)audio.play('on');});$('motion-setting').onchange=()=>store.transact(p=>{p.settings.reducedMotion=$('motion-setting').checked;});$('difficulty-setting').onchange=()=>store.transact(p=>{p.settings.difficulty=$('difficulty-setting').value;});
-  $('new-adventure').onclick=()=>{if(profile.run&&['map','battle','reward'].includes(profile.run.status))confirmTask('Start another trail?','Your current adventure will be replaced. Your duel, decks and career stay saved.','Start a new trail',newAdventure);else newAdventure();};
+  $('new-adventure').onclick=newAdventure;
+  $('restart-balanced-trail').onclick=()=>{hero=profile.run.hero;newAdventure();};
+  $('trail-deck').onchange=renderTrailSetup;$('trail-difficulty').onchange=renderTrailSetup;
+  $('start-trail').onclick=()=>{if(profile.run&&['map','battle','reward'].includes(profile.run.status))confirmTask('Start another trail?','Your current adventure will be replaced. Your duel, decks and career stay saved.','Start a new trail',beginAdventure);else beginAdventure();};
   $('quick-duel').onclick=()=>{view.picker($('opponent-picker'),opponent,id=>{opponent=id;audio.play('select');view.picker($('opponent-picker'),opponent,chooseOpponent);$('opponent-description').textContent=HEROES[id].text;});$('opponent-description').textContent=HEROES[opponent].text;showDialog('quick-dialog');};
   function chooseOpponent(id){opponent=id;audio.play('select');view.picker($('opponent-picker'),opponent,chooseOpponent);$('opponent-description').textContent=HEROES[id].text;}
   $('start-duel').onclick=()=>{if(profile.duel&&profile.duel.phase!=='finished'){closeDialogs();confirmTask('Deal a new duel?','Your unfinished quick duel will be replaced. Your adventure stays saved.','Deal the cards',newDuel);}else newDuel();};
@@ -317,6 +393,8 @@ function bindControls(){
   });};
   $('confirm-no').onclick=()=>{confirmCallback=null;$('confirm-dialog').close();};$('confirm-yes').onclick=async()=>{const task=confirmCallback;confirmCallback=null;$('confirm-dialog').close();if(task)try{await task();}catch(e){toast(e.message);}};
   $('enemy-hero').onclick=()=>heroClick(1-localSeat());$('own-hero').onclick=()=>heroClick(localSeat());$('hero-power').onclick=usePower;$('claim-pot').onclick=()=>{if(canAct())select({type:'claim'});};$('end-turn').onclick=()=>act({type:'end'});$('keep-hand').onclick=()=>act({type:'mulligan',ids:[...replacing]});$('commit-card').onclick=commitSelection;$('cancel-selection').onclick=clearSelection;$('battle-log').onclick=historyDialog;$('deck-counts').onclick=historyDialog;
+  $('make-room').onclick=()=>{closeDialogs();if(canAct())select({type:'retire'});};
+  $('pause-dialog').addEventListener('toggle',()=>{const s=currentView();$('make-room').hidden=!s?.legal.some(a=>a.type==='retire');});
   const openingBack=button('Back to the tavern','quiet hearth-button hearth-button-compact mulligan-back',()=>{if(room)confirmTask('Leave this table?','Leaving a live table forfeits this duel.','Leave table',home);else home();});$('mulligan').append(openingBack);
   for(const [id,type]of [['hero-power','power'],['claim-pot','claim']])gestures.bind($(id),()=>({type,allowed:canAct()&&currentView().legal.some(a=>a.type===type&&a.target)}));
   $('result-next').onclick=()=>{closeDialogs();if(room){resultShown='';room.act('rematch');}else if(kind==='run'){pendingReward=null;show(profile.run.status==='reward'?'rewards':'trail');}else newDuel();};$('result-home').onclick=home;
@@ -329,21 +407,26 @@ function bindControls(){
   $('online-back').onclick=()=>{if(room)confirmTask('Close this table?','Your friend will be disconnected from this table.','Leave table',home);else home();};$('refresh-tables').onclick=()=>directory?directory.refresh():startDirectory();$('create-table').onclick=()=>joinRoom('');$('join-form').onsubmit=event=>{event.preventDefault();if(!$('invite').value.trim()){toast('Paste an invitation link or table code first.');return;}joinRoom($('invite').value);};$('room-ready').onclick=()=>{const own=room?.members.find(m=>m.id===room.id);room?.act('ready',{ready:!own?.ready});};$('room-start').onclick=()=>room?.act('start');$('copy-invite').onclick=async()=>{try{await navigator.clipboard.writeText($('room-invite').value);toast('Invitation copied. Send it to a friend.');}catch{$('room-invite').select();toast('Select and copy the invitation above.');}};$('leave-ended').onclick=home;
   document.addEventListener('pointerdown',()=>audio.unlock(),{passive:true});
   document.addEventListener('keydown',event=>{if(event.target.matches('input,textarea,select')||event.metaKey||event.ctrlKey||event.altKey)return;if(event.key==='Escape'&&!modalOpen()&&selected){clearSelection();event.preventDefault();}else if(event.key.toLowerCase()==='e'&&!modalOpen()&&canAct()){event.preventDefault();act({type:'end'});}});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeout(aiTimer);sound.stop();}else scheduleBot();});
+  document.addEventListener('visibilitychange',()=>{renderClock();if(document.hidden){clearTimeout(aiTimer);sound.stop();}else scheduleBot();});
   const clockTick=setInterval(renderClock,250);
-  addEventListener('pagehide',()=>clearInterval(clockTick),{once:true});
-  addEventListener('resize',()=>view.layoutHand());addEventListener('pagehide',()=>{room?.close();stopDirectory();stopTasks();sound.stop();});
+  addEventListener('pagehide',()=>{clearInterval(clockTick);turnLava.destroy();},{once:true});
+  addEventListener('blur',()=>sound.cancelPending());
+  addEventListener('resize',()=>{sound.cancelPending();view.layoutHand();});addEventListener('pagehide',()=>{room?.close();stopDirectory();stopTasks();sound.stop();});
 }
 async function boot(){
   $('prepare-retry').hidden=true;
   try{
     const response=await fetch('assets/tavern-brawl/cards.json',{signal:AbortSignal.timeout(20000)});if(!response.ok)throw Error('Card library unavailable.');const catalog=await response.json();rules=createRules(catalog);
-    const assets=['ui/card-inspection.jpg','ui/card-inspection-mobile.jpg',...catalog.cards.map(c=>c.art),...Object.keys(HEROES).map(id=>`heroes/${id}.png`),...['title','nameplate','health','attack','energy-on','energy-off','energy-housing','pot-empty','pot-full','card-back','guard','spell','result-crest','reward-chest','confirmation-frame','confirmation-frame-mobile'].map(id=>`ui/${id}.png`),`boards/board-${matchMedia('(max-width:700px) and (orientation:portrait)').matches?'mobile':'desktop'}.png`,'/assets/club-teal-button.png','/assets/club-gold-button.png','/assets/pause-hearth-background.jpg','/assets/house-rulebook.jpg',`/assets/tavern-menu-${matchMedia('(max-width:700px) and (orientation:portrait)').matches?'mobile':'desktop'}.jpg`];let loaded=0;
-    await Promise.all(assets.map(file=>new Promise((resolve,reject)=>{const img=new Image();const timer=setTimeout(()=>reject(Error('Asset loading timed out.')),20000);img.onload=()=>{clearTimeout(timer);loaded++;$('prepare-progress').value=Math.round(loaded/assets.length*100);resolve();};img.onerror=()=>{clearTimeout(timer);reject(Error('Some artwork could not load.'));};img.src=file.startsWith('/')?file:ART+file;})));
+    const assets=['ui/card-inspection.jpg','ui/card-inspection-mobile.jpg',...catalog.cards.map(c=>c.art),...Object.keys(HEROES).map(id=>`heroes/${id}.png`),...['title','nameplate','health','attack-v2','energy-on','energy-off','energy-housing','pot-empty','pot-full','card-back','guard','spell','result-crest','reward-chest','confirmation-frame','confirmation-frame-mobile'].map(id=>`ui/${id}.png`),`boards/board-${matchMedia('(max-width:700px) and (orientation:portrait)').matches?'mobile':'desktop'}.png`,'/assets/club-teal-button.png','/assets/club-gold-button.png','/assets/pause-hearth-background.jpg','/assets/house-rulebook.jpg',`/assets/tavern-menu-${matchMedia('(max-width:700px) and (orientation:portrait)').matches?'mobile':'desktop'}.jpg`];let loaded=0;
+    const midnightAssets=[...new Set([...assets.filter(file=>!catalog.cards.some(c=>c.art===file)),...catalog.cards.map(cardArtwork),...Object.values(LEGEND_ART),'midnight/board.jpg','midnight/board-mobile.jpg','midnight/ui/card-frame.png','midnight/ui/spell-frame.png'])];
+    midnightAssets.push(...['soul-cleave','furnace-impact','coal-ash','soul-a','soul-b','furnace-scorch'].map(n=>`midnight/materials/${n}-v1.png`),'midnight/materials/cethiel-flame-slash.png');
+    midnightAssets.push(...MATERIAL_ASSETS.map(src=>src.replace('assets/tavern-brawl/','')),'midnight/materials/furnace-burst-v1.png','midnight/ui/end-turn-round-v4.png','midnight/materials/molten-lava-loop.webp','midnight/materials/molten-lava-still.webp');
+    midnightAssets.push(...['player-station','power-fox','power-owl','power-raven','energy-lit','energy-spent','energy-locked'].map(id=>`midnight/ui/${id}-v2.png`));
+    await Promise.all(midnightAssets.map(file=>new Promise((resolve,reject)=>{const img=new Image();const timer=setTimeout(()=>reject(Error('Asset loading timed out.')),20000);img.onload=()=>{clearTimeout(timer);loaded++;$('prepare-progress').value=Math.round(loaded/midnightAssets.length*100);resolve();};img.onerror=()=>{clearTimeout(timer);reject(Error('Some artwork could not load.'));};img.src=file.startsWith('/')?file:ART+file;})));
     await document.fonts.ready;
-    gestures=createGestures({battle:$('battle'),arrow:$('target-arrow'),path:$('arrow-path'),zone:$('play-zone'),prompt:$('battle-prompt'),canAct,context:()=>{const s=currentView();return s?`${s.id}:${s.revision}:${localSeat()}`:'';},select,clearSelection,actions:selectionActions,submit:action=>{if(action.type==='place'){select({type:'card',uid:action.uid});placeCrew(action.slot);}else act(action);},inspect});
+    gestures=createGestures({battle:$('battle'),arrow:$('target-arrow'),path:$('arrow-path'),reduced,aimCue:()=>audio.play('select',{gain:.12,rate:1.6}),zone:$('play-zone'),prompt:$('battle-prompt'),canAct,context:()=>{const s=currentView();return s?`${s.id}:${s.revision}:${localSeat()}`:'';},select,clearSelection,actions:selectionActions,submit:action=>{if(action.type==='place'){select({type:'card',uid:action.uid});placeCrew(action.slot);}else act(action);},inspect});
     view=createView(rules,{card:onCard,unit:onUnit,empty:placeCrew,inspect,bindDrag,replace:uid=>{if(replacing.has(uid))replacing.delete(uid);else replacing.add(uid);audio.play(replacing.has(uid)?'return':'select',{gain:.32});renderBattle();}});
-    field=createFieldEffects({battle:$('battle'),layer:$('effects'),view,cards:rules.cards,reduced});
+    field=createFieldEffects({battle:$('battle'),layer:$('effects'),view,cards:rules.cards,reduced,onSkip:()=>sound.cancelPending()});
     store=createStore(rules,{onChange:next=>{profile=next;render();}});profile=store.read();hero=HEROES[profile.settings.hero]?profile.settings.hero:'fox';await store.transact(()=>{});audio.setEnabled(profile.settings.sound);audio.setVolume(.7);attachBrawlUI(audio);bindControls();
     try{$('nickname').value=localStorage.getItem('tavern-brawl-name')||'';}catch{}
     $('preparing').hidden=true;$('app').hidden=false;show('home');

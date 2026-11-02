@@ -1,0 +1,83 @@
+{
+  "date": "2026-11-02",
+  "effect": "Furnace Burst",
+  "timingMs": {
+    "ignite": 40,
+    "contact": 360,
+    "death": 450,
+    "lastOrders": 470,
+    "end": 1150
+  },
+  "asset": {
+    "path": "dist/assets/tavern-brawl/midnight/materials/furnace-burst-v1.png",
+    "size": [
+      2172,
+      724
+    ],
+    "mode": "RGBA",
+    "sha256": "abc900f779f6a0afc59b811857198a63ae5e4f69d38b84969acc741387932166",
+    "transparentPixels": 800753,
+    "translucentPixels": 771773,
+    "generator": "Built-in imagegen; native alpha retained without background removal",
+    "prompt": "dist/assets/tavern-brawl/midnight/materials/furnace-burst-v1.prompt.txt"
+  },
+  "browser": {
+    "fixture": "http://localhost:5173/brawl-furnace-review.html",
+    "viewports": [
+      [
+        1440,
+        900
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        320,
+        568
+      ],
+      [
+        844,
+        390
+      ]
+    ],
+    "bothCasterOrientations": true,
+    "fitsAllViewports": true,
+    "pointerEvents": "none",
+    "authoritativeEnergy": 5,
+    "friendlyCrewUnchanged": true,
+    "mixedRowDamageNumbers": [
+      "\u22123",
+      "\u22123"
+    ],
+    "earlyDamageNumbers": 0,
+    "allWardRow": {
+      "damageEvents": 0,
+      "wardBreaks": 3,
+      "enemyHealth": [
+        1,
+        6,
+        4
+      ]
+    },
+    "emptyRowDamageEvents": 0,
+    "endRemnants": 0,
+    "endSnapshots": 0,
+    "endVisibleFlames": 0,
+    "pauseClearsOwnedWork": true,
+    "savedReducedMotionImmediateNumbers": true,
+    "systemReducedMotionImmediateNumbers": true,
+    "textured2dFallback": true
+  },
+  "scope": "Isolated fixture uses real rules.apply, projection, production renderer, effects and audio. No app/storage/network imports or save writes. Peak visual samples use the same renderer at a deterministic time; full-speed action timing and cleanup were checked separately.",
+  "limitations": [
+    "Not real filmed fire or a rendered video: generated material animated through GPU flow and dissolution",
+    "No physical-phone/Safari frame-rate certification",
+    "No multiplayer peer connection exercised; effect consumes the same public event batches and seat mapping"
+  ],
+  "tests": {
+    "fullSuitePassed": 234,
+    "failed": 0,
+    "focusedPassed": 26
+  }
+}

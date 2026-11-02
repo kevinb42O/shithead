@@ -1,0 +1,84 @@
+[
+  {
+    "name": "Damage leaves hand nodes, deck order and hand animations untouched",
+    "passed": true,
+    "details": []
+  },
+  {
+    "name": "Receiving lethal damage preserves hands and deck order without moving the hand",
+    "passed": true
+  },
+  {
+    "name": "New matches render the actual cards for reused IDs",
+    "passed": true
+  },
+  {
+    "name": "Drag preview follows the pointer and lights the chosen right slot",
+    "passed": true
+  },
+  {
+    "name": "An already selected card can be dragged and played",
+    "passed": true
+  },
+  {
+    "name": "Phone touch drag places crew in the exact middle slot",
+    "passed": true
+  },
+  {
+    "name": "Keyboard card selection and slot activation choose the right place",
+    "passed": true
+  },
+  {
+    "name": "Touch long press opens inspection without a stray card selection",
+    "passed": true
+  },
+  {
+    "name": "Fullscreen battle fits 390×844",
+    "passed": true,
+    "details": {
+      "w": 390,
+      "h": 844,
+      "sw": 390,
+      "sh": 844,
+      "body": "hidden",
+      "outer": []
+    }
+  },
+  {
+    "name": "Fullscreen battle fits 320×568",
+    "passed": true,
+    "details": {
+      "w": 320,
+      "h": 568,
+      "sw": 320,
+      "sh": 568,
+      "body": "hidden",
+      "outer": []
+    }
+  },
+  {
+    "name": "Fullscreen battle fits 844×390",
+    "passed": true,
+    "details": {
+      "w": 844,
+      "h": 390,
+      "sw": 844,
+      "sh": 390,
+      "body": "hidden",
+      "outer": []
+    }
+  },
+  {
+    "name": "Resizing a full hand to mobile enables scrolling immediately",
+    "passed": true
+  },
+  {
+    "name": "Resizing back to desktop restores the card fan immediately",
+    "passed": true
+  },
+  {
+    "name": "No browser runtime errors",
+    "passed": true,
+    "details": []
+  }
+]

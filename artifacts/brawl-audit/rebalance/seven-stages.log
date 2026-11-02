@@ -1,0 +1,1 @@
+PASS: all seven encounter transitions, card/relic/heal rewards, reload/resume, final trail and exactly-once statistics. [ 'card', 'relic', 'card', 'card', 'relic', 'card' ]

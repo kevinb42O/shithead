@@ -130,15 +130,27 @@
       <p class="menu-tagline">A great game.<br>A terrible title to earn.</p>
       <div class="coin-wallet"><span>Your wallet</span><strong id="menu-wallet">1,000 coins</strong><button id="refill-coins" class="menu-quiet" hidden>Refill to 1,000 free</button></div>
       <div class="menu-actions" id="menu-actions">
-        <button id="menu-play" class="menu-play menu-play-illustrated" type="button" aria-label="Let’s play">
+        <button id="menu-play" class="menu-play menu-play-illustrated" type="button" aria-label="Let’s play Shithead" aria-controls="shithead-modes">
           <span class="menu-play-art" aria-hidden="true"><img src="assets/lets-play-button.png" alt="" width="1945" height="808" decoding="async" draggable="false"></span>
         </button>
-        <button class="menu-multiplayer menu-multiplayer-illustrated" type="button" aria-label="Multiplayer">
-          <span class="menu-multiplayer-art" aria-hidden="true"><img src="assets/multiplayer-button.png" alt="" width="2172" height="724" decoding="async" draggable="false"></span>
-        </button>
-        <a id="menu-brawl" class="menu-brawl" href="tavern-brawl.html" aria-label="Play Tavern Brawl — card battles, adventure and duels"><img class="menu-brawl-scene" src="assets/tavern-brawl/reference/gameplay-concept.png" alt="" loading="eager" draggable="false"><img class="menu-brawl-title" src="assets/tavern-brawl/ui/title.png" alt="Tavern Brawl" draggable="false"><span>Card battles · Solo & friends</span></a>
+        <p class="menu-game-label">Shithead · The classic card game</p>
+        <a id="menu-brawl" class="menu-brawl" href="tavern-brawl.html" aria-label="Play Tavern Brawl — card battles, adventure and duels"><img class="menu-brawl-art" src="assets/tavern-brawl/ui/menu-entry.png" alt="" width="2058" height="764" decoding="async" draggable="false"><span>Card battles · Solo & friends</span></a>
         <button id="menu-fortune" class="fortune-entry" type="button"><span class="fortune-entry-coin" aria-hidden="true"></span><span><strong>Daily Fortune</strong><small id="fortune-entry-status">Free roll ready</small></span><span class="fortune-entry-arrow" aria-hidden="true">›</span></button>
       </div>
+      <section id="shithead-modes" class="shithead-modes" hidden aria-labelledby="shithead-modes-title">
+        <button id="modes-back" class="menu-quiet setup-back" type="button" aria-label="Back to main menu"><img src="assets/setup-back-button.png" alt="" aria-hidden="true" draggable="false"></button>
+        <h2 id="shithead-modes-title">Who’s at your table?</h2>
+        <div class="shithead-mode-choice">
+          <button id="menu-solo" type="button" aria-label="Play solo"><span class="menu-solo-art" aria-hidden="true"><img src="assets/play-solo-button.png" alt="" width="2172" height="724" decoding="async" draggable="false"></span></button>
+          <p>Against the computer</p>
+        </div>
+        <div class="shithead-mode-choice">
+        <button class="menu-multiplayer menu-multiplayer-illustrated" type="button" aria-label="Play Shithead online with friends">
+          <span class="menu-multiplayer-art" aria-hidden="true"><img src="assets/multiplayer-button.png" alt="" width="2172" height="724" decoding="async" draggable="false"></span>
+        </button>
+          <p>Online with friends</p>
+        </div>
+      </section>
       <section id="single-setup" class="single-setup" hidden aria-labelledby="setup-title">
         <button id="setup-back" class="menu-quiet setup-back" type="button" aria-label="Back"><img src="assets/setup-back-button.png" alt="" aria-hidden="true" draggable="false"></button>
         <h2 id="setup-title" class="setup-title-illustrated"><img src="assets/pick-your-company.png" alt="Pick your company." decoding="async" draggable="false"></h2>

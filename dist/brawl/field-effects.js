@@ -1,4 +1,11 @@
-import {ATTACK_CONTACT_MS} from './sound.js';
+import {createFurnaceBurst,furnaceBounds} from './furnace-burst.js';
+import {createAmbientRoom} from './ambient-room.js';
+import {ATTACK,CAST_CONTACT_MS,DEATH_DELAY_MS,SUMMON_MS,summonContact,combatDuration} from './combat-timing.js';
+import {createMidnightMotion} from './midnight-motion.js';
+import {signatureTiming,presentationCue} from './signature-timing.js';
+import {attackProfile} from './attack-profiles.js';
+import {createCombatVfx} from './combat-vfx.js';
+import {cardStage} from './card-emergence.js';
 
 const PALETTES={
   impact:['#fff3cb','#ffc36b','#c66c30'], fire:['#fff1ba','#ffae46','#bd4d27'],
@@ -13,31 +20,44 @@ const ease=t=>1-(1-t)**3;
 export function fieldTiming(events,reduced=false){
   const attack=events.some(e=>e.type==='attack');
   const cast=events.some(e=>e.type==='power'||e.type==='play'&&e.target);
-  const hit=reduced?0:attack?ATTACK_CONTACT_MS:cast?210:0;
-  return {hit,death:hit+(reduced?0:110),cast:reduced?0:210};
+  const hit=reduced?0:signatureTiming(events)?.contact??(attack?ATTACK.contact:cast?CAST_CONTACT_MS:0);
+  return {hit,death:events.some(e=>e.type==='death')?(presentationCue(events,events.find(e=>e.type==='death'),reduced)??hit+(reduced?0:DEATH_DELAY_MS)):hit+(reduced?0:DEATH_DELAY_MS),cast:reduced?0:signatureTiming(events)?.contact??CAST_CONTACT_MS};
 }
 export function spellMaterial(card,hero){
   if(card==='pocket-sand')return 'sand';
   if(card==='smoke-bomb')return 'smoke';
-  if(['bar-fight','furnace-burst','mordren-ashen-host'].includes(card))return 'fire';
+  if(card==='bar-fight')return 'impact';
+  if(['furnace-burst','mordren-ashen-host'].includes(card))return 'fire';
   if(['the-bell-tolls','collect-the-debt','mother-nox-bellkeeper','funeral-velvet','debt-eater'].includes(card))return 'shadow';
   if(card==='raven-bargain'||hero==='raven')return 'shadow';
   if(['last-call','rusty-dagger','oak-shield','loaded-dice'].includes(card))return 'gold';
-  if(card==='second-wind'||card==='toad-brewer')return 'heal';
+  if(['second-wind','toad-brewer','moonlit-stitch','lantern-moth','hearth-lantern'].includes(card))return 'heal';
+  if(['sealed-constellation','shatter-the-seal','black-iron-buckler','orun-eclipse-warden'].includes(card))return 'arcane';
   return hero==='fox'?'gold':'arcane';
 }
 
-export function createFieldEffects({battle,layer,view,cards,reduced}){
+export function createFieldEffects({battle,layer,view,cards,reduced,onSkip=()=>{}}){
+  const furnace=createFurnaceBurst(layer);
+  const ambience=createAmbientRoom(battle);
+  const midnight=createMidnightMotion({battle,layer,view,cards,reduced});
+  const combat=createCombatVfx({layer});
   const canvas=document.createElement('canvas');canvas.className='field-canvas';canvas.setAttribute('aria-hidden','true');layer.append(canvas);
   const ctx=canvas.getContext('2d',{alpha:true});
   const sprites=new Map(),jobs=[],particles=[],waves=[],trails=[],lights=[],scars=[];
   const animations=new Set(),remnants=new Set();
-  let active=false,paused=false,raf=0,last=0,width=0,height=0,dpr=1,board=[],state=null,seat=0,ambientAt=0,wasReduced=false;
-  function point(rect){return rect?{x:rect.left+rect.width/2,y:rect.top+rect.height/2,r:Math.min(rect.width,rect.height)*.55}:null;}
+  let active=false,paused=false,raf=0,last=0,width=0,height=0,dpr=1,board=[],state=null,seat=0,wasReduced=false,signatureUntil=0,presentationUntil=0;
+  function point(rect){const bounds=battle.getBoundingClientRect();return rect?{x:rect.left+rect.width/2-bounds.left,y:rect.top+rect.height/2-bounds.top,r:Math.min(rect.width,rect.height)*.55}:null;}
   function target(id,before){return point(view.nodeFor(id)?.getBoundingClientRect()||before?.get(id)?.rect);}
-  function capture(){return new Map([...view.rects()].map(([id,rect])=>[id,{rect,node:view.nodeFor(id)?.classList.contains('unit')?view.nodeFor(id).cloneNode(true):null}]));}
+  function capture(){return new Map([...view.rects()].map(([id,rect])=>{
+    const live=view.nodeFor(id),node=live?.matches('.unit,.hero')?live.cloneNode(true):null;
+    // A remnant leaves its responsive crew row. Retain its actual physical
+    // orientation rather than jumping to the desktop default during a death.
+    if(node&&live.classList.contains('unit')){const style=getComputedStyle(live);for(const property of ['--table-pitch','--table-perspective','--table-yaw','--table-roll','--card-thickness'])node.style.setProperty(property,style.getPropertyValue(property));}
+    return [id,{rect,node,card:board.find(u=>u.uid===id)?.card}];
+  }));}
   function size(){
     width=battle.clientWidth;height=battle.clientHeight;dpr=Math.min(devicePixelRatio||1,1.5);
+    ambience.size(width,height);combat.size(width,height);
     canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx?.setTransform(dpr,0,0,dpr,0,0);
   }
   function sprite(color){
@@ -66,69 +86,133 @@ export function createFieldEffects({battle,layer,view,cards,reduced}){
   function trail(a,b,material='arcane',duration=210){if(a&&b){trails.push({a,b,material,duration,born:performance.now()});wake();}}
   function number(p,value,heal=false){
     if(!p||!value)return;const node=document.createElement('span');node.className=`field-number${heal?' is-heal':''}`;node.textContent=`${heal?'+':'−'}${value}`;node.style.left=p.x+'px';node.style.top=p.y+'px';layer.append(node);remnants.add(node);
-    if(!reduced())animate(node,[{opacity:0,transform:'scale(1.6) translateY(4px)'},{opacity:1,transform:'scale(1) translateY(-8px)',offset:.14},{opacity:1,transform:'scale(1) translateY(-19px)',offset:.65},{opacity:0,transform:'scale(.92) translateY(-38px)'}],{duration:1000,easing:'cubic-bezier(.16,1,.3,1)',fill:'forwards'});
-    at(reduced()?550:1000,()=>{node.remove();remnants.delete(node);});
+    if(!reduced())animate(node,[{opacity:0,transform:'scale(1.6) translateY(4px)'},{opacity:1,transform:'scale(1) translateY(-8px)',offset:.14},{opacity:1,transform:'scale(1) translateY(-19px)',offset:.65},{opacity:0,transform:'scale(.92) translateY(-38px)'}],{duration:1250,easing:'cubic-bezier(.16,1,.3,1)',fill:'forwards'});
+    at(reduced()?550:1250,()=>{node.remove();remnants.delete(node);});
   }
   function ghost(id,before,kind='death',delay=0){
     const old=before.get(id);if(!old?.node)return;
     const node=old.node;node.className='field-remnant';node.removeAttribute('data-target');node.removeAttribute('data-uid');node.removeAttribute('aria-label');node.setAttribute('aria-hidden','true');node.disabled=true;node.tabIndex=-1;node.inert=true;
     Object.assign(node.style,{left:old.rect.left+'px',top:old.rect.top+'px',width:old.rect.width+'px',height:old.rect.height+'px'});layer.append(node);remnants.add(node);
     if(!reduced()){
-      const to=kind==='return'?{opacity:0,transform:`translate(0,${old.rect.top<height*.4?-100:100}px) scale(.55)`,filter:'brightness(1.6) saturate(.35)'}:{opacity:0,transform:'translateY(20px) rotate(7deg) scale(.78)',filter:'brightness(.3) saturate(0)',clipPath:'inset(100% 0 0 0)'};
+      const destination=kind==='return'?view.nodeFor(id)?.getBoundingClientRect():null;
+      const to=kind==='return'?{opacity:0,transform:`translate(${destination?destination.left+destination.width/2-old.rect.left-old.rect.width/2:0}px,${destination?destination.top+destination.height/2-old.rect.top-old.rect.height/2:old.rect.top<height*.4?-100:100}px) scale(.35)`,filter:'brightness(1.6) saturate(.35)'}:{opacity:0,transform:'translateY(20px) rotate(7deg) scale(.78)',filter:'brightness(.3) saturate(0)',clipPath:'inset(100% 0 0 0)'};
       animate(node,[{opacity:1,transform:'none',filter:'brightness(1)',clipPath:'inset(0 0 0 0)'},to],{duration:kind==='return'?460:580,delay,fill:'forwards',easing:'cubic-bezier(.4,0,.7,1)'});
     }
     at(delay+(reduced()?180:600),()=>{node.remove();remnants.delete(node);});
   }
-  function hit(p,event,material,attack){
+  function hit(p,event,material,attack,shapedFire=false,source=null,weight=1,souls=false){
     if(!p)return;number(p,event.amount);light(p,material,event.amount>=4?1:.65);
     if(reduced())return;
-    const flash=lights[lights.length-1];if(flash)flash.contact=true;
-    burst(p,material,Math.min(42,16+event.amount*4),.7+event.amount*.08);wave({...p,y:p.y+p.r*.65},material,p.r*(event.amount>=4?1.6:1.15),440);
-    const node=view.nodeFor(event.target);
-    if(!attack||event.target!==attack.uid)animate(node,[{transform:'translate(0,0)'},{transform:'translate(4px,3px) rotate(2deg)',offset:.18},{transform:'translate(-3px,0) rotate(-1deg)',offset:.42},{transform:'translate(0,0)'}],{duration:240,easing:'ease-out'});
-    scars.push({x:p.x,y:p.y,r:p.r*(.7+Math.random()*.2),born:performance.now(),material});if(scars.length>12)scars.shift();
+    if(!shapedFire)combat.hit({p,a:source,material,weight,souls});
+    if(shapedFire)burst(p,'fire',5,.35);
+    else burst(p,material,Math.min(20,6+event.amount*2),.5+event.amount*.06);
+    const node=view.nodeFor(event.target),dx=source?p.x-source.x:1,dy=source?p.y-source.y:1,len=Math.hypot(dx,dy)||1,kick=7*weight;
+    if(!attack||event.target!==attack.uid)for(const visual of node?.querySelectorAll('.unit-body,.unit-shadow')||[])animate(visual,[{translate:'0px 0px'},{translate:`${dx/len*kick}px ${dy/len*kick}px`,offset:.18},{translate:`${-dx/len*kick*.22}px ${-dy/len*kick*.22}px`,offset:.42},{translate:'0px 0px'}],{duration:340,easing:'ease-out'});
   }
+
   function play(events,before,localSeat){
     if(!active||paused||document.hidden||!events.length)return;
+    if(presentationUntil>performance.now())clear();
+    const signature=signatureTiming(events,reduced());
+    const snapshots=new Map();
+    const attackEvent=events.find(e=>e.type==='attack');
+    const snapshotContact=signature?.contact??fieldTiming(events,reduced()).hit;
+    if(snapshotContact&&!reduced()){
+      if(signature)signatureUntil=performance.now()+signature.end;
+      // Hold public pre-action bodies and values until the authored contact.
+      const victims=new Set(events.filter(e=>['damage','ward-break','heal'].includes(e.type)).map(e=>e.target));
+      for(const id of victims){
+        const old=before.get(id),live=view.nodeFor(id);
+        if(!old?.node||!live)continue;
+        const clone=old.node.cloneNode(true);clone.className=old.node.classList.contains('hero')?old.node.className+' field-remnant signature-snapshot':'field-remnant signature-snapshot';clone.removeAttribute('id');clone.removeAttribute('data-target');clone.removeAttribute('data-uid');clone.setAttribute('aria-hidden','true');clone.disabled=true;clone.inert=true;
+        Object.assign(clone.style,{left:old.rect.left+'px',top:old.rect.top+'px',width:old.rect.width+'px',height:old.rect.height+'px',translate:'none',transform:'none'});layer.append(clone);remnants.add(clone);snapshots.set(id,clone);
+        const changes=events.filter(e=>e.target===id&&['heal','damage','ward-break'].includes(e.type));
+        const contact=Math.max(...changes.map(e=>presentationCue(events,e)??snapshotContact));
+        if(clone.classList.contains('hero')){let health=Number(clone.querySelector('.hero-health').textContent);for(const e of changes)at(presentationCue(events,e)??contact,()=>{health+=e.type==='heal'?e.amount:e.type==='damage'?-e.amount:0;clone.querySelector('.hero-health').textContent=Math.max(0,health);});}
+        animate(live,[{opacity:0},{opacity:0}],{duration:contact});
+        at(contact,()=>{clone.remove();remnants.delete(clone);});
+      }
+    }
+    presentationUntil=performance.now()+(signature?.end??(reduced()?0:combatDuration(events,cards)));
+    midnight.play(events,before);
     const timing=fieldTiming(events,reduced()),attack=events.find(e=>e.type==='attack'),cast=events.find(e=>e.type==='play'||e.type==='power');
-    const material=spellMaterial(cast?.card,cast?.hero);
+    const profile=attackProfile(before.get(attack?.uid)?.card),attackOrigin=attack?point(before.get(attack.uid)?.rect):null;
+    const material=attack?profile.material:spellMaterial(cast?.card,cast?.hero);
     const origin=cast?(cast.type==='play'?point(before.get(cast.uid)?.rect):target(`hero:${cast.seat}`,before)):null;
-    if(cast?.target)trail(origin||target(`hero:${cast.seat}`,before),target(cast.target,before),material,timing.cast);
-    if(['bar-fight','furnace-burst','the-bell-tolls','mordren-ashen-host'].includes(cast?.card)&&!reduced()){
-      const p={x:width*.5,y:height*.415,r:width*.12};wave(p,'fire',width*.4,740);burst(p,'fire',50,2.4);light(p,'fire',1.4);
+    const isFurnace=cast?.card==='furnace-burst';
+    if(isFurnace&&!reduced()){
+      const enemyRow=battle.querySelector(cast.seat===localSeat?'#opponent-crew':'#player-crew');
+      const slots=enemyRow?[...enemyRow.children].map(n=>n.getBoundingClientRect()):[];
+      const r=slots.length?{left:Math.min(...slots.map(r=>r.left)),right:Math.max(...slots.map(r=>r.right)),top:Math.min(...slots.map(r=>r.top)),height:Math.max(...slots.map(r=>r.height))}:enemyRow?.getBoundingClientRect();
+      if(r&&!r.width)r.width=r.right-r.left;
+      if(r){const bounds=furnaceBounds(r,{width,height});furnace.start(bounds);}
+    }
+    if(cast?.target&&!reduced()&&!signature)combat.travel({a:origin||target(`hero:${cast.seat}`,before),b:target(cast.target,before),material,duration:timing.cast});
+    let mordrenSource=null;
+    if(cast?.card==='mordren-ashen-host'&&!reduced()){
+      const rect=view.nodeFor(cast.uid)?.getBoundingClientRect(),bounds=battle.getBoundingClientRect();
+      if(rect){
+        const stage=cardStage({bounds,rect,floor:Math.min(bounds.height*.66,Math.max(bounds.height*.48,rect.bottom-bounds.top)),height:Math.min(bounds.height*.58,bounds.width*.9,530)});
+        mordrenSource={x:stage.x+stage.height*.12,y:stage.floor-stage.height*.08,r:stage.height*.23};
+        const receivers=[...new Set(events.filter(e=>['damage','ward-break'].includes(e.type)).map(e=>e.target))].map(id=>target(id,before)).filter(Boolean);
+        combat.battlecry({a:mordrenSource,receivers,contact:signature?.contact??900});
+      }
+    }
+    if(['bar-fight','the-bell-tolls'].includes(cast?.card)&&!reduced()){
+      const receivers=events.filter(e=>['damage','ward-break'].includes(e.type)).map(e=>target(e.target,before)).filter(Boolean);
+      for(const p of receivers)at(timing.hit,()=>light(p,material,.6));
     }
     for(const event of events){
-      const p=target(event.target||event.uid,before);
+      const p=event.type==='return'?point(before.get(event.target)?.rect):target(event.target||event.uid,before);
       switch(event.type){
         case 'play':if(cards[event.card]?.type==='crew'){
           const node=view.nodeFor(event.uid),from=point(before.get(event.uid)?.rect),tier=cards[event.card].rarity||'common';
-          const duration={common:240,rare:320,epic:440,legendary:680}[tier];
+          const duration=SUMMON_MS[tier]||SUMMON_MS.common;
           if(node&&p){
-            if(!reduced())animate(node,[{transform:from?`translate(${(from.x-p.x)*.35}px,${(from.y-p.y)*.35}px) scale(.7)`:'translate(0,-28px) scale(1.16)',opacity:.5},{transform:'translate(0,-8px) scale(1.06)',opacity:1,offset:.7},{transform:'translate(0,0) scale(1)'}],{duration,easing:'cubic-bezier(.16,1,.3,1)'});
-            at(Math.min(260,duration*.65),()=>{const tone=event.card==='mother-nox-bellkeeper'?'shadow':event.card==='orun-eclipse-warden'?'arcane':'gold';wave({...p,y:p.y+p.r*.7},tone,p.r*(tier==='legendary'?2:1.45));burst({...p,y:p.y+p.r*.6},tone,tier==='legendary'?32:14,.8);light(p,tone,tier==='legendary'?.9:.35);});
+            if(!reduced()&&!signature)animate(node,[{transform:from?`translate(${(from.x-p.x)*.35}px,${(from.y-p.y)*.35}px) scale(.7)`:'translate(0,-28px) scale(1.16)',opacity:.5},{transform:'translate(0,-8px) scale(1.06)',opacity:1,offset:.7},{transform:'translate(0,0) scale(1)'}],{duration,easing:'cubic-bezier(.16,1,.3,1)'});
+            if(event.card!=='mordren-ashen-host')at(signature?.contact??summonContact(tier),()=>{const tone=event.card==='mother-nox-bellkeeper'?'shadow':event.card==='orun-eclipse-warden'?'arcane':event.card==='mordren-ashen-host'?'fire':event.card==='vesper-blackpaw-king'?'shadow':'gold';wave({...p,y:p.y+p.r*.7},tone,p.r*(['vesper-blackpaw-king','orun-eclipse-warden'].includes(event.card)?1.2:tier==='legendary'?2:1.45));burst({...p,y:p.y+p.r*.6},tone,['vesper-blackpaw-king','orun-eclipse-warden'].includes(event.card)?12:tier==='legendary'?32:14,.8);light(p,tone,tier==='legendary'?.9:.35);});
           }
         }break;
         case 'attack':{
           const a=point(before.get(event.uid)?.rect),b=point(before.get(event.target)?.rect)||p,node=view.nodeFor(event.uid)||before.get(event.uid)?.node;
           if(a&&b){
+            if(!reduced())combat.attack({card:before.get(event.uid)?.card,a,b});
             // Removed attackers keep a visual body through contact without reentering the board.
-            if(!view.nodeFor(event.uid)&&node){ghost(event.uid,before,'death',timing.death);}
+            if(!view.nodeFor(event.uid)&&node){ghost(event.uid,before,'death',reduced()?0:ATTACK.end);}
             const body=view.nodeFor(event.uid)||before.get(event.uid)?.node;
-            animate(body,[{transform:'translate(0,0) scale(1)'},{transform:`translate(${-(b.x-a.x)*.035}px,${-(b.y-a.y)*.035}px) scale(1.05)`,offset:.18},{transform:`translate(${(b.x-a.x)*.7}px,${(b.y-a.y)*.7}px) scale(1.08)`,offset:.45},{transform:'translate(0,0) scale(1)'}],{duration:340,easing:'ease-in-out'});
+            const dx=b.x-a.x,dy=b.y-a.y;
+            const windup=profile.family==='crush'||profile.family==='soul-cleave'?230:ATTACK.windup;
+            const frames=[
+              {translate:'0px 0px',scale:'1',easing:'cubic-bezier(.4,0,.7,1)'},
+              {translate:`${-dx*.085}px ${-dy*.085}px`,scale:'1.06',offset:windup/ATTACK.end,easing:'cubic-bezier(.65,0,.95,.4)'},
+              {translate:`${dx*.82}px ${dy*.82}px`,scale:'1.12',offset:ATTACK.contact/ATTACK.end},
+              {translate:`${dx*.82}px ${dy*.82}px`,scale:'1.12',offset:ATTACK.release/ATTACK.end,easing:'cubic-bezier(.16,1,.3,1)'},
+              {translate:'0px 0px',scale:'1'}
+            ];
+            // Move painted planes and their shadow, keeping hit rectangles fixed.
+            for(const visual of [body,snapshots.get(event.uid)].filter(Boolean)){
+              const planes=visual.querySelectorAll('.unit-body,.unit-shadow');
+              for(const plane of planes)animate(plane,frames,{duration:ATTACK.end,easing:'linear'});
+            }
+
           }
         }break;
-        case 'damage':at(timing.hit,()=>hit(p,event,attack?'impact':material,attack));break;
-        case 'heal':at(timing.hit,()=>{number(p,event.amount,true);light(p,'heal',.8);wave(p,'heal',p?.r*1.7);burst(p,'heal',26,.65);});break;
+        case 'damage':at(presentationCue(events,event,reduced())??timing.hit,()=>{
+          const reciprocal=attack&&event.target===attack.uid,source=reciprocal?target(attack.target,before):attackOrigin||mordrenSource||origin;
+          const collision=reciprocal&&attackOrigin&&source?{...p,x:attackOrigin.x+(source.x-attackOrigin.x)*.82,y:attackOrigin.y+(source.y-attackOrigin.y)*.82+12}:p;
+          hit(collision,event,reciprocal?'impact':material,attack,isFurnace,source,reciprocal?.7:attack?profile.weight:cast?.card==='mordren-ashen-host'?1.25:1,!reciprocal&&(profile.family==='soul-cleave'&&!!attack||cast?.card==='mordren-ashen-host'));
+        });break;
+        case 'heal':at(presentationCue(events,event,reduced())??timing.hit,()=>{number(p,event.amount,true);light(p,'heal',.8);if(!reduced())combat.heal(p);burst(p,'heal',12,.45);});break;
         case 'death':
-          if(event.uid!==attack?.uid)ghost(event.uid,before,'death',timing.death);
-          at(timing.death,()=>{burst(p,'smoke',26,.8);light(p,'shadow',.45);});break;
-        case 'return':ghost(event.target,before,'return',timing.cast);at(timing.cast,()=>{burst(p,'smoke',28,.6);wave(p,'smoke',p?.r*1.6);});break;
+          if(event.uid!==attack?.uid)ghost(event.uid,before,'death',presentationCue(events,event,reduced())??timing.death);
+          at(event.uid===attack?.uid&&!reduced()?ATTACK.end:presentationCue(events,event,reduced())??timing.death,()=>{if(!reduced())combat.dissolve(p,'death');burst(p,'smoke',8,.5);light(p,'shadow',.3);});break;
+        case 'return':ghost(event.target,before,'return',timing.cast);at(timing.cast,()=>{if(!reduced())combat.dissolve(p,'return');burst(p,'smoke',8,.4);});break;
         case 'stun':at(timing.cast,()=>{burst(p,'sand',38,.8);wave(p,'sand',p?.r*1.6);});break;
-        case 'ward-break':at(timing.hit,()=>{wave(p,'arcane',p?.r*1.5,280);burst(p,'arcane',12,.45);light(p,'arcane',.4);});break;
+        case 'ward-break':at(presentationCue(events,event,reduced())??timing.hit,()=>{if(!reduced())combat.hit({p,ward:true});burst(p,'arcane',8,.35);light(p,'arcane',.4);});break;
         case 'strip-protection':at(timing.cast,()=>{burst(p,'gold',16,.5);});break;
-        case 'last-orders':at(timing.death,()=>{wave(p,'shadow',p?.r*1.2,360);});break;
-        case 'setup':at(timing.cast,()=>{light(p,'gold',.45);});break;
-        case 'buff':at(timing.cast,()=>{wave(p,'gold',p?.r*1.7);burst(p,'gold',28,.7);light(p,'gold',.8);});break;
+        case 'last-orders':at(presentationCue(events,event,reduced())??timing.death,()=>{wave(p,'shadow',p?.r*1.2,360);});break;
+        case 'setup':at(timing.cast,()=>{light(p,signature?.card==='vesper-blackpaw-king'?'arcane':'gold',.45);});break;
+        case 'buff':at(timing.cast,()=>{const ward=signature?.card==='vesper-blackpaw-king'&&event.ward,tone=ward?'arcane':'gold';wave(p,tone,p?.r*(ward?1.2:1.7));burst(p,tone,ward?10:28,.7);light(p,tone,ward ? .45 : .8);});break;
         case 'claim':{
           const pot=point(document.getElementById('claim-pot').getBoundingClientRect());
           for(let i=0;i<Math.min(event.coins,9);i++)at(i*35,()=>trail(pot,p,'gold',300));at(300,()=>{wave(p,'gold',p?.r*1.8);burst(p,'gold',36);light(p,'gold',1);});break;
@@ -148,20 +232,21 @@ export function createFieldEffects({battle,layer,view,cards,reduced}){
     wake();
   }
   function clear(){
+    signatureUntil=0;presentationUntil=0;midnight.clear();ambience.clear();furnace.clear();combat.clear();
     jobs.length=particles.length=waves.length=trails.length=lights.length=0;
     for(const a of animations)a.cancel();animations.clear();for(const node of remnants)node.remove();remnants.clear();
     if(raf)cancelAnimationFrame(raf);raf=0;ctx?.clearRect(0,0,width,height);
   }
-  function reset(){clear();scars.length=0;board=[];ambientAt=0;}
+  function reset(){clear();scars.length=0;board=[];}
   function setActive(value){active=value;if(!value)reset();else{size();wake();}}
   function setPaused(value){if(paused===value)return;paused=value;if(value)clear();else wake();}
   function frame(now){
     raf=0;if(!active||paused||document.hidden||!ctx)return;
-    const reduce=reduced(),busy=particles.length||waves.length||trails.length||lights.length;
+    const reduce=reduced(),busy=combat.busy||furnace.busy||particles.length||waves.length||trails.length||lights.length||jobs.length;
     if(now-last<(busy?15:33)){wake();return;}last=now;
     for(let i=jobs.length-1;i>=0;i--)if(jobs[i].at<=now){const job=jobs.splice(i,1)[0];job.fn();}
     ctx.clearRect(0,0,width,height);
-    if(!reduce){drawScars(now);drawAmbient(now);drawStatus(now);}
+    if(!reduce){drawScars(now);ambience.draw(now);drawStatus(now);furnace.draw(now);combat.draw(now);}
     ctx.globalCompositeOperation='lighter';
     for(let i=lights.length-1;i>=0;i--){
       const v=lights[i],t=(now-v.born)/520;if(t>=1){lights.splice(i,1);continue;}
@@ -181,22 +266,6 @@ export function createFieldEffects({battle,layer,view,cards,reduced}){
     for(let i=scars.length-1;i>=0;i--){const v=scars[i],t=(now-v.born)/14000;if(t>=1){scars.splice(i,1);continue;}
       const g=ctx.createRadialGradient(v.x,v.y,0,v.x,v.y,v.r);g.addColorStop(0,'#201808');g.addColorStop(.45,'#45301b');g.addColorStop(1,'#45301b00');ctx.globalAlpha=(1-t)*.2;ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(v.x,v.y,v.r,v.r*.4,0,0,Math.PI*2);ctx.fill();
     }ctx.globalCompositeOperation='source-over';
-  }
-  function drawAmbient(now){
-    // Candle locations follow the desktop/portrait paintings, not the crew layout.
-    const mobile=width<=700&&height>width;
-    const sources=mobile?[[.04,.07],[.535,.034]]:[[.035,.165],[.84,.09],[.95,.80]];
-    ctx.globalCompositeOperation='lighter';
-    for(let i=0;i<sources.length;i++){
-      const [x,y]=sources[i],pulse=.78+Math.sin(now*.003+i*4)*.1+Math.sin(now*.009+i)*.06;
-      glow(x*width,y*height,width*(mobile?.11:.055),'#ffc070',pulse*.19);
-    }
-    if(now>ambientAt){ambientAt=now+260;const [x,y]=sources[Math.floor(Math.random()*sources.length)];
-      if(particles.length<100)particles.push({x:x*width,y:y*height,vx:(Math.random()-.5)*8,vy:-12-Math.random()*12,life:1800,born:now,size:.8+Math.random(),color:'#e9bf78',gravity:-3,streak:false});
-    }
-    // Sparse dust catches the tavern's light without veiling the felt.
-    for(let i=0;i<12;i++){const x=width*(.18+((i*.071+Math.sin(now*.00004+i)*.025)%.65)),y=height*(.20+(i*.137+now*.000009)%.43);glow(x,y,2.2,'#f0d39c',.10+Math.sin(now*.001+i)**2*.12);}
-    ctx.globalCompositeOperation='source-over';
   }
   function drawStatus(now){
     ctx.globalCompositeOperation='lighter';
@@ -230,9 +299,19 @@ export function createFieldEffects({battle,layer,view,cards,reduced}){
   }
   function drawTrails(now){
     for(let i=trails.length-1;i>=0;i--){const v=trails[i],t=(now-v.born)/v.duration;if(t>=1){trails.splice(i,1);continue;}
-      const colors=PALETTES[v.material],bend=Math.min(90,Math.abs(v.a.y-v.b.y)*.16),pos=s=>({x:v.a.x+(v.b.x-v.a.x)*s+Math.sin(s*Math.PI)*bend,y:v.a.y+(v.b.y-v.a.y)*s-Math.sin(s*Math.PI)*bend});
-      for(let j=0;j<18;j++){const s=Math.max(0,t-j*.012),p=pos(s);glow(p.x,p.y,(18-j*.65)*(width<700?.7:1),colors[j%3],(1-j/18)*.6);}
-      const p=pos(t);glow(p.x,p.y,8,colors[0],.95);
+      const colors=PALETTES[v.material],bend=Math.min(110,Math.abs(v.a.y-v.b.y)*.22),pos=s=>({x:v.a.x+(v.b.x-v.a.x)*s+Math.sin(s*Math.PI)*bend,y:v.a.y+(v.b.y-v.a.y)*s-Math.sin(s*Math.PI)*bend});
+      const broad=['shadow','smoke','fire'].includes(v.material);
+      ctx.lineCap='round';
+      for(let strand=0;strand<3;strand++){
+        ctx.beginPath();
+        for(let j=0;j<=20;j++){
+          const s=Math.max(0,t-j*.022),p=pos(s),ripple=Math.sin(s*19+strand*2+t*4)*Math.sin(s*Math.PI)*(broad?11:5);
+          if(!j)ctx.moveTo(p.x+ripple,p.y);else ctx.lineTo(p.x+ripple,p.y);
+        }
+        ctx.strokeStyle=colors[strand];ctx.globalAlpha=strand===0?.8:.24;ctx.lineWidth=strand===0?1.7:broad?8:4;ctx.stroke();
+      }
+      for(let j=0;j<20;j++){const s=Math.max(0,t-j*.017),p=pos(s);glow(p.x,p.y,(broad?25:17)*(1-j/23)*(width<700?.7:1),colors[j%3],(1-j/20)*.5);}
+      const p=pos(t);glow(p.x,p.y,12,colors[0],.95);
     }
   }
   function drawParticles(now){
@@ -248,8 +327,11 @@ export function createFieldEffects({battle,layer,view,cards,reduced}){
   const resize=()=>{clear();scars.length=0;size();wake();};
   const visibility=()=>{if(document.hidden)clear();else wake();};
   const preference=()=>{clear();wake();};const media=matchMedia('(prefers-reduced-motion: reduce)');
+  const skip=()=>{const focused=document.activeElement?.classList.contains('signature-skip');clear();onSkip();if(focused)(document.getElementById('battle-menu')||document.getElementById('end-turn'))?.focus({preventScroll:true});};
+  battle.addEventListener('brawl:skip-presentation',skip);
+  addEventListener('blur',clear);addEventListener('focus',wake);
   addEventListener('resize',resize);document.addEventListener('visibilitychange',visibility);media.addEventListener('change',preference);
-  addEventListener('pagehide',()=>{reset();active=false;removeEventListener('resize',resize);document.removeEventListener('visibilitychange',visibility);media.removeEventListener('change',preference);},{once:true});
+  addEventListener('pagehide',()=>{reset();ambience.destroy();furnace.dispose();combat.destroy();active=false;battle.removeEventListener('brawl:skip-presentation',skip);removeEventListener('blur',clear);removeEventListener('focus',wake);removeEventListener('resize',resize);document.removeEventListener('visibilitychange',visibility);media.removeEventListener('change',preference);},{once:true});
   size();
-  return {capture,play,sync,reset,setActive,setPaused};
+  return {capture,play,sync,reset,setActive,setPaused,ready:combat.ready,presentationRemaining:()=>Math.max(0,presentationUntil-performance.now())};
 }

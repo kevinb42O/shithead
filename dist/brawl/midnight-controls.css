@@ -1,0 +1,116 @@
+/* One painted player station: an upper power control and a lower energy rail.
+   The same local coordinates bind native buttons, gems and live text to art. */
+.brawl-app #battle{--station-top:43.5cqh;--station-width:22cqw;--station-height:calc(var(--station-width) / 2.416);--turn-size:clamp(100px,15cqh,170px);--turn-center:calc(var(--station-top) + var(--station-height) * .43)}
+.brawl-app #player-station{position:absolute;left:2.1%;top:var(--station-top);width:var(--station-width);aspect-ratio:2.416;z-index:11;container-type:inline-size;filter:drop-shadow(0 6px 9px #03091280)}
+.brawl-app #player-station::before{content:'';position:absolute;inset:0;background:url('../assets/tavern-brawl/midnight/ui/player-station-v2.png') center/100% 100% no-repeat;pointer-events:none}
+.brawl-app #hero-power.hearth-button{position:absolute;inset:0 0 auto;width:100%;height:68%;min-height:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;filter:none;color:#f3e6cb;z-index:1;touch-action:none}
+.brawl-app #hero-power .hero-power-label{position:absolute;inset:28% 8% 8% 33%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0;text-align:center}
+.brawl-app #hero-power #power-name{font:400 clamp(13px,5.7cqw,21px)/1.1 Serif,Georgia,serif;color:#f2dfbc;text-shadow:0 2px 3px #030910;letter-spacing:0;text-wrap:balance}
+.brawl-app #hero-power #power-cost{margin:0;font:500 clamp(11px,4.1cqw,15px)/1.1 DM,Arial,sans-serif;letter-spacing:0;color:#ddcfb8;text-shadow:0 1px 3px #030910}
+.brawl-app #hero-power #power-icon{left:7.2%;top:7%;width:24%;height:87%;object-fit:contain;transition:filter .2s ease-out,transform .2s cubic-bezier(.16,1,.3,1)}
+.brawl-app #hero-power:not(:disabled):hover #power-icon{filter:brightness(1.2);transform:scale(1.045)}
+.brawl-app #hero-power:not(:disabled):active #power-icon{transform:scale(.97)}
+.brawl-app #hero-power:disabled #power-icon{filter:saturate(.4) brightness(.7)}
+.brawl-app #hero-power:disabled #power-name{color:#d5c7b1}
+.brawl-app #hero-power:focus-visible{outline:none}
+.brawl-app #hero-power:focus-visible #power-icon{filter:drop-shadow(0 0 2px #fff2d3) brightness(1.2)}
+.brawl-app #player-station #energy{position:absolute;left:5%;right:auto;top:70%;width:90%;height:25%;padding:0;background:none;z-index:2;pointer-events:none}
+.brawl-app #player-station #energy-pips{inset:12% 18% 12% 3%;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:1.5%;align-items:center;height:auto}
+.brawl-app #player-station .energy-pip{width:100%;height:auto;aspect-ratio:1;max-height:100%;display:block}
+.brawl-app #player-station .energy-pip img{inset:0;width:100%;height:100%;object-fit:contain;max-width:none;max-height:none}
+.brawl-app #player-station .energy-pip.is-locked img:first-child{opacity:.75;filter:none}
+.brawl-app #player-station #energy-count{position:absolute;left:84%;right:0;top:50%;translate:0 -50%;width:16%;display:grid;place-items:center;white-space:nowrap;font:700 clamp(12px,5.5cqw,21px)/1 Brawl,Georgia,serif;font-variant-numeric:lining-nums tabular-nums;color:#f3dfba;text-shadow:0 2px 3px #030710}
+.brawl-app #end-turn.hearth-button{left:auto;right:calc(11.3cqw - var(--turn-size) / 2);top:calc(var(--turn-center) - var(--turn-size) / 2);width:var(--turn-size);height:var(--turn-size);aspect-ratio:1;min-height:0;border-radius:50%;padding:0;border:0;background:transparent url('../assets/tavern-brawl/midnight/ui/end-turn-round-v4.png') center/contain no-repeat;box-shadow:none;filter:drop-shadow(0 7px 10px #03091288);transition:filter .2s ease-out,transform .2s cubic-bezier(.16,1,.3,1);z-index:10}
+.brawl-app #end-turn .end-turn-label{inset:22%;padding:0;font:400 clamp(22px,2cqw,30px)/1.05 Serif,Georgia,serif;letter-spacing:0;color:#f4dfba;text-shadow:0 2px 4px #030710;display:grid;place-items:center;text-wrap:balance;white-space:normal}
+.brawl-app #end-turn:disabled{filter:saturate(.45) brightness(.72) drop-shadow(0 5px 8px #03091280)}
+.brawl-app #end-turn:not(:disabled):hover{filter:brightness(1.14) drop-shadow(0 9px 12px #03091288);transform:translateY(-2px)}
+.brawl-app #end-turn:not(:disabled):active{transform:translateY(1px);filter:brightness(.95)}
+.brawl-app #end-turn:focus-visible{outline:2px solid #f5dfaf;outline-offset:4px;border-radius:50%}
+.brawl-app .turn-count{top:calc(var(--turn-center) + var(--turn-size) / 2 + 8px);right:2.8%;width:17%}
+.brawl-app .turn-clock{top:calc(var(--turn-center) + var(--turn-size) / 2 + 30px);right:2.8%;width:17%}
+.brawl-app .hero-player{left:11.2%;top:66%;width:clamp(110px,23cqh,250px)}
+.brawl-app .turn-label{left:11.2%;top:64%}
+.brawl-app .pot{right:5.3%;top:15%;width:12%;max-width:none}
+.brawl-app .hand{left:52%;width:54%;bottom:3.7%;height:29%}
+.brawl-app .selection-dock{left:auto;right:2%;top:67%;width:20%}
+
+@media(max-width:700px) and (orientation:portrait){
+ .brawl-app #battle{--turn-size:18cqw;--turn-center:calc(62cqh + 43cqw / 2.416 * .43)}
+ .brawl-app #player-station{left:25%;top:62%;width:43%;aspect-ratio:2.416}
+ .brawl-app #hero-power.hearth-button{min-height:44px}
+ .brawl-app #hero-power .hero-power-label{inset:25% 6% 6% 32%;gap:3px}
+ .brawl-app #hero-power #power-name{font-size:clamp(11px,7.3cqw,14px);line-height:1.05}
+ .brawl-app #hero-power #power-cost{font-size:11px}
+ .brawl-app #hero-power #power-icon{left:7%;top:5%;width:24%;height:90%}
+ .brawl-app #player-station #energy-count{font-size:clamp(11px,7.8cqw,15px)}
+ .brawl-app #end-turn.hearth-button{right:5.5%;top:calc(var(--turn-center) - var(--turn-size) / 2);width:var(--turn-size);height:var(--turn-size);min-height:44px;aspect-ratio:1}
+ .brawl-app #end-turn .end-turn-label{inset:18%;font-size:clamp(14px,13cqw,18px)}
+ .brawl-app .turn-count{top:calc(var(--turn-center) + var(--turn-size) / 2 + 7px);right:2%;width:25%;font-size:11px}
+ .brawl-app .turn-clock{top:20%;right:2%;width:31%;font-size:11px}
+ .brawl-app .hero-player{left:12%;top:61.5%;width:18cqw}
+ .brawl-app .turn-label{left:12%;top:61%;font-size:11px}
+ .brawl-app .pot{right:1.2%;top:9%;width:18%}
+ .brawl-app .hand{left:50%;width:98%;height:21.5%;bottom:3.2%}
+ .brawl-app .hand.crowded{left:50%;width:100%;height:24.5%;bottom:1%}
+ .brawl-app .selection-dock{inset:auto 2% 27% 2%;width:auto}
+}
+@media(max-width:700px) and (orientation:portrait) and (max-height:650px){
+ .brawl-app #battle{--turn-center:calc(62cqh + 44cqw / 2.416 * .43)}
+ .brawl-app #player-station{left:24%;top:62%;width:44%}
+ .brawl-app #hero-power .hero-power-label{inset:20% 4% 4% 32%;gap:2px}
+ .brawl-app #hero-power #power-name{font-size:11px}
+ .brawl-app #hero-power #power-cost{font-size:11px}
+ .brawl-app #end-turn.hearth-button{top:calc(var(--turn-center) - var(--turn-size) / 2);right:5.5%;width:var(--turn-size);height:var(--turn-size);min-height:44px}
+ .brawl-app #end-turn .end-turn-label{font-size:14px}
+ .brawl-app .hero-player{left:11.5%;top:61.5%;width:17cqw}
+ .brawl-app .turn-count{top:calc(var(--turn-center) + var(--turn-size) / 2 + 7px);right:2%;font-size:11px}
+ .brawl-app .hand{height:21%;bottom:3.3%}
+}
+@media(orientation:landscape) and (max-height:540px){
+ .brawl-app #battle{--station-top:43cqh;--turn-size:clamp(64px,20cqh,100px)}
+ .brawl-app #player-station{left:1.8%;top:var(--station-top);width:var(--station-width);aspect-ratio:2.416}
+ .brawl-app .hero-player{left:11.2%;top:68%;width:22cqh}
+ .brawl-app .turn-label{left:11.2%;top:65%}
+ .brawl-app #hero-power .hero-power-label{gap:3px}
+ .brawl-app #hero-power #power-name{font-size:13px}
+ .brawl-app #hero-power #power-cost{font-size:11px}
+ .brawl-app #player-station #energy-count{font-size:14px}
+ .brawl-app #end-turn.hearth-button{top:calc(var(--turn-center) - var(--turn-size) / 2);right:calc(11.3cqw - var(--turn-size) / 2);width:var(--turn-size);height:var(--turn-size);min-height:44px;aspect-ratio:1}
+ .brawl-app #end-turn .end-turn-label{font-size:21px}
+ .brawl-app .turn-count{top:calc(var(--turn-center) + var(--turn-size) / 2 + 6px);right:2.8%;width:17%;font-size:11px}
+ .brawl-app .turn-clock{top:calc(var(--turn-center) + var(--turn-size) / 2 + 22px);right:2.8%;width:17%;font-size:11px}
+ .brawl-app .hand{left:52%;width:52%;height:27%;bottom:5%}
+ .brawl-app .pot{top:11%;right:6.8%;width:9%}
+ .brawl-app .selection-dock{left:auto;right:1%;top:69%;width:21%}
+}
+@media(prefers-reduced-motion:reduce){.brawl-app #hero-power #power-icon,.brawl-app #end-turn.hearth-button{transition:none}.brawl-app #hero-power:hover #power-icon,.brawl-app #end-turn:hover{transform:none}}
+.brawl-app.reduce-motion #hero-power #power-icon,.brawl-app.reduce-motion #end-turn.hearth-button{transition:none}
+.brawl-app.reduce-motion #hero-power:hover #power-icon,.brawl-app.reduce-motion #end-turn:hover{transform:none}
+
+/* Generated molten material fills the entire blue recess of the brass ring. */
+.brawl-app #end-turn .turn-reservoir{position:absolute;inset:9%;border-radius:50%;overflow:hidden;pointer-events:none;isolation:isolate;box-shadow:inset 0 3px 7px #03060ccc}
+.brawl-app #end-turn .turn-reservoir[hidden]{display:none}
+.brawl-app #end-turn .turn-lava{position:absolute;inset:0;transform:translateY(var(--turn-drain,0%));transition:transform .25s linear;border-radius:48% 52% 0 0 / 2% 1.5% 0 0;overflow:hidden;background:#c74610}
+.brawl-app #end-turn .turn-lava-material{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;pointer-events:none;filter:brightness(.82) saturate(.92)}
+.brawl-app #end-turn .turn-lava::after{content:'';position:absolute;inset:0 0 auto;height:2px;border-radius:50%;background:linear-gradient(90deg,#ffad4133,#ffe3a6aa 34%,#f8ae5180 69%,#ffad4133);box-shadow:0 1px 4px #ff9b3440;pointer-events:none}
+.brawl-app #end-turn .turn-reservoir::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse at 48% 45%,transparent 45%,#080c1266 100%),linear-gradient(115deg,transparent 24%,#fff0d508 26%,transparent 30%);box-shadow:inset 0 3px 7px #03060ccc,inset 0 -2px 4px #10080480;pointer-events:none}
+.brawl-app #end-turn.is-timed .end-turn-label{z-index:1;color:#fff3dc;text-shadow:0 2px 2px #140703,0 1px 5px #140703,1px 0 2px #140703,-1px 0 2px #140703}
+.brawl-app #end-turn.is-timed:disabled{filter:saturate(.85) brightness(.9) drop-shadow(0 5px 8px #03091280)}
+.brawl-app #end-turn.is-clock-urgent .turn-lava-material{filter:brightness(.94) saturate(1.04)}
+@media(prefers-reduced-motion:reduce){.brawl-app #end-turn .turn-lava{transition:none}}
+.brawl-app.reduce-motion #end-turn .turn-lava{transition:none}
+@media(max-width:700px) and (orientation:portrait){.brawl-app .turn-clock{top:calc(var(--turn-center) + var(--turn-size) / 2 + 23px);right:1%;width:27%}}
+
+/* The medallion gains physical pressure only as your own deadline approaches.
+   Individual transforms preserve hover/press feedback and the circular target. */
+.brawl-app #end-turn.is-clock-action.is-clock-urgent{animation:turn-pressure var(--turn-pulse-period,1.25s) cubic-bezier(.45,0,.3,1) infinite;transform-origin:50% 50%}
+.brawl-app #end-turn.is-clock-action.is-clock-critical{--turn-pressure-peak:1.065;animation:turn-pressure var(--turn-pulse-period,.64s) cubic-bezier(.45,0,.3,1) infinite,turn-tremor .64s ease-in-out infinite}
+@keyframes turn-pressure{0%,100%{scale:1}36%{scale:var(--turn-pressure-peak,1.035)}62%{scale:1.008}}
+@keyframes turn-tremor{0%,40%,100%{rotate:0deg;translate:0 0}48%{rotate:-.7deg;translate:-.6px 0}56%{rotate:.7deg;translate:.6px 0}64%{rotate:-.35deg;translate:-.3px 0}72%{rotate:0deg;translate:0 0}}
+.brawl-app #end-turn.is-clock-action.is-clock-urgent.is-clock-hidden{animation:none}
+.brawl-app.reduce-motion #end-turn.is-clock-action.is-clock-urgent{animation:none;scale:1;rotate:0deg;translate:0 0}
+.brawl-app.reduce-motion #end-turn.is-clock-action.is-clock-urgent:not(:focus-visible){outline:1px solid #e9ac69;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){
+ .brawl-app #end-turn.is-clock-action.is-clock-urgent{animation:none;scale:1;rotate:0deg;translate:0 0}
+ .brawl-app #end-turn.is-clock-action.is-clock-urgent:not(:focus-visible){outline:1px solid #e9ac69;outline-offset:2px}
+}

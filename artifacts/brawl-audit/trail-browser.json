@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "stages": 7,
+  "rewards": [
+    "card",
+    "relic",
+    "card",
+    "card",
+    "relic",
+    "card"
+  ],
+  "resumed": true,
+  "stats": {
+    "wins": 7,
+    "losses": 0,
+    "draws": 0,
+    "runsWon": 1,
+    "bestRun": 7
+  },
+  "errors": []
+}

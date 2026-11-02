@@ -1,0 +1,186 @@
+{
+  "catalogBalance": "after-midnight-1",
+  "gamesPerPair": 200,
+  "elapsedMs": 140481,
+  "method": "Sharp AI, seeds 1000+, alternating opening seat, fixed per-game seeded evaluator noise, no mulligan",
+  "report": [
+    {
+      "heroes": [
+        "fox",
+        "owl"
+      ],
+      "games": 200,
+      "wins": [
+        55,
+        145
+      ],
+      "draws": 0,
+      "winPercent": [
+        27.5,
+        72.5
+      ],
+      "firstWinPercent": 56.5,
+      "meanTurnNumber": 28.715,
+      "meanActions": 93.06,
+      "choices": 341,
+      "plays": {
+        "lucky-coin": 200,
+        "ashveil-acolyte": 375,
+        "owl-apprentice": 359,
+        "cut-the-purse": 347,
+        "tavern-rat": 631,
+        "nightglass-diviner": 386,
+        "ironjaw-bouncer": 384,
+        "badger-sentinel": 392,
+        "sootpaw-lookout": 384,
+        "gutterglass-duelist": 391,
+        "shatter-the-seal": 716,
+        "furnace-burst": 188,
+        "vesper-blackpaw-king": 194,
+        "orun-eclipse-warden": 200,
+        "pilfer": 307,
+        "mordren-ashen-host": 390,
+        "fox-cutpurse": 394,
+        "sealed-constellation": 198,
+        "hearth-lantern": 379,
+        "moonlit-stitch": 180,
+        "bar-fight": 268,
+        "house-edge": 45
+      },
+      "deaths": {
+        "owl-apprentice": 335,
+        "tavern-rat": 596,
+        "gutterglass-duelist": 382,
+        "badger-sentinel": 345,
+        "ironjaw-bouncer": 368,
+        "ashveil-acolyte": 327,
+        "nightglass-diviner": 339,
+        "sootpaw-lookout": 354,
+        "vesper-blackpaw-king": 184,
+        "orun-eclipse-warden": 171,
+        "fox-cutpurse": 383,
+        "mordren-ashen-host": 321
+      }
+    },
+    {
+      "heroes": [
+        "fox",
+        "raven"
+      ],
+      "games": 200,
+      "wins": [
+        104,
+        96
+      ],
+      "draws": 0,
+      "winPercent": [
+        52,
+        48
+      ],
+      "firstWinPercent": 67,
+      "meanTurnNumber": 27.25,
+      "meanActions": 87.3,
+      "choices": 0,
+      "plays": {
+        "lucky-coin": 199,
+        "raven-cutpurse": 365,
+        "tavern-rat": 675,
+        "sootpaw-lookout": 354,
+        "gravewax-collector": 360,
+        "ironjaw-bouncer": 372,
+        "barroom-bruiser": 362,
+        "furnace-burst": 187,
+        "debt-eater": 377,
+        "gutterglass-duelist": 371,
+        "funeral-velvet": 287,
+        "vesper-blackpaw-king": 187,
+        "cut-the-purse": 342,
+        "mordren-ashen-host": 353,
+        "fox-cutpurse": 366,
+        "shatter-the-seal": 288,
+        "mother-nox-bellkeeper": 175,
+        "pilfer": 337,
+        "cinder-rat": 352,
+        "the-bell-tolls": 160,
+        "collect-the-debt": 227,
+        "house-edge": 63,
+        "raven-bargain": 2
+      },
+      "deaths": {
+        "tavern-rat": 639,
+        "raven-cutpurse": 335,
+        "sootpaw-lookout": 321,
+        "barroom-bruiser": 321,
+        "gravewax-collector": 332,
+        "gutterglass-duelist": 348,
+        "debt-eater": 316,
+        "vesper-blackpaw-king": 169,
+        "ironjaw-bouncer": 346,
+        "mordren-ashen-host": 303,
+        "fox-cutpurse": 343,
+        "mother-nox-bellkeeper": 122,
+        "cinder-rat": 342
+      }
+    },
+    {
+      "heroes": [
+        "owl",
+        "raven"
+      ],
+      "games": 200,
+      "wins": [
+        59,
+        141
+      ],
+      "draws": 0,
+      "winPercent": [
+        29.5,
+        70.5
+      ],
+      "firstWinPercent": 59.5,
+      "meanTurnNumber": 28.205,
+      "meanActions": 91.805,
+      "choices": 307,
+      "plays": {
+        "lucky-coin": 199,
+        "raven-cutpurse": 375,
+        "tavern-rat": 618,
+        "nightglass-diviner": 378,
+        "gravewax-collector": 362,
+        "badger-sentinel": 388,
+        "barroom-bruiser": 378,
+        "debt-eater": 385,
+        "sealed-constellation": 195,
+        "moonlit-stitch": 160,
+        "funeral-velvet": 267,
+        "orun-eclipse-warden": 197,
+        "mordren-ashen-host": 379,
+        "ashveil-acolyte": 371,
+        "owl-apprentice": 348,
+        "shatter-the-seal": 354,
+        "hearth-lantern": 369,
+        "mother-nox-bellkeeper": 187,
+        "cinder-rat": 354,
+        "bar-fight": 237,
+        "collect-the-debt": 284,
+        "the-bell-tolls": 135,
+        "raven-bargain": 4
+      },
+      "deaths": {
+        "tavern-rat": 595,
+        "raven-cutpurse": 345,
+        "gravewax-collector": 327,
+        "barroom-bruiser": 334,
+        "badger-sentinel": 381,
+        "nightglass-diviner": 338,
+        "orun-eclipse-warden": 182,
+        "debt-eater": 316,
+        "mordren-ashen-host": 342,
+        "owl-apprentice": 306,
+        "cinder-rat": 345,
+        "ashveil-acolyte": 315,
+        "mother-nox-bellkeeper": 106
+      }
+    }
+  ]
+}

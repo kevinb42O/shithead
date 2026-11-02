@@ -1,3 +1,4 @@
+import {createAimTether} from './aim-tether.js';
 // Resolve against current engine actions at both preview and release. Nothing is
 // spent until a legal drop is submitted through the normal command path.
 export function dropAction(actions,{target=null,inZone=false,slot=null}={}){
@@ -17,18 +18,20 @@ export function crewDropSlot(slots,{x,y}){
   const slot=slots.find(s=>contains(s.rect,x,y));
   return slot?.empty?slot.slot:null;
 }
-export function createGestures({battle,arrow,path,zone,prompt,canAct,context,select,clearSelection,actions,submit,inspect}){
+export function createGestures({battle,arrow,path,zone,prompt,canAct,context,select,clearSelection,actions,submit,inspect,reduced,aimCue}){
   let active=null,dropClick=null;
-  function finish({cancel=false}={}){
+  const aim=createAimTether({arrow,path,reduced,cue:aimCue});
+  function finish({cancel=false,confirmed=false,immediate=false}={}){
     const drag=active;if(!drag)return;active=null;
     drag.node.classList.remove('is-dragging');drag.ghost?.remove();
     if(drag.node.hasPointerCapture(drag.id))drag.node.releasePointerCapture(drag.id);
     battle.classList.remove('is-dragging','has-drop','drop-ready');zone.hidden=true;
-    arrow.classList.remove('active','is-valid');battle.querySelectorAll('.is-drop-target').forEach(n=>n.classList.remove('is-drop-target'));
+    battle.querySelectorAll('.is-drop-target').forEach(n=>n.classList.remove('is-drop-target'));
     if(drag.moved){drag.suppress();dropClick={id:drag.id,until:Date.now()+200};}
     if(drag.moved||cancel)clearSelection();
+    aim.finish(confirmed,immediate);
   }
-  function cancel(){finish({cancel:true});}
+  function cancel(){finish({cancel:true,immediate:true});aim.clear();}
   function hitAt(x,y){
     if(active?.type==='card'&&active.cardType==='crew'){
       const slots=[...battle.querySelector('#player-crew').children].map(n=>({slot:Number(n.dataset.slot),empty:n.matches('.crew-slot'),rect:n.getBoundingClientRect()}));
@@ -60,8 +63,10 @@ export function createGestures({battle,arrow,path,zone,prompt,canAct,context,sel
     target?.classList.add('is-drop-target');
     if(action?.slot!==undefined)battle.querySelector(`#player-crew .crew-slot[data-slot="${action.slot}"]`)?.classList.add('is-drop-target');
     drag.ghost?.classList.toggle('is-valid',!!action);
-    arrow.classList.toggle('active',targeted);arrow.classList.toggle('is-valid',!!target);
-    if(targeted){const r=drag.node.getBoundingClientRect(),t=target?.getBoundingClientRect();const sx=r.left+r.width/2,sy=r.top+r.height/2,ex=t?t.left+t.width/2:x,ey=t?t.top+t.height/2:y;path.setAttribute('d',`M ${sx} ${sy} Q ${sx} ${sy-(Math.abs(ey-sy)*.35+35)} ${ex} ${ey}`);}
+    if(targeted){
+      const r=drag.node.getBoundingClientRect(),t=target?.getBoundingClientRect();
+      aim.update({sx:r.left+r.width/2,sy:r.top+r.height*.38,ex:t?t.left+t.width/2:x,ey:t?t.top+t.height/2:y,radius:t?Math.min(t.width,t.height)*.48:42,valid:!!target,target:action?.target||null});
+    }else aim.clear();
     prompt.textContent=action?drag.type==='attack'?'Release to attack.':action.target?'Release on this target.':action.slot!==undefined?'Release to place here.':'Release to play.':targeted?'Drag to a highlighted target. Release elsewhere to cancel.':'Drag into the lit area. Release elsewhere to cancel.';
     return action;
   }
@@ -102,7 +107,7 @@ export function createGestures({battle,arrow,path,zone,prompt,canAct,context,sel
       if(!drag.moved){move(event);if(active!==drag)return;if(!drag.moved){finish();return;}}
       event.preventDefault();drag.suppress();
       const action=preview(event.clientX,event.clientY);if(active!==drag)return;
-      finish({cancel:true});
+      finish({cancel:true,confirmed:!!action});
       if(action)submit(action);
       else if(canAct()&&context()===drag.context){
         select({type:drag.type,...(drag.uid?{uid:drag.uid}:{})});
