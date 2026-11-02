@@ -163,3 +163,5 @@
  #fortune-screen:has(#fortune-stakes:not([hidden])) .fortune-machine{width:min(100%,calc((100dvh - 500px)*1.5))}
  #fortune-screen:has(#fortune-stakes:not([hidden])):has(#fortune-skip:not([hidden])) .fortune-machine{width:min(100%,calc((100dvh - 530px)*1.5))}
 }
+
+.fortune-rules > .fortune-quiet { display: block; width: 100%; margin-top: 20px; color: inherit; border: 1px solid #b49356; border-radius: 5px; }

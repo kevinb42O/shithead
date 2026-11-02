@@ -80,7 +80,9 @@ backArtwork.setAttribute('aria-hidden', 'true');
 exitButton.append(backArtwork);
 const navigation = el("nav", "ol-navigation");
 navigation.setAttribute("aria-label", "Table navigation");
-navigation.append(exitButton);
+const tablesBack = button("Back to tables", browse, "ol-quiet");
+tablesBack.hidden = true;
+navigation.append(tablesBack, button("Rules", () => document.getElementById("rules-dialog").showModal(), "ol-quiet"), exitButton);
 header.append(navigation);
 const body = el("div", "ol-body"),
   status = el("p", "ol-status");
@@ -146,6 +148,7 @@ function browse() {
   notice = "";
   body.scrollTop = 0;
   root.dataset.screen = "lobby";
+  tablesBack.hidden = true;
   selected = [];
   swapHand = null;
   body.replaceChildren();
@@ -324,6 +327,7 @@ async function enter(room) {
   browser = null;
   clearInterval(interval);
   root.dataset.screen = "loading";
+  tablesBack.hidden = false;
   const loading = el("div", "ol-loading");
   loading.append(art("tavern-table-art", "ol-loading-art"), el("h1", "", "Setting your table…"));
   body.replaceChildren(loading);

@@ -1,0 +1,32 @@
+CONFIRMED: blind rank visible with durable moves=0; refreshing now would restore all 3 blind cards.
+▶ browser rule and pause regressions
+  ✔ audit: reveal starts while the durable bank commit is blocked (4936.145333ms)
+CONFIRMED: selection exists, Play hidden, role=button pile display:none, no keyboard play destination.
+  ✔ audit: empty pile removes the keyboard play destination (11944.574208ms)
+CONFIRMED: fixing cosmetic save data and retrying keeps the failed module cached; full reload needed.
+  ✔ audit: unchecked boardScars crashes startup and Retry cannot recover (10572.649083ms)
+CONFIRMED: AI move is in history but its live announcement is empty.
+  ✔ audit: ordinary render erases the live move announcement (6849.620958ms)
+CONFIRMED: Buy in returns to setup; broken storage survives and no new game can begin.
+  ✔ audit: malformed JSON cannot recover through the advertised new-game UI (5529.187167ms)
+  ﹣ matching tap selection and subset drag on desktop (22.478167ms) # SKIP
+  ﹣ matching tap selection and subset drag on mobile (0.210583ms) # SKIP
+  ﹣ duel threes keep the human turn through selection, play and AI scheduling (0.067583ms) # SKIP
+  ﹣ failed blind flip cannot be undone through the menu or refresh (0.06025ms) # SKIP
+  ﹣ successful blind burn survives cancellation and does not replay (0.058875ms) # SKIP
+  ﹣ final blind card records the score exactly once before refresh (0.036667ms) # SKIP
+  ﹣ blind ace choice remains locked across menu and refresh (0.021125ms) # SKIP
+  ﹣ malformed saved scores cannot crash the final move (0.016292ms) # SKIP
+  ﹣ an invalid saved ace choice is rejected with a recovery message (0.014375ms) # SKIP
+  ﹣ losing focus or opening a dialog cancels an unfinished drag (0.022ms) # SKIP
+  ﹣ mobile touch cancellation leaves the chosen blind card unplayed (0.029916ms) # SKIP
+  ﹣ all dialogs pause AI, nested dialogs stay paused, closing resumes play (0.017167ms) # SKIP
+✔ browser rule and pause regressions (48597.920416ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 12
+ℹ todo 0
+ℹ duration_ms 49212.695917

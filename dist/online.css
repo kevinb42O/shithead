@@ -219,3 +219,8 @@ body.reduce-motion .online .ol-back-menu { transition: none; }
  .online[data-screen=lobby] .ol-table-count{top:calc(100% + 5px);font-size:8px}
  .online[data-screen=lobby] .ol-empty{padding-top:6px}
 }
+/* Keep all return routes reachable in narrow waiting rooms. */
+@media (max-width: 700px) {
+  .online:not([data-screen="lobby"]) .ol-header { flex-wrap: wrap; }
+  .online:not([data-screen="lobby"]) .ol-navigation { flex-wrap: wrap; max-width: 100%; }
+}

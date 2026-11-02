@@ -99,6 +99,41 @@ test("2–4 online players finish complete games through the authoritative comma
   }
 });
 
+test("online host preserves the actor's turn for any set of threes in a duel", () => {
+  for (const seats of [2, 3, 4]) for (const seat of [0, seats - 1]) {
+    for (const count of [1, 2, 3, 4]) {
+      const { s, errors } = host(seats);
+      try {
+        const g = s.game = createGame(Math.random, seats);
+        const all = [...g.deck, ...g.players.flatMap(p => [...p.hand, ...p.up, ...p.down])];
+        const take = rank => all.splice(all.findIndex(c => c.rank === rank), 1)[0];
+        const opponent = seat === 0 ? seats - 1 : 0;
+        g.players = g.players.map(() => ({ hand: [], up: [], down: [] }));
+        const threes = Array.from({ length: count }, () => take(3));
+        const next = take(4);
+        g.players[seat].hand = [...threes, next, take(6)];
+        g.players[opponent].hand = [take(8), take(9)];
+        g.placements = s.members.map((_, i) => i).filter(i => i !== seat && i !== opponent);
+        g.winner = g.placements[0] ?? null;
+        g.pile = [take(2)]; g.deck = []; g.burned = all;
+        g.phase = 'playing'; g.turn = seat;
+        assertGame(g);
+        act(s, seat, 'play', { ids: threes.map(c => c.id) });
+        assert.equal(g.moves, 1);
+        assert.equal(g.turn, seat, `${seats} seats, actor ${seat}, ${count} threes`);
+        for (let recipient = 0; recipient < seats; recipient++) {
+          assert.equal(project(g, recipient).turn, seat);
+        }
+        act(s, seat, 'play', { ids: [next.id] });
+        assert.equal(g.moves, 2, 'the host accepts the same player immediately playing again');
+        assert.equal(g.turn, opponent);
+        assert.deepEqual(errors, []);
+        assertGame(g);
+      } finally { s.close(); }
+    }
+  }
+});
+
 test("a remote player cannot double-submit a blind flip while waiting for confirmation", () => {
   const sent = [],
     guest = new Session(

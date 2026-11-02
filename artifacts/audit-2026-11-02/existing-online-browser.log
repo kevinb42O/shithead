@@ -1,0 +1,171 @@
+▶ online lobby, input safety and responsive table browser regressions
+  ✔ lobby refreshes without exceptions and name input survives refresh (2378.131667ms)
+  ✖ 320×568: arrangement and 30-card hand fit without page scrolling (1054.404334ms)
+  ✖ 375×667: arrangement and 30-card hand fit without page scrolling (830.3335ms)
+  ✖ 390×844: arrangement and 30-card hand fit without page scrolling (840.044583ms)
+  ✖ 768×1024: arrangement and 30-card hand fit without page scrolling (909.625417ms)
+  ✖ 1024×768: arrangement and 30-card hand fit without page scrolling (917.438917ms)
+  ✖ 1366×768: arrangement and 30-card hand fit without page scrolling (892.337583ms)
+  ✖ 1440×900: arrangement and 30-card hand fit without page scrolling (830.572625ms)
+  ✖ 844×390: arrangement and 30-card hand fit without page scrolling (850.915875ms)
+  ✖ 667×375: arrangement and 30-card hand fit without page scrolling (846.772917ms)
+  ✔ 1400×900: pickups travel only from the center pile (1969.670375ms)
+  ✔ 390×844: pickups travel only from the center pile (1800.320792ms)
+  ✔ large-hand position and keyboard focus survive a state update (69.162291ms)
+  ✔ public-card inspection exposes full names and only public cards (103.445291ms)
+  ✔ the original pickup control unlocks after acknowledgement and solo setup unlocks after leaving (115.02675ms)
+✖ online lobby, input safety and responsive table browser regressions (19949.864917ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 6
+ℹ fail 10
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20189.409041
+
+✖ failing tests:
+
+test at scripts/test-online-browser.mjs:180:17
+✖ 320×568: arrangement and 30-card hand fit without page scrolling (1054.404334ms)
+  AssertionError [ERR_ASSERTION]: playing: primary action missing
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:213:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:180:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-online-browser.mjs:180:17
+✖ 375×667: arrangement and 30-card hand fit without page scrolling (830.3335ms)
+  AssertionError [ERR_ASSERTION]: playing: primary action missing
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:213:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:180:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-online-browser.mjs:180:17
+✖ 390×844: arrangement and 30-card hand fit without page scrolling (840.044583ms)
+  AssertionError [ERR_ASSERTION]: playing: primary action missing
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:213:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:180:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-online-browser.mjs:180:17
+✖ 768×1024: arrangement and 30-card hand fit without page scrolling (909.625417ms)
+  AssertionError [ERR_ASSERTION]: playing: primary action missing
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:213:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:180:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-online-browser.mjs:180:17
+✖ 1024×768: arrangement and 30-card hand fit without page scrolling (917.438917ms)
+  AssertionError [ERR_ASSERTION]: playing: primary action missing
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:213:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:180:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-online-browser.mjs:180:17
+✖ 1366×768: arrangement and 30-card hand fit without page scrolling (892.337583ms)
+  AssertionError [ERR_ASSERTION]: playing: primary action missing
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:213:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:180:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-online-browser.mjs:180:17
+✖ 1440×900: arrangement and 30-card hand fit without page scrolling (830.572625ms)
+  AssertionError [ERR_ASSERTION]: playing: primary action missing
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:213:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:180:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-online-browser.mjs:180:17
+✖ 844×390: arrangement and 30-card hand fit without page scrolling (850.915875ms)
+  AssertionError [ERR_ASSERTION]: {"s":"#hand","top":119,"bottom":398,"left":24,"right":820}
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:209:17)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:180:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-online-browser.mjs:180:17
+✖ 667×375: arrangement and 30-card hand fit without page scrolling (846.772917ms)
+  AssertionError [ERR_ASSERTION]: playing: primary action missing
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:213:15)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-online-browser.mjs:180:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

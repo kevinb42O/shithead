@@ -28,7 +28,7 @@ Run `npm run test:stress` for 3,000 seeded games with randomly chosen legal subs
 
 - Ace: an opening ace counts as 1; otherwise normally high (14). Ordinary ace-on-ace inherits the existing value. An ace played under a seven restriction is 1. Only that seven-origin ace chain offers 1 or high (14) after all low turns expire. Jokers preserve the underlying ace’s value and chain.
 - 2: always playable, does not reset or cancel the low restriction. Counts as one low play.
-- 3: must be legal; each 3 reverses direction once. With three or more active players, pass to the next player in the reversed direction. With only two players remaining, a reversing play grants another turn. Pairs cancel and pass normally; an escaped player never receives another turn.
+- 3: must be legal; each 3 reverses direction once. With three or more active players, pass to the next player in the reversed direction. With only two players remaining, any legal play of one or more 3s grants another turn, including pairs. Pairs preserve direction; an escaped player never receives another turn.
 - 7: each seven adds a low turn. Play 7 or lower until those turns are used. More sevens add to the restriction. Once it ends, play continues from the last card played.
 - Joker: always playable; transparent to the underlying rank, preserves remaining low turns.
 - 10: always playable, burns the pile and clears restrictions; play again.
@@ -52,9 +52,9 @@ Blind flips are committed and saved before their reveal animation, so returning 
 
 ## Virtual coin tables
 
-Your wallet starts at 1,000 play-money coins. Choose a 10, 50 or 100 coin buy-in before dealing; each AI seat contributes the same simulated amount. First out receives the entire pot immediately, and the table continues until the Shithead is determined. The payout is credited once, including after refresh or resume.
+Your wallet starts at 1,000 play-money coins. Choose a 100, 500 or 1000 coin buy-in before dealing; each AI seat contributes the same simulated amount. First out receives the entire pot immediately, and the table continues until the Shithead is determined. The payout is credited once, including after refresh or resume.
 
-Wallet, wager and cards are stored together in this browser. Older saved tables remain practice games until the next deal. Returning to the menu pauses the table; replacing it forfeits any unpaid buy-in. Rematches use the same table size and stake. If you cannot afford that stake, return to setup to choose another. When your balance is below 10 and your current wager has resolved, the main menu offers a free refill to 1,000. Coins have no cash value; there are no purchases, deposits or withdrawals.
+Wallet, wager and cards are stored together in this browser. Older saved tables remain practice games until the next deal. Returning to the menu pauses the table; replacing it forfeits any unpaid buy-in. Rematches use the same table size and stake. If you cannot afford that stake, return to setup to choose another. When your balance is below 100 and your current wager has resolved, the main menu offers a free refill to 1,000. Coins have no cash value; there are no purchases, deposits or withdrawals.
 
 ### Hearthstone game audio
 

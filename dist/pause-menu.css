@@ -12,105 +12,143 @@
 .menu-btn-kbd, .pause-hint kbd { font: 10px DM, sans-serif; padding: 3px 5px; border: 1px solid #d5ba7d66; border-radius: 3px; color: #dfc58d; }
 #mobile-menu-btn:hover { background: #25402e; }
 #mobile-menu-btn:focus-visible { outline: 3px solid #f5d699; outline-offset: 4px; }
+/* A full-bleed painted surface; content never determines the artwork's shape. */
 #mobile-menu-dialog {
-  box-sizing: border-box; position: fixed; inset: 0; margin: auto;
-  width: min(940px, calc(100vw - 48px)); max-width: 940px;
-  height: min(730px, calc(100dvh - 40px)); max-height: calc(100dvh - 40px);
-  padding: 0; border: 0; border-radius: 20px !important;
-  background: #082218 url(assets/game-menu-backdrop.jpg) center / 100% 100% no-repeat !important;
-  box-shadow: 0 26px 80px #000b !important; color: #fff0ce; overflow: auto;
+  box-sizing: border-box; position: fixed; inset: 0 !important; margin: 0 !important;
+  width: 100vw !important; max-width: none !important;
+  height: 100dvh !important; max-height: 100dvh !important;
+  padding: 0 !important; border: 0 !important; border-radius: 0 !important;
+  background: #082218 url(assets/pause-hearth-background.jpg) center / cover no-repeat !important;
+  box-shadow: none !important; color: #fff0ce; overflow: auto !important;
   scrollbar-width: thin; scrollbar-color: #b9995b #10271e;
 }
 #mobile-menu-dialog:not([open]) { display: none !important; }
-#mobile-menu-dialog::backdrop { background: #020e0bc9; backdrop-filter: blur(6px); }
-#mobile-menu-dialog .mobile-menu-inner { box-sizing: border-box; min-height: 100%; padding: 62px clamp(36px, 12vw, 164px) 56px; text-align: center; }
-#mobile-menu-dialog .mobile-menu-header { display: flex; justify-content: center; border: 0 !important; margin: 0; padding: 0 0 10px !important; }
-#mobile-menu-dialog .mobile-menu-title img { display: block; width: clamp(180px, 24vw, 250px); height: auto; }
-#mobile-menu-dialog #close-mobile-menu { position: absolute; top: 30px; right: 38px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #071d17b0; color: #f3dfb0; font: 28px/1 DM, sans-serif; }
-#pause-title { margin: 8px 0 6px; font: 36px/1.1 Serif, Georgia, serif; color: #fff0ce; }
-.pause-description { margin: 0; font-size: 14px; color: #cdd0b7; }
-.pause-tally { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin: 20px 0; font-size: 12px; color: #e5cca0; font-variant-numeric: tabular-nums; }
-#menu-resume-game { margin: 0 auto 18px; }
-#mobile-menu-dialog .mobile-menu-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px !important; max-width: 460px; margin: auto; }
-#mobile-menu-dialog .mobile-menu-item { display: flex; align-items: center; justify-content: flex-start; gap: 10px; min-height: 48px; padding: 10px 4px !important; margin: 0; border: 0 !important; border-bottom: 1px solid #bd9d5f40 !important; border-radius: 0 !important; background: transparent !important; color: #f1e7cd !important; font: 13px/1.3 DM, sans-serif; text-align: left; }
-#mobile-menu-dialog .mobile-menu-item svg { width: 20px; height: 20px; flex: 0 0 20px; color: #d5b575; stroke-width: 1.6; margin: 0; }
+#mobile-menu-dialog::backdrop { background: #06110d; }
+#mobile-menu-dialog .mobile-menu-inner {
+  box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 100%; width: min(680px, 100%); margin: 0 auto;
+  padding: max(52px, env(safe-area-inset-top)) 48px max(44px, env(safe-area-inset-bottom)) !important;
+  text-align: center;
+}
+#mobile-menu-dialog .mobile-menu-inner > * { flex-shrink: 0; }
+#mobile-menu-dialog .mobile-menu-header { display: flex; justify-content: center !important; border: 0 !important; margin: 0; padding: 0 0 18px !important; }
+#mobile-menu-dialog .mobile-menu-title img { display: block; width: clamp(220px, 22vw, 310px); height: auto; }
+#mobile-menu-dialog #close-mobile-menu { position: fixed; top: max(28px, env(safe-area-inset-top)); right: max(30px, env(safe-area-inset-right)); width: 48px; height: 48px; border: 1px solid #b9995b80; border-radius: 50%; background: #071d17e6; color: #f3dfb0; font: 28px/1 DM, sans-serif; }
+#mobile-menu-dialog #close-mobile-menu:hover { background: #25402e; }
+#pause-title { margin: 8px 0 10px; font: 42px/1.1 Serif, Georgia, serif; color: #fff0ce; }
+.pause-description { margin: 0; font-size: 16px; color: #d4d8c1; }
+.pause-tally { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; margin: 26px 0 24px; font-size: 13px; color: #e5cca0; font-variant-numeric: tabular-nums; }
+#menu-resume-game { margin: 0 auto 24px; }
+#mobile-menu-dialog .mobile-menu-actions { display: grid !important; grid-template-columns: 1fr 1fr; gap: 0 32px !important; width: 100%; max-width: 520px; margin: 0 auto; }
+#mobile-menu-dialog .mobile-menu-item { display: flex; align-items: center; justify-content: flex-start; gap: 12px; min-height: 54px; padding: 12px 8px !important; margin: 0; border: 0 !important; border-bottom: 1px solid #bd9d5f40 !important; border-radius: 0 !important; background: transparent !important; color: #f1e7cd !important; font: 14px/1.3 DM, sans-serif; text-align: left; }
+#mobile-menu-dialog .mobile-menu-item[hidden] { display: none !important; }
+#mobile-menu-dialog .mobile-menu-item svg { width: 22px; height: 22px; flex: 0 0 22px; color: #d5b575; stroke-width: 1.6; margin: 0; }
 #mobile-menu-dialog .mobile-menu-item:hover { background: #cfb57318 !important; }
-#mobile-menu-dialog .mobile-menu-back { grid-column: 1 / -1; justify-content: center; margin-top: 14px; border-bottom: 0 !important; }
+#mobile-menu-dialog .mobile-menu-back { grid-column: 1 / -1; justify-content: center; margin-top: 16px; border-bottom: 0 !important; }
 #mobile-menu-dialog button:focus-visible { outline: 2px solid #f4d08b; outline-offset: 4px; }
-.pause-hint { margin: 18px 0 0; font-size: 11px; color: #c8c8ab; }
+.pause-hint { margin: 24px 0 0; font-size: 12px; color: #d4d8c1; }
 .pause-hint kbd { margin-right: 4px; }
 .history { top: 68px !important; }
 @media (max-width: 700px) {
   #mobile-menu-btn .menu-btn-label, #mobile-menu-btn .menu-btn-kbd { display: none; }
-  #mobile-menu-dialog { width: calc(100vw - 16px); height: min(740px, calc(100dvh - 24px)); max-height: calc(100dvh - 24px); border-radius: 16px !important; }
-  #mobile-menu-dialog .mobile-menu-inner { padding: 54px 36px 46px; }
-  #mobile-menu-dialog .mobile-menu-title img { width: 200px; }
-  #mobile-menu-dialog #close-mobile-menu { top: 16px; right: 16px; }
-  #pause-title { font-size: 30px; }
-  .pause-tally { gap: 7px 14px; margin: 16px 0; }
+  #mobile-menu-dialog .mobile-menu-inner { padding: 64px 28px 38px !important; }
+  #mobile-menu-dialog .mobile-menu-title img { width: 220px; }
+  #mobile-menu-dialog #close-mobile-menu { top: max(16px, env(safe-area-inset-top)); right: max(16px, env(safe-area-inset-right)); width: 44px; height: 44px; }
+  #pause-title { font-size: 32px; }
+  .pause-description { font-size: 14px; }
+  .pause-tally { gap: 7px 14px; margin: 18px 0; font-size: 12px; }
   #mobile-menu-dialog .mobile-menu-actions { gap: 0 14px !important; }
-  #mobile-menu-dialog .mobile-menu-item { font-size: 12px; min-height: 48px; }
+  #mobile-menu-dialog .mobile-menu-item { font-size: 12px; min-height: 48px; padding: 10px 4px !important; gap: 8px; }
   .pause-hint { display: none; }
 }
-@media (max-height: 650px) {
-  #mobile-menu-dialog .mobile-menu-inner { padding-top: 34px; padding-bottom: 34px; }
-  #mobile-menu-dialog .mobile-menu-title img { width: 160px; }
-  #pause-title { font-size: 28px; margin-top: 0; }
-  .pause-tally { margin: 12px 0; }
-  #menu-resume-game { margin-bottom: 8px; }
-  .pause-hint { margin-top: 8px; }
-}
-/* Override the legacy phone bottom sheet's important positioning. */
-@media (max-width: 700px) {
-  #mobile-menu-dialog { inset: 0 !important; margin: auto !important; width: calc(100vw - 16px) !important; max-width: 940px !important; max-height: calc(100dvh - 24px) !important; }
-  #mobile-menu-dialog .mobile-menu-inner { padding: 54px 36px 46px !important; }
-}
-@media (max-width: 700px) and (max-height: 650px) {
-  #mobile-menu-dialog .mobile-menu-inner { padding: 34px 30px !important; }
-}
-#mobile-menu-dialog .mobile-menu-header { justify-content: center !important; }
-#mobile-menu-dialog .mobile-menu-actions { display: grid !important; }
-@media (max-width: 700px) {
-  #mobile-menu-dialog { height: min(650px, calc(100dvh - 24px)); background-size: auto 100% !important; }
+@media (max-height: 700px) {
+  #mobile-menu-dialog .mobile-menu-inner { padding-top: 32px !important; padding-bottom: 28px !important; }
+  #mobile-menu-dialog .mobile-menu-header { padding-bottom: 8px !important; }
+  #mobile-menu-dialog .mobile-menu-title img { width: 180px; }
+  #pause-title { font-size: 30px; margin-top: 0; }
+  .pause-tally { margin: 14px 0; }
+  #menu-resume-game { margin-bottom: 12px; }
+  #mobile-menu-dialog .mobile-menu-item { min-height: 46px; }
+  #mobile-menu-dialog .mobile-menu-back { margin-top: 8px; }
+  .pause-hint { margin-top: 12px; }
 }
 .close-history { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; border: 0; background: transparent; color: #fff0ce; font-size: 24px; }
 
-/* Preferences share the generated card-club setting of the Escape menu. */
+/* Preferences occupy the same full-bleed hearth as the pause menu. */
 #options-dialog {
-  width: min(740px, calc(100vw - 24px)); max-width: 740px;
-  max-height: calc(100dvh - 24px); padding: 64px 70px;
-  border: 0; border-radius: 20px;
-  background: #082218 url(assets/game-menu-backdrop.jpg) center / auto 100% no-repeat;
-  color: #fff0ce; box-shadow: 0 26px 80px #000b;
-  overflow: hidden; color-scheme: dark;
-}
-#options-dialog::backdrop { background: #020e0bc9; backdrop-filter: blur(6px); }
-#options-dialog .options-content {
-  max-height: calc(100dvh - 152px); overflow-y: auto; padding: 4px 8px;
+  box-sizing: border-box; position: fixed; inset: 0; margin: 0;
+  width: 100vw; max-width: none; height: 100dvh; max-height: 100dvh;
+  padding: 0; border: 0; border-radius: 0;
+  background: #082218 url(assets/pause-hearth-background.jpg) center / cover no-repeat;
+  color: #fff0ce; box-shadow: none; overflow: auto; color-scheme: dark;
   scrollbar-width: thin; scrollbar-color: #b9995b #10271e;
 }
-#options-title { font: 36px/1.1 Serif, Georgia, serif; color: #fff0ce; margin: 0 0 12px; padding-right: 12px; }
-#options-dialog p { color: #cdd0b7; font-size: 14px; line-height: 1.5; }
-#options-dialog .close-dialog { top: 18px; right: 18px; width: 44px; height: 44px; border: 0; background: #071d17d9; color: #f3dfb0; }
-#options-dialog .option-row { padding: 20px 0; border-bottom-color: #bd9d5f40; }
-#options-dialog .option-row strong { color: #fff0ce; font-weight: 600; }
-#options-dialog .option-row small { color: #cdd0b7; line-height: 1.5; }
-#options-dialog .option-row input { width: 48px; height: 28px; background: #52604a; }
-#options-dialog .option-row input::after { width: 22px; height: 22px; background: #fff0ce; }
-#options-dialog .option-row input:checked { background: #b9995b; }
-#options-dialog .option-row input:checked::after { transform: translateX(20px); }
-#options-dialog .audio-volume { color: #fff0ce; padding: 14px 0 18px; }
-#options-dialog .audio-volume output { color: #e5cca0; }
-#options-dialog .audio-volume input { accent-color: #d5b575; }
-#options-dialog .audio-volume input:disabled { opacity: .55; }
-#options-dialog button:focus-visible, #options-dialog input:focus-visible { outline: 2px solid #f4d08b; outline-offset: 4px; }
-#options-dialog .options-note { font-size: 12px; margin: 22px 0 18px; }
-#options-dialog .options-content > .primary-button { display: block; width: 100%; min-height: 46px; background: #dfc182; color: #183426; }
-@media (max-width: 700px) {
-  #options-dialog { padding: 58px 28px 52px; border-radius: 16px; }
-  #options-dialog .options-content { max-height: calc(100dvh - 134px); }
-  #options-title { font-size: 30px; }
-  #options-dialog .option-row { gap: 14px; padding: 16px 0; }
+#options-dialog::backdrop { background: #06110d; }
+#options-dialog .options-content {
+  box-sizing: border-box; display: flex; flex-direction: column; justify-content: center;
+  width: min(960px, 76vw); min-height: 100%; margin: 0 auto;
+  padding: max(64px, env(safe-area-inset-top)) 24px max(56px, env(safe-area-inset-bottom));
 }
-/* Crop the frame outward so settings stay on the quiet felt, not the brass. */
-#options-dialog { background-size: auto 145%; }
+#options-dialog .options-content > * { flex-shrink: 0; }
+#options-dialog .options-heading { text-align: center; margin-bottom: 44px; }
+#options-title { font: 42px/1.1 Serif, Georgia, serif; color: #fff0ce; margin: 0 0 14px; }
+#options-dialog p { color: #d4d8c1; font-size: 14px; line-height: 1.5; margin: 0; }
+#options-dialog .close-dialog {
+  position: fixed; top: max(28px, env(safe-area-inset-top)); right: max(30px, env(safe-area-inset-right));
+  width: 48px; height: 48px; border: 1px solid #b9995b80; border-radius: 50%;
+  background: #071d17e6; color: #f3dfb0; font: 28px/1 DM, sans-serif;
+}
+#options-dialog .close-dialog:hover { background: #25402e; }
+#options-dialog .options-audio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; }
+#options-dialog .option-row { gap: 20px; padding: 16px 0 20px; border-bottom: 1px solid #bd9d5f40; cursor: pointer; }
+#options-dialog .option-row strong { color: #fff0ce; font: 22px/1.2 Serif, Georgia, serif; }
+#options-dialog .option-row small { color: #d4d8c1; font-size: 13px; line-height: 1.5; }
+#options-dialog .option-row input { box-sizing: border-box; width: 52px; height: 30px; margin: 7px 0; border: 1px solid #b9995b80; background: #10271e; }
+#options-dialog .option-row input::after { width: 22px; height: 22px; top: 3px; left: 3px; background: #fff0ce; box-shadow: 0 2px 4px #00150d70; }
+#options-dialog .option-row input:checked { background: #b9995b; }
+#options-dialog .option-row input:checked::after { transform: translateX(22px); }
+#options-dialog .audio-volume { color: #fff0ce; padding: 22px 0 28px; gap: 16px; }
+#options-dialog .audio-volume output { color: #e5cca0; font-variant-numeric: tabular-nums; }
+#options-dialog .audio-volume input { appearance: none; background: transparent; height: 32px; min-height: 32px; accent-color: #d5b575; }
+#options-dialog .audio-volume input::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: #10271e; border: 1px solid #b9995b; }
+#options-dialog .audio-volume input::-moz-range-track { height: 4px; border-radius: 3px; background: #10271e; border: 1px solid #b9995b; }
+#options-dialog .audio-volume input::-webkit-slider-thumb { appearance: none; width: 22px; height: 22px; margin-top: -9px; border-radius: 50%; border: 3px solid #d5b575; background: #fff0ce; box-shadow: 0 3px 6px #00150d70; }
+#options-dialog .audio-volume input::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; border: 3px solid #d5b575; background: #fff0ce; box-shadow: 0 3px 6px #00150d70; }
+#options-dialog .audio-volume input:disabled { opacity: .4; }
+#options-dialog .options-motion { margin-top: 6px; padding: 24px 0; border-top: 1px solid #bd9d5f40; }
+#options-dialog button:focus-visible, #options-dialog input:focus-visible { outline: 2px solid #f4d08b; outline-offset: 4px; }
+#options-dialog .options-footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 32px; }
+#options-dialog .options-note { font-size: 12px; }
+#options-dialog .options-footer .royal-button { flex: 0 0 248px; }
+#options-dialog ::selection { background: #e8c684; color: #172c29; }
+@media (max-width: 700px) {
+  #options-dialog .options-content { width: 100%; padding: max(76px, env(safe-area-inset-top)) 28px max(32px, env(safe-area-inset-bottom)); }
+  #options-dialog .close-dialog { top: max(16px, env(safe-area-inset-top)); right: max(16px, env(safe-area-inset-right)); width: 44px; height: 44px; }
+  #options-dialog .options-heading { margin-bottom: 20px; }
+  #options-title { font-size: 32px; margin-bottom: 10px; }
+  #options-dialog .options-heading p { font-size: 13px; }
+  #options-dialog .options-audio { grid-template-columns: 1fr; gap: 4px; }
+  #options-dialog .option-row { gap: 14px; padding: 12px 0; }
+  #options-dialog .option-row strong { font-size: 20px; }
+  #options-dialog .option-row small { font-size: 12px; }
+  #options-dialog .audio-volume { padding: 14px 0 18px; gap: 8px; }
+  #options-dialog .options-motion { margin-top: 8px; padding: 18px 0; }
+  #options-dialog .options-footer { flex-direction: column; gap: 20px; padding-top: 22px; text-align: center; }
+  #options-dialog .options-footer .royal-button { flex: 0 0 auto; max-width: 100%; }
+}
+@media (min-width: 701px) and (max-height: 650px) {
+  #options-dialog .options-content { padding-top: 40px; padding-bottom: 32px; }
+  #options-dialog .options-heading { margin-bottom: 20px; }
+  #options-title { font-size: 34px; }
+  #options-dialog .options-motion { padding: 16px 0; }
+  #options-dialog .options-footer { padding-top: 20px; }
+}
+/* Short phones scroll below the close action, never behind it. */
+@media (max-width: 700px) and (max-height: 700px) {
+  #options-dialog { overflow: hidden; }
+  #options-dialog .options-content {
+    height: calc(100% - 76px); min-height: 0; margin-top: 76px;
+    padding-top: 12px; justify-content: flex-start; overflow-y: auto;
+    scrollbar-width: thin; scrollbar-color: #b9995b #10271e;
+  }
+}

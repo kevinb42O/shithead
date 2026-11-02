@@ -22,7 +22,25 @@ for(const count of [2,3,4]){
 test('a three reverses to the neighboring player with three or four active seats',()=>{
  for(const count of [3,4]){const g=createGame(Math.random,count);start(g,()=>0);g.deck=[];g.players[0].hand=[c('three',3),c('four',4)];assert(play(g,['three']).ok);assert.equal(g.direction,-1);assert.equal(g.turn,count-1);}
 });
-test('an even set of threes preserves direction and advances normally with three active seats',()=>{const g=createGame(Math.random,3);start(g,()=>0);g.deck=[];g.players[0].hand=[c('a',3),c('b',3),c('c',4)];play(g,['a','b']);assert.equal(g.direction,1);assert.equal(g.turn,1);});
+test('paired threes preserve direction and pass normally with three or four active players',()=>{
+ for(const [seats,escaped] of [[3,null],[4,null],[4,1]]) {
+  for(let who=0;who<seats;who++) for(const direction of [1,-1]) {
+   if(who===escaped)continue;
+   const g=createGame(Math.random,seats);start(g,()=>0);g.deck=[];
+   if(escaped!==null){g.players[escaped]={hand:[],up:[],down:[]};g.placements=[escaped];g.winner=escaped;}
+   g.turn=who;g.direction=direction;
+   g.players[who].hand=[c('a',3),c('b',3),c('spare',4)];
+   const expected=nextPlayer(g,who);
+   const result=play(g,['a','b']);
+   assert.equal(result.ok,true);
+   assert.equal(result.burn,false);
+   assert.equal(result.reversed,false);
+   assert.equal(g.direction,direction);
+   assert.equal(g.turn,expected);
+   assert.notEqual(g.turn,who,'a pair must not grant another turn with more than two active players');
+  }
+ }
+});
 test('going out on a ten passes play and does not end a table with three active seats',()=>{const g=createGame(Math.random,4);start(g,()=>0);g.deck=[];g.players[0]={hand:[c('ten',10)],up:[],down:[]};const r=play(g,['ten']);assert(r.burn);assert(r.wentOut);assert.equal(g.phase,'playing');assert.equal(g.turn,1);assert.deepEqual(g.placements,[0]);g.turn=3;assert.equal(nextPlayer(g),1);g.direction=-1;g.turn=1;assert.equal(nextPlayer(g),3);});
 test('last two active seats receive another turn on three',()=>{const g=createGame(Math.random,4);start(g,()=>0);g.deck=[];g.players[1]={hand:[],up:[],down:[]};g.players[3]={hand:[],up:[],down:[]};g.placements=[1,3];g.players[0].hand=[c('three-a',3),c('three-b',3),c('four',4)];g.players[2].hand=[c('five',5)];play(g,['three-a']);assert.equal(g.direction,-1);assert.equal(g.turn,0);play(g,['three-b']);assert.equal(g.direction,1);assert.equal(g.turn,0);});
 test('unsupported player counts fail clearly',()=>{assert.throws(()=>createGame(Math.random,5),RangeError);});

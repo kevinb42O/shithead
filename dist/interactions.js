@@ -13,7 +13,16 @@ export function toggleSelection(cards, selected, tappedId) {
 export function dragSelection(cards, selected, grabbedId) {
   if (!cards.some(c => c.id === grabbedId)) return [];
   if (selected.includes(grabbedId)) return [...selected];
-  return toggleSelection(cards, selected, grabbedId);
+  return [grabbedId];
+}
+
+// A selected card is always a drag handle. Unselected cards can pan a crowded hand.
+export function cardGesture(dx, dy, canScroll, selected) {
+  if (Math.hypot(dx, dy) < 10) return 'pending';
+  if (canScroll && !selected && Math.abs(dx) > Math.abs(dy) * 1.7) {
+    return Math.abs(dx) < 18 ? 'pending' : 'scroll';
+  }
+  return 'drag';
 }
 
 // Pointer events give mouse, pen and touch the same direct manipulation.
@@ -68,6 +77,7 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
   }
 
   function start(e){
+    if(!e.isPrimary||e.button!==0||drag)return;
     suppressUntil=0;
     const source=e.target.closest('button.card[data-card-id]');
     const insideHand=!!e.target.closest('#hand');
@@ -103,11 +113,10 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
       insideHand,
       handCanScroll,
       scrollStart:hand?hand.scrollLeft:0,
+      selectedHandle:source.classList.contains('selected'),
       isSwipe:false
     };
-    if(!handCanScroll&&e.pointerType==='mouse'){
-      source.setPointerCapture(e.pointerId);
-    }
+    try{source.setPointerCapture(e.pointerId);}catch(err){}
   }
 
   function move(e){
@@ -121,21 +130,14 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
 
     const dx=e.clientX-drag.x;
     const dy=e.clientY-drag.y;
-    const dist=Math.hypot(dx,dy);
-
-    if(!drag.ghost&&!drag.isSwipe&&dist<8)return;
-
-    if(!drag.ghost&&drag.insideHand&&drag.handCanScroll){
-      if(!drag.isSwipe&&Math.abs(dx)>Math.abs(dy)){
-        drag.isSwipe=true;
-      }
+    if(!drag.ghost&&!drag.isSwipe){
+      const gesture=cardGesture(dx,dy,drag.handCanScroll,drag.selectedHandle);
+      if(gesture==='pending')return;
+      drag.isSwipe=gesture==='scroll';
     }
-
     if(drag.isSwipe){
-      if(drag.pointerType==='mouse'||drag.pointerType==='pen'){
-        if(hand)hand.scrollLeft=drag.scrollStart-dx;
-        e.preventDefault();
-      }
+      if(hand)hand.scrollLeft=drag.scrollStart-dx;
+      e.preventDefault();
       return;
     }
 
@@ -170,7 +172,9 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
     }
     const current=drag,wasDrag=!!current.ghost,wasSwipe=!!current.isSwipe;
     cancelAnimationFrame(tiltFrame);tiltFrame=0;
+    if(cancel)suppressUntil=performance.now()+400;
     if(wasSwipe){
+      if(current.source?.hasPointerCapture(e.pointerId))try{current.source.releasePointerCapture(e.pointerId);}catch(err){}
       if(Math.hypot(e.clientX-current.x,e.clientY-current.y)>6){
         suppressUntil=performance.now()+350;
       }
@@ -185,6 +189,12 @@ export function attachCardDrag({context,onDrop,onReject,onGather=()=>{},onLand=(
     cancelAnimationFrame(tiltFrame);tiltFrame=0;
     drag=null;
     if(current.mode==='swap'&&wasDrag)onSwapHint(null);
+    // Revalidate the exact frozen group against the current table before committing.
+    if(wasDrag&&!cancel&&current.over){
+      const fresh=context(current.source.dataset.cardId);
+      if(!fresh||fresh.state!==current.state||fresh.revision!==current.revision||fresh.mode!==current.mode||JSON.stringify(fresh.ids)!==JSON.stringify(current.ids))cancel=true;
+      else current.legal=fresh.legal;
+    }
     if(wasDrag&&!cancel&&current.over&&current.legal){
       const destination=current.mode==='swap'?current.targets.find(n=>n.dataset.cardId===current.targetId):target.querySelector('.pile')||target;
       const from=current.ghost.getBoundingClientRect(),destinationRect=destination.getBoundingClientRect(),to=destinationRect.width?destinationRect:target.getBoundingClientRect();

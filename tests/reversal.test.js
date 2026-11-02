@@ -25,14 +25,49 @@ test('a single three reverses and grants another turn at a two-seat table', () =
   }
 });
 
-test('paired threes cancel and pass to the other player at a two-seat table', () => {
-  const g = fixture();
-  g.players[0].hand = [card('a',3),card('b',3),card('spare',4)];
-  const result = play(g,['a','b']);
-  assert.equal(result.ok,true);
-  assert.equal(g.direction,1);
-  assert.equal(g.turn,1);
-  assert.equal(reversalOccurs(result),false);
+test('any number of threes grants another turn with two remaining players', () => {
+  for (const seats of [2,3,4]) for (const who of [0,seats-1]) {
+    for (const direction of [1,-1]) for (const count of [1,2,3,4]) {
+      const g = fixture(seats);
+      const opponent = who === 0 ? seats-1 : 0;
+      g.players = g.players.map((_,i) => ({
+        hand: i === opponent ? [card('opponent',5)] : [], up:[], down:[]
+      }));
+      g.placements = Array.from({length:seats},(_,i)=>i)
+        .filter(i=>i !== who && i !== opponent);
+      g.winner = g.placements[0] ?? null;
+      g.turn = who;
+      g.direction = direction;
+      const threes = Array.from({length:count},(_,i)=>card('three'+i,3));
+      g.players[who].hand = [...threes,card('spare',4)];
+      const result = play(g,threes.map(c=>c.id));
+      assert.equal(result.ok,true);
+      assert.equal(g.turn,who,`${seats} seats, player ${who}, ${count} threes, direction ${direction}`);
+      assert.equal(g.phase,'playing');
+      assert.equal(g.direction,count % 2 ? -direction : direction);
+      assert.equal(reversalOccurs(result),count % 2 === 1);
+      assert.equal(result.burn,count === 4);
+      // The extra turn must also accept a subsequent ordinary card.
+      assert.equal(play(g,['spare']).ok,true);
+      assert.equal(g.phase,'finished');
+      assert.equal(g.loser,opponent);
+    }
+  }
+});
+
+test('going out on any number of threes finishes a duel without another turn', () => {
+  for (const count of [1,2,3,4]) {
+    const g = fixture();
+    const threes = Array.from({length:count},(_,i)=>card('three'+i,3));
+    g.players[0] = {hand:threes,up:[],down:[]};
+    const result = play(g,threes.map(c=>c.id));
+    assert.equal(result.ok,true);
+    assert.equal(result.wentOut,true);
+    assert.equal(g.phase,'finished');
+    assert.equal(g.winner,0);
+    assert.equal(g.loser,1);
+    assert.equal(play(g,[]).ok,false);
+  }
 });
 
 test('a three that completes a burn still signals its reversal animation', () => {

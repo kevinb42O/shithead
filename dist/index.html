@@ -90,6 +90,7 @@
       <div class="loading-caption"><span id="loading-status" role="status" aria-live="polite">Warming the hearth…</span><span id="loading-percent" aria-hidden="true">0%</span></div>
       <div id="loading-progress" class="loading-progress" role="progressbar" aria-label="Preparing the game" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="loading-fill"></span></div>
       <p id="loading-note" class="loading-note">Good cards. Bad intentions.</p>
+      <p class="loading-maker"><span>Made by</span><img src="assets/webaanzee-wordmark.png" alt="Webaanzee" width="1823" height="220"></p>
       <button id="loading-retry" class="loading-retry" type="button" hidden>Try again</button>
       <noscript><p>JavaScript is needed to play. Enable it, then reload to take your seat.</p></noscript>
     </div>
@@ -147,9 +148,9 @@
           </fieldset>
           <fieldset class="stake-options">
             <legend>Coins per player</legend>
-            <label><input type="radio" name="stake" value="10" checked><span><b class="stake-coin"><strong>10</strong></b><small>Casual</small><em class="choice-selected" aria-hidden="true">Selected</em></span></label>
-            <label><input type="radio" name="stake" value="50"><span><b class="stake-coin"><strong>50</strong></b><small>Standard</small><em class="choice-selected" aria-hidden="true">Selected</em></span></label>
-            <label><input type="radio" name="stake" value="100"><span><b class="stake-coin"><strong>100</strong></b><small>High stakes</small><em class="choice-selected" aria-hidden="true">Selected</em></span></label>
+            <label><input type="radio" name="stake" value="100" checked><span><b class="stake-coin"><strong>100</strong></b><small>Casual</small><em class="choice-selected" aria-hidden="true">Selected</em></span></label>
+            <label><input type="radio" name="stake" value="500"><span><b class="stake-coin"><strong>500</strong></b><small>Standard</small><em class="choice-selected" aria-hidden="true">Selected</em></span></label>
+            <label><input type="radio" name="stake" value="1000"><span><b class="stake-coin"><strong>1000</strong></b><small>High stakes</small><em class="choice-selected" aria-hidden="true">Selected</em></span></label>
           </fieldset>
         </div>
         <div class="setup-commit">
@@ -447,7 +448,7 @@
         <div class="rules-flow-step">
           <div class="rules-step-num">1</div>
           <div>
-            <h4>The Goal &amp; the Pot</h4><p>Start with 1,000 virtual coins. Each seat pays 10, 50 or 100 coins before the deal; AI contributions are simulated. First out wins the whole pot immediately. Remaining players finish to determine the Shithead. Leaving for the menu pauses your game; replacing it forfeits any unpaid buy-in. With fewer than 10 coins, finish your current wager to unlock a free refill in the main menu. Daily Fortune offers a free 250–2,500 coin allowance once every 24 hours and optional virtual-coin slot spins. Its Payouts &amp; Rules panel explains the odds. Coins have no cash value.</p>
+            <h4>The Goal &amp; the Pot</h4><p>Start with 1,000 virtual coins. Each seat pays 100, 500 or 1000 coins before the deal; AI contributions are simulated. First out wins the whole pot immediately. Remaining players finish to determine the Shithead. Leaving for the menu pauses your game; replacing it forfeits any unpaid buy-in. With fewer than 100 coins, finish your current wager to unlock a free refill in the main menu. Daily Fortune offers a free 250–2,500 coin allowance once every 24 hours and optional virtual-coin slot spins. Its Payouts &amp; Rules panel explains the odds. Coins have no cash value.</p>
             <p>Be the first to play every card from all your zones. Players who shed all cards escape safely. The last player left holding cards is crowned the <strong>Shithead</strong>.</p>
           </div>
         </div>
@@ -472,7 +473,7 @@
           <div class="rules-step-num">4</div>
           <div>
             <h4>Matching Sets &amp; Groups</h4>
-            <p>You can play multiple cards of identical rank together in one turn (pairs, triples, or quads). Use the numbered selection buttons to choose exactly how many matching cards to play.</p>
+            <p>You can play multiple cards of identical rank together in one turn (pairs, triples, or quads). Tap a card to select its matching rank. Tap selected cards to put them back individually, then drag the selected cards onto the pile. You can also select cards with Space and activate the pile with Enter.</p>
           </div>
         </div>
 
@@ -543,7 +544,7 @@
 
         </div>
     <div class="rules-dialog-footer">
-      <button class="primary-button close-rules">Got it. Let’s play.</button>
+      <button class="primary-button close-rules">Back</button>
       <button id="rules-credits" class="text-button">Artwork &amp; licenses</button>
     </div>
       </div>
@@ -580,21 +581,29 @@
         href="https://polyhaven.com/license" target="_blank" rel="noreferrer">CC0 license</a></p>
     <p>Game audio from <strong>Hearthstone</strong>, © Blizzard Entertainment. Sourced from <a href="https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/" target="_blank" rel="noreferrer">The Sounds Resource</a> · <a href="assets/audio/SOURCES.txt">Audio source details</a>.</p>
     <p>DM Sans and DM Serif Display by Colophon Foundry, under the SIL Open Font License.</p>
+    <button class="primary-button close-rules" type="button">Back</button>
   </dialog>
   <dialog id="options-dialog" aria-labelledby="options-title"><button class="close-dialog" aria-label="Close options">×</button>
     <div class="options-content">
-    <h2 id="options-title">Your kind of crap.</h2>
-    <p>A few creature comforts for your time on the throne.</p><label class="option-row"><span><strong>Sound
-          effects</strong><small>A little noise with your nonsense.</small></span><input id="option-sound"
-        type="checkbox" role="switch"></label>
-    <div class="audio-volume"><label for="option-volume">Effects volume</label><output id="volume-value" for="option-volume">70%</output><input id="option-volume" type="range" min="0" max="100" step="5" value="70"></div>
-    <label class="option-row"><span><strong>Menu music</strong><small>A seat by the hearth.</small></span><input id="option-music" type="checkbox" role="switch" checked></label>
-    <div class="audio-volume"><label for="option-music-volume">Music volume</label><output id="music-volume-value" for="option-music-volume">22%</output><input id="option-music-volume" type="range" min="0" max="100" step="1" value="22"></div>
-    <label class="option-row"><span><strong>Reduce motion</strong><small>Less
-          flying cardboard. Same bad luck.</small></span><input id="option-motion" type="checkbox"
-        role="switch"></label>
-    <p class="options-note">Preferences are saved on this browser.</p><button class="primary-button close-rules">All
-      set</button>
+      <header class="options-heading">
+        <h2 id="options-title">Your kind of crap.</h2>
+        <p>A few creature comforts for your time on the throne.</p>
+      </header>
+      <div class="options-audio">
+        <div class="options-audio-group">
+          <label class="option-row"><span><strong>Sound effects</strong><small>A little noise with your nonsense.</small></span><input id="option-sound" type="checkbox" role="switch"></label>
+          <div class="audio-volume"><label for="option-volume">Effects volume</label><output id="volume-value" for="option-volume">70%</output><input id="option-volume" type="range" min="0" max="100" step="5" value="70"></div>
+        </div>
+        <div class="options-audio-group">
+          <label class="option-row"><span><strong>Menu music</strong><small>A seat by the hearth.</small></span><input id="option-music" type="checkbox" role="switch" checked></label>
+          <div class="audio-volume"><label for="option-music-volume">Music volume</label><output id="music-volume-value" for="option-music-volume">22%</output><input id="option-music-volume" type="range" min="0" max="100" step="1" value="22"></div>
+        </div>
+      </div>
+      <label class="option-row options-motion"><span><strong>Reduce motion</strong><small>Less flying cardboard. Same bad luck.</small></span><input id="option-motion" type="checkbox" role="switch"></label>
+      <div class="options-footer">
+        <p class="options-note">Preferences are saved on this browser.</p>
+        <button class="royal-button close-rules" type="button">Back</button>
+      </div>
     </div>
   </dialog>
   <dialog id="opponent-dialog" aria-labelledby="opponent-title"><button class="close-dialog"

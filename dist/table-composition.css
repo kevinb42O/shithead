@@ -258,7 +258,7 @@ body[data-phase=setup] #start-game-center.royal-button:not([hidden]) {
 }
 @media (min-width: 701px) {
   /* Resting cards sit lower; selection actions keep their own clear row. */
-  .hand-panel:has(.action-row > .status-copy[hidden]):not(:has(.action-row > button:not([hidden]), .ace-choice:not([hidden]))) .hand {
+  .hand-panel:has(.action-row > .status-copy[hidden]):not(:has(.card.selected, .action-row > button:not([hidden]), .ace-choice:not([hidden]))) .hand {
     translate: 0 22px;
   }
 }

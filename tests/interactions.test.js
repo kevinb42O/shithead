@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import {toggleSelection,dragSelection} from '../dist/interactions.js';
+import {toggleSelection,dragSelection,cardGesture} from '../dist/interactions.js';
 import {createGame,start,play} from '../dist/engine.js';
 const cards=[{id:'6s',rank:6},{id:'6h',rank:6},{id:'6c',rank:6},{id:'8s',rank:8}];
 test('first tap selects every matching card and another rank switches the group',()=>{
@@ -15,10 +15,10 @@ test('tapping lifted cards removes only that card, including the last one',()=>{
   assert.deepEqual(toggleSelection(cards,selected,'6c'),[]);
   assert.deepEqual(toggleSelection(cards,selected,'6s'),['6c','6s']);
 });
-test('dragging a fresh rank gathers its matches',()=>{
-  assert.deepEqual(dragSelection(cards,[],'6h'),['6s','6h','6c']);
+test('dragging an unselected card moves only that card',()=>{
+  assert.deepEqual(dragSelection(cards,[],'6h'),['6h']);
 });
-test('dragging selected matching cards moves the chosen group only',()=>{assert.deepEqual(dragSelection(cards,['6h','6c'],'6c'),['6h','6c']);assert.deepEqual(dragSelection(cards,['6h'],'6s'),['6h','6s']);assert.deepEqual(dragSelection(cards,['6h','6c'],'8s'),['8s']);});
+test('dragging selected matching cards moves the chosen group only',()=>{assert.deepEqual(dragSelection(cards,['6h','6c'],'6c'),['6h','6c']);assert.deepEqual(dragSelection(cards,['6h'],'6s'),['6s']);assert.deepEqual(dragSelection(cards,['6h','6c'],'8s'),['8s']);});
 test('playing two of three matching cards leaves the third in hand',()=>{const g=createGame();start(g,()=>0);g.deck=[];g.players[0].hand=[...cards];g.pile=[{id:'4s',rank:4}];const ids=toggleSelection(cards,toggleSelection(cards,[],'6h'),'6s');assert(play(g,ids).ok);assert.equal(g.pile.filter(c=>c.rank===6).length,2);assert.equal(g.players[0].hand.filter(c=>c.rank===6).length,1);});
 
 test('opening deal sends 18 distinct cards one by one, alternating players in each layer',async()=>{const {dealOrder}=await import('../dist/rendering.js');const g=createGame(),order=dealOrder(g);assert.equal(order.length,18);assert.equal(new Set(order.map(s=>s.card.id)).size,18);for(let i=0;i<18;i++){assert.equal(order[i].who,i%2);assert.equal(order[i].zone,['down','up','hand'][Math.floor(i/6)]);}assert.equal(g.deck.length,36);});
@@ -50,4 +50,18 @@ test('hand panel has horizontal scroll boundaries and scroll navigation buttons'
   const css=fs.readFileSync('dist/game-layout.css','utf8');
   assert(css.includes('overflow-x: auto'));
   assert(css.includes('overscroll-behavior-x: contain'));
+});
+
+test('dragging a deselected card never restores the matching group',()=>{
+ const selected=toggleSelection(cards,toggleSelection(cards,[],'6h'),'6h');
+ assert.deepEqual(dragSelection(cards,selected,'6h'),['6h']);
+ assert.deepEqual(dragSelection(cards,selected,'6c'),selected);
+});
+test('gesture direction tolerates diagonal drags and preserves selected handles',()=>{
+ assert.equal(cardGesture(4,5,true,false),'pending');
+ assert.equal(cardGesture(12,-10,true,false),'drag');
+ assert.equal(cardGesture(12,1,true,false),'pending');
+ assert.equal(cardGesture(25,2,true,false),'scroll');
+ assert.equal(cardGesture(25,2,true,true),'drag');
+ assert.equal(cardGesture(25,2,false,false),'drag');
 });

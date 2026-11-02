@@ -3522,3 +3522,24 @@ body.reduce-motion [data-phase=setup] .player-table .card {
 .pile-area.is-empty .pile-caption {
     display: none;
 }
+
+/* Cards own pointer gestures; horizontal pans on unselected cards scroll in JS. */
+#hand button.card { touch-action: none !important; }
+#pile[role="button"]:focus-visible { outline: 3px solid #e5c87e; outline-offset: 6px; }
+
+#pile > .card { pointer-events: none; }
+
+body.reduce-motion #hand .card { transition: none !important; }
+@media (prefers-reduced-motion: reduce) { #hand .card { transition: none !important; } }
+
+/* Selection stays above resting cards; touch hover must not imitate selection. */
+body:is([data-phase=hand], [data-phase=up]) #hand .card.selected {
+    transform: translateY(-24px) rotate(0deg) !important;
+    z-index: 60;
+}
+@media (hover: none) {
+    body:is([data-phase=hand], [data-phase=up]) #hand .card:not(.selected):not(:focus-visible) {
+        transform: translateY(var(--fan-y, 0px)) rotate(var(--angle, 0deg)) !important;
+        z-index: var(--index);
+    }
+}

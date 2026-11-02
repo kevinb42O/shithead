@@ -1,0 +1,49 @@
+
+> shithead-card-table@1.0.0 test:browser
+> node --test scripts/test-rules-browser.mjs
+
+▶ browser rule and pause regressions
+  ✖ matching tap selection and subset drag on desktop (2369.784709ms)
+  ✔ matching tap selection and subset drag on mobile (2790.932958ms)
+  ﹣ duel threes keep the human turn through selection, play and AI scheduling (0.314083ms) # SKIP
+  ﹣ failed blind flip cannot be undone through the menu or refresh (0.055125ms) # SKIP
+  ﹣ successful blind burn survives cancellation and does not replay (0.047167ms) # SKIP
+  ﹣ final blind card records the score exactly once before refresh (0.040833ms) # SKIP
+  ﹣ blind ace choice remains locked across menu and refresh (0.046667ms) # SKIP
+  ﹣ malformed saved scores cannot crash the final move (0.077792ms) # SKIP
+  ﹣ an invalid saved ace choice is rejected with a recovery message (0.222542ms) # SKIP
+  ﹣ losing focus or opening a dialog cancels an unfinished drag (0.136916ms) # SKIP
+  ﹣ mobile touch cancellation leaves the chosen blind card unplayed (0.1425ms) # SKIP
+  ﹣ all dialogs pause AI, nested dialogs stay paused, closing resumes play (0.091042ms) # SKIP
+✖ browser rule and pause regressions (7788.541709ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 10
+ℹ todo 0
+ℹ duration_ms 7858.97975
+
+✖ failing tests:
+
+test at scripts/test-rules-browser.mjs:57:31
+✖ matching tap selection and subset drag on desktop (2369.784709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - '1 card'
+  
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:115:11)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:71:38)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: '1 card',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

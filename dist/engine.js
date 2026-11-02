@@ -50,7 +50,9 @@ export function play(g, ids, { aceValue, requestChoice = false } = {}) {
     const active = g.players.map((p, i) => remaining(p) ? i : null).filter(i => i !== null);
     if (active.length === 1) { g.phase = 'finished'; g.loser = active[0]; g.log.unshift(`${playerName(g.loser)} ${g.loser === 0 ? 'are' : 'is'} the Shithead.`); }
     else {
-        g.turn = !wentOut && (burn || (reverses && active.length === 2)) ? who : nextPlayer(g, who);
+        // In a duel, any legal set of threes earns another turn, even if its reversals cancel.
+        const extraTurnFromThrees = cards[0].rank === 3 && active.length === 2;
+        g.turn = !wentOut && (burn || extraTurnFromThrees) ? who : nextPlayer(g, who);
     }
     return { ok: true, burn, cards, who, wentOut, reversed: reverses };
 }

@@ -1,5 +1,5 @@
 // Play-money accounting lives in the same saved snapshot as the cards.
-export const STAKES = [10, 50, 100];
+export const STAKES = [100, 500, 1000];
 export const STARTING_COINS = 1000;
 export function createWallet(saved) {
   return {

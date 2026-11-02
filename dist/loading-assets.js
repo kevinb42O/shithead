@@ -162,7 +162,7 @@ export const loadingAssets = [
   },
   {
     "url": "assets/cards.svg",
-    "bytes": 962489
+    "bytes": 962487
   },
   {
     "url": "assets/club-empty-table.png",
@@ -469,10 +469,6 @@ export const loadingAssets = [
     "bytes": 52949
   },
   {
-    "url": "assets/game-menu-backdrop.jpg",
-    "bytes": 742037
-  },
-  {
     "url": "assets/hearth-menu-cog.png",
     "bytes": 2528609
   },
@@ -527,6 +523,10 @@ export const loadingAssets = [
   {
     "url": "assets/opponent-portraits.png",
     "bytes": 3160423
+  },
+  {
+    "url": "assets/pause-hearth-background.jpg",
+    "bytes": 590472
   },
   {
     "url": "assets/pick-your-company.png",

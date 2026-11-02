@@ -20,7 +20,7 @@ import { REVERSAL_DURATION, reversalOccurs } from './reversal-wind.js';
 import { reconcile, captureCards, animateCards, dealOrder } from './rendering.js';
 import { toggleSelection, dragSelection, attachCardDrag } from './interactions.js';
 import { createCardSpotlight } from './card-spotlight.js';
-import { createGame, start, swap, play, pickup, zone, legal, rankName, chooseMove, topRank, topCard, aceOptions, assertGame, playerName as soloPlayerName, remaining } from './engine.js';
+import { createGame, start, swap, play, pickup, zone, legal, rankName, chooseMove, topRank, topCard, assertGame, playerName as soloPlayerName, remaining } from './engine.js';
 const $ = id => document.getElementById(id), KEY = 'shithead-table-v2' + (['localhost', '127.0.0.1'].includes(location.hostname) && new URLSearchParams(location.search).has('qa') ? '-qa' : ''); let game, selected = [], swapHand = null, timer = null, sound = false, stats = { you: 0, fox: 0 }, notice = '', dealing = false, dealVisible = new Set(), dealInFlight = null, dealRun = 0, loadedGame = false, menuOpen = true, sessionStarted = false, fastForward = false, pendingPlayerCount = null, preferences = { playerCount: 2, sound: true, soundPreferenceSet: false, reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches };
 let onlineSession = null, soloGame = null, onlineEventId = 0;
 const playerName = who => onlineSession ? game.players[who]?.name || 'Player' : soloPlayerName(who);
@@ -210,13 +210,12 @@ function select(c) {
       notice = '';
       cardSound('flick');
       render();
-      const cardEl = document.querySelector(`[data-card-id="${CSS.escape(c.id)}"]`);
-      cardEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
       return;
     }
     const matching = p[z].filter(o => o.rank === c.rank);
     const fourBurnOnly = matching.length >= 4 && !legal(c, game.pile, game.lowTurns);
-    if (!legal(c, game.pile, game.lowTurns) && !fourBurnOnly) {
+    const editingRank = p[z].some(o => selected.includes(o.id) && o.rank === c.rank);
+    if (!editingRank && !legal(c, game.pile, game.lowTurns) && !fourBurnOnly) {
       effectSound('reject');
       notice = ''; 
       render();
@@ -227,8 +226,6 @@ function select(c) {
   }
   cardSound('flick');
   render();
-  const cardEl = document.querySelector(`[data-card-id="${CSS.escape(c.id)}"]`);
-  cardEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
 }
 function pickupButtonArt() { return '<span class="pickup-button-art" aria-hidden="true"><img src="assets/pickup-pile-button.png" alt="" draggable="false"></span>'; }
 function render({ animate = false, skipMotion = [] } = {}) {
@@ -240,12 +237,17 @@ function render({ animate = false, skipMotion = [] } = {}) {
   $('score-opponents').textContent = game.players.length === 2 ? 'THE FOX' : 'AIs';
   const escaped = !remaining(p) && !setup && !dealing; document.body.dataset.spectating = String(escaped && !finished);
   $('fast-forward').hidden = !escaped || finished; $('fast-forward').textContent = fastForward ? 'Normal speed' : 'Fast-forward'; $('fast-forward').setAttribute('aria-pressed', String(fastForward));
-  $('deck-count').textContent = dealing ? `${54 - dealVisible.size} in the deck` : game.deck.length ? `${game.deck.length} in the deck` : 'Deck is empty'; reconcile($('stock'), game.deck.length ? [card(game.deck.at(-1), { back: true })] : []); if ($('burn-count')) $('burn-count').textContent = game.burned.length; for (const id of pileAngles.keys()) if (!game.pile.some(c => c.id === id)) pileAngles.delete(id); const pileCards = game.pile.slice(-5); const effective = topCard(game.pile); if (effective && !pileCards.includes(effective)) pileCards.unshift(effective); reconcile($('pile'), pileCards.map((c, i, a) => { const node = card(c, { style: `transform:rotate(${pileAngle(c)}deg)` }); node.classList.toggle('pile-joker', c.rank === 15); return node; })); $('table-stamp').hidden = game.pile.length > 0; $('pile').parentElement.classList.toggle('is-empty', !game.pile.length); $('pile').style.cursor = human && game.phase === 'playing' && (selected.length > 0 || game.pile.length > 0) ? 'pointer' : ''; $('pile').title = human && game.phase === 'playing' ? (selected.length > 0 ? 'Click pile to play selected card(s)' : game.pile.length > 0 ? 'Click pile to pick it up' : '') : ''; $('pile-caption').textContent = (game.pile.length ? `${game.pile.length} ${game.pile.length === 1 ? 'card' : 'cards'}${topCard(game.pile)?.rank === 14 ? ' · A = ' + topRank(game.pile) : ''}` : 'Play here') + (game.direction === 1 ? ' · ↻' : ' · ↺'); $('pile-caption').title = game.direction === 1 ? 'Clockwise play' : 'Counterclockwise play'; $('pile-caption').setAttribute('aria-label', $('pile-caption').textContent.slice(0, -4) + '. ' + $('pile-caption').title); $('direction').textContent = game.direction === 1 ? '↻' : '↺'; $('direction').setAttribute('aria-label', game.direction === 1 ? 'Clockwise play' : 'Counterclockwise play'); $('you-turn').textContent = dealing ? 'DEALING' : setup ? 'SETTING UP' : finished ? (game.loser === 0 ? 'SHITHEAD' : 'ESCAPED') : escaped ? 'OUT' : human ? 'YOUR TURN' : 'WAITING'; $('phase-label').textContent = setup ? 'Your last line of defense' : p.hand.length ? 'Face-up cards · save these for later' : p.up.length ? 'Your hand is empty. Play your face-up cards.' : 'The final stretch. Choose a face-down card.'; const trayZone = setup || dealing ? 'hand' : z; const hand = shown(p[trayZone]); const ordered = setup || trayZone === 'down' ? hand : [...hand].sort((a, b) => a.rank - b.rank); $('hand').classList.toggle('crowded', ordered.length > 6);
+  $('deck-count').textContent = dealing ? `${54 - dealVisible.size} in the deck` : game.deck.length ? `${game.deck.length} in the deck` : 'Deck is empty'; reconcile($('stock'), game.deck.length ? [card(game.deck.at(-1), { back: true })] : []); if ($('burn-count')) $('burn-count').textContent = game.burned.length; for (const id of pileAngles.keys()) if (!game.pile.some(c => c.id === id)) pileAngles.delete(id); const pileCards = game.pile.slice(-5); const effective = topCard(game.pile); if (effective && !pileCards.includes(effective)) pileCards.unshift(effective); reconcile($('pile'), pileCards.map((c, i, a) => { const node = card(c, { style: `transform:rotate(${pileAngle(c)}deg);z-index:${i}` }); node.classList.toggle('pile-joker', c.rank === 15); return node; })); $('table-stamp').hidden = game.pile.length > 0; $('pile').parentElement.classList.toggle('is-empty', !game.pile.length); $('pile').style.cursor = human && game.phase === 'playing' && (selected.length > 0 || game.pile.length > 0) ? 'pointer' : ''; $('pile').title = human && game.phase === 'playing' ? (selected.length > 0 ? 'Click pile to play selected card(s)' : game.pile.length > 0 ? 'Click pile to pick it up' : '') : ''; $('pile-caption').textContent = (game.pile.length ? `${game.pile.length} ${game.pile.length === 1 ? 'card' : 'cards'}${topCard(game.pile)?.rank === 14 ? ' · A = ' + topRank(game.pile) : ''}` : 'Play here') + (game.direction === 1 ? ' · ↻' : ' · ↺'); $('pile-caption').title = game.direction === 1 ? 'Clockwise play' : 'Counterclockwise play'; $('pile-caption').setAttribute('aria-label', $('pile-caption').textContent.slice(0, -4) + '. ' + $('pile-caption').title); $('direction').textContent = game.direction === 1 ? '↻' : '↺'; $('direction').setAttribute('aria-label', game.direction === 1 ? 'Clockwise play' : 'Counterclockwise play'); $('you-turn').textContent = dealing ? 'DEALING' : setup ? 'SETTING UP' : finished ? (game.loser === 0 ? 'SHITHEAD' : 'ESCAPED') : escaped ? 'OUT' : human ? 'YOUR TURN' : 'WAITING'; $('phase-label').textContent = setup ? 'Your last line of defense' : p.hand.length ? 'Face-up cards · save these for later' : p.up.length ? 'Your hand is empty. Play your face-up cards.' : 'The final stretch. Choose a face-down card.'; const trayZone = setup || dealing ? 'hand' : z; const hand = shown(p[trayZone]); const ordered = setup || trayZone === 'down' ? hand : [...hand].sort((a, b) => a.rank - b.rank); $('hand').classList.toggle('crowded', ordered.length > 6);
+  const pileEnabled = human && !game.pendingAce && !finalBusy && !bankBusy && (selected.length > 0 || game.pile.length > 0);
+  $('pile').tabIndex = pileEnabled ? 0 : -1;
+  $('pile').setAttribute('role', 'button');
+  $('pile').setAttribute('aria-disabled', String(!pileEnabled));
+  $('pile').setAttribute('aria-label', selected.length ? `Play ${selected.length} selected ${selected.length === 1 ? 'card' : 'cards'}` : game.pile.length ? `Pick up pile, ${game.pile.length} cards` : 'Discard pile');
   const canPlayCard = c => trayZone === 'down' || legal(c, game.pile, game.lowTurns) || p[trayZone].filter(o => o.rank === c.rank).length >= 4;
   const handNodes = ordered.map((c, i) => card(c, { back: trayZone === 'down' && !game.pendingAce?.includes(c.id), action: trayZone === 'down' ? () => move([c.id]) : () => select(c), disabled: dealing || (!setup && !human) || !!game.pendingAce, active: human && canPlayCard(c), chosen: selected.includes(c.id), style: `--index:${i};--angle:${ordered.length < 2 ? 0 : (i / (ordered.length - 1) * 2 - 1) * 8}deg;--fan-y:${ordered.length < 2 ? 0 : Math.pow(i / (ordered.length - 1) * 2 - 1, 2) * 10}px` }));
   if (!handNodes.length) { emptyHand.textContent = dealing ? 'The cards are on their way.' : escaped ? (finished ? 'You escaped. Dignity intact.' : 'You escaped. Watch the table play out.') : finished ? 'Your rematch awaits.' : 'Your next cards are coming into play.'; handNodes.push(emptyHand); } reconcile($('hand'), handNodes);
 
-  const showPlayButton = (dealing && !game.dealComplete) || setup || finished || (human && selected.length > 0 && z !== 'down'); const pending = game.pendingAce; const chosenCard = pending ? p[z].find(c => c.id === pending[0]) : p[z].find(c => c.id === selected[0]); const choosingAce = human && chosenCard?.rank === 14 && aceOptions(game.pile, game.lowTurns).length > 1;
+  const showPlayButton = (dealing && !game.dealComplete) || setup || finished; const pending = game.pendingAce; const chosenCard = pending ? p[z].find(c => c.id === pending[0]) : p[z].find(c => c.id === selected[0]); const choosingAce = human && !!pending;
   const canPickup = !setup && !finished && human && game.pile.length > 0 && !pending && !choosingAce && !spinning;
   const hasLegalMove = hasPlayableCards();
   const mustPickup = canPickup && !hasLegalMove;
@@ -313,7 +315,7 @@ function after(result, skipMotion = [], payout = false) {
   if (game.phase === 'finished') { if (game.loser !== 0) stats.you++; else stats.fox++; }
   game.log = game.log.slice(0, 100);
   const movingIds = physical ? [...(result.cards || []).map(c => c.id), ...game.players[result.who].hand.filter(c => !result.motionSnapshot.hands[result.who].has(c.id)).map(c => c.id)] : skipMotion;
-  render({ animate: !fastForward, skipMotion: movingIds });
+  render({ animate: !fastForward && !result.pickup, skipMotion: movingIds });
   save();
   const currentGame = game;
   const finish = () => {
@@ -338,6 +340,11 @@ function after(result, skipMotion = [], payout = false) {
   } else finish();
 }
 function phaseArrival(phase) { effectSound('phase'); const panel = $('hand'); panel.classList.remove('phase-arrival'); void panel.offsetWidth; panel.classList.add('phase-arrival'); notice = phase === 'up' ? 'Hand cleared. Your face-up cards are in play.' : 'Face-up cards cleared. The final cards are blind.'; $('announcement').textContent = notice; }
+function rejectPlay() {
+  effectSound('reject');
+  notice = game.lowTurns ? 'Play 7 or lower, 4 matching cards to burn, an ace as 1, a 2, joker or 10.' : 'Match or beat the pile, use 4 matching cards to burn, or play a 2, joker or 10.';
+  render();
+}
 function playTurn(ids, options = {}, skipMotion = [], dragFrom = null) {
   if (bankBusy || effects.busy || cardMotion.busy) return;
   const motionSnapshot = cardMotion.capture(game, ids);
@@ -346,6 +353,7 @@ function playTurn(ids, options = {}, skipMotion = [], dragFrom = null) {
   if (zone(p) !== 'down' || fastForward || game.pendingAce) {
     const result = play(game, ids, options); result.pileSize = pileSize; result.motionSnapshot = motionSnapshot;
     if (result.needsAceChoice) { notice = 'Choose 1 or high (14) to finish playing this ace.'; effectSound('heartbeat'); render(); save(); return; }
+    if (!result.ok) { rejectPlay(); return; }
     after(result, skipMotion);
     return;
   }
@@ -454,8 +462,9 @@ $('fast-forward').onclick = () => { fastForward = !fastForward; effects.clear();
 $('ace-low').onclick = () => { cardSound('confirm'); move(game.pendingAce || selected, 1); }; $('ace-high').onclick = () => { cardSound('confirm'); move(game.pendingAce || selected, 14); };
 $('play').onclick = () => { if (dealing) { finishDeal(); return; } if (game.phase === 'setup') { spinForStart(); } else if (game.phase === 'finished') newGame(); else { const canPick = !finalBusy && !spinning && game.turn === 0 && game.phase === 'playing' && game.pile.length > 0 && !game.pendingAce; const mustPick = canPick && !selected.length && !hasPlayableCards(0); if (mustPick) after(takePile()); else move(selected); } };
 $('pickup').onclick = () => { if (!finalBusy && !spinning && game.turn === 0) after(takePile()); };
-$('pile').onclick = () => { if (finalBusy || spinning || game.turn !== 0 || game.phase !== 'playing') return; if (selected.length > 0 && zone(game.players[0]) !== 'down') { move(selected); return; } if (game.pile.length > 0 && !game.pendingAce) { after(takePile()); } };
-$('new-game').onclick = () => onlineSession || game.phase === 'finished' ? newGame() : $('restart-dialog').showModal(); $('confirm-restart').onclick = newGame; $('cancel-restart').onclick = () => $('restart-dialog').close(); $('rules').onclick = () => $('rules-dialog').showModal(); $('credits').onclick = () => $('credits-dialog').showModal(); $('rules-credits').onclick = () => { $('rules-dialog').close(); $('credits-dialog').showModal(); }; document.querySelectorAll('.close-dialog,.close-rules').forEach(b => b.onclick = () => b.closest('dialog').close()); document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) { const r = d.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close(); } })); $('history-toggle').onclick = () => { $('history').hidden = !$('history').hidden; $('history-toggle').textContent = $('history').hidden ? 'History' : 'Close history'; $('history-toggle').setAttribute('aria-expanded', String(!$('history').hidden)); }; $('sound').onclick = () => setSound(!sound); document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (game.phase === 'setup' && swapHand && !menuOpen) { e.preventDefault(); selected = []; swapHand = null; notice = ''; render(); return; } if (document.querySelector('.card-reveal')) return; if (!$('history').hidden && !document.querySelector('dialog[open]')) { e.preventDefault(); $('history-toggle').click(); $('mobile-menu-btn').focus({ preventScroll: true }); return; } const openDialog = document.querySelector('dialog[open]'); if (openDialog) return; if (!menuOpen && !$('game-view').hidden) { e.preventDefault(); openInGameMenu(); } } if (e.key === '?' && !document.querySelector('dialog[open]')) $('rules-dialog').showModal(); if (!menuOpen && e.key === 'Enter' && e.target === document.body && !$('play').disabled && !$('play').hidden) $('play').click(); });
+$('pile').onclick = () => { if (menuOpen || dealing || bankBusy || effects.busy || cardMotion.busy || onlineLocked() || game.pendingAce || finalBusy || spinning || game.turn !== 0 || game.phase !== 'playing') return; if (selected.length > 0 && zone(game.players[0]) !== 'down') { move(selected); return; } if (game.pile.length > 0 && !game.pendingAce) { after(takePile()); } };
+$('pile').onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!e.repeat) $('pile').click(); } };
+$('new-game').onclick = () => onlineSession || game.phase === 'finished' ? newGame() : $('restart-dialog').showModal(); $('confirm-restart').onclick = newGame; $('cancel-restart').onclick = () => $('restart-dialog').close(); $('rules').onclick = () => $('rules-dialog').showModal(); $('credits').onclick = () => $('credits-dialog').showModal(); $('rules-credits').onclick = () => { $('credits-dialog').showModal(); }; document.querySelectorAll('.close-dialog,.close-rules').forEach(b => b.onclick = () => b.closest('dialog').close()); document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) { const r = d.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close(); } })); $('history-toggle').onclick = () => { $('history').hidden = !$('history').hidden; $('history-toggle').textContent = $('history').hidden ? 'History' : 'Close history'; $('history-toggle').setAttribute('aria-expanded', String(!$('history').hidden)); }; $('sound').onclick = () => setSound(!sound); document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (menuOpen && !$('single-setup').hidden && !document.querySelector('dialog[open]') && !document.body.classList.contains('fortune-open')) { e.preventDefault(); showSetup(false); return; } if (game.phase === 'setup' && swapHand && !menuOpen) { e.preventDefault(); selected = []; swapHand = null; notice = ''; render(); return; } if (document.querySelector('.card-reveal')) return; if (!$('history').hidden && !document.querySelector('dialog[open]')) { e.preventDefault(); $('history-toggle').click(); $('mobile-menu-btn').focus({ preventScroll: true }); return; } const openDialog = document.querySelector('dialog[open]'); if (openDialog) return; if (!menuOpen && !$('game-view').hidden) { e.preventDefault(); openInGameMenu(); } } if (e.key === '?' && !document.querySelector('dialog[open]')) $('rules-dialog').showModal(); if (!menuOpen && e.key === 'Enter' && e.target === document.body && !$('play').disabled && !$('play').hidden) $('play').click(); });
 attachCardDrag({
   onSwapHint(name) {
     if(name===null){syncSwapGuide();return;}
@@ -468,19 +477,19 @@ attachCardDrag({
       const source = p.hand.some(c => c.id === id) ? 'hand' : p.up.some(c => c.id === id) ? 'up' : null;
       if (!source) return null;
       const other = source === 'hand' ? p.up : p.hand;
-      return { mode: 'swap', ids: [id], legal: true, targets: other.map(c => cardPool.get(c.id)).filter(Boolean) };
+      return { mode: 'swap', ids: [id], legal: true, state: game, revision: game.moves, targets: other.map(c => cardPool.get(c.id)).filter(Boolean) };
     }
     if (game.phase !== 'playing' || game.turn !== 0) return null;
     const z = zone(p), c = p[z].find(c => c.id === id); if (!c) return null;
     const dragIds = z === 'down' ? [id] : dragSelection(p[z], selected, id);
     const dragLegal = z === 'down' || dragIds.length === 4 || legal(c, game.pile, game.lowTurns);
-    return { mode: 'play', ids: dragIds, legal: dragLegal };
+    return { mode: 'play', ids: dragIds, legal: dragLegal, state: game, revision: game.moves };
   }, onDrop(ids, targetId, mode, from) {
     if (mode === 'swap') {
       const p = game.players[0], fromHand = p.hand.some(c => c.id === ids[0]);
       exchangeCards(fromHand ? ids[0] : targetId, fromHand ? targetId : ids[0], {draggedId: ids[0], from});
     } else move(ids, undefined, from || true);
-  }, onReject() { effectSound('reject'); notice = ''; render(); }
+  }, onReject: rejectPlay
 });
 
 function seatPan(who, total = 2) {
@@ -564,7 +573,7 @@ function renderCoins() {
   $('deal-selected').setAttribute('aria-label', cardArtworkLoading ? 'Preparing card artwork' : `Buy in for ${preferences.stake} coins`);
   $('setup-buy-cost').textContent = `${preferences.stake} coins · your buy-in`;
   $('deal-selected').disabled = wallet.balance < preferences.stake || cardArtworkLoading;
-  $('refill-coins').hidden = wallet.balance >= 10 || !!(bet && !bet.settled && game.phase !== 'finished');
+  $('refill-coins').hidden = wallet.balance >= STAKES[0] || !!(bet && !bet.settled && game.phase !== 'finished');
   $('coin-message').textContent = wallet.balance < preferences.stake ? (bet && !bet.settled && game.phase !== 'finished' ? 'Not enough coins. Choose a lower stake or resume your table to finish its wager.' : 'Not enough coins for this stake. Choose a lower stake or use the free refill.') : cardArtworkLoading ? 'Preparing every card before the deal.' : cardArtworkState === 'error' ? 'Some card artwork did not load. Tap Buy in to retry.' : 'First out wins the pot. Virtual coins only.';
   for (const input of document.querySelectorAll('input[name=stake]')) input.checked = Number(input.value) === preferences.stake;
 }
@@ -585,7 +594,7 @@ function ensureCardArtwork() {
   });
   return cardArtworkPromise;
 }
-preferences.stake = STAKES.includes(preferences.stake) ? preferences.stake : 10;
+preferences.stake = STAKES.includes(preferences.stake) ? preferences.stake : STAKES[0];
 ensureCardArtwork();
 for (const input of document.querySelectorAll('input[name=stake]')) input.onchange = () => { preferences.stake = Number(input.value); savePreferences(); renderCoins(); };
 $('refill-coins').onclick = async () => {
@@ -679,15 +688,10 @@ function openInGameMenu() {
 if ($('mobile-menu-btn')) $('mobile-menu-btn').onclick = openInGameMenu;
 $('close-history').onclick = () => { $('history-toggle').click(); $('mobile-menu-btn').focus({ preventScroll: true }); };
 if ($('menu-resume-game')) $('menu-resume-game').onclick = () => $('mobile-menu-dialog').close();
-if ($('mobile-options')) $('mobile-options').onclick = () => { $('mobile-menu-dialog').close(); $('options-dialog').dataset.returnToMenu = 'true'; $('options-dialog').showModal(); };
-$('options-dialog').addEventListener('close', () => {
-  if ($('options-dialog').dataset.returnToMenu === 'true') {
-    delete $('options-dialog').dataset.returnToMenu;
-    openInGameMenu();
-  }
-});
+// Keep the parent dialog open so every dismissal returns to its menu.
+if ($('mobile-options')) $('mobile-options').onclick = () => $('options-dialog').showModal();
 if ($('mobile-sound')) $('mobile-sound').onclick = () => setSound(!sound);
-if ($('mobile-rules')) $('mobile-rules').onclick = () => { $('mobile-menu-dialog').close(); $('rules-dialog').showModal(); };
+if ($('mobile-rules')) $('mobile-rules').onclick = () => $('rules-dialog').showModal();
 if ($('mobile-new-game')) $('mobile-new-game').onclick = () => { $('mobile-menu-dialog').close(); $('new-game').click(); };
 if ($('mobile-history')) $('mobile-history').onclick = () => { $('mobile-menu-dialog').close(); $('history-toggle').click(); };
 if ($('mobile-back-menu')) $('mobile-back-menu').onclick = () => { $('mobile-menu-dialog').close(); openMenu(); };
@@ -857,7 +861,7 @@ function receiveOnlineTable(session, frame = null) {
   const physical = cardMotion.enabled && !!motionSnapshot && !result.wasBlind;
   const motionIds = physical ? [...(result.cards || []).map(c => c.id), ...game.players[result.who].hand.filter(c => !motionSnapshot.hands[result.who].has(c.id)).map(c => c.id)] : [];
   if (newEvent && (result.ok || result.who === 0 && result.needsAceChoice)) finalBusy = true;
-  render({animate:!!newEvent || game.phase === 'setup', skipMotion:motionIds});
+  render({animate:!!newEvent && !result.pickup || game.phase === 'setup', skipMotion:motionIds});
   if (potPaid && game.phase !== 'finished' && game.bet.winner !== 0) animatePayout(game.bet.winner);
   const motionGame = game;
   const finish = () => {

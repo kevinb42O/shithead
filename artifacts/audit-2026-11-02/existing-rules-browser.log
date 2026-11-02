@@ -1,0 +1,104 @@
+
+> shithead-card-table@1.0.0 test:browser
+> node --test scripts/test-rules-browser.mjs
+
+▶ browser rule and pause regressions
+  ✔ matching tap selection and subset drag on desktop (4516.017708ms)
+  ✖ matching tap selection and subset drag on mobile (1787.747708ms)
+  ✔ duel threes keep the human turn through selection, play and AI scheduling (86369.418958ms)
+  ✖ failed blind flip cannot be undone through the menu or refresh (2113.725375ms)
+  ✔ successful blind burn survives cancellation and does not replay (3218.463375ms)
+  ✔ final blind card records the score exactly once before refresh (5445.513ms)
+  ✔ blind ace choice remains locked across menu and refresh (4257.764375ms)
+  ✖ malformed saved scores cannot crash the final move (4421.175417ms)
+  ✔ an invalid saved ace choice is rejected with a recovery message (4226.861042ms)
+  ✖ losing focus or opening a dialog cancels an unfinished drag (8026.699083ms)
+  ✔ mobile touch cancellation leaves the chosen blind card unplayed (3476.501083ms)
+  ✔ all dialogs pause AI, nested dialogs stay paused, closing resumes play (11751.408833ms)
+✖ browser rule and pause regressions (143677.110834ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 8
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 143756.578875
+
+✖ failing tests:
+
+test at scripts/test-rules-browser.mjs:57:31
+✖ matching tap selection and subset drag on mobile (1787.747708ms)
+  AssertionError [ERR_ASSERTION]: Card ♦8 needs an exposed hit area: {"rect":{"x":97.015625,"y":577.439208984375,"width":128.3125,"height":185.671875,"top":577.439208984375,"right":225.328125,"bottom":763.111083984375,"left":97.015625},"at":"<button type=\"button\" data-render-key=\"♦8\" data-art=\"♦8\" class=\"card playable selected\" data-card-id=\"♦8\" aria-label=\"8 of diamonds\" aria-pressed=\"true\" style=\"--index: 1; --angle: -2.666666666666667d"}
+      at exposed (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:88:5)
+      at async tap (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:91:17)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:99:4)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:71:38)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at scripts/test-rules-browser.mjs:57:31
+✖ failed blind flip cannot be undone through the menu or refresh (2113.725375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3 !== 2
+  
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:175:35)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:173:3)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/test-rules-browser.mjs:57:31
+✖ malformed saved scores cannot crash the final move (4421.175417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'playing'
+  - 'finished'
+  
+      at TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:212:37)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:208:3)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'playing',
+    expected: 'finished',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/test-rules-browser.mjs:57:31
+✖ losing focus or opening a dialog cancels an unfinished drag (8026.699083ms)
+  AssertionError [ERR_ASSERTION]: Timed out: !!document.querySelector('.drag-ghost')
+      at until (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:39:88)
+      at async beginMouseDrag (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:225:4)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:228:30)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async TestContext.<anonymous> (file:///Users/kevin/PROJECTS/ShitHead/scripts/test-rules-browser.mjs:227:3)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'fail',
+    diff: 'simple'
+  }

@@ -20,7 +20,7 @@ window.onlineQA={message:(text)=>{session.chat.push({id:crypto.randomUUID(),send
  s.game=createGame(()=>.45,4,{autoArrange:false});
  if(handCount>3){const all=[...s.game.deck,...s.game.players.flatMap(p=>[...p.hand,...p.up,...p.down])];const take=n=>all.splice(0,n);s.game.players=s.members.map((m,i)=>({hand:take(i?2:handCount),up:take(i?2:3),down:take(i?2:3)}));s.game.deck=all;}
  s.game.phase=phase;s.game.turn=turn;assertGame(s.game);s.view=(await import('/multiplayer/session.js')).project(s.game,0);s.message=phase==='setup'?'Arrange your face-up cards, then press Ready.':'Your turn. Choose your cards.';render();document.getElementById('play').click();
-},refresh:()=>render(),busy:value=>{session.busy=value;render()},pile:()=>{session.game.pile.push(session.game.deck.pop());session.view=projectForQA(session);render()},pause:()=>{session.paused=true;render()},browse:()=>browse()};
+},refresh:()=>render(),busy:value=>{session.busy=value;render()},pickupFixture:async(who)=>{const {project}=await import('/multiplayer/session.js');const s=session;s.game.phase='playing';s.game.turn=who;s.game.pile.push(...s.game.deck.splice(-4));s.view=project(s.game,0);render();},pickup:(who)=>{const s=session,peer=s.members[who].id;s.command(peer,{type:'pickup',seq:(s.lastSequences.get(peer)||0)+1});},pile:()=>{session.game.pile.push(session.game.deck.pop());session.view=projectForQA(session);render()},pause:()=>{session.paused=true;render()},browse:()=>browse()};
 function projectForQA(s){return s.view={...s.view,pile:s.game.pile,deckCount:s.game.deck.length}};`;
 const stakeFixture = `
 window.onlineStakeQA={
@@ -309,7 +309,7 @@ test(
               if (phase === "playing")
                 await evaluate(`document.querySelector('#hand .card').click()`);
               const metrics = await evaluate(
-                `(()=>{const root=document.getElementById('game-view'),selectors=['.game-shell','#hand','#opponent-seats'];return {overflow:Math.max(0,document.documentElement.scrollHeight-innerHeight),horizontal:Math.max(0,document.documentElement.scrollWidth-innerWidth),rects:selectors.map(s=>{const r=document.querySelector(s).getBoundingClientRect();return {s,top:r.top,bottom:r.bottom,left:r.left,right:r.right}}),buttons:[...document.querySelectorAll('#start-game-center:not([hidden]),#play:not([hidden])')].map(b=>({label:b.textContent,height:b.getBoundingClientRect().height}))}})()`,
+                `(()=>{const root=document.getElementById('game-view'),selectors=['.game-shell','#hand','#opponent-seats'];return {overflow:Math.max(0,document.documentElement.scrollHeight-innerHeight),horizontal:Math.max(0,document.documentElement.scrollWidth-innerWidth),rects:selectors.map(s=>{const r=document.querySelector(s).getBoundingClientRect();return {s,top:r.top,bottom:r.bottom,left:r.left,right:r.right}}),buttons:[...document.querySelectorAll('#start-game-center:not([hidden]),#play:not([hidden]),#pile[aria-disabled="false"]')].map(b=>({label:b.textContent,height:b.getBoundingClientRect().height}))}})()`,
               );
               assert(
                 metrics.overflow <= 2,
@@ -354,6 +354,39 @@ test(
             }
           },
         );
+      for (const [width,height] of [[1400,900],[390,844]])
+        await t.test(`${width}×${height}: pickups travel only from the center pile`, async()=>{
+          await call("Emulation.setDeviceMetricsOverride",{width,height,deviceScaleFactor:1,mobile:width<700});
+          for (const who of [0,1,2,3]) {
+            await evaluate(`onlineQA.fixture({phase:'playing'})`);
+            await evaluate(`onlineQA.pickupFixture(${who})`);
+            await sleep(1800);
+            const flight=await evaluate(`(()=>{
+              const pile=document.querySelector('#pile').getBoundingClientRect();
+              const count=document.querySelectorAll('#pile .card').length;
+              onlineQA.pickup(${who});
+              return {pile:{left:pile.left,top:pile.top,width:pile.width,height:pile.height},count,
+                flights:[...document.querySelectorAll('.card-flight-pickup')].map(n=>{const r=n.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}}),
+                travel:[...document.querySelectorAll('.card')].filter(n=>n._travel?.playState==='running').map(n=>n.dataset.renderKey)};
+            })()`);
+            assert.equal(flight.count,4);
+            assert(flight.pile.width>0 && flight.pile.height>0);
+            assert(Math.abs(flight.pile.left+flight.pile.width/2-width/2)<1,"Source must be the middle of the table");
+            assert.equal(flight.flights.length,flight.count);
+            for (const from of flight.flights) {
+              assert(Math.abs(from.x-flight.pile.left-flight.pile.width/2)<30,JSON.stringify(flight));
+              assert(Math.abs(from.y-flight.pile.top-flight.pile.height/2)<30,JSON.stringify(flight));
+            }
+            assert.deepEqual(flight.travel,[],"Pickup must not also run generic card/deck travel");
+            if (process.env.CAPTURE_ONLINE && who===1) {
+              await evaluate(`document.querySelectorAll('.card-flight-pickup').forEach(n=>n.getAnimations().forEach(a=>{a.pause();a.currentTime=240;}))`);
+              const dir=new URL('../.impeccable/review/',import.meta.url);
+              await mkdir(dir,{recursive:true});
+              const shot=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+              await writeFile(new URL(`pickup-${width}x${height}.png`,dir),Buffer.from(shot.data,'base64'));
+            }
+          }
+        });
       await t.test(
         "large-hand position and keyboard focus survive a state update",
         async () => {

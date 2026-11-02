@@ -41,7 +41,12 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
   const until=async expression=>{
    for(let i=0;i<400;i++){if(await evaluate(expression))return;await sleep(50);}assert.fail(`Timed out: ${expression}; page: ${await evaluate('document.body.innerText.slice(0,700)')}; errors: ${JSON.stringify(browserErrors)}`);
   };
-  const saved=()=>evaluate(`await navigator.locks.request('${key}-bank',()=>JSON.parse(localStorage.getItem('${key}')))`);
+  const saved=async()=>{
+   // A blind flip queues its card snapshot before its score snapshot. Wait for
+   // both writes; taking the browser lock alone can precede the queued save.
+   await until(`(()=>{const s=JSON.parse(localStorage.getItem('${key}'));return s?.stats?.you===Number(document.getElementById('human-score').textContent)&&s?.stats?.fox===Number(document.getElementById('fox-score').textContent)})()`);
+   return evaluate(`await navigator.locks.request('${key}-bank',()=>JSON.parse(localStorage.getItem('${key}')))`);
+  };
   const reload=async()=>{await evaluate('window.__rulesReloadPending = true');await call('Page.reload');await until(`!window.__rulesReloadPending && !!document.getElementById('menu-play')?.onclick && !!document.querySelector('.menu-card svg') && !document.body.classList.contains('booting') && document.getElementById('loading-screen').hidden`);};
   await until(`!!document.querySelector('.menu-card svg')`);
   const scenario=(name,fn)=>t.test(name,{skip:!!process.env.BROWSER_CASE&&!process.env.BROWSER_CASE.split('|').some(part=>name.includes(part))},fn);
@@ -56,7 +61,7 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
     localStorage.setItem('${key}',JSON.stringify({game:g,stats:{you:0,fox:0}}));
     localStorage.setItem('shithead-preferences-qa',JSON.stringify({playerCount:2,sound:false,reducedMotion:false}));
    })()`);
-   await reload();await evaluate(`await (await import('/app.js')).enterGame()`);
+   await reload();await evaluate(`await (await import("/app.js")).enterGame()`);
   }
   async function motionFixture({pickup=false,burn=false,reduced=false,large=false,finish=false,enemy=false,wind=false,clockwise=false}={}) {
    await evaluate(`(async()=>{
@@ -71,7 +76,7 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
     localStorage.setItem('${key}',JSON.stringify({game:g,stats:{you:0,fox:0}}));
     localStorage.setItem('shithead-preferences-qa',JSON.stringify({playerCount:2,sound:false,soundPreferenceSet:true,reducedMotion:${reduced}}));
    })()`);
-   await reload();await evaluate(`await (await import('/app.js')).startupReady; await (await import('/app.js')).enterGame()`);
+   await reload();await evaluate(`await (await import('/app.js')).startupReady; await (await import("/app.js")).enterGame()`);
    await until(`!document.body.classList.contains('booting')`);
   }
   const shot=async name=>{
@@ -91,13 +96,13 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
     const light=document.querySelector('.lantern-breath-light').getBoundingClientRect(),canvas=document.querySelector('.lantern-wind');
     return {x:geometry.source.x,y:geometry.source.y,lightX:light.left+light.width/2,lightY:light.top+light.height/2,
      sourceMin:lantern.left,sourceMax:lantern.right,canvasPixels:canvas.width*canvas.height,screenPixels:innerWidth*innerHeight,
-     point:geometry.point(0),cue:document.querySelector('.fx-rule-cue.wind').textContent};
+     point:geometry.point(0),cue:!!document.querySelector('.fx-rule-cue.wind')};
    })()`);
    assert(Math.abs(origin.lightX-origin.x)<1,JSON.stringify(origin));assert(Math.abs(origin.lightY-origin.y)<1,JSON.stringify(origin));
    assert(origin.x>=origin.sourceMin && origin.x<=origin.sourceMax,'wind must originate in the right lantern');
    assert(Math.abs(origin.point.x-origin.x)<.001);assert(Math.abs(origin.point.y-origin.y)<.001);
    assert(origin.canvasPixels<origin.screenPixels*.7,'effect must use a bounded canvas');
-   assert.equal(origin.cue,clockwise?'Clockwise':'Counterclockwise');
+   assert.equal(origin.cue,false,'reversals use the lantern animation without rule popups');
    await sleep(420);await shot(`lantern-${width<700?'phone':'desktop'}-${clockwise?'cw':'ccw'}-stream`);
    await sleep(460);await shot(`lantern-${width<700?'phone':'desktop'}-${clockwise?'cw':'ccw'}-orbit`);
    await until(`!document.querySelector('.lantern-wind,.lantern-breath-light')`);
@@ -223,17 +228,45 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
     localStorage.setItem('${key}',JSON.stringify({game:g,stats:{you:0,fox:0}}));
     localStorage.setItem('shithead-preferences-qa',JSON.stringify({playerCount:2,sound:false,reducedMotion:true}));
    })()`);
-   await reload();await evaluate(`await (await import('/app.js')).enterGame()`);
+   await reload();await evaluate(`await (await import("/app.js")).enterGame()`);
    const ids=await evaluate(`Array.from(document.querySelectorAll('#hand .card')).slice(0,3).map(c=>c.dataset.cardId)`);
    const count=()=>evaluate(`document.querySelectorAll('#hand .selected').length`);
+   const exposed=async id=>{
+    let point; for(let attempt=0;attempt<5&&!point;attempt++){ point=await evaluate(`(()=>{const c=document.querySelector('#hand [data-card-id="${id}"]'),r=c.getBoundingClientRect();for(const fx of [.2,.4,.6,.8])for(const fy of [.3,.6,.85]){const x=r.left+r.width*fx,y=r.top+r.height*fy;if(document.elementFromPoint(x,y)?.closest('#hand .card')===c)return {x,y};}return null;})()`);if(!point)await sleep(50);}
+    assert(point,`Card ${id} needs an exposed hit area: `+JSON.stringify(await evaluate(`(()=>{const r=document.querySelector('#hand [data-card-id="${id}"]').getBoundingClientRect();return {rect:r.toJSON(),at:document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.outerHTML.slice(0,200)}})()`)));return point;
+   };
+   const tap=async id=>{
+    const {x,y}=await exposed(id);
+    if(mobile){await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});}
+    else{await call('Input.dispatchMouseEvent',{type:'mousePressed',x,y,button:'left',buttons:1,clickCount:1});await call('Input.dispatchMouseEvent',{type:'mouseReleased',x,y,button:'left',clickCount:1});}
+   };
+
    assert.equal(await evaluate(`document.getElementById('selection-tools')===null`),true);
-   await evaluate(`document.querySelector('[data-card-id="${ids[0]}"]').click()`);assert.equal(await count(),3);
-   await evaluate(`document.querySelector('[data-card-id="${ids[0]}"]').click()`);assert.equal(await count(),2);
-   await evaluate(`document.querySelector('[data-card-id="${ids[1]}"]').click()`);assert.equal(await count(),1);
-   await evaluate(`document.querySelector('[data-card-id="${ids[2]}"]').click()`);assert.equal(await count(),0);
+   await tap(ids[0]);assert.equal(await count(),3);
+   await tap(ids[0]);assert.equal(await count(),2);
+   await tap(ids[1]);assert.equal(await count(),1);
+   await tap(ids[2]);assert.equal(await count(),0);
    assert.equal((await saved()).game.pile.length,1,'tapping last card never plays it');
-   await evaluate(`document.querySelector('[data-card-id="${ids[0]}"]').click()`);
-   await evaluate(`document.querySelector('[data-card-id="${ids[2]}"]').click()`);assert.equal(await count(),2);
+   await tap(ids[0]);
+   await tap(ids[2]);assert.equal(await count(),2);
+   assert.equal(await evaluate(`document.getElementById('play').hidden`),true,'selection must not show a play button');
+   if(process.env.CARD_FLOW_SCREENSHOTS){await mkdir(process.env.CARD_FLOW_SCREENSHOTS,{recursive:true});const shot=await call('Page.captureScreenshot',{format:'png'});await writeFile(path.join(process.env.CARD_FLOW_SCREENSHOTS,`card-flow-${mobile?'mobile':'desktop'}.png`),Buffer.from(shot.data,'base64'));}
+
+   // A canceled gesture must retain both selection and game state, including a
+   // drag from the card the player deliberately put back.
+   const canceled=await exposed(ids[2]);
+   if(mobile){
+    await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[canceled]});
+    await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:canceled.x+12,y:canceled.y-16}]});
+   }else{
+    await call('Input.dispatchMouseEvent',{type:'mousePressed',...canceled,button:'left',buttons:1,clickCount:1});
+    await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:canceled.x+12,y:canceled.y-16,buttons:1});
+   }
+   assert.equal(await evaluate(`document.querySelector('.drag-count')?.textContent`),'1 card');
+   if(mobile)await call('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});
+   else {await call('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await call('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await call('Input.dispatchMouseEvent',{type:'mouseReleased',x:canceled.x+12,y:canceled.y-16,button:'left',clickCount:1});}
+   assert.equal(await count(),2);
+   assert.equal((await saved()).game.moves,0);
    await sleep(400); // Let the existing selection lift settle before hit testing.
    const rects=await evaluate(`(()=>{const card=document.querySelector('[data-card-id="${ids[0]}"]'),r=card.getBoundingClientRect(),p=document.querySelector('.pile-area').getBoundingClientRect();for(const fx of [.25,.5,.75])for(const fy of [.5,.25,.75]){const x=r.left+r.width*fx,y=r.top+r.height*fy;if(document.elementFromPoint(x,y)?.closest('#hand .card')===card)return {x,y,tx:p.left+p.width/2,ty:p.top+p.height/2};}return null;})()`);
    assert(rects,'A selected card must have an exposed drag target');
@@ -246,13 +279,112 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
     await call('Input.dispatchMouseEvent',{type:'mousePressed',x:rects.x,y:rects.y,button:'left',buttons:1,clickCount:1});
     await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:rects.x,y:rects.y-25,buttons:1});
     await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:rects.tx,y:rects.ty,buttons:1});
+    assert.equal(await evaluate(`document.querySelector('.drag-count')?.textContent`),'2 cards');
+    assert.equal(await evaluate(`document.querySelector('.pile-area').classList.contains('drop-over')`),true);
     await call('Input.dispatchMouseEvent',{type:'mouseReleased',x:rects.tx,y:rects.ty,button:'left',clickCount:1});
    }
+   await until(`JSON.parse(localStorage.getItem('${key}')).game.moves === 1`);
    const result=await saved();
    assert.equal(result.game.players[0].hand.filter(c=>c.rank===8).length,1);
    assert.equal(result.game.pile.filter(c=>c.rank===8).length,2);
    await call('Emulation.setTouchEmulationEnabled',{enabled:false});
    await call('Emulation.clearDeviceMetricsOverride');
+  });
+  async function rankFixture(ranks, ace=false) {
+   await evaluate(`(async()=>{const {createGame,assertGame}=await import('/engine.js');const g=createGame();const all=[...g.deck,...g.players.flatMap(p=>[...p.hand,...p.up,...p.down])];const take=r=>all.splice(all.findIndex(c=>c.rank===r),1)[0];g.players=[{hand:${JSON.stringify(ranks)}.map(take),up:[],down:[take(3)]},{hand:[take(12),take(13)],up:[],down:[]}];g.pile=[${ace?'{...take(14),aceValue:1,aceFromSeven:true}':'take(4)'}];g.deck=[];g.burned=all;g.phase='playing';g.turn=0;g.dealComplete=true;assertGame(g);localStorage.setItem('${key}',JSON.stringify({game:g,stats:{you:0,fox:0}}));localStorage.setItem('shithead-preferences-qa',JSON.stringify({sound:false,soundPreferenceSet:true,reducedMotion:true,playerCount:2}));})()`);
+   await reload();await evaluate('(await import("/app.js")).enterGame()');
+  }
+  await scenario('card flow: crowded touch hand scrolls while selected cards remain drag handles',async()=>{
+   await call('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await call('Emulation.setTouchEmulationEnabled',{enabled:true});
+   await rankFixture([2,3,4,5,6,7,8,8,8,8,9,10,11,12,13,14]);
+   assert.equal(await evaluate(`document.getElementById('hand').scrollWidth>document.getElementById('hand').clientWidth`),true);
+   const first=await evaluate(`(()=>{const r=document.querySelector('#hand .card').getBoundingClientRect();return {x:r.left+12,y:r.top+r.height*.6}})()`);
+   await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[first]});await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:first.x-70,y:first.y+2}]});await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+   assert(await evaluate(`document.getElementById('hand').scrollLeft>40`),'horizontal swipe scrolls the hand');
+   assert.equal(await evaluate(`document.querySelectorAll('#hand .selected').length`),0);
+   await evaluate(`const c=[...document.querySelectorAll('#hand .card')].find(c=>c.getAttribute('aria-label').startsWith('8 of'));c.click();c.scrollIntoView({inline:'center',block:'nearest',behavior:'instant'});`);
+   const chosen=await evaluate(`(()=>{for(const c of document.querySelectorAll('#hand .selected')){const r=c.getBoundingClientRect();for(const fx of [.2,.4,.6]){const x=r.x+r.width*fx,y=r.y+r.height*.5;if(document.elementFromPoint(x,y)?.closest('#hand .card')===c)return {x,y};}}return null;})()`);assert(chosen);
+   await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[chosen]});await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:chosen.x-30,y:chosen.y-4}]});
+   assert.equal(await evaluate(`document.querySelector('.drag-count')?.textContent`),'4 cards','horizontal movement on a selection is a drag');
+   await call('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});
+   assert.equal(await evaluate(`document.querySelectorAll('#hand .selected').length`),4);assert.equal((await saved()).game.moves,0);
+   await call('Emulation.setTouchEmulationEnabled',{enabled:false});await call('Emulation.clearDeviceMetricsOverride');
+  });
+  await scenario('card flow: ace value is requested after submitting the frozen selection',async()=>{
+   await rankFixture([14,14,9],true);
+   await evaluate(`[...document.querySelectorAll('#hand .card')].find(c=>c.getAttribute('aria-label').startsWith('A of')).click()`);
+   assert.equal(await evaluate(`document.getElementById('ace-choice').hidden`),true,'selecting aces does not play them');
+   await evaluate(`document.getElementById('pile').click()`);
+   assert.equal((await saved()).game.pendingAce.length,2);await until(`document.querySelectorAll('.reveal-choices button').length === 2`);
+   await evaluate(`document.querySelector('.reveal-choices button:last-child').click()`);await until(`JSON.parse(localStorage.getItem('${key}')).game.moves===1`);
+   assert.equal((await saved()).game.pendingAce,undefined);assert.equal((await saved()).game.pile.at(-1).aceValue,14);
+  });
+  await scenario('card flow: four-card selection can be restored and submitted by keyboard',async()=>{
+   await evaluate(`(async()=>{
+    const {createGame,assertGame}=await import('/engine.js');const g=createGame();const all=[...g.deck,...g.players.flatMap(p=>[...p.hand,...p.up,...p.down])];const take=r=>all.splice(all.findIndex(c=>c.rank===r),1)[0];
+    g.players=[{hand:[take(6),take(6),take(6),take(6),take(9)],up:[],down:[]},{hand:[take(12),take(13)],up:[],down:[]}];g.pile=[take(13)];g.burned=all;g.deck=[];g.phase='playing';g.turn=0;g.dealComplete=true;assertGame(g);localStorage.setItem('${key}',JSON.stringify({game:g,stats:{you:0,fox:0}}));
+   })()`);
+   await reload();await evaluate('(await import("/app.js")).enterGame()');
+   const id=await evaluate(`document.querySelector('#hand .card').dataset.cardId`);
+   await evaluate(`document.querySelector('#hand .card').focus()`);
+   await call('Input.dispatchKeyEvent',{type:'keyDown',key:' ',code:'Space',windowsVirtualKeyCode:32});await call('Input.dispatchKeyEvent',{type:'keyUp',key:' ',code:'Space',windowsVirtualKeyCode:32});
+   assert.equal(await evaluate(`document.querySelectorAll('#hand .selected').length`),4);
+   await evaluate(`document.querySelector('[data-card-id="${id}"]').click()`);
+   assert.equal(await evaluate(`document.querySelectorAll('#hand .selected').length`),3);
+   await evaluate(`document.getElementById('pile').focus()`);
+   await call('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await call('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+   assert.equal((await saved()).game.moves,0,'illegal subset must not commit');
+   assert.equal(await evaluate(`document.querySelectorAll('#hand .selected').length`),3);
+   await evaluate(`document.querySelector('[data-card-id="${id}"]').click()`);
+   assert.equal(await evaluate(`document.querySelectorAll('#hand .selected').length`),4,'the fourth card can be restored');
+   assert.equal(await evaluate(`document.getElementById('play').hidden`),true);
+   await evaluate(`document.getElementById('pile').focus()`);
+   await call('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await call('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+   await until(`JSON.parse(localStorage.getItem('${key}')).game.moves===1`);
+   assert.equal((await saved()).game.pile.length,0,'all four burn the higher pile');
+  });
+  await scenario('duel threes keep the human turn through selection, play and AI scheduling',async()=>{
+   for(const seats of [2,3,4]) for(const count of [1,2,3,4]) for(const zone of ['hand','up']) {
+    if(zone==='up'&&count===4)continue; // A face-up reserve has at most three cards.
+    await evaluate(`(async()=>{
+     const {createGame,assertGame}=await import('/engine.js');const g=createGame(Math.random,${seats});
+     const all=[...g.deck,...g.players.flatMap(p=>[...p.hand,...p.up,...p.down])];
+     const take=rank=>all.splice(all.findIndex(c=>c.rank===rank),1)[0];
+     g.players=g.players.map(()=>({hand:[],up:[],down:[]}));
+     g.players[0].${zone}=Array.from({length:${count}},()=>take(3));
+     g.players[0].down=[take(4),take(5)];
+     g.players[${seats-1}].hand=[take(8),take(9)];
+     g.placements=Array.from({length:${seats-2}},(_,i)=>i+1);g.winner=g.placements[0]??null;
+     g.pile=[take(2)];g.deck=[];g.burned=all;g.phase='playing';g.turn=0;g.dealComplete=true;assertGame(g);
+     localStorage.setItem('${key}',JSON.stringify({game:g,stats:{you:0,fox:0}}));
+     localStorage.setItem('shithead-preferences-qa',JSON.stringify({playerCount:${seats},sound:false,reducedMotion:false}));
+    })()`);
+    await evaluate('window.__duelReloadPending=true');await call('Page.reload');
+    await until(`!window.__duelReloadPending && !!document.getElementById('menu-play')?.onclick && !!document.querySelector('.menu-card svg') && document.getElementById('loading-screen').hidden`);
+    await evaluate(`(await import("/app.js")).enterGame()`);
+    await evaluate(`document.querySelector('#hand .card').click()`);
+    assert.equal(await evaluate(`document.querySelectorAll('#hand .selected').length`),count);
+    if(count===2){
+     await sleep(400);
+     const point=await evaluate(`(()=>{for(const card of document.querySelectorAll('#hand .selected')){const r=card.getBoundingClientRect(),p=document.querySelector('.pile-area').getBoundingClientRect();for(const fx of [.5,.25,.75])for(const fy of [.5,.25,.75]){const x=r.left+r.width*fx,y=r.top+r.height*fy;if(document.elementFromPoint(x,y)?.closest('#hand .card')===card)return {x,y,tx:p.left+p.width/2,ty:p.top+p.height/2};}}return null;})()`);
+     assert(point,'A selected pair must have an exposed drag target');
+     await call('Input.dispatchMouseEvent',{type:'mousePressed',x:point.x,y:point.y,button:'left',buttons:1,clickCount:1});
+     await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:point.x,y:point.y-25,buttons:1});
+     assert.equal(await evaluate(`document.querySelector('.drag-count')?.textContent`),'2 cards','pair drag must gather both threes');
+     await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:point.tx,y:point.ty,buttons:1});
+     await until(`document.querySelector('.pile-area').classList.contains('drop-over')`);
+     await call('Input.dispatchMouseEvent',{type:'mouseReleased',x:point.tx,y:point.ty,button:'left',clickCount:1});
+    }else await evaluate(`document.getElementById('pile').click()`);
+    const label=`${seats} seats, ${count} threes from ${zone}`;
+    try{await until(`JSON.parse(localStorage.getItem('${key}')).game.moves===1`);}
+    catch(error){assert.fail(label+' '+JSON.stringify(await evaluate(`({game:JSON.parse(localStorage.getItem('${key}')).game,history:document.getElementById('history-list').textContent,notice:document.getElementById('announcement').textContent,ghost:document.querySelector('.drag-ghost')?.outerHTML.slice(0,200)})`)));}
+    let state=await saved();assert.equal(state.game.moves,1,label);assert.equal(state.game.turn,0,label);
+    assert.equal(await evaluate(`document.body.dataset.turn`),'0',label);
+    assert.equal(await evaluate(`document.getElementById('turn-announcement').textContent`),'Your turn.',label);
+    await sleep(2800); // Wait beyond the reversal animation and scheduled AI delay.
+    state=await saved();assert.equal(state.game.moves,1,label+' must not run AI');assert.equal(state.game.turn,0,label);
+    assert.equal(await evaluate(`document.querySelector('#hand .card').disabled`),false,label+' next card is interactive');
+   }
   });
   await scenario('failed blind flip cannot be undone through the menu or refresh',async()=>{
    await fixture();await evaluate(`document.querySelector('#hand .card').click()`);
@@ -261,7 +393,7 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
    await evaluate(`document.getElementById('back-menu').click()`);await sleep(1100);
    state=await saved();assert.equal(state.game.moves,1);assert.equal(state.game.players[0].down.length,2);
    await reload();state=await saved();assert.equal(state.game.players[0].hand.length,2);
-   await evaluate(`await (await import('/app.js')).enterGame();document.getElementById('rules-dialog').showModal()`);
+   await evaluate(`await (await import("/app.js")).enterGame();document.getElementById('rules-dialog').showModal()`);
    assert.equal(await evaluate(`document.querySelectorAll('#hand .back').length`),0);
    await evaluate(`document.getElementById('rules-dialog').close()`);
    // Also refresh during the reveal itself, before its completion timer fires.
@@ -271,7 +403,7 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
   await scenario('successful blind burn survives cancellation and does not replay',async()=>{
    await fixture({down:[10,4]});await evaluate(`document.querySelector('#hand .card').click();document.getElementById('back-menu').click()`);
    await sleep(1100);let state=await saved();assert.equal(state.game.moves,1);assert.equal(state.game.pile.length,0);assert.equal(state.game.players[0].down.length,1);
-   await evaluate(`await (await import('/app.js')).enterGame()`);
+   await evaluate(`await (await import("/app.js")).enterGame()`);
    assert.equal(await evaluate(`document.querySelectorAll('#hand .back').length`),1);
    state=await saved();assert.equal(state.game.moves,1);
   });
@@ -283,7 +415,7 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
   await scenario('blind ace choice remains locked across menu and refresh',async()=>{
    await fixture({down:[14,4],ace:true});await evaluate(`document.querySelector('#hand .card').click();document.getElementById('back-menu').click()`);
    const pending=(await saved()).game.pendingAce;assert.equal(pending.length,1);
-   await reload();await evaluate(`await (await import('/app.js')).enterGame()`);
+   await reload();await evaluate(`await (await import("/app.js")).enterGame()`);
    await until(`document.querySelectorAll('.reveal-choices button').length === 2`);
    assert.equal(await evaluate(`document.querySelector('.card-reveal').getAttribute('role')`),'dialog');
    await evaluate(`document.querySelectorAll('#hand .card')[1].click()`);assert.deepEqual((await saved()).game.pendingAce,pending);
@@ -293,7 +425,7 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
   await scenario('malformed saved scores cannot crash the final move',async()=>{
    await fixture({down:[10]});
    await evaluate(`const snapshot=JSON.parse(localStorage.getItem('${key}'));snapshot.stats='broken';localStorage.setItem('${key}',JSON.stringify(snapshot));`);
-   await reload();await evaluate(`await (await import('/app.js')).enterGame();document.querySelector('#hand .card').click()`);
+   await reload();await evaluate(`await (await import("/app.js")).enterGame();document.querySelector('#hand .card').click()`);
    const state=await saved();assert.equal(state.game.phase,'finished');assert.equal(state.stats.you,1);assert.equal(state.stats.fox,0);
   });
   await scenario('an invalid saved ace choice is rejected with a recovery message',async()=>{
