@@ -1,0 +1,22 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      1024,
+      1536
+    ],
+    "crop" : [
+      62,
+      63,
+      900,
+      1382
+    ],
+    "file" : "card-back.png",
+    "height" : 1382,
+    "id" : "card-back",
+    "source" : "card-back.png",
+    "transparentFraction" : 0.21986579895019531,
+    "width" : 900
+  }
+]

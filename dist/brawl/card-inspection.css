@@ -1,0 +1,61 @@
+/* Original painted materials, with readable live rules and native modal focus. */
+.brawl-app #card-dialog{
+  width:min(1120px,96vw,138dvh);max-width:none;max-height:96dvh;
+  padding:0;border:0;background:transparent;overflow:visible;
+  color:#382513;box-shadow:0 28px 80px #080705b3;
+  color-scheme:light;
+}
+#card-dialog::backdrop{background:#050c09d6;backdrop-filter:blur(5px)}
+.inspection-stage{position:relative;width:100%;aspect-ratio:3/2;background:url('../assets/tavern-brawl/ui/card-inspection.jpg') center/100% 100% no-repeat;isolation:isolate}
+#card-dialog[open] .inspection-stage{animation:inspection-open .42s cubic-bezier(.16,1,.3,1)}
+.brawl-app #card-dialog .inspection-close{position:absolute;z-index:3;right:4%;top:3.5%;margin:0;min-height:44px;font-size:16px!important;min-width:96px}
+.brawl-app #inspect-card{position:absolute;left:9.5%;top:13%;width:31%;margin:0;transform:rotate(-3deg);filter:drop-shadow(8px 18px 14px #000a)}
+#inspect-card .card{filter:none;pointer-events:none}
+.brawl-app #card-dialog .inspect-info{position:absolute;left:55.5%;right:9%;top:18%;bottom:21%;max-width:none;margin:0;overflow:auto;scrollbar-color:#8e6030 #ecd2a0;padding:0 4px 4px 0}
+.brawl-app #card-dialog #inspect-title{font:400 clamp(25px,3.2vw,43px)/1.08 Serif,Georgia,serif;color:#3d2816;letter-spacing:-.025em;margin:0 0 8px;text-wrap:balance}
+#card-dialog #inspect-kind{font:600 clamp(12px,1.25vw,15px)/1.4 DM,Arial,sans-serif;color:#72512d;margin:0}
+.inspection-stats{display:flex;gap:clamp(15px,3vw,38px);padding:20px 0;margin:20px 0;border-block:1px solid #90653655}
+.inspection-stats>div{display:flex;flex-direction:column-reverse;align-items:center;gap:6px;min-width:50px}
+.inspection-stats dt{font:600 12px/1.3 DM,Arial,sans-serif;color:#624323}
+.inspection-stats dd{display:grid;place-items:center;margin:0;width:54px;height:54px;background:center/contain no-repeat;font:700 24px/1 Brawl,Georgia,serif;color:#fff5da;text-shadow:0 2px 3px #291209;font-variant-numeric:tabular-nums}
+.inspection-stats [data-stat=energy-on]{background-image:url('../assets/tavern-brawl/ui/energy-on.png')}
+.inspection-stats [data-stat=attack]{background-image:url('../assets/tavern-brawl/ui/attack.png')}
+.inspection-stats [data-stat=health]{background-image:url('../assets/tavern-brawl/ui/health.png')}
+.brawl-app #card-dialog #inspect-text{font:400 clamp(16px,1.7vw,22px)/1.5 DM,Arial,sans-serif;color:#382513;margin:0 0 16px;text-wrap:pretty}
+#inspect-text strong{font-weight:750}
+.brawl-app #card-dialog :is(.inspection-keyword,.inspection-state){font:400 14px/1.5 DM,Arial,sans-serif;color:#6c4927;margin:0 0 16px}
+.brawl-app #card-dialog #inspect-select{width:100%;min-height:54px;font-size:17px;padding:10px 18px;margin-top:8px}
+.inspection-dismiss{position:absolute;bottom:9%;left:9%;width:32%;text-align:center;font:13px/1.4 DM,Arial,sans-serif;color:#dcc6a1}
+#card-dialog ::selection{background:#6d4826;color:#fff0c9}
+#card-dialog button:focus-visible{outline:3px solid #fff0c9;outline-offset:2px}
+@keyframes inspection-open{from{transform:translateY(14px) scale(.97);filter:brightness(.75)}to{transform:translateY(0) scale(1);filter:brightness(1)}}
+@media(max-width:600px) and (orientation:portrait){
+  .brawl-app #card-dialog{width:min(98vw,63dvh);max-height:96dvh}
+  .inspection-stage{aspect-ratio:2/3;background-image:url('../assets/tavern-brawl/ui/card-inspection-mobile.jpg')}
+  .brawl-app #inspect-card{width:43%;left:28.5%;top:8%;transform:rotate(-2deg)}
+  .brawl-app #card-dialog .inspection-close{right:4%;top:2%;min-width:80px;min-height:44px;padding:6px 15px;font-size:14px!important}
+  .brawl-app #card-dialog .inspect-info{left:12%;right:12%;top:61%;bottom:8.5%;padding-right:3px}
+  .brawl-app #card-dialog #inspect-title{font-size:clamp(21px,6vw,28px);margin-bottom:4px}
+  #card-dialog #inspect-kind{font-size:12px}
+  .inspection-stats{float:right;gap:6px;margin:4px 0 4px 10px;padding:0;border:0}
+  .inspection-stats>div{min-width:34px;gap:2px}
+  .inspection-stats dd{width:32px;height:32px;font-size:16px}
+  .inspection-stats dt{font-size:10px}
+  .brawl-app #card-dialog #inspect-text{font-size:14px;line-height:1.45;margin:10px 0 6px}
+  .brawl-app #card-dialog :is(.inspection-keyword,.inspection-state){clear:both;font-size:12px;line-height:1.4;margin:4px 0}
+  .brawl-app #card-dialog #inspect-select{min-height:44px;font-size:15px;margin-top:0}
+  .inspection-dismiss{display:none}
+}
+@media(max-height:540px) and (orientation:landscape){
+  .brawl-app #card-dialog{width:min(96vw,142dvh)}
+  .brawl-app #card-dialog #inspect-title{font-size:25px}
+  .brawl-app #card-dialog #inspect-text{font-size:15px;line-height:1.4}
+  .inspection-stats{gap:15px;padding:9px 0;margin:10px 0}
+  .inspection-stats dd{width:34px;height:34px;font-size:17px}
+  .inspection-stats dt{font-size:11px}
+  .inspection-stats>div{min-width:34px;gap:2px}
+  .brawl-app #card-dialog :is(.inspection-keyword,.inspection-state){font-size:12px}
+  .brawl-app #card-dialog .inspection-close{top:1%;min-height:36px;font-size:13px!important}
+  .inspection-dismiss{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){#card-dialog[open] .inspection-stage{animation:none}}

@@ -1,0 +1,82 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      23,
+      19,
+      472,
+      728
+    ],
+    "file" : "pilfer.png",
+    "height" : 728,
+    "id" : "pilfer",
+    "source" : "cards-05-tricks.png",
+    "transparentFraction" : 0.16516367594401041,
+    "width" : 472
+  },
+  {
+    "cell" : [
+      512,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      527,
+      19,
+      475,
+      727
+    ],
+    "file" : "second-wind.png",
+    "height" : 727,
+    "id" : "second-wind",
+    "source" : "cards-05-tricks.png",
+    "transparentFraction" : 0.15926615397135416,
+    "width" : 475
+  },
+  {
+    "cell" : [
+      0,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      24,
+      774,
+      472,
+      725
+    ],
+    "file" : "smoke-bomb.png",
+    "height" : 725,
+    "id" : "smoke-bomb",
+    "source" : "cards-05-tricks.png",
+    "transparentFraction" : 0.16819508870442709,
+    "width" : 472
+  },
+  {
+    "cell" : [
+      512,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      527,
+      774,
+      474,
+      727
+    ],
+    "file" : "raven-bargain.png",
+    "height" : 727,
+    "id" : "raven-bargain",
+    "source" : "cards-05-tricks.png",
+    "transparentFraction" : 0.16124471028645834,
+    "width" : 474
+  }
+]

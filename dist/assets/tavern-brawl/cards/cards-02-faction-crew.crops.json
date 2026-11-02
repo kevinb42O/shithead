@@ -1,0 +1,82 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      22,
+      21,
+      473,
+      725
+    ],
+    "file" : "fox-cutpurse.png",
+    "height" : 725,
+    "id" : "fox-cutpurse",
+    "source" : "cards-02-faction-crew.png",
+    "transparentFraction" : 0.16506703694661459,
+    "width" : 473
+  },
+  {
+    "cell" : [
+      512,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      527,
+      20,
+      476,
+      726
+    ],
+    "file" : "raven-cutpurse.png",
+    "height" : 726,
+    "id" : "raven-cutpurse",
+    "source" : "cards-02-faction-crew.png",
+    "transparentFraction" : 0.15848032633463541,
+    "width" : 476
+  },
+  {
+    "cell" : [
+      0,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      22,
+      775,
+      473,
+      724
+    ],
+    "file" : "owl-apprentice.png",
+    "height" : 724,
+    "id" : "owl-apprentice",
+    "source" : "cards-02-faction-crew.png",
+    "transparentFraction" : 0.16436767578125,
+    "width" : 473
+  },
+  {
+    "cell" : [
+      512,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      527,
+      775,
+      475,
+      725
+    ],
+    "file" : "hedgehog-watchman.png",
+    "height" : 725,
+    "id" : "hedgehog-watchman",
+    "source" : "cards-02-faction-crew.png",
+    "transparentFraction" : 0.15939076741536459,
+    "width" : 475
+  }
+]

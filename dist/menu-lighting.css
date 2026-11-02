@@ -78,9 +78,6 @@
 .main-menu .fortune-entry:is(:hover,:focus-visible) .fortune-entry-coin {
   filter: drop-shadow(0 0 8px #d8a44c66);
 }
-.main-menu .menu-utilities button:is(:hover,:focus-visible) {
-  filter: drop-shadow(0 0 9px #dbb56f73);
-}
 @keyframes menu-backlight {
   0%, 100% { opacity: .26; }
   45% { opacity: .43; }

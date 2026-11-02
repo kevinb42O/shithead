@@ -1,0 +1,22 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      1536,
+      1024
+    ],
+    "crop" : [
+      36,
+      81,
+      1464,
+      848
+    ],
+    "file" : "title.png",
+    "height" : 848,
+    "id" : "title",
+    "source" : "title.png",
+    "transparentFraction" : 0.33276812235514325,
+    "width" : 1464
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "cell" : [
+      32,
+      45,
+      706,
+      308
+    ],
+    "crop" : [
+      34,
+      47,
+      702,
+      304
+    ],
+    "file" : "button-emerald.png",
+    "height" : 304,
+    "id" : "button-emerald",
+    "source" : "ui-controls.png",
+    "transparentFraction" : 0.22761763732018689,
+    "width" : 702
+  },
+  {
+    "cell" : [
+      798,
+      46,
+      706,
+      306
+    ],
+    "crop" : [
+      800,
+      47,
+      703,
+      304
+    ],
+    "file" : "button-gold.png",
+    "height" : 304,
+    "id" : "button-gold",
+    "source" : "ui-controls.png",
+    "transparentFraction" : 0.22482364050436038,
+    "width" : 703
+  },
+  {
+    "cell" : [
+      31,
+      386,
+      707,
+      306
+    ],
+    "crop" : [
+      33,
+      388,
+      703,
+      302
+    ],
+    "file" : "button-disabled.png",
+    "height" : 302,
+    "id" : "button-disabled",
+    "source" : "ui-controls.png",
+    "transparentFraction" : 0.2278614416063455,
+    "width" : 703
+  },
+  {
+    "cell" : [
+      786,
+      483,
+      734,
+      135
+    ],
+    "crop" : [
+      787,
+      485,
+      731,
+      132
+    ],
+    "file" : "turn-banner.png",
+    "height" : 132,
+    "id" : "turn-banner",
+    "source" : "ui-controls.png",
+    "transparentFraction" : 0.16068220809365225,
+    "width" : 731
+  },
+  {
+    "cell" : [
+      26,
+      758,
+      716,
+      175
+    ],
+    "crop" : [
+      28,
+      760,
+      712,
+      171
+    ],
+    "file" : "nameplate.png",
+    "height" : 171,
+    "id" : "nameplate",
+    "source" : "ui-controls.png",
+    "transparentFraction" : 0.14818834796488428,
+    "width" : 712
+  },
+  {
+    "cell" : [
+      784,
+      760,
+      736,
+      167
+    ],
+    "crop" : [
+      785,
+      762,
+      734,
+      163
+    ],
+    "file" : "energy-housing.png",
+    "height" : 163,
+    "id" : "energy-housing",
+    "source" : "ui-controls.png",
+    "transparentFraction" : 0.12753026555584482,
+    "width" : 734
+  }
+]

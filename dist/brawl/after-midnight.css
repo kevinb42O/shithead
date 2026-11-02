@@ -1,0 +1,36 @@
+/* The same physical card, with deliberately different metalwork by tier. */
+.card[data-set="after-midnight"]{--tier:#b9b8a8}
+.card[data-rarity="rare"]{--tier:#75d0ce}
+.card[data-rarity="epic"]{--tier:#c3a0e7}
+.card[data-rarity="legendary"]{--tier:#f6c56d}
+.card[data-set="after-midnight"] .card-name{top:calc(var(--name-y,70%) - 3%);height:6%;left:9%;width:82%;font-size:var(--card-name-size,5cqw);letter-spacing:-.025em;white-space:normal;text-wrap:balance;line-height:1.02}
+.card[data-set="after-midnight"]:not(:has(.stat)) .card-name{left:8%;width:84%;font-size:var(--card-name-size,6cqw)}
+.card[data-set="after-midnight"] .card-text{top:76.8%;left:9%;width:82%;font-size:var(--card-rules-size,6.5cqw);line-height:1.12}
+.rarity-seal{position:absolute;left:var(--rarity-x,94%);top:var(--rarity-y,6.5%);translate:-50% -50%;width:var(--rarity-size,7%);aspect-ratio:1;display:grid;place-items:center;background:#291b16;border:1px solid var(--tier);border-radius:50%;color:var(--tier);box-shadow:0 1px 3px #100805b3}
+.rarity-seal svg{width:78%;height:78%;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card[data-rarity="legendary"] .rarity-seal{width:10%;left:90%;right:auto;top:8%;border-radius:3px 3px 45% 45%;background:#35200c}
+.unit.has-ward .unit-image{outline:2px solid #e5e8c9;outline-offset:3px}
+.unit[data-rarity="epic"] .unit-image{border-color:#b898c9}
+.unit[data-rarity="legendary"] .unit-image{border-color:#f4ce80;border-width:3px}
+.unit.has-last-orders::after{content:'';position:absolute;right:45%;bottom:5%;width:9%;height:9%;border:1px solid #e6ddc4;border-radius:50% 50% 15% 15%;background:#30223c;pointer-events:none}
+.crew-state{max-width:145%;left:50%;translate:-50% 0;white-space:nowrap}
+.collection-tools{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:16px 0;color:#ead8b7}
+.collection-tools label{display:grid;gap:5px;font-size:13px}
+.collection-tools select{font:inherit;min-height:44px;background:#241a13;color:#fff0c9;border:1px solid #a4804e;border-radius:4px;padding:8px 28px 8px 12px}
+.collection-tools select:focus-visible{outline:3px solid #fff0c9;outline-offset:3px}
+.card-tier-caption{display:flex;justify-content:space-between;gap:8px;color:#ead8b7;font-size:12px;margin:10px 0 6px}
+.card-tier-caption[data-tier="legendary"]{color:#f4ce80}.card-tier-caption[data-tier="epic"]{color:#d9bdec}
+.deck-curve{display:flex;gap:6px;align-items:end;height:68px;margin:14px 0 18px;max-width:470px}
+.curve-column{flex:1;display:flex;height:100%;flex-direction:column;justify-content:end;align-items:center;gap:4px;font:12px DM,sans-serif;color:#ead8b7}
+.curve-bar{width:100%;min-height:2px;background:#b08a4a;border-radius:2px 2px 0 0;height:var(--height)}
+.collection-empty{color:#ead8b7;grid-column:1/-1;padding:30px 0}
+.expansion-note{font:14px/1.5 DM,Arial,sans-serif;color:#ead8b7;max-width:45ch;margin:12px 0 18px}
+#choice-dialog{width:min(860px,96vw);max-height:96dvh;padding:24px clamp(12px,3vw,30px);border:24px solid transparent;border-image:url('../assets/club-window-frame.png') 160 fill / 24px / 0 stretch;background:#11241b;overflow:auto;text-align:center}
+#choice-dialog h2{font:700 clamp(24px,4vw,36px)/1.15 Brawl,serif;color:#f4d698;margin:0 0 12px}
+#choice-dialog p{color:#ead8b7;line-height:1.5;margin:0 auto 18px;max-width:50ch}
+.choice-cards{display:flex;justify-content:center;gap:clamp(14px,4vw,32px);padding:4px 6px 16px}
+.choice-cards .card{width:min(220px,35vw);flex-shrink:0}
+.choice-cards .card[aria-pressed="true"]{outline:3px solid #f5dba1;outline-offset:5px;border-radius:8px}
+#choice-confirm{margin:8px auto 0;min-width:200px}
+@media(max-width:600px){.collection-tools{gap:10px}.collection-tools label{flex:1;min-width:100px}.collection-tools select{width:100%}.deck-curve{height:58px}.choice-cards{gap:14px}#choice-dialog{padding:16px 10px;border-width:16px;border-image-width:16px}.choice-cards .card{width:35vw}.expansion-note{font-size:12px;margin:8px 0 12px}}
+@media(max-height:500px) and (orientation:landscape){#choice-dialog[open]{display:grid;grid-template-columns:1fr 1.4fr;gap:10px;align-items:center}#choice-dialog h2,#choice-dialog p,#choice-confirm{grid-column:1}#choice-dialog .choice-cards{grid-column:2;grid-row:1/4}.choice-cards .card{width:auto;height:72dvh}}

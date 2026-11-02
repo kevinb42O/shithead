@@ -6,7 +6,7 @@ export function getCardSpotlightInfo(card, { result = {} } = {}) {
   const outcome = result.needsAceChoice ? 'choice' : result.pickup ? 'pickup' : result.burn ? 'burn' : result.reversed ? 'reverse' : result.wentOut ? 'escape' : card.rank === 7 ? 'low' : card.rank === 2 ? 'reset' : 'safe';
   return { outcome, label: ({ choice: 'Choose your ace', pickup: 'Pick up', burn: 'Burn', reverse: '', escape: 'You’re out!', low: '', reset: '', safe: '' })[outcome] };
 }
-export function createCardSpotlight({ card, who = 0, result = {}, isBlind = true, reducedMotion = false, fastForward = false, sound = () => {}, onComplete = () => {}, onChoose = () => {}, sourceRect = null }) {
+export function createCardSpotlight({ card, who = 0, result = {}, isBlind = true, reducedMotion = false, fastForward = false, sound = () => {}, onComplete = () => {}, onChoose = () => {}, sourceRect = null, pileRect = null }) {
   // Opponents get public table motion, never somebody else's personal spotlight.
   if (who !== 0) { onComplete(); return { cancel() {} }; }
   const { outcome, label } = getCardSpotlightInfo(card, { result });
@@ -36,9 +36,11 @@ export function createCardSpotlight({ card, who = 0, result = {}, isBlind = true
     if (exiting || cancelled || result.needsAceChoice || !discovered) return;
     exiting = true;
     timers.forEach(clearTimeout); timers.clear();
-    const target = document.querySelector('#pile')?.getBoundingClientRect();
+    const currentPile = document.querySelector('#pile')?.getBoundingClientRect();
+    // A burn or failed flip has already emptied (and hidden) the real pile.
+    const target = currentPile?.width && currentPile?.height ? currentPile : pileRect;
     stage.classList.add('is-settling');
-    motion(wrap, [{ transform: 'none', opacity: 1 }, { transform: targetPose(target), opacity: 0 }], duration('settle'));
+    motion(wrap, [{ transform: 'none', opacity: 1 }, { transform: targetPose(target), opacity: 1 }], duration('settle'));
     later(() => { cleanup(); onComplete(); }, duration('settle'));
   }
   function choose(value) { if (!discovered || cancelled) return; cleanup(); onChoose(value); }

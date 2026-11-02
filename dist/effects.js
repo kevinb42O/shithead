@@ -216,5 +216,5 @@ export function createTableEffects({sound=()=>{},nameForSeat=playerName,onBurn=(
   if(game.phase==='finished')later(()=>resultStage.show(game),result.burn&&!reduced()?BURN_DURATION:reduced()?0:450);
  }
  function clear(preserveResult=false){if(!preserveResult)resultStage.clear();forgeBusy=false;for(const cancel of jobs)cancel();jobs.clear();for(const node of nodes)node.remove();nodes.clear();lastTurn=null;}
- return{capture,run,clear,pulse,land,sync,revealOutcome,get busy(){return forgeBusy||resultStage.blocking;},restore(game){sync(game);if(game.phase==='finished')resultStage.show(game,{restored:true});}};
+ return{capture,run,clear,pulse,land,sync,revealOutcome,get busy(){return resultStage.blocking;},restore(game){sync(game);if(game.phase==='finished')resultStage.show(game,{restored:true});}};
 }

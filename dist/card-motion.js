@@ -54,7 +54,10 @@ export function createCardMotion({ sound = () => {}, land = () => {} } = {}) {
   function ghost(card, back, rect, kind, index) {
     const n = document.createElement('div'); n.className = `card-flight card-flight-${kind}`;
     n.setAttribute('aria-hidden', 'true'); n.dataset.flightCard = card.id;
-    n.style.cssText = `left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px;z-index:${1200 + index}`;
+    // A burn retains the old pile as separate ghosts until ignition. Keep
+    // those below every incoming card, including the first card in a play.
+    const layer = kind === 'resting' ? 1100 : 1200;
+    n.style.cssText = `left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px;z-index:${layer + index}`;
     n.innerHTML = `<div class="card-flight-shadow"></div><div class="card-flight-face" style="transform:rotate(${rect.angle || 0}deg)">${svgCard(card, back)}</div>`;
     document.body.append(n); ghosts.add(n); return n;
   }
@@ -68,7 +71,12 @@ export function createCardMotion({ sound = () => {}, land = () => {} } = {}) {
     const pile = pileNow?.width && pileNow?.height ? pileNow : before.pileRect;
     const flights = [];
     const added = game.players[who].hand.filter(c => !before.hands[who].has(c.id));
-    const draws = game.online
+    // Opponent hand IDs are count-based placeholders, not card identities.
+    // Only a shrinking stock proves a draw; pickups also create placeholders.
+    const drawCount = Math.max(0, before.deck.length - game.deck.length);
+    const draws = game.online && who !== 0
+      ? drawCount ? game.players[who].hand.slice(-drawCount) : []
+      : game.online
       ? added.filter(c => !before.pile.some(p => p.id === c.id))
       : before.deck.slice(game.deck.length).reverse().filter(c => game.players[who].hand.some(h => h.id === c.id));
     if (result.pickup) {

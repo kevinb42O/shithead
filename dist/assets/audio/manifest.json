@@ -350,14 +350,17 @@
     "sourceSha256": "b8ffa0770e17672a925c67fd820c7f79d7f96a5cd0c0b143fda5ad0b21d49a51"
   },
   {
-    "file": "hs-menu-music.mp3",
-    "source": "titleMusic.mp3",
-    "author": "Blizzard Entertainment",
-    "game": "Hearthstone",
-    "license": "Proprietary — Blizzard Entertainment; all rights reserved",
-    "url": "https://github.com/imostafa404/Mediocre-Hearthstone/blob/master/titleMusic.mp3",
-    "duration": 133.384,
-    "sourceSha256": "39e7f873cd8acfcffd10d1fd18bdda7c83ce24f33c27af59db0e886e3e3e6953",
+    "file": "tavern-celebration.mp3",
+    "title": "Celebration",
+    "source": "Celebration.mp3",
+    "author": "Alexander Nakarada",
+    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "url": "https://creatorchords.com/music/celebration/",
+    "downloadUrl": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Celebration.mp3",
+    "duration": 140.56,
+    "sourceSha256": "8c988b62c10c3089fb0e846107648fea59ff7f7c119f8a44ef02da5019091ab2",
+    "sha256": "e79d860309848938e295b603838bb5e486cefd4f9a3dbae02586a0be7a90cdbb",
     "adaptation": "2.5-second tail-to-head loop crossfade; 160 kbps stereo MP3"
   }
 ]

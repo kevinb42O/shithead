@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Local multiplayer fidget review</title>
+<style>html,body{margin:0;height:100%;background:#21150e;color:#ffe5a3;font:14px Georgia}#review-status{position:fixed;left:0;right:0;top:0;height:32px;display:grid;place-items:center;background:#21150e;z-index:3}#peers{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;position:fixed;inset:32px 0 0;gap:2px}iframe{width:100%;height:100%;border:0}#game-view,.game-shell{width:100%;height:100%;position:relative;overflow:hidden}.game-shell{background:url(assets/ember-hearth-board.jpg) center/100% 100% no-repeat}.peer-name{position:absolute;left:50%;top:35%;translate:-50% -50%;font-size:22px;text-shadow:0 2px 3px #160d07;text-align:center;pointer-events:none}.peer-name small{display:block;font-size:13px;margin-top:8px}@media(max-width:700px){.game-shell{background-image:url(assets/ember-hearth-mobile.jpg)}}</style>
+<script type="module">
+import { createBoardFidgets } from './board-fidgets.js';
+import { Session, project } from './multiplayer/session.js';
+import { createGame } from './engine.js';
+const seat=new URLSearchParams(location.search).get('peer');
+if(seat!==null){
+  const css=document.createElement('link');css.rel='stylesheet';css.href='board-fidgets.css';document.head.append(css);
+  document.body.innerHTML=`<div id="game-view"><div class="game-shell"><div class="peer-name">${Number(seat)===0?'Host':`Opponent ${seat}`}<small>Actual local WebRTC data channel</small></div></div></div>`;
+  const session=new Session(`Player ${seat}`,()=>{},console.error),events=[],outgoing=[];
+  const fidgets=createBoardFidgets({sound:()=>{},share:state=>{outgoing.push(state);session.interactFidget(state);}});
+  session.onFidget=effect=>{events.push(effect);if(effect.sender!==session.id)fidgets.receive(effect);};
+  window.review={session,fidgets,events,outgoing};
+  parent.postMessage({type:'fidget-review-ready',seat:Number(seat)},location.origin);
+}else{
+  document.body.innerHTML='<div id="review-status">Connecting four local peers…</div><div id="peers"></div>';
+  const ready=new Map();
+  window.addEventListener('message',async event=>{
+    if(event.origin!==location.origin||event.data.type!=='fidget-review-ready')return;
+    ready.set(event.data.seat,event.source);
+    if(ready.size!==4)return;
+    try{
+      const peers=Array.from({length:4},(_,i)=>ready.get(i).review),[host,...guests]=peers;
+      host.session.host=true;host.session.game=createGame(()=>.4,4);
+      const members=peers.map(p=>({id:p.session.id,name:p.session.name,connected:true}));
+      peers.forEach((p,i)=>{p.session.members=structuredClone(members);p.session.view=project(host.session.game,i);});
+      const pcs=[];
+      const gather=pc=>pc.iceGatheringState==='complete'?Promise.resolve():new Promise(resolve=>pc.addEventListener('icegatheringstatechange',()=>{if(pc.iceGatheringState==='complete')resolve();}));
+      await Promise.all(guests.map(async guest=>{
+        const a=new RTCPeerConnection({iceServers:[]}),b=new RTCPeerConnection({iceServers:[]});pcs.push(a,b);
+        const dc=a.createDataChannel('game'),link={dc};host.session.links.set(guest.session.id,link);host.session.bind(guest.session.id,link);
+        const opened=new Promise(resolve=>{b.ondatachannel=({channel})=>{const l={dc:channel};guest.session.links.set(host.session.id,l);guest.session.bind(host.session.id,l);channel.addEventListener('open',resolve);};});
+        await a.setLocalDescription(await a.createOffer());await gather(a);
+        await b.setRemoteDescription(a.localDescription);await b.setLocalDescription(await b.createAnswer());await gather(b);
+        await a.setRemoteDescription(b.localDescription);await opened;
+      }));
+      window.fidgetReview={peers,pcs,ready:true};
+      document.getElementById('review-status').textContent='Connected · 4 players · real local WebRTC · no public broker';
+    }catch(error){document.getElementById('review-status').textContent=error.message;console.error(error);}
+  });
+  for(let i=0;i<4;i++){const iframe=document.createElement('iframe');iframe.title=i?'Opponent '+i:'Host';iframe.src=location.pathname+'?peer='+i;document.getElementById('peers').append(iframe);}
+}
+</script></html>

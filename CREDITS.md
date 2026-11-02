@@ -62,7 +62,14 @@ Original hand-painted title illustration generated with OpenAI ImageGen. Transpa
 
 ## Menu music
 
-The menu uses a Hearthstone title-menu recording, © Blizzard Entertainment, sourced from [`titleMusic.mp3`](https://github.com/imostafa404/Mediocre-Hearthstone/blob/master/titleMusic.mp3) in the Mediocre-Hearthstone educational project. The stereo recording is prepared with a 2.5-second tail-to-head crossfade and encoded at 160 kbps; the game adds only volume and menu-transition fades. Source hash and provenance are in `dist/assets/audio/manifest.json`. This is proprietary audio; no open-source redistribution license is asserted.
+Music: Celebration by Alexander Nakarada (https://creatorchords.com)
+Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+Official track and free-license offer: https://creatorchords.com/music/celebration/
+Official download: https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Celebration.mp3
+
+Bundled as `dist/assets/audio/tavern-celebration.mp3`. Adapted with a 2.5-second tail-to-head loop crossfade and 160 kbps stereo MP3 encoding; playback adds volume and menu-transition fades. Source and output hashes and duration are in `dist/assets/audio/manifest.json`. Attribution is also available in the in-game Credits and `dist/assets/audio/MUSIC-LICENSE.txt`. No endorsement by the composer is implied. This replaces the previous proprietary Hearthstone menu recording.
 
 ## Illustrated Let’s play button
 
@@ -148,3 +155,7 @@ The victory screen self-hosts Latin WOFF2 subsets of **Cinzel Decorative Black**
 ### Portrait collector cabinet
 
 `dist/assets/portraits/collector-cabinet.png` and `collector-cabinet-mobile.png` are original transparent cabinet artworks generated with the built-in OpenAI imagegen tool. Exact prompts are preserved beside the assets. The collection reuses the existing painted portrait medallion, gold and teal button artwork, and coin sprite; labels, prices and ownership are live UI.
+
+### Frost and heat card finishes
+
+`dist/assets/card-materials/seven-frost-overlay.png` and `ten-heat-overlay.png` are original transparent surface textures generated with the built-in OpenAI ImageGen tool on 2026-11-02. The original 1024×1536 RGBA files and generated alpha are preserved. Their exact production prompts are saved in the adjacent `.prompt.txt` files. CSS applies the finishes over exposed sevens and tens, with protected rank corners and reduced opacity; the original card illustrations remain separate.

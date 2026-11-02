@@ -1,13 +1,25 @@
-/* Readable live counts; turn cues belong to the table lighting. */
+/* Compact opponent counts sit beside the portrait; turn cues belong to table lighting. */
 #game-view .pile-footer #pile-caption:not([hidden]) {
   font-size: clamp(14px, .85vw, 19px); line-height: 1.4; padding: 4px 10px;
   color: #fff2d6; background: #281c12ed; border: 1px solid #b58b4e80; border-radius: 4px;
 }
-#game-view .seat-status {
-  top: calc(100% + 5px); font-size: clamp(16px, 1vw, 21px); font-weight: 600;
-  color: #fff2d6; background: #281c12ed; border-radius: 4px; padding: 3px 7px; left: 13%; right: 13%;
+/* A quiet portrait-side annotation, away from reserve cards and the center pile. */
+#game-view .seat-hand-count {
+  position: absolute; left: 63%; top: 26%; display: inline-flex; align-items: center;
+  gap: 4px; padding: 3px 5px; border-radius: 3px; background: #281c12ed;
+  color: #f4dfb9; font: 500 12px/1 DM, Arial, sans-serif;
+  font-variant-numeric: tabular-nums; white-space: nowrap; text-shadow: none;
 }
-#game-view .seat-wager { top: calc(100% + 42px); font-size: clamp(11px, .75vw, 15px); }
+#game-view .seat-hand-count svg {
+  width: 11px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.2;
+  stroke-linejoin: round; flex: none;
+}
+#game-view .seat-hand-count[hidden], #game-view .seat-status[hidden] { display: none; }
+#game-view .seat-status {
+  top: calc(100% + 3px); left: 5%; right: 5%; padding: 0; border-radius: 0;
+  font-size: 11px; font-weight: 500; color: #f4dfb9; background: none;
+}
+#game-view .seat-wager { top: calc(100% + 20px); font-size: 10px; }
 #game-view .seat-turn-label { display: none !important; }
 #game-view .pile-area.is-empty #pile-caption { display: none !important; }
 /* Broad warm light, brightest behind the active opponent's cards. */
@@ -27,8 +39,9 @@
   box-shadow: 0 0 20px 5px #f5d78c7a, 0 0 40px 10px #e1af4b38, 0 8px 22px #0009;
 }
 @media (max-width: 700px), (max-height: 650px) {
-  #game-view .seat-status { font-size: 12px; left: 5%; right: 5%; padding: 2px 3px; }
-  #game-view .seat-wager { top: calc(100% + 28px); font-size: 10px; }
+  #game-view .seat-hand-count { gap: 3px; padding: 2px 4px; font-size: 11px; }
+  #game-view .seat-hand-count svg { width: 9px; height: 12px; }
+  #game-view .seat-status { font-size: 10px; }
+  #game-view .seat-wager { top: calc(100% + 18px); font-size: 9px; }
   #game-view .opponent-seat::before { filter: blur(8px); }
 }
-@media (max-width: 360px) { #game-view .seat-status { font-size: 11px; } }

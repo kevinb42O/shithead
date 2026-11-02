@@ -1,0 +1,21 @@
+import {spawn} from 'node:child_process';
+import {mkdtemp,readFile,rm,writeFile,mkdir} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
+export const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+export async function launch(){
+  const profile=await mkdtemp(path.join(tmpdir(),'tavern-brawl-game-'));
+  const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new',`--user-data-dir=${profile}`,'--remote-debugging-port=0','--autoplay-policy=no-user-gesture-required','about:blank'],{stdio:'ignore'});
+  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(path.join(profile,'DevToolsActivePort'),'utf8')).split('\n')[0]);break;}catch{await sleep(100);}}
+  if(!port)throw Error('Chrome did not start');const pages=[];
+  return {async page(){
+    const target=await(await fetch(`http://127.0.0.1:${port}/json/new?about:blank`,{method:'PUT'})).json();
+    const ws=new WebSocket(target.webSocketDebuggerUrl);await new Promise(resolve=>ws.addEventListener('open',resolve,{once:true}));
+    let serial=0;const pending=new Map(),listeners=new Map(),errors=[];
+    const call=(method,params={})=>new Promise((resolve,reject)=>{const id=++serial;const timer=setTimeout(()=>{pending.delete(id);reject(Error(`CDP timeout ${method}`));},30000);pending.set(id,{resolve,reject,timer});ws.send(JSON.stringify({id,method,params}));});
+    ws.addEventListener('message',event=>{const data=JSON.parse(event.data);if(data.id){const p=pending.get(data.id);if(!p)return;clearTimeout(p.timer);pending.delete(data.id);if(data.error)p.reject(Error(JSON.stringify(data.error)));else p.resolve(data.result);}else{for(const f of listeners.get(data.method)||[])Promise.resolve(f(data.params)).catch(e=>errors.push(e.message));if(data.method==='Runtime.exceptionThrown')errors.push(data.params.exceptionDetails.exception?.description||data.params.exceptionDetails.text);if(data.method==='Network.responseReceived'&&data.params.response.status>=400)errors.push(`${data.params.response.status} ${data.params.response.url}`);}});
+    const evaluate=async expression=>{const result=await call('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(result.exceptionDetails)throw Error(result.exceptionDetails.exception?.description||JSON.stringify(result.exceptionDetails));return result.result.value;};
+    const page={call,evaluate,errors,on(event,fn){if(!listeners.has(event))listeners.set(event,[]);listeners.get(event).push(fn);},async wait(expression,timeout=25000){const start=Date.now();while(Date.now()-start<timeout){try{if(await evaluate(expression))return;}catch{}await sleep(80);}throw Error(`Wait timeout: ${expression}`);},async navigate(url){await call('Page.bringToFront');await call('Page.navigate',{url});},async viewport(width,height){await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});},async press(selector,key='Enter'){await call('Page.bringToFront');await evaluate(`document.querySelector(${JSON.stringify(selector)})?.focus({preventScroll:true})`);await call('Input.dispatchKeyEvent',{type:'keyDown',key,code:key,text:key==='Enter'?'\r':key===' '?' ':undefined,windowsVirtualKeyCode:key==='Enter'?13:key==='Escape'?27:key===' '?32:0});await call('Input.dispatchKeyEvent',{type:'keyUp',key,code:key===' '?'Space':key,windowsVirtualKeyCode:key==='Enter'?13:key==='Escape'?27:key===' '?32:0});},async capture(file){await evaluate(`(async()=>{await document.fonts.ready;await Promise.all([...document.images].filter(i=>i.offsetParent!==null).map(i=>i.decode().catch(()=>{})));await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));})()`);const {data}=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});await mkdir(path.dirname(file),{recursive:true});await writeFile(file,Buffer.from(data,'base64'));},close(){ws.close();}};
+    pages.push(page);await call('Page.enable');await call('Runtime.enable');await call('Network.enable');return page;
+  },async close(){for(const page of pages)page.close();chrome.kill();await sleep(300);await rm(profile,{recursive:true,force:true,maxRetries:5,retryDelay:200});}};
+}

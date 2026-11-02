@@ -1,0 +1,82 @@
+[
+  {
+    "id": "cards-01-common-crew",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-e2b7775a-23e9-424d-830e-8c822d4ba0ae.png",
+    "transparent": true
+  },
+  {
+    "id": "board-desktop",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-7a651a59-e1db-457e-8a46-41852a5fdbb3.png",
+    "transparent": false
+  },
+  {
+    "id": "heroes",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-9151d050-fa5a-47c9-a3b0-d9c73788b08a.png",
+    "transparent": true
+  },
+  {
+    "id": "cards-02-faction-crew",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-153d4f77-dd72-43e3-a662-3af406dcf6f3.png",
+    "transparent": true
+  },
+  {
+    "id": "cards-03-tavern-crew",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-d14541cc-7760-4326-a2e0-ca1330398879.png",
+    "transparent": true
+  },
+  {
+    "id": "cards-04-tricks",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-1554d83d-cc1c-4027-8b2c-d527b6afd27b.png",
+    "transparent": true
+  },
+  {
+    "id": "cards-05-tricks",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-6edc188e-e164-405e-8093-da51a1224b45.png",
+    "transparent": true
+  },
+  {
+    "id": "cards-06-equipment",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-5e6594c7-3c45-4f18-9942-d73815879a09.png",
+    "transparent": true
+  },
+  {
+    "id": "board-mobile",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-e4a8dd05-73e2-4faa-9e78-dcadb3fb7c69.png",
+    "transparent": false
+  },
+  {
+    "id": "card-back",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-7d00cbaa-a52f-40d6-8071-405647d05c7c.png",
+    "transparent": true
+  },
+  {
+    "id": "ui-controls",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-f58ec3f4-16a9-4091-b1db-4be8330a53b5.png",
+    "transparent": true
+  },
+  {
+    "id": "ui-tokens",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-b3f0116b-4449-45d6-9ad5-6f4440caca58.png",
+    "transparent": true
+  },
+  {
+    "id": "ui-pot",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-ef481908-a387-4bda-9afb-9531c53aeffa.png",
+    "transparent": true
+  },
+  {
+    "id": "ui-finish",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-f1cd4eed-6263-4ed7-8c0f-826294df04a1.png",
+    "transparent": true
+  },
+  {
+    "id": "ui-effects",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-6e2dba19-aa75-4bdb-aee6-62044b0a8cef.png",
+    "transparent": true
+  },
+  {
+    "id": "title",
+    "source": "/Users/kevin/.codex/generated_images/01a19c70-42de-7733-9cf5-ad31f1f0e923/exec-3a3c6052-8272-4d6d-a21c-7d2cab1cf7f6.png",
+    "transparent": true
+  }
+]

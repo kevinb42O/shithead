@@ -38,5 +38,7 @@ export function svgCard(c, back=false){
  const file = back ? 'assets/royal-mascot-back.jpg'
   : c.rank===15 ? `assets/funny-deck/joker-${c.id.includes('red')?'red':'black'}.png`
   : `assets/funny-deck/${suitFiles[c.suit]}-${c.rank}.png`;
- return `<svg viewBox="0 0 169 245" aria-hidden="true"><image href="${file}" width="169" height="245" preserveAspectRatio="none"/></svg>`;
+ const material = !back && (c.rank === 10 ? 'fire' : c.rank === 7 ? 'frost' : c.rank === 3 ? 'wind' : '');
+ const mark = material ? ` data-card-material="${material}" data-material-id="${c.rank}-${suitFiles[c.suit] || ''}"` : '';
+ return `<svg${mark} viewBox="0 0 169 245" aria-hidden="true"><image href="${file}" width="169" height="245" preserveAspectRatio="none"/></svg>`;
 }

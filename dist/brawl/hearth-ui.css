@@ -1,0 +1,151 @@
+/* Brawl uses the main game's painted materials and shared club controls. */
+@font-face{font-family:Serif;src:url('../display.ttf') format('truetype');font-display:swap}
+.brawl-app{--brawl-menu-background:url('../assets/tavern-menu-desktop.jpg')}
+.brawl-app :is(.brawl-home,.trail,.rewards,.online-screen,.collection,.preparing){background:#1b140f var(--brawl-menu-background) center/cover no-repeat}
+.brawl-app .collection{background-attachment:fixed}
+/* Light the playable pieces above the scenery. Keep both layers behind
+   every live object, including the pot and controls at the screen edges. */
+.brawl-app #battle{
+ --battle-scenery:url('../assets/tavern-brawl/boards/board-desktop.png');
+ --battle-scenery-softness:.35px;
+ background:#10251e;
+}
+.brawl-app #battle::before,.brawl-app #battle::after{
+ content:'';position:absolute;pointer-events:none;
+}
+.brawl-app #battle::before{
+ inset:-2px;z-index:-2;
+ background:var(--battle-scenery) center/100% 100% no-repeat;
+ filter:saturate(.94) brightness(.96) blur(var(--battle-scenery-softness));
+}
+.brawl-app #battle::after{
+ inset:0;z-index:-1;opacity:.45;
+ background:
+  linear-gradient(to bottom,#080e0bd1 0%,#080e0b50 13%,transparent 29%,transparent 68%,#100c0870 100%),
+  radial-gradient(ellipse at 50% 43%,transparent 28%,#080e0b14 48%,#080e0b80 78%,#080e0bc7 100%);
+}
+@media(max-width:700px) and (orientation:portrait){
+ .brawl-app #battle{
+  --battle-scenery:url('../assets/tavern-brawl/boards/board-mobile.png');
+  --battle-scenery-softness:.25px;
+ }
+ .brawl-app #battle::after{
+  background:
+   linear-gradient(to bottom,#080e0bb3 0%,transparent 27%,transparent 70%,#100c0870 100%),
+   radial-gradient(ellipse at 50% 43%,transparent 30%,#080e0b14 51%,#080e0b70 82%,#080e0bad 100%);
+ }
+}
+.brawl-app :is(h2,h3){font-family:Serif,Georgia,serif;font-weight:400;color:#fff0ce}
+.brawl-app .hearth-button{border:0;border-radius:8px;background-color:transparent;background-image:url('../assets/club-teal-button.png');background-size:100% 133%;background-position:center;background-repeat:no-repeat;box-shadow:none;color:#fff0ca;text-decoration:none;text-align:center;text-shadow:0 2px 3px #07140e;letter-spacing:normal}
+.brawl-app .hearth-button-primary{background-image:url('../assets/club-gold-button.png');color:#000;text-shadow:none;-webkit-text-stroke:0}
+.brawl-app .hearth-button small{color:#f5e4c2;font:12px/1.3 DM,Arial,sans-serif;-webkit-text-stroke:0}
+.brawl-app .hearth-button-compact{width:auto;min-width:92px;min-height:44px;padding:8px 22px;font-size:15px!important}
+.brawl-app .home-actions .hearth-button{width:100%;min-height:60px;padding:12px 28px}
+.brawl-app .home-copy>.text-action{display:inline-grid;margin-top:8px;min-height:48px}
+.brawl-app #open-decks{position:relative;width:300px;min-height:56px;padding:0;font:700 17px/1 Brawl,Georgia,serif!important;letter-spacing:.055em;color:#fff0c9;text-decoration:none}
+.brawl-app #open-decks>span{position:absolute;inset:0 12% 10%;display:grid;place-items:center;padding-left:.055em;white-space:nowrap}
+.brawl-app .home-actions .hearth-button small{font-size:11px}
+.brawl-app .filters .hearth-button[aria-pressed=true],.brawl-app #deck-heroes .hearth-button[aria-pressed=true]{background:transparent url('../assets/club-gold-button.png') center/100% 133% no-repeat;color:#fff4d6;outline:2px solid #fff0ce;outline-offset:2px}
+.brawl-app .card-edit .hearth-button{min-width:44px;width:44px;padding:8px;flex:0 0 44px}
+.brawl-app .hero-power.hearth-button{width:19%;padding:0;min-height:56px;background-size:100% 165%}
+/* Keep both lines together within the plaque's recess, clear of the medallion. */
+.brawl-app .hero-power .hero-power-label{position:absolute;inset:0 10% 12% 25%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center}
+.brawl-app .hero-power #power-name{font:700 clamp(10px,4.8cqw,17px)/1 Brawl,Georgia,serif;letter-spacing:.045em;color:#fff0c9;text-shadow:0 1px 2px #07140e;text-wrap:balance}
+.brawl-app .hero-power #power-cost{margin:0;font:500 clamp(10px,4cqw,13px)/1 DM,Arial,sans-serif;letter-spacing:.06em;color:#e7c779;text-shadow:0 1px 2px #07140e}
+.brawl-app .hero-power.hearth-button:disabled{filter:saturate(.55) brightness(.9)}
+.brawl-app .end-turn.hearth-button{container-type:inline-size;min-width:0;min-height:44px;padding:0;font:700 20px/1 Brawl,Georgia,serif!important;color:#38200d;text-shadow:0 1px 1px #fff0b9b3;letter-spacing:.065em;-webkit-text-stroke:0}
+/* Center on the gold recess, above the lower wooden lip and pendant.
+   A separate label keeps that alignment through every live turn state. */
+.brawl-app .end-turn-label{position:absolute;inset:0 12% 10%;display:grid;place-items:center;padding-left:.065em;font-size:clamp(10px,10cqw,24px);white-space:nowrap;font-kerning:normal;font-variant-ligatures:common-ligatures}
+.brawl-app .end-turn.hearth-button:disabled{color:#382b1d;text-shadow:0 1px 1px #fff0c966}
+.brawl-app .selection-dock .hearth-button{min-width:0;max-width:100%;font-size:13px!important;padding:8px 16px}
+.brawl-app .book-dialog{padding:28px clamp(24px,5vw,48px);background:#082218 url('../assets/pause-hearth-background.jpg') center/cover;border:0;color:#fff0ce}
+.brawl-app .book-dialog .hearth-button{max-width:100%}
+.brawl-app :is(#settings-dialog,#pause-dialog){position:fixed;inset:0;margin:0;width:100vw;max-width:none;height:100dvh;max-height:100dvh;padding:0;border:0;border-radius:0;background:#082218 url('../assets/pause-hearth-background.jpg') center/cover;box-shadow:none;overflow:auto}
+.hearth-screen-content{display:flex;flex-direction:column;justify-content:center;width:min(680px,100%);min-height:100%;margin:auto;padding:92px 40px 48px}
+.hearth-screen-content> *{flex-shrink:0}
+.brawl-app .hearth-screen-content>.close-dialog{position:fixed;top:max(20px,env(safe-area-inset-top));right:max(24px,env(safe-area-inset-right));margin:0;z-index:3}
+.brawl-app .hearth-screen-content h2{font:42px/1.1 Serif,Georgia,serif;text-align:center;margin:0 0 32px}
+.brawl-app .hearth-screen-content>p{color:#d4d8c1}
+.brawl-app #pause-dialog .hearth-screen-content{text-align:center;align-items:center}
+.brawl-app #pause-dialog .hearth-button:not(.close-dialog){width:min(350px,100%);min-height:60px;margin-top:12px}
+.brawl-app .option-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;border-bottom:1px solid #bd9d5f40;font:22px/1.2 Serif,Georgia,serif;color:#fff0ce}
+.brawl-app .option-row input{appearance:none;position:relative;flex:0 0 52px;width:52px;height:30px;min-height:30px;padding:0;margin:7px 0;border:1px solid #b9995b80;border-radius:20px;background:#10271e;cursor:pointer}
+.brawl-app .option-row input::after{content:'';position:absolute;width:22px;height:22px;top:3px;left:3px;border-radius:50%;background:#fff0ce;transition:transform .2s}
+.brawl-app .option-row input:checked{background:#b9995b}
+.brawl-app .option-row input:checked::after{transform:translateX(22px)}
+.brawl-app #rules-dialog{background:#f5f0e4 url('../assets/house-rulebook.jpg') right center/143% 100%;color:#203d33;scrollbar-color:#947b43 #f5f0e4}
+.brawl-app #rules-dialog :is(h2,h3,dt){color:#203d33;font-family:Serif,Georgia,serif}
+.brawl-app #rules-dialog :is(p,li,dd){color:#3c5144}
+.brawl-app #rules-dialog .book-footnote{color:#596b5c!important}
+.brawl-app .result-dialog{background:#082218 url('../assets/pause-hearth-background.jpg') center/cover}
+.brawl-app #replace-list .hearth-button,.brawl-app .public-card-list .hearth-button{white-space:normal;min-height:48px}
+@media(max-width:700px) and (orientation:portrait){
+ .brawl-app{--brawl-menu-background:url('../assets/tavern-menu-mobile.jpg')}
+ .brawl-app .screen-header{padding:max(12px,env(safe-area-inset-top)) 10px 12px;gap:4px}
+ .brawl-app .screen-header .hearth-button{min-width:0;padding:9px 13px;font-size:12px!important}
+ .brawl-app .utility-actions{gap:4px}
+ .brawl-app .battle-header .hearth-button{min-width:0;min-height:44px;padding:8px 13px;font-size:12px!important}
+ .brawl-app .home-actions .hearth-button{min-height:60px;font-size:19px!important}
+ .brawl-app .home-copy>.text-action{font-size:15px!important}
+ .brawl-app .hero-power.hearth-button{width:30%;min-height:56px;padding:0}
+ .brawl-app .hero-power .hero-power-label{inset:0 8% 12% 25%;gap:3px}
+ .brawl-app .hero-power #power-name{font-size:clamp(9px,7cqw,13px);letter-spacing:.015em}
+ .brawl-app .end-turn.hearth-button{font-size:clamp(10px,3.1cqw,20px)!important;padding:0;letter-spacing:.035em}
+ .hearth-screen-content{padding:88px 28px 32px}
+ .brawl-app .hearth-screen-content h2{font-size:32px;margin-bottom:22px}
+ .brawl-app .option-row{font-size:20px;gap:12px;padding:18px 0}
+ .brawl-app .option-row select{max-width:150px}
+ .brawl-app .filters{gap:8px}
+ .brawl-app .filters .hearth-button{padding:8px 14px;min-width:0;font-size:13px!important}
+}
+@media(max-height:540px) and (orientation:landscape){
+ .brawl-app .home-actions .hearth-button{min-height:52px;padding-block:8px;font-size:18px!important}
+ .brawl-app .screen-header{padding-block:8px}
+ .hearth-screen-content{padding-top:74px;justify-content:flex-start}
+}
+
+/* The painted label recess sits 5% above the control center. Balance the
+   visible lettering there rather than against the lower ornamental edge. */
+.brawl-app .home-actions .hearth-button{padding-block:9px 15px}
+@media(max-height:540px) and (orientation:landscape){
+ .brawl-app .home-actions .hearth-button{padding-block:5.4px 10.6px}
+}
+.brawl-app dialog .close-dialog{display:grid;margin-left:auto}
+
+/* Center utility lettering in the painted teal recess. The font's visible
+   glyphs sit below its line-box center, so lift them without changing the
+   symmetric inline padding or the native hit target. */
+.brawl-app .screen-header .hearth-button{padding-block:6px 10px}
+
+/* A complete painted object: keep its aspect ratio and place live content
+   inside the felt recess, below the crest and clear of the carved rails. */
+.brawl-app #confirm-dialog{
+ width:min(780px,calc(100vw - 24px),calc((100dvh - 24px)*1.5));
+ max-width:none;max-height:none;aspect-ratio:3/2;padding:0;border:0;
+ border-radius:0;overflow:visible;background:transparent url('../assets/tavern-brawl/ui/confirmation-frame.png') center/contain no-repeat;
+ color:#fff0ce;box-shadow:none;filter:drop-shadow(0 18px 24px #10080599);
+}
+.brawl-app #confirm-dialog::backdrop{background:#090f0ce0}
+.confirmation-content{position:absolute;inset:32% 10% 18%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px}
+.brawl-app #confirm-title{margin:0;font:400 36px/1.15 Serif,Georgia,serif;color:#fff0ce;text-wrap:balance;text-shadow:0 2px 4px #07140e}
+.brawl-app #confirm-copy{max-width:46ch;margin:0;color:#ead8b7;font:400 16px/1.6 DM,Arial,sans-serif;text-wrap:pretty}
+.brawl-app #confirm-dialog .dialog-actions{display:flex;justify-content:center;align-items:center;flex-shrink:0;gap:14px;width:100%;margin:8px 0 0}
+.brawl-app #confirm-dialog .hearth-button{flex:0 1 230px;width:230px;min-width:0;min-height:62px;margin:0;padding:9px 26px 15px;font-size:21px!important;white-space:nowrap}
+.brawl-app #confirm-dialog .hearth-button:focus-visible{outline:2px solid #fff0ce;outline-offset:2px}
+.brawl-app #confirm-dialog ::selection{background:#e7c779;color:#173e32}
+@media(max-width:540px) and (orientation:portrait){
+ .brawl-app #confirm-dialog{width:min(430px,calc(100vw - 16px),calc((100dvh - 24px)*2/3));aspect-ratio:2/3;background-image:url('../assets/tavern-brawl/ui/confirmation-frame-mobile.png')}
+ .confirmation-content{inset:24% 12% 14%;gap:16px}
+ .brawl-app #confirm-title{font-size:clamp(25px,7vw,32px)}
+ .brawl-app #confirm-copy{font-size:14px;line-height:1.6}
+ .brawl-app #confirm-dialog .dialog-actions{flex-direction:column;gap:8px;margin-top:6px}
+ .brawl-app #confirm-dialog .hearth-button{flex:none;width:min(230px,100%);min-height:54px;font-size:18px!important;padding:8px 22px 13px}
+}
+@media(max-height:540px) and (orientation:landscape){
+ .confirmation-content{gap:10px;inset:31% 9% 17%}
+ .brawl-app #confirm-title{font-size:27px}
+ .brawl-app #confirm-copy{font-size:14px;line-height:1.4}
+ .brawl-app #confirm-dialog .dialog-actions{gap:8px;margin-top:3px}
+ .brawl-app #confirm-dialog .hearth-button{min-height:48px;font-size:17px!important;padding:7px 20px 11px}
+}

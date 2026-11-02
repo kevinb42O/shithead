@@ -63,22 +63,64 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
    })()`);
    await reload();await evaluate(`await (await import("/app.js")).enterGame()`);
   }
-  async function motionFixture({pickup=false,burn=false,reduced=false,large=false,finish=false,enemy=false,wind=false,clockwise=false}={}) {
+  async function motionFixture({pickup=false,burn=false,reduced=false,large=false,finish=false,enemy=false,wind=false,clockwise=false,joker=false,four=false,stable=false}={}) {
    await evaluate(`(async()=>{
     const {createGame,assertGame}=await import('/engine.js');const g=createGame();
     const all=[...g.deck,...g.players.flatMap(p=>[...p.hand,...p.up,...p.down])];
     const take=rank=>all.splice(all.findIndex(c=>c.rank===rank),1)[0];
-    g.players=[{hand:[take(${wind?3:burn?10:8}),take(${pickup?5:8}),take(9)],up:[take(12)],down:[take(6)]},{hand:[take(13),take(12)],up:[],down:[]}];
+    g.players=[{hand:[take(${wind?3:burn?10:joker?15:8}),take(${pickup?5:8}),take(9)],up:[take(12)],down:[take(${four?5:6})]},{hand:[take(13),take(12)],up:[],down:[]}];
+    ${four?'all.push(...g.players[0].hand.splice(0));g.players[0].hand=[take(6),take(6),take(6),take(6),take(9)];':''}
     g.pile=${pickup?'[take(13),take(12),take(11),take(7),take(13)]':wind?'[take(2)]':'[take(4)]'};
     ${large?'g.pile.push(...all.splice(0,30));':''}
     ${finish?'all.push(...g.players[0].hand.splice(1),...g.players[0].up.splice(0),...g.players[0].down.splice(0));':''}
-    g.deck=${pickup||finish?'[]':'all.splice(0,5)'};g.burned=all;g.phase='playing';g.turn=0;g.direction=${clockwise?-1:1};g.dealComplete=true;${enemy?'g.players.reverse();g.turn=1;':''}assertGame(g);
+    g.deck=${pickup||finish?'[]':stable?'[take(5),take(6),take(11),take(5),take(6)]':'all.splice(0,5)'};g.burned=all;g.phase='playing';g.turn=0;g.direction=${clockwise?-1:1};g.dealComplete=true;${enemy?'g.players.reverse();g.turn=1;':''}assertGame(g);
     localStorage.setItem('${key}',JSON.stringify({game:g,stats:{you:0,fox:0}}));
     localStorage.setItem('shithead-preferences-qa',JSON.stringify({playerCount:2,sound:false,soundPreferenceSet:true,reducedMotion:${reduced}}));
    })()`);
    await reload();await evaluate(`await (await import('/app.js')).startupReady; await (await import("/app.js")).enterGame()`);
    await until(`!document.body.classList.contains('booting')`);
   }
+  for(const mobile of [false,true]) for(const wind of [false,true]) await scenario(`interruptible ${wind?'reversal':'burn'} allows immediate next move on ${mobile?'phone':'desktop'}`,async()=>{
+   await call('Emulation.setDeviceMetricsOverride',{width:mobile?390:1440,height:mobile?844:900,deviceScaleFactor:1,mobile});
+   await motionFixture({burn:!wind,wind,stable:true});
+   const rank=wind?3:10;
+   await evaluate(`document.querySelector('#hand [data-card-id="'+JSON.parse(localStorage.getItem('${key}')).game.players[0].hand.find(c=>c.rank===${rank}).id+'"]').click();document.getElementById('pile').click()`);
+   await until(`!!document.querySelector('.card-flight-play')`);
+   assert.equal((await saved()).game.moves,1);
+   assert.equal((await saved()).game.turn,0,'special card grants another turn');
+   if(process.env.CAPTURE_INTERRUPT&&!wind){
+    await mkdir('artifacts/card-motion',{recursive:true});
+    const capture=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+    await writeFile(`artifacts/card-motion/interruptible-${mobile?'phone':'desktop'}.png`,Buffer.from(capture.data,'base64'));
+   }
+   // Keep the previous flight unresolved: progress must depend on the rules,
+   // never on a wall-clock animation duration or its finished promise.
+   await evaluate(`document.querySelectorAll('.card-flight').forEach(n=>n.getAnimations({subtree:true}).forEach(a=>a.pause()))`);
+   const target=await evaluate(`(()=>{const g=JSON.parse(localStorage.getItem('${key}')).game;const id=g.players[0].hand.find(c=>c.rank===6).id;const n=document.querySelector('#hand [data-card-id="'+id+'"]');const r=n.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2};})()`);
+   await call('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...target});
+   await call('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...target});
+   assert(await evaluate(`!!document.querySelector('#hand .selected')`),'real pointer selects while previous flight is paused');
+   await evaluate(`document.getElementById('pile').dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',bubbles:true}));document.getElementById('rules-dialog').showModal()`);
+   await until(`JSON.parse(localStorage.getItem('${key}')).game.moves===2`);
+   assert.equal((await saved()).game.turn,1);
+   // Rapid duplicate activation cannot turn into a queued future move.
+   await evaluate(`document.getElementById('pile').click();document.getElementById('pile').click()`);
+   await until(`!document.querySelector('.card-flight,[data-in-transit]')`);
+   await sleep(200);
+   assert.equal((await saved()).game.moves,2);
+   assert.equal(await evaluate(`document.querySelectorAll('.card-flight,[data-in-transit],.fx-burning-stack,.lantern-wind').length`),0,'old completion cannot restart obsolete effects');
+  });
+  for(const mobile of [false,true]) await scenario(`interruptible forge allows next move before impact on ${mobile?'phone':'desktop'}`,async()=>{
+   await call('Emulation.setDeviceMetricsOverride',{width:mobile?390:1440,height:mobile?844:900,deviceScaleFactor:1,mobile});
+   await motionFixture({burn:true,stable:true});
+   await evaluate(`document.querySelector('#hand [data-art$="10"]').click();document.getElementById('pile').click()`);
+   await until(`!!document.querySelector('.forge-flame-shot')`);
+   assert.equal((await saved()).game.turn,0);
+   await evaluate(`document.querySelector('#hand [data-art$="9"]').click();document.getElementById('pile').click();document.getElementById('rules-dialog').showModal()`);
+   await until(`JSON.parse(localStorage.getItem('${key}')).game.moves===2`);
+   assert.equal((await saved()).game.turn,1);
+   assert.equal(await evaluate(`document.querySelectorAll('.forge-flame-shot,.forge-waiting-stack,.magic-burning-stack').length`),0);
+  });
   const shot=async name=>{
    await mkdir('artifacts/card-motion',{recursive:true});
    const result=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
@@ -163,10 +205,10 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
    await motionFixture();
    await evaluate(`document.querySelector('#hand .card').click()`);await sleep(300);
    const origin=await evaluate(`(()=>{const r=document.querySelector('#hand .selected').getBoundingClientRect();return {x:r.left,y:r.top};})()`);
-   await evaluate(`document.getElementById('play').click()`);
+   await evaluate(`document.getElementById('play').click();document.getElementById('rules-dialog').showModal();document.getElementById('rules-dialog').style.display='none'`);
    assert.equal(await evaluate(`document.querySelectorAll('.card-flight-play').length`),2);
    assert.equal(await evaluate(`document.querySelectorAll('.card-flight-draw').length`),2);
-   assert.equal(await evaluate(`document.querySelectorAll('#hand [data-in-transit]').length`),2,'drawn cards must stay hidden until they arrive');
+   assert.equal(await evaluate(`document.querySelectorAll('#hand [data-in-transit]').length`),2,'drawn destinations are marked until they arrive');
    await sleep(220);
    const flight=await evaluate(`(()=>{const r=document.querySelector('.card-flight-play').getBoundingClientRect();return {x:r.left,y:r.top};})()`);
    assert(Math.hypot(flight.x-origin.x,flight.y-origin.y)>10,'played card must visibly cross the table');
@@ -179,7 +221,7 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
    assert.equal(await evaluate(`document.querySelectorAll('[data-in-transit]').length`),0);
    await motionFixture({pickup:true});
    const handBefore=(await saved()).game.players[0].hand.length;
-   await evaluate(`document.getElementById('pickup').click()`);
+   await evaluate(`document.getElementById('pickup').click();document.getElementById('rules-dialog').showModal();document.getElementById('rules-dialog').style.display='none'`);
    assert.equal(await evaluate(`document.querySelectorAll('.card-flight-pickup').length`),5);
    assert.equal(await evaluate(`document.querySelectorAll('#hand [data-in-transit]').length`),5);
    assert.equal(await evaluate(`document.querySelectorAll('.fx-pickup').length`),0,'legacy pickup must not duplicate real card travel');
@@ -187,6 +229,50 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
    await until(`!document.body.classList.contains('cards-in-motion')`);
    assert.equal((await saved()).game.players[0].hand.length,handBefore+5);
    assert.equal(await evaluate(`document.querySelectorAll('[data-in-transit],.card-flight').length`),0);
+  });
+  for(const mobile of [false,true])for(const kind of ['pair','joker','four'])
+   await scenario(`card layer audit ${kind} on ${mobile?'phone':'desktop'}`,async()=>{
+    await call('Emulation.setDeviceMetricsOverride',{width:mobile?390:1440,height:mobile?844:900,deviceScaleFactor:1,mobile});
+    await motionFixture({joker:kind==='joker',four:kind==='four'});
+    const counts=await evaluate(`(()=>{
+     document.querySelector(${JSON.stringify(kind==='joker'?'#hand .card[data-card-id^="joker"]':kind==='four'?'#hand .card[data-art$="6"]':'#hand .card[data-art$="8"]')}).click();document.getElementById('play').click();
+     const moving=[...document.querySelectorAll('.card-flight-play')];
+     const held=[...document.querySelectorAll('.card-flight-resting')];
+     return {moving:moving.map(n=>Number(getComputedStyle(n).zIndex)),held:held.map(n=>Number(getComputedStyle(n).zIndex))};
+    })()`);
+    assert.equal(counts.moving.length,kind==='pair'?2:kind==='four'?4:1);
+    assert(counts.moving.every((z,i,a)=>!i||z>a[i-1]),'Thrown groups keep their play order');
+    assert(counts.moving.every(z=>counts.held.every(h=>z>h)),'Every thrown card stays above the old burn pile');
+    await evaluate(`document.querySelectorAll('.card-flight').forEach(n=>n.getAnimations({subtree:true}).forEach(a=>a.finish()))`);
+    await until(`!document.body.classList.contains('cards-in-motion')`);
+    if(kind==='four'){
+     await until(`!!document.querySelector('.forge-waiting-stack')`);
+     assert.equal(await evaluate(`document.querySelectorAll('.forge-waiting-stack .fx-card').length`),5);
+     assert.equal(await evaluate(`document.querySelector('.forge-waiting-stack .fx-card:last-child').dataset.art.endsWith('6')`),true);
+    }else{
+     const top=await evaluate(`(()=>{const cards=[...document.querySelectorAll('#pile .card')];return {id:cards.at(-1).dataset.cardId,opacity:Number(getComputedStyle(cards.at(-1)).opacity),layers:cards.map(n=>Number(getComputedStyle(n).zIndex))};})()`);
+     assert(top.layers.every((z,i,a)=>!i||z>a[i-1]),'Real pile preserves the same top card after handoff');
+     assert(kind==='joker'?top.id.startsWith('joker'):top.id.endsWith('8'));
+     assert.equal(top.opacity,kind==='joker'?.38:1,'Jokers alone remain transparent by game design');
+    }
+   });
+  for(const mobile of [false,true]) await scenario(`burn ten stays above the old pile on ${mobile?'phone':'desktop'}`,async()=>{
+   await call('Emulation.setDeviceMetricsOverride',{width:mobile?390:1440,height:mobile?844:900,deviceScaleFactor:1,mobile});
+   await motionFixture({burn:true,large:true});
+   const layers=await evaluate(`(()=>{
+    document.querySelector('#hand .card[data-art$="10"]').click();document.getElementById('play').click();
+    const incoming=document.querySelector('.card-flight-play');
+    if(!incoming)return null;
+    incoming.getAnimations({subtree:true}).forEach(a=>{a.pause();a.currentTime=550;});
+    return {incoming:Number(getComputedStyle(incoming).zIndex),resting:[...document.querySelectorAll('.card-flight-resting')].map(n=>Number(getComputedStyle(n).zIndex))};
+   })()`);
+   assert(layers,'The ten must have a visible flight before the burn');
+   assert.equal(layers.resting.length,5,'Keep the five visible old pile cards during landing');
+   assert(layers.resting.every(z=>layers.incoming>z),'The ten must fly and land ABOVE every old pile card: '+JSON.stringify(layers));
+   if(process.env.CAPTURE_BURN)await shot(mobile?'burn-ten-phone':'burn-ten-desktop');
+   await evaluate(`document.querySelector('.card-flight-play').getAnimations({subtree:true}).forEach(a=>a.play())`);
+   await until(`!!document.querySelector('.forge-waiting-stack')`);
+   assert.equal(await evaluate(`document.querySelector('.forge-waiting-stack .fx-card:last-child').dataset.art.endsWith('10')`),true,'The ten stays on top while waiting for ignition');
   });
   await scenario('burn lands before igniting; large pickups and interruption release input',async()=>{
    await motionFixture({burn:true});
@@ -386,6 +472,25 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
     assert.equal(await evaluate(`document.querySelector('#hand .card').disabled`),false,label+' next card is interactive');
    }
   });
+  for(const mobile of [false,true])for(const [outcome,rank] of [['safe',13],['burn',10],['pickup',4]])
+   await scenario(`blind landing ${outcome} stays solid at the center on ${mobile?'phone':'desktop'}`,async()=>{
+    await call('Emulation.setDeviceMetricsOverride',{width:mobile?390:1440,height:mobile?844:900,deviceScaleFactor:1,mobile});
+    await fixture({down:[rank,6,4]});
+    const pile=await evaluate(`document.querySelector('#pile').getBoundingClientRect().toJSON()`);
+    await evaluate(`document.querySelector('#hand .card').click()`);
+    await until(`!!document.querySelector('.card-reveal.revealed')`);
+    const landing=await evaluate(`(()=>{
+     document.querySelector('.card-reveal').click();
+     const wrap=document.querySelector('.reveal-card-wrap');
+     const a=wrap.getAnimations().at(-1);a.pause();a.currentTime=619;
+     return {opacity:Number(getComputedStyle(wrap).opacity),rect:wrap.getBoundingClientRect().toJSON()};
+    })()`);
+    assert.equal(landing.opacity,1,'A revealed card must not disappear into the pile');
+    assert(Math.abs(landing.rect.left+landing.rect.width/2-pile.left-pile.width/2)<1,'Blind card must return to the center even when burn/pickup empties the pile');
+    assert(Math.abs(landing.rect.top+landing.rect.height/2-pile.top-pile.height/2)<1,'Blind card must return to the original pile height');
+    assert(Math.abs(landing.rect.width-pile.width)<1,'Blind landing must match pile size');
+    if(process.env.CAPTURE_AUDIT)await shot(`blind-${outcome}-${mobile?'phone':'desktop'}`);
+   });
   await scenario('failed blind flip cannot be undone through the menu or refresh',async()=>{
    await fixture();await evaluate(`document.querySelector('#hand .card').click()`);
    let state=await saved();assert.equal(state.game.players[0].down.length,2);assert.equal(state.game.players[0].hand.length,2);assert.equal(state.game.turn,1);
@@ -436,7 +541,8 @@ test('browser rule and pause regressions', {skip: !existsSync(binary) ? 'Set CHR
   });
   async function beginMouseDrag(){
    await sleep(400); // Allow resumed hand layout and card travel to settle.
-   const point=await evaluate(`(()=>{const r=document.querySelector('#hand .card:last-child').getBoundingClientRect();return {x:r.right-12,y:r.top+r.height/2};})()`);
+   const point=await evaluate(`(()=>{for(const card of [...document.querySelectorAll('#hand .card')].reverse()){const r=card.getBoundingClientRect();for(const fx of [.75,.5,.25]){const x=r.left+r.width*fx,y=r.top+r.height/2;if(document.elementFromPoint(x,y)?.closest('#hand .card')===card)return {x,y};}}return null;})()`);
+   assert(point,'A visible card must receive the drag, including narrow viewports');
    await call('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',buttons:1,clickCount:1});
    await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:point.x,y:point.y-100,button:'left',buttons:1});
    await until(`!!document.querySelector('.drag-ghost')`);return point;

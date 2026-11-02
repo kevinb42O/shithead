@@ -20,7 +20,7 @@ window.onlineQA={message:(text)=>{session.chat.push({id:crypto.randomUUID(),send
  s.game=createGame(()=>.45,4,{autoArrange:false});
  if(handCount>3){const all=[...s.game.deck,...s.game.players.flatMap(p=>[...p.hand,...p.up,...p.down])];const take=n=>all.splice(0,n);s.game.players=s.members.map((m,i)=>({hand:take(i?2:handCount),up:take(i?2:3),down:take(i?2:3)}));s.game.deck=all;}
  s.game.phase=phase;s.game.turn=turn;assertGame(s.game);s.view=(await import('/multiplayer/session.js')).project(s.game,0);s.message=phase==='setup'?'Arrange your face-up cards, then press Ready.':'Your turn. Choose your cards.';render();document.getElementById('play').click();
-},refresh:()=>render(),busy:value=>{session.busy=value;render()},pickupFixture:async(who)=>{const {project}=await import('/multiplayer/session.js');const s=session;s.game.phase='playing';s.game.turn=who;s.game.pile.push(...s.game.deck.splice(-4));s.view=project(s.game,0);render();},pickup:(who)=>{const s=session,peer=s.members[who].id;s.command(peer,{type:'pickup',seq:(s.lastSequences.get(peer)||0)+1});},pile:()=>{session.game.pile.push(session.game.deck.pop());session.view=projectForQA(session);render()},pause:()=>{session.paused=true;render()},browse:()=>browse()};
+},playFixture:async(who)=>{const s=session;s.game.turn=who;s.game.pile=[];s.view=(await import('/multiplayer/session.js')).project(s.game,0);render();},play:(who)=>{const s=session,peer=s.members[who].id,c=s.game.players[who].hand.find(c=>![3,10,14].includes(c.rank));s.command(peer,{type:'play',ids:[c.id],seq:(s.lastSequences.get(peer)||0)+1});},refresh:()=>render(),busy:value=>{session.busy=value;render()},pickupFixture:async(who,{pileCount=4,emptyHand=false}={})=>{const {project}=await import('/multiplayer/session.js');const s=session;s.game.phase='playing';s.game.turn=who;if(emptyHand)s.game.deck.push(...s.game.players[who].hand.splice(0));s.game.pile.push(...s.game.deck.splice(-pileCount));s.view=project(s.game,0);render();},pickup:(who)=>{const s=session,peer=s.members[who].id;s.command(peer,{type:'pickup',seq:(s.lastSequences.get(peer)||0)+1});},pile:()=>{session.game.pile.push(session.game.deck.pop());session.view=projectForQA(session);render()},pause:()=>{session.paused=true;render()},browse:()=>browse()};
 function projectForQA(s){return s.view={...s.view,pile:s.game.pile,deckCount:s.game.deck.length}};`;
 const stakeFixture = `
 window.onlineStakeQA={
@@ -42,6 +42,7 @@ test(
         : false,
   },
   async (t) => {
+    const scenario=(name,fn)=>t.test(name,{skip:!!process.env.BROWSER_CASE&&!process.env.BROWSER_CASE.split('|').some(part=>name.includes(part))},fn);
     assert((await fetch(base)).ok, "Start npm run dev first");
     const profile = await mkdtemp(path.join(tmpdir(), "shithead-online-"));
     const chrome = spawn(
@@ -154,7 +155,7 @@ test(
       });
       await call("Page.navigate", { url: base });
       await until("!!window.onlineQA");
-      await t.test(
+      await scenario(
         "lobby refreshes without exceptions and name input survives refresh",
         async () => {
           await evaluate(
@@ -174,7 +175,7 @@ test(
           assert.deepEqual(errors, []);
         },
       );
-      await t.test("waiting room chat is visible, usable and survives the deal", async () => {
+      await scenario("waiting room chat is visible, usable and survives the deal", async () => {
         await evaluate("onlineQA.waiting()");
         assert.equal(await evaluate("!document.querySelector('.chat-panel').hidden"), true);
         await evaluate(`document.querySelector('#table-chat-input').value='Hello table'; document.querySelector('.chat-panel form').requestSubmit()`);
@@ -182,7 +183,7 @@ test(
         await evaluate(`document.querySelector('.ol-actions .ol-primary').click()`);
         assert.equal(await evaluate("document.querySelector('.chat-messages').textContent.includes('Hello table')"), true);
       });
-      await t.test("chat preserves drafts, reading position, and safely renders messages", async () => {
+      await scenario("chat preserves drafts, reading position, and safely renders messages", async () => {
         await evaluate("onlineQA.waiting()");
         await evaluate(`for(let i=0;i<24;i++)onlineQA.message('Message '+i+' with enough words to fill a conversation.');const input=document.querySelector('#table-chat-input');input.value='Unfinished thought';input.focus();input.setSelectionRange(4,4);document.querySelector('.chat-messages').scrollTop=0;onlineQA.message('<img src=x onerror=alert(1)>');`);
         assert.equal(await evaluate("document.querySelector('#table-chat-input').value"), 'Unfinished thought');
@@ -194,7 +195,7 @@ test(
         await evaluate("document.querySelector('.chat-jump').click()");
         assert.equal(await evaluate("document.querySelector('.chat-jump').hidden"), true);
       });
-      await t.test("lobby and chat fit mobile, tablet, desktop and short landscape screens", async () => {
+      await scenario("lobby and chat fit mobile, tablet, desktop and short landscape screens", async () => {
         for (const [width,height] of [[320,568],[390,844],[768,1024],[1366,768],[1920,1080],[2778,1286],[3440,1440],[844,390]]) {
           await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
           for (const screen of ['browse','waiting']) {
@@ -226,7 +227,7 @@ test(
           }
         }
       });
-      await t.test("coin stakes use existing art, require agreement, pay once and return rematches to the lobby", async () => {
+      await scenario("coin stakes use existing art, require agreement, pay once and return rematches to the lobby", async () => {
         await call('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
         await evaluate('onlineQA.waiting()');
         const initial = await evaluate('onlineStakeQA.balance()');
@@ -265,7 +266,7 @@ test(
         assert.equal(await evaluate('onlineStakeQA.accepted()'),false);
         assert.deepEqual(errors,[]);
       });
-      await t.test("message history scrolls without resizing the lobby or composer", async () => {
+      await scenario("message history scrolls without resizing the lobby or composer", async () => {
         for(const [width,height] of [[390,844],[1366,768],[2778,1286]]){
           await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
           await evaluate(`onlineQA.waiting();if(innerWidth<700)document.querySelector('.ol-tab[data-tab="chat"]').click()`);
@@ -292,7 +293,7 @@ test(
         [667, 375],
       ];
       for (const [width, height] of sizes)
-        await t.test(
+        await scenario(
           `${width}×${height}: arrangement and 30-card hand fit without page scrolling`,
           async () => {
             await call("Emulation.setDeviceMetricsOverride", {
@@ -355,7 +356,32 @@ test(
           },
         );
       for (const [width,height] of [[1400,900],[390,844]])
-        await t.test(`${width}×${height}: pickups travel only from the center pile`, async()=>{
+        await scenario(`${width}×${height}: concealed opponent draws stay visible after a play`,async()=>{
+          await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
+          for(const who of [1,2,3]){
+            await evaluate(`onlineQA.fixture({phase:'playing'})`);
+            await evaluate(`onlineQA.playFixture(${who})`);
+            await sleep(1800);
+            const flights=await evaluate(`(()=>{onlineQA.play(${who});return {play:document.querySelectorAll('.card-flight-play').length,draw:document.querySelectorAll('.card-flight-draw').length};})()`);
+            assert.equal(flights.play,1,'A concealed opponent plays one card: '+JSON.stringify(flights));
+            assert.equal(flights.draw,1,'The replacement card must travel from stock even if hand count stays at three');
+          }
+        });
+      for (const [width,height] of [[1400,900],[390,844]])
+        await scenario(`${width}×${height}: concealed pickups separate real stock replenishment`,async()=>{
+          await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});
+          for(const who of [1,2,3]){
+            await evaluate(`onlineQA.fixture({phase:'playing'})`);
+            await evaluate(`onlineQA.pickupFixture(${who},{pileCount:1,emptyHand:true})`);
+            await sleep(1800);
+            const flights=await evaluate(`(()=>{onlineQA.pickup(${who});return {pickup:document.querySelectorAll('.card-flight-pickup').length,draw:document.querySelectorAll('.card-flight-draw').length,hidden:document.querySelectorAll('.opponent-seat[data-seat="${who}"] .seat-hand [data-in-transit]').length};})()`);
+            assert.equal(flights.pickup,1,'Only the center card comes from the pile');
+            assert.equal(flights.draw,2,'Only the two real replacement cards come from stock');
+            assert.equal(flights.hidden,3,'Each arriving card has its own concealed destination');
+          }
+        });
+      for (const [width,height] of [[1400,900],[390,844]])
+        await scenario(`${width}×${height}: pickups travel only from the center pile`, async()=>{
           await call("Emulation.setDeviceMetricsOverride",{width,height,deviceScaleFactor:1,mobile:width<700});
           for (const who of [0,1,2,3]) {
             await evaluate(`onlineQA.fixture({phase:'playing'})`);
@@ -365,10 +391,11 @@ test(
               const pile=document.querySelector('#pile').getBoundingClientRect();
               const count=document.querySelectorAll('#pile .card').length;
               onlineQA.pickup(${who});
-              return {pile:{left:pile.left,top:pile.top,width:pile.width,height:pile.height},count,
+              return {draws:document.querySelectorAll('.card-flight-draw').length,pile:{left:pile.left,top:pile.top,width:pile.width,height:pile.height},count,
                 flights:[...document.querySelectorAll('.card-flight-pickup')].map(n=>{const r=n.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}}),
                 travel:[...document.querySelectorAll('.card')].filter(n=>n._travel?.playState==='running').map(n=>n.dataset.renderKey)};
             })()`);
+            assert.equal(flight.draws,0,"Picking up four cards must not duplicate them as stock draws");
             assert.equal(flight.count,4);
             assert(flight.pile.width>0 && flight.pile.height>0);
             assert(Math.abs(flight.pile.left+flight.pile.width/2-width/2)<1,"Source must be the middle of the table");
@@ -387,7 +414,7 @@ test(
             }
           }
         });
-      await t.test(
+      await scenario(
         "large-hand position and keyboard focus survive a state update",
         async () => {
           await evaluate(`onlineQA.fixture({phase:'playing',handCount:30})`);
@@ -408,7 +435,7 @@ test(
           );
         },
       );
-      await t.test(
+      await scenario(
         "public-card inspection exposes full names and only public cards",
         async () => {
           await evaluate(`onlineQA.fixture({phase:'setup'})`);
@@ -440,7 +467,7 @@ test(
           );
         },
       );
-      await t.test(
+      await scenario(
         "the original pickup control unlocks after acknowledgement and solo setup unlocks after leaving",
         async () => {
           await evaluate(`onlineQA.fixture({phase:'playing'})`);

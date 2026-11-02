@@ -1,0 +1,62 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      724,
+      724
+    ],
+    "crop" : [
+      45,
+      9,
+      646,
+      671
+    ],
+    "file" : "fox.png",
+    "height" : 671,
+    "id" : "fox",
+    "source" : "heroes.png",
+    "transparentFraction" : 0.43477763194041696,
+    "width" : 646
+  },
+  {
+    "cell" : [
+      724,
+      0,
+      724,
+      724
+    ],
+    "crop" : [
+      762,
+      52,
+      645,
+      628
+    ],
+    "file" : "owl.png",
+    "height" : 628,
+    "id" : "owl",
+    "source" : "heroes.png",
+    "transparentFraction" : 0.41532805775159487,
+    "width" : 645
+  },
+  {
+    "cell" : [
+      1448,
+      0,
+      724,
+      724
+    ],
+    "crop" : [
+      1489,
+      54,
+      644,
+      626
+    ],
+    "file" : "raven.png",
+    "height" : 626,
+    "id" : "raven",
+    "source" : "heroes.png",
+    "transparentFraction" : 0.44919836085589571,
+    "width" : 644
+  }
+]

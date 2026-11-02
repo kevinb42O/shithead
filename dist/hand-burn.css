@@ -1,0 +1,64 @@
+/* Materials belong to exposed cards everywhere, including reserves and flights. */
+.card:has(> .hand-card-cue),
+[data-material-host] { overflow: visible !important; }
+.public-card, .reveal-card { position: relative; }
+.card > svg,
+[data-material-host] > svg { border-radius: 5px; }
+.hand-card-cue {
+  --material-rim: #f3bd6c;
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 5px;
+  pointer-events: none;
+}
+.hand-frost { --material-rim: #b0deeb; }
+.hand-wind { --material-rim: #b4d8c8; }
+.hand-card-cue > canvas {
+  display: block;
+  position: absolute;
+  left: -22%;
+  top: -17.38%;
+  width: 144%;
+  height: 134.76%;
+  pointer-events: none;
+  z-index: 1;
+}
+/* Generated surface deposits sit beneath the moving perimeter material.
+   Match the printed rank, so four ordinary cards do not acquire a ten's finish. */
+[data-material-host]:has(> svg:is([data-card-material="frost"], [data-card-material="fire"])) > .hand-card-cue::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  /* Keep both printed index corners clear, independent of the generated alpha. */
+  mask-image: radial-gradient(ellipse 36% 24% at 0 0, transparent 85%, #000 110%), radial-gradient(ellipse 36% 24% at 100% 100%, transparent 85%, #000 110%);
+  mask-composite: intersect;
+}
+[data-material-host]:has(> svg[data-card-material="frost"]) > .hand-card-cue::before {
+  background-image: url('assets/card-materials/seven-frost-overlay.png');
+  opacity: .5;
+}
+[data-material-host]:has(> svg[data-card-material="fire"]) > .hand-card-cue::before {
+  background-image: url('assets/card-materials/ten-heat-overlay.png');
+  opacity: .34;
+}
+@media (prefers-contrast: more) {
+  [data-material-host]:has(> svg[data-card-material]) > .hand-card-cue::before { opacity: .22; }
+}
+/* A quiet material edge also works without a GPU. */
+.hand-card-cue:not([data-painted])::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  box-shadow: 0 0 0 1px var(--material-rim), 0 2px 8px color-mix(in srgb, var(--material-rim) 40%, transparent);
+}
+.hand-card-cue[hidden] { display: none; }
+/* Keep card glow from escaping an unrevealed 3-D face. */
+.reveal-card:has(> svg:not([data-card-material])) > .hand-card-cue { display: none; }

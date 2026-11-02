@@ -65,7 +65,7 @@ Audio is served locally. Sources and Blizzard ownership are recorded in `dist/as
 
 ### Menu music
 
-The start menu has a separate Menu music switch and Music volume slider in Options (22% default). Music follows the Sound switch, fades away when gameplay starts, resumes when returning to the menu, and pauses while the tab is hidden. A first click or keypress unlocks playback. Effects volume remains independent. The locally bundled Hearthstone title-menu recording and its crossfade preparation are documented in `dist/assets/audio/SOURCES.txt` and `manifest.json`.
+The start menu has a separate Menu music switch and Music volume slider in Options (22% default). Music follows the Sound switch, fades away when gameplay starts, resumes when returning to the menu, and pauses while the tab is hidden. A first click or keypress unlocks playback. Effects volume remains independent. The locally bundled track is “Celebration” by Alexander Nakarada, used under CC BY 4.0 (commercial use permitted with attribution). Credits, source links and crossfade preparation are documented in the in-game Credits, `CREDITS.md`, `dist/assets/audio/MUSIC-LICENSE.txt` and `manifest.json`.
 
 ## Online multiplayer
 
@@ -77,3 +77,14 @@ Choose **Multiplayer** in the main menu to create a public table or join a frien
 Open Fortune from the main menu or table setup for a fullscreen local slot machine. Daily allowance reveals a uniformly chosen 250–2,500 coin reward on four number drums, adds it to your wallet and becomes available again 24 hours after claiming. Bet coins uses three animal/symbol reels and 10, 25, 50, 100 or 250 coin stakes: any pair returns 2× the stake, any triple 3×, and no match zero. Payouts include the stake; average total return is 91.67%.
 
 Results are saved before animation in the same locked browser-local bank as card wagers. Skip animation, Collect now, Sound and reduced motion are supported. The existing below-10-coins refill remains available after the card wager resolves. These are virtual coins with no cash value. See [FORTUNE.md](FORTUNE.md) for rules, persistence, controls, artwork and local-browser limitations.
+
+
+## Tavern Brawl
+
+Open **Tavern Brawl** in the menu, or visit `/tavern-brawl.html` on the local development server. This separate hero battler uses twenty-card decks, eight-card hands and three crew places. An empty hand does not end a match. Attempting to draw from an empty deck deals increasing fatigue damage (1, 2, 3, …), including extra card draws and the Owl's power. The battlefield shows the next fatigue amount and identifies lethal draws.
+
+New matches use a normal first-turn draw: the first player chooses from three cards and draws a fourth; the second chooses from four and receives a free Lucky Coin after both mulligans finish. The generated Coin is additional to the legal twenty-card deck and grants one energy for the current turn. Existing version-one saved matches retain their original opening state and remain playable.
+
+Online Brawl allows 45 seconds for mulligans (unconfirmed hands are kept automatically) and 75 seconds per turn (time expiry ends the turn). Actions and menus do not restart the clock. Connection interruptions have a 15-second grace period, after which the disconnected seat forfeits. Leaving a live table concedes it. The host remains authoritative; if the host disappears, the guest records the forfeit locally. This remains peer-to-peer friendly play with no central adjudication or host migration.
+
+Run `npm test` for rules and network regressions. With the local server running, `node scripts/tavern-brawl/test-mechanics-browser.mjs` checks opening hands, fatigue at four viewport sizes, empty-hand recovery, online countdowns and forfeit results in an isolated browser profile. `node scripts/tavern-brawl/test-network-browser.mjs` exercises real WebRTC data channels with local test signaling.

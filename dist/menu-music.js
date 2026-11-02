@@ -17,7 +17,7 @@ export function createMenuMusic(){
     gain=context.createGain();gain.gain.value=0;gain.connect(context.destination);return context;
   }
   async function load(){
-    if(!graph())return null;if(!loading)loading=fetch(new URL('assets/audio/hs-menu-music.mp3',import.meta.url)).then(r=>{if(!r.ok)throw Error('Menu music unavailable');return r.arrayBuffer();}).then(data=>context.decodeAudioData(data)).then(decoded=>{buffer=decoded;return decoded;}).catch(()=>{loading=null;return null;});
+    if(!graph())return null;if(!loading)loading=fetch(new URL('assets/audio/tavern-celebration.mp3',import.meta.url)).then(r=>{if(!r.ok)throw Error('Menu music unavailable');return r.arrayBuffer();}).then(data=>context.decodeAudioData(data)).then(decoded=>{buffer=decoded;return decoded;}).catch(()=>{loading=null;return null;});
     return loading;
   }
   function start(){

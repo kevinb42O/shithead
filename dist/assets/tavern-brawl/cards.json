@@ -1,0 +1,2171 @@
+{
+  "version": 3,
+  "rulesVersion": 3,
+  "status": "playable-v3",
+  "balance": "after-midnight-1",
+  "cards": [
+    {
+      "id": "tavern-rat",
+      "name": "Tavern Rat",
+      "type": "crew",
+      "cost": 1,
+      "attack": 1,
+      "health": 1,
+      "faction": "neutral",
+      "text": "Battlecry: draw a card.",
+      "effect": {
+        "trigger": "play",
+        "kind": "draw",
+        "count": 1
+      },
+      "art": "cards/tavern-rat.png",
+      "sheet": "sheets/cards-01-common-crew.png",
+      "cell": 0,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15817,
+          "y": 0.09066
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "mouse-guard",
+      "name": "Mouse Guard",
+      "type": "crew",
+      "cost": 2,
+      "attack": 1,
+      "health": 5,
+      "faction": "neutral",
+      "text": "Guard.",
+      "effect": {
+        "kind": "guard"
+      },
+      "art": "cards/mouse-guard.png",
+      "sheet": "sheets/cards-01-common-crew.png",
+      "cell": 1,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.1229,
+          "y": 0.09147
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "barroom-bruiser",
+      "name": "Barroom Bruiser",
+      "type": "crew",
+      "cost": 3,
+      "attack": 3,
+      "health": 3,
+      "faction": "neutral",
+      "text": "Battlecry: deal 1 damage to an enemy crew member.",
+      "effect": {
+        "trigger": "play",
+        "kind": "damage",
+        "target": "enemy-crew",
+        "amount": 1
+      },
+      "art": "cards/barroom-bruiser.png",
+      "sheet": "sheets/cards-01-common-crew.png",
+      "cell": 2,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15996,
+          "y": 0.09047
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "badger-sentinel",
+      "name": "Badger Sentinel",
+      "type": "crew",
+      "cost": 4,
+      "attack": 3,
+      "health": 6,
+      "faction": "neutral",
+      "text": "Guard.",
+      "effect": {
+        "kind": "guard"
+      },
+      "art": "cards/badger-sentinel.png",
+      "sheet": "sheets/cards-01-common-crew.png",
+      "cell": 3,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.12395,
+          "y": 0.09022
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "fox-cutpurse",
+      "name": "Fox Cutpurse",
+      "type": "crew",
+      "cost": 2,
+      "attack": 3,
+      "health": 2,
+      "faction": "fox",
+      "text": "After attacking a hero, add 1 coin to the shared pot.",
+      "effect": {
+        "trigger": "attack-hero",
+        "kind": "pot",
+        "amount": 1
+      },
+      "art": "cards/fox-cutpurse.png",
+      "sheet": "sheets/cards-02-faction-crew.png",
+      "cell": 0,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15645,
+          "y": 0.08966
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "raven-cutpurse",
+      "name": "Raven Cutpurse",
+      "type": "crew",
+      "cost": 2,
+      "attack": 2,
+      "health": 3,
+      "faction": "raven",
+      "text": "Battlecry: add 2 coins to the shared pot.",
+      "effect": {
+        "trigger": "play",
+        "kind": "pot",
+        "amount": 2
+      },
+      "art": "cards/raven-cutpurse.png",
+      "sheet": "sheets/cards-02-faction-crew.png",
+      "cell": 1,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.1229,
+          "y": 0.09091
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "owl-apprentice",
+      "name": "Owl Apprentice",
+      "type": "crew",
+      "cost": 2,
+      "attack": 2,
+      "health": 2,
+      "faction": "owl",
+      "text": "Battlecry: draw a card.",
+      "effect": {
+        "trigger": "play",
+        "kind": "draw",
+        "count": 1
+      },
+      "art": "cards/owl-apprentice.png",
+      "sheet": "sheets/cards-02-faction-crew.png",
+      "cell": 2,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15645,
+          "y": 0.09047
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "hedgehog-watchman",
+      "name": "Hedgehog Watchman",
+      "type": "crew",
+      "cost": 2,
+      "attack": 2,
+      "health": 4,
+      "faction": "neutral",
+      "text": "Guard.",
+      "effect": {
+        "kind": "guard"
+      },
+      "art": "cards/hedgehog-watchman.png",
+      "sheet": "sheets/cards-02-faction-crew.png",
+      "cell": 3,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.12316,
+          "y": 0.08966
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "stoat-gambler",
+      "name": "Stoat Gambler",
+      "type": "crew",
+      "cost": 3,
+      "attack": 3,
+      "health": 3,
+      "faction": "fox",
+      "text": "Battlecry: add 2 coins to the shared pot.",
+      "effect": {
+        "trigger": "play",
+        "kind": "pot",
+        "amount": 2
+      },
+      "art": "cards/stoat-gambler.png",
+      "sheet": "sheets/cards-03-tavern-crew.png",
+      "cell": 0,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15745,
+          "y": 0.09172
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "hare-runner",
+      "name": "Hare Runner",
+      "type": "crew",
+      "cost": 1,
+      "attack": 2,
+      "health": 1,
+      "faction": "neutral",
+      "text": "A fast, fragile crew member.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "art": "cards/hare-runner.png",
+      "sheet": "sheets/cards-03-tavern-crew.png",
+      "cell": 1,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.13085,
+          "y": 0.09241
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "toad-brewer",
+      "name": "Toad Brewer",
+      "type": "crew",
+      "cost": 3,
+      "attack": 2,
+      "health": 4,
+      "faction": "neutral",
+      "text": "Battlecry: restore 3 health to your hero.",
+      "effect": {
+        "trigger": "play",
+        "kind": "heal",
+        "target": "own-hero",
+        "amount": 3
+      },
+      "art": "cards/toad-brewer.png",
+      "sheet": "sheets/cards-03-tavern-crew.png",
+      "cell": 2,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15458,
+          "y": 0.09116
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "raccoon-scavenger",
+      "name": "Raccoon Scavenger",
+      "type": "crew",
+      "cost": 3,
+      "attack": 3,
+      "health": 3,
+      "faction": "neutral",
+      "text": "Battlecry: if the pot has 3 or more coins, draw a card.",
+      "effect": {
+        "trigger": "play",
+        "kind": "conditional-draw",
+        "potMinimum": 3,
+        "count": 1
+      },
+      "art": "cards/raccoon-scavenger.png",
+      "sheet": "sheets/cards-03-tavern-crew.png",
+      "cell": 3,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.13511,
+          "y": 0.09229
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.14,
+          "y": 0.72
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.72
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "pocket-sand",
+      "name": "Pocket Sand",
+      "type": "trick",
+      "cost": 2,
+      "faction": "fox",
+      "text": "An enemy crew member cannot attack during its next turn.",
+      "effect": {
+        "kind": "stun",
+        "target": "enemy-crew",
+        "turns": 1
+      },
+      "art": "cards/pocket-sand.png",
+      "sheet": "sheets/cards-04-tricks.png",
+      "cell": 0,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15856,
+          "y": 0.09078
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "last-call",
+      "name": "Last Call",
+      "type": "trick",
+      "cost": 2,
+      "faction": "neutral",
+      "text": "Give a friendly crew member +2/+2 this turn.",
+      "effect": {
+        "kind": "buff",
+        "target": "friendly-crew",
+        "attack": 2,
+        "health": 2,
+        "duration": "turn"
+      },
+      "art": "cards/last-call.png",
+      "sheet": "sheets/cards-04-tricks.png",
+      "cell": 1,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.12316,
+          "y": 0.09147
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "loaded-dice",
+      "name": "Loaded Dice",
+      "type": "trick",
+      "cost": 4,
+      "faction": "fox",
+      "text": "Deal 4 damage to an enemy.",
+      "effect": {
+        "kind": "damage",
+        "target": "enemy",
+        "amount": 4
+      },
+      "art": "cards/loaded-dice.png",
+      "sheet": "sheets/cards-04-tricks.png",
+      "cell": 2,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15678,
+          "y": 0.09091
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "bar-fight",
+      "name": "Bar Fight",
+      "type": "trick",
+      "cost": 3,
+      "faction": "neutral",
+      "text": "Deal 2 damage to all crew members.",
+      "effect": {
+        "kind": "damage",
+        "target": "all-crew",
+        "amount": 2
+      },
+      "art": "cards/bar-fight.png",
+      "sheet": "sheets/cards-04-tricks.png",
+      "cell": 3,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.12316,
+          "y": 0.09147
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "pilfer",
+      "name": "Pilfer",
+      "type": "trick",
+      "cost": 1,
+      "faction": "fox",
+      "text": "Draw a card. Add 1 coin to the shared pot.",
+      "effect": {
+        "kind": "sequence",
+        "steps": [
+          {
+            "kind": "draw",
+            "count": 1
+          },
+          {
+            "kind": "pot",
+            "amount": 1
+          }
+        ]
+      },
+      "art": "cards/pilfer.png",
+      "sheet": "sheets/cards-05-tricks.png",
+      "cell": 0,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15466,
+          "y": 0.09066
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "second-wind",
+      "name": "Second Wind",
+      "type": "trick",
+      "cost": 2,
+      "faction": "owl",
+      "text": "Restore 5 health to your hero.",
+      "effect": {
+        "kind": "heal",
+        "target": "own-hero",
+        "amount": 5
+      },
+      "art": "cards/second-wind.png",
+      "sheet": "sheets/cards-05-tricks.png",
+      "cell": 1,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.12316,
+          "y": 0.09147
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "smoke-bomb",
+      "name": "Smoke Bomb",
+      "type": "trick",
+      "cost": 1,
+      "faction": "neutral",
+      "text": "Return a friendly crew member to your hand.",
+      "effect": {
+        "kind": "return",
+        "target": "friendly-crew"
+      },
+      "art": "cards/smoke-bomb.png",
+      "sheet": "sheets/cards-05-tricks.png",
+      "cell": 2,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.15254,
+          "y": 0.09172
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "raven-bargain",
+      "name": "Raven Bargain",
+      "type": "trick",
+      "cost": 2,
+      "faction": "raven",
+      "text": "Sacrifice a friendly crew member. Draw 2 cards.",
+      "effect": {
+        "kind": "sacrifice-draw",
+        "target": "friendly-crew",
+        "count": 2
+      },
+      "art": "cards/raven-bargain.png",
+      "sheet": "sheets/cards-05-tricks.png",
+      "cell": 3,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.12553,
+          "y": 0.09078
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "rusty-dagger",
+      "name": "Rusty Dagger",
+      "type": "equipment",
+      "cost": 1,
+      "faction": "neutral",
+      "text": "Give a friendly crew member +2 attack.",
+      "effect": {
+        "kind": "buff",
+        "target": "friendly-crew",
+        "attack": 2,
+        "health": 0,
+        "duration": "permanent"
+      },
+      "art": "cards/rusty-dagger.png",
+      "sheet": "sheets/cards-06-equipment.png",
+      "cell": 0,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.14606,
+          "y": 0.08897
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "oak-shield",
+      "name": "Oak Shield",
+      "type": "equipment",
+      "cost": 2,
+      "faction": "neutral",
+      "text": "Give a friendly crew member +3 health and Guard.",
+      "effect": {
+        "kind": "buff",
+        "target": "friendly-crew",
+        "attack": 0,
+        "health": 3,
+        "guard": true,
+        "duration": "permanent"
+      },
+      "art": "cards/oak-shield.png",
+      "sheet": "sheets/cards-06-equipment.png",
+      "cell": 1,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.12316,
+          "y": 0.08828
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "lucky-coin",
+      "name": "Lucky Coin",
+      "type": "equipment",
+      "cost": 0,
+      "faction": "neutral",
+      "text": "Gain 1 energy this turn.",
+      "effect": {
+        "kind": "energy",
+        "amount": 1,
+        "duration": "turn"
+      },
+      "art": "cards/lucky-coin.png",
+      "sheet": "sheets/cards-06-equipment.png",
+      "cell": 2,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.14712,
+          "y": 0.08946
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "hearth-lantern",
+      "name": "Hearth Lantern",
+      "type": "equipment",
+      "cost": 3,
+      "faction": "neutral",
+      "text": "Give a friendly crew member +1/+2. Restore 2 health to your hero.",
+      "effect": {
+        "kind": "sequence",
+        "steps": [
+          {
+            "kind": "buff",
+            "target": "friendly-crew",
+            "attack": 1,
+            "health": 2,
+            "duration": "permanent"
+          },
+          {
+            "kind": "heal",
+            "target": "own-hero",
+            "amount": 2
+          }
+        ]
+      },
+      "art": "cards/hearth-lantern.png",
+      "sheet": "sheets/cards-06-equipment.png",
+      "cell": 3,
+      "status": "playable-v1",
+      "layout": {
+        "cost": {
+          "x": 0.12421,
+          "y": 0.08877
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      },
+      "rarity": "common",
+      "set": "core"
+    },
+    {
+      "id": "cinder-rat",
+      "name": "Cinder Rat",
+      "cost": 1,
+      "attack": 1,
+      "health": 2,
+      "faction": "neutral",
+      "rarity": "common",
+      "type": "crew",
+      "text": "Last Orders: add 1 coin to the shared pot.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "deathEffects": [
+        {
+          "kind": "pot",
+          "amount": 1
+        }
+      ],
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/cinder-rat.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.86736,
+          "y": 0.11914,
+          "width": 0.10355
+        }
+      }
+    },
+    {
+      "id": "wickrunner-bat",
+      "name": "Wickrunner Bat",
+      "cost": 2,
+      "attack": 2,
+      "health": 2,
+      "faction": "neutral",
+      "rarity": "common",
+      "type": "crew",
+      "text": "Skirmish.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "keywords": [
+        "skirmish"
+      ],
+      "shortName": "Wickrunner",
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/wickrunner-bat.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "ironjaw-bouncer",
+      "name": "Ironjaw Bouncer",
+      "cost": 4,
+      "attack": 4,
+      "health": 5,
+      "faction": "neutral",
+      "rarity": "rare",
+      "type": "crew",
+      "text": "Guard.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "keywords": [
+        "guard"
+      ],
+      "shortName": "Ironjaw",
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/ironjaw-bouncer.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12313,
+          "y": 0.0918
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.9403,
+          "y": 0.06445,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "lantern-moth",
+      "name": "Lantern Moth",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "faction": "neutral",
+      "rarity": "common",
+      "type": "crew",
+      "text": "Battlecry: restore 2 health to your hero.",
+      "effect": {
+        "trigger": "play",
+        "kind": "heal",
+        "amount": 2
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/lantern-moth.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12295,
+          "y": 0.09033
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "bell-tower-marksman",
+      "name": "Bell-Tower Marksman",
+      "cost": 4,
+      "attack": 3,
+      "health": 4,
+      "faction": "neutral",
+      "rarity": "rare",
+      "type": "crew",
+      "text": "Battlecry: deal 2 damage to an enemy crew member.",
+      "effect": {
+        "trigger": "play",
+        "kind": "damage",
+        "target": "enemy-crew",
+        "amount": 2
+      },
+      "shortName": "Marksman",
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/bell-tower-marksman.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12146,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.93294,
+          "y": 0.06299,
+          "width": 0.06779
+        }
+      }
+    },
+    {
+      "id": "black-iron-buckler",
+      "name": "Black-Iron Buckler",
+      "cost": 2,
+      "faction": "neutral",
+      "rarity": "common",
+      "type": "equipment",
+      "text": "Give a friendly crew member +1 health and Ward.",
+      "effect": {
+        "kind": "buff",
+        "target": "friendly-crew",
+        "health": 1,
+        "ward": true
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/black-iron-buckler.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12388,
+          "y": 0.08789
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.93433,
+          "y": 0.06885,
+          "width": 0.08276
+        }
+      }
+    },
+    {
+      "id": "shatter-the-seal",
+      "name": "Shatter the Seal",
+      "cost": 3,
+      "faction": "neutral",
+      "rarity": "rare",
+      "type": "trick",
+      "text": "Remove an enemy crew member’s Guard and Ward. Deal 2 damage to it.",
+      "effect": {
+        "kind": "sequence",
+        "steps": [
+          {
+            "kind": "strip-protection",
+            "target": "enemy-crew"
+          },
+          {
+            "kind": "damage",
+            "target": "enemy-crew",
+            "amount": 2
+          }
+        ]
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/shatter-the-seal.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.94361,
+          "y": 0.06396,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "furnace-burst",
+      "name": "Furnace Burst",
+      "cost": 5,
+      "faction": "neutral",
+      "rarity": "rare",
+      "type": "trick",
+      "text": "Deal 3 damage to all enemy crew members.",
+      "effect": {
+        "kind": "damage",
+        "target": "enemy-row",
+        "amount": 3
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/furnace-burst.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.15714,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.9406,
+          "y": 0.06348,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "the-bell-tolls",
+      "name": "The Bell Tolls",
+      "cost": 7,
+      "faction": "neutral",
+      "rarity": "epic",
+      "type": "trick",
+      "text": "Deal 5 damage to all crew members.",
+      "effect": {
+        "kind": "damage",
+        "target": "all-crew",
+        "amount": 5
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/the-bell-tolls.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.94286,
+          "y": 0.06396,
+          "width": 0.06508
+        }
+      }
+    },
+    {
+      "id": "mordren-ashen-host",
+      "name": "Mordren, Ashen Host",
+      "cost": 8,
+      "attack": 6,
+      "health": 8,
+      "faction": "neutral",
+      "rarity": "legendary",
+      "type": "crew",
+      "text": "Guard. Battlecry: deal 3 damage to all other crew members.",
+      "effect": {
+        "trigger": "play",
+        "kind": "damage",
+        "target": "other-crew",
+        "amount": 3
+      },
+      "shortName": "Mordren",
+      "keywords": [
+        "guard"
+      ],
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/mordren-ashen-host.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12072,
+          "y": 0.08936
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "sootpaw-lookout",
+      "name": "Sootpaw Lookout",
+      "cost": 2,
+      "attack": 2,
+      "health": 3,
+      "faction": "fox",
+      "rarity": "common",
+      "type": "crew",
+      "text": "Setup: add 2 coins to the shared pot.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "setupEffect": {
+        "kind": "pot",
+        "amount": 2
+      },
+      "shortName": "Sootpaw",
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/sootpaw-lookout.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.1237,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "cut-the-purse",
+      "name": "Cut the Purse",
+      "cost": 2,
+      "faction": "fox",
+      "rarity": "common",
+      "type": "trick",
+      "text": "Deal 2 damage to an enemy crew member. Add 1 coin to the shared pot.",
+      "effect": {
+        "kind": "sequence",
+        "steps": [
+          {
+            "kind": "damage",
+            "target": "enemy-crew",
+            "amount": 2
+          },
+          {
+            "kind": "pot",
+            "amount": 1
+          }
+        ]
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/cut-the-purse.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      }
+    },
+    {
+      "id": "gutterglass-duelist",
+      "name": "Gutterglass Duelist",
+      "cost": 3,
+      "attack": 3,
+      "health": 3,
+      "faction": "fox",
+      "rarity": "rare",
+      "type": "crew",
+      "text": "Skirmish. Setup: gain +1 attack.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "keywords": [
+        "skirmish"
+      ],
+      "setupEffect": {
+        "kind": "self-buff",
+        "attack": 1
+      },
+      "shortName": "Gutterglass",
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/gutterglass-duelist.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.94039,
+          "y": 0.06543,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "house-edge",
+      "name": "House Edge",
+      "cost": 3,
+      "faction": "fox",
+      "rarity": "epic",
+      "type": "trick",
+      "text": "Spend 6 pot coins. Draw 2 cards. Give your crew +1 attack this turn.",
+      "effect": {
+        "kind": "sequence",
+        "potMinimum": 6,
+        "steps": [
+          {
+            "kind": "spend-pot",
+            "amount": 6
+          },
+          {
+            "kind": "draw",
+            "count": 2
+          },
+          {
+            "kind": "row-buff",
+            "attack": 1,
+            "duration": "turn"
+          }
+        ]
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/house-edge.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.15714,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.88722,
+          "y": 0.05127,
+          "width": 0.07711
+        }
+      }
+    },
+    {
+      "id": "vesper-blackpaw-king",
+      "name": "Vesper, Blackpaw King",
+      "cost": 6,
+      "attack": 5,
+      "health": 5,
+      "faction": "fox",
+      "rarity": "legendary",
+      "type": "crew",
+      "text": "Skirmish. Setup: gain Ward.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "shortName": "Vesper",
+      "keywords": [
+        "skirmish"
+      ],
+      "setupEffect": {
+        "kind": "self-buff",
+        "ward": true
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/vesper-blackpaw-king.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12295,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "ashveil-acolyte",
+      "name": "Ashveil Acolyte",
+      "cost": 2,
+      "attack": 1,
+      "health": 3,
+      "faction": "owl",
+      "rarity": "common",
+      "type": "crew",
+      "text": "Ward.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "keywords": [
+        "ward"
+      ],
+      "shortName": "Ashveil",
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/ashveil-acolyte.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.1237,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "moonlit-stitch",
+      "name": "Moonlit Stitch",
+      "cost": 1,
+      "faction": "owl",
+      "rarity": "common",
+      "type": "trick",
+      "text": "Restore 3 health to a friendly crew member.",
+      "effect": {
+        "kind": "heal-crew",
+        "target": "friendly-crew",
+        "amount": 3
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/moonlit-stitch.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.93985,
+          "y": 0.07178,
+          "width": 0.08011
+        }
+      }
+    },
+    {
+      "id": "nightglass-diviner",
+      "name": "Nightglass Diviner",
+      "cost": 3,
+      "attack": 2,
+      "health": 4,
+      "faction": "owl",
+      "rarity": "rare",
+      "type": "crew",
+      "text": "Battlecry: look at your top 2 cards. Draw one. Put the other on the bottom.",
+      "effect": {
+        "trigger": "play",
+        "kind": "divine"
+      },
+      "shortName": "Nightglass",
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/nightglass-diviner.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.90537,
+          "y": 0.12207,
+          "width": 0.09014
+        }
+      }
+    },
+    {
+      "id": "sealed-constellation",
+      "name": "Sealed Constellation",
+      "cost": 5,
+      "faction": "owl",
+      "rarity": "epic",
+      "type": "trick",
+      "text": "Give a friendly crew member +2/+3 and Ward.",
+      "effect": {
+        "kind": "buff",
+        "target": "friendly-crew",
+        "attack": 2,
+        "health": 3,
+        "ward": true
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/sealed-constellation.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.93985,
+          "y": 0.07129,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "orun-eclipse-warden",
+      "name": "Orun, Eclipse Warden",
+      "cost": 7,
+      "attack": 4,
+      "health": 8,
+      "faction": "owl",
+      "rarity": "legendary",
+      "type": "crew",
+      "text": "Guard. Ward. Battlecry: restore 4 health to your hero.",
+      "effect": {
+        "trigger": "play",
+        "kind": "heal",
+        "amount": 4
+      },
+      "shortName": "Orun",
+      "keywords": [
+        "guard",
+        "ward"
+      ],
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/orun-eclipse-warden.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "gravewax-collector",
+      "name": "Gravewax Collector",
+      "cost": 3,
+      "attack": 3,
+      "health": 3,
+      "faction": "raven",
+      "rarity": "rare",
+      "type": "crew",
+      "text": "Last Orders: draw a card.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "deathEffects": [
+        {
+          "kind": "draw",
+          "count": 1
+        }
+      ],
+      "shortName": "Gravewax",
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/gravewax-collector.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "debt-eater",
+      "name": "Debt-Eater",
+      "cost": 5,
+      "attack": 4,
+      "health": 5,
+      "faction": "raven",
+      "rarity": "rare",
+      "type": "crew",
+      "text": "After another friendly crew member dies, gain +1/+2. Once per turn.",
+      "effect": {
+        "kind": "vanilla"
+      },
+      "deathObserver": {
+        "attack": 1,
+        "health": 2
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/debt-eater.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12164,
+          "y": 0.08789
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.94179,
+          "y": 0.06104,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "collect-the-debt",
+      "name": "Collect the Debt",
+      "cost": 4,
+      "faction": "raven",
+      "rarity": "epic",
+      "type": "trick",
+      "text": "Destroy a damaged enemy crew member. Deal 2 damage to your hero.",
+      "effect": {
+        "kind": "sequence",
+        "steps": [
+          {
+            "kind": "destroy",
+            "target": "damaged-enemy-crew"
+          },
+          {
+            "kind": "damage",
+            "target": "own-hero",
+            "amount": 2
+          }
+        ]
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/collect-the-debt.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.94361,
+          "y": 0.06543,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "funeral-velvet",
+      "name": "Funeral Velvet",
+      "cost": 3,
+      "faction": "raven",
+      "rarity": "epic",
+      "type": "equipment",
+      "text": "Give a friendly crew member +2 health and “Last Orders: restore 4 health to your hero.”",
+      "effect": {
+        "kind": "buff",
+        "target": "friendly-crew",
+        "health": 2,
+        "deathEffect": {
+          "kind": "heal",
+          "amount": 4
+        }
+      },
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/funeral-velvet.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12388,
+          "y": 0.08838
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.94179,
+          "y": 0.06494,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "mother-nox-bellkeeper",
+      "name": "Mother Nox, Bellkeeper",
+      "cost": 8,
+      "attack": 5,
+      "health": 8,
+      "faction": "raven",
+      "rarity": "legendary",
+      "type": "crew",
+      "text": "Battlecry: sacrifice another friendly crew member to deal 4 damage to the enemy hero and restore 4 health to yours.",
+      "effect": {
+        "trigger": "play",
+        "kind": "sacrifice-drain",
+        "target": "friendly-crew",
+        "amount": 4
+      },
+      "shortName": "Mother Nox",
+      "set": "after-midnight",
+      "art": "expansions/after-midnight/cards/mother-nox-bellkeeper.png",
+      "status": "playable-v3",
+      "layout": {
+        "cost": {
+          "x": 0.12295,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    }
+  ],
+  "decks": {
+    "fox": [
+      "tavern-rat",
+      "tavern-rat",
+      "mouse-guard",
+      "mouse-guard",
+      "fox-cutpurse",
+      "fox-cutpurse",
+      "stoat-gambler",
+      "stoat-gambler",
+      "hare-runner",
+      "hare-runner",
+      "pocket-sand",
+      "pocket-sand",
+      "last-call",
+      "last-call",
+      "loaded-dice",
+      "loaded-dice",
+      "pilfer",
+      "pilfer",
+      "rusty-dagger",
+      "rusty-dagger"
+    ],
+    "owl": [
+      "tavern-rat",
+      "tavern-rat",
+      "mouse-guard",
+      "mouse-guard",
+      "owl-apprentice",
+      "owl-apprentice",
+      "badger-sentinel",
+      "badger-sentinel",
+      "hedgehog-watchman",
+      "hedgehog-watchman",
+      "toad-brewer",
+      "toad-brewer",
+      "second-wind",
+      "second-wind",
+      "bar-fight",
+      "bar-fight",
+      "oak-shield",
+      "oak-shield",
+      "hearth-lantern",
+      "hearth-lantern"
+    ],
+    "raven": [
+      "tavern-rat",
+      "tavern-rat",
+      "mouse-guard",
+      "mouse-guard",
+      "raven-cutpurse",
+      "raven-cutpurse",
+      "barroom-bruiser",
+      "barroom-bruiser",
+      "raccoon-scavenger",
+      "raccoon-scavenger",
+      "toad-brewer",
+      "toad-brewer",
+      "raven-bargain",
+      "raven-bargain",
+      "bar-fight",
+      "bar-fight",
+      "smoke-bomb",
+      "smoke-bomb",
+      "rusty-dagger",
+      "rusty-dagger"
+    ]
+  },
+  "featuredDecks": {
+    "fox": [
+      "tavern-rat",
+      "tavern-rat",
+      "fox-cutpurse",
+      "fox-cutpurse",
+      "sootpaw-lookout",
+      "sootpaw-lookout",
+      "cut-the-purse",
+      "cut-the-purse",
+      "gutterglass-duelist",
+      "gutterglass-duelist",
+      "pilfer",
+      "pilfer",
+      "ironjaw-bouncer",
+      "ironjaw-bouncer",
+      "shatter-the-seal",
+      "shatter-the-seal",
+      "house-edge",
+      "vesper-blackpaw-king",
+      "mordren-ashen-host",
+      "furnace-burst"
+    ],
+    "owl": [
+      "tavern-rat",
+      "tavern-rat",
+      "owl-apprentice",
+      "owl-apprentice",
+      "ashveil-acolyte",
+      "ashveil-acolyte",
+      "nightglass-diviner",
+      "nightglass-diviner",
+      "badger-sentinel",
+      "badger-sentinel",
+      "bar-fight",
+      "bar-fight",
+      "shatter-the-seal",
+      "shatter-the-seal",
+      "hearth-lantern",
+      "hearth-lantern",
+      "moonlit-stitch",
+      "sealed-constellation",
+      "orun-eclipse-warden",
+      "mordren-ashen-host"
+    ],
+    "raven": [
+      "cinder-rat",
+      "cinder-rat",
+      "tavern-rat",
+      "tavern-rat",
+      "gravewax-collector",
+      "gravewax-collector",
+      "raven-cutpurse",
+      "raven-cutpurse",
+      "barroom-bruiser",
+      "barroom-bruiser",
+      "debt-eater",
+      "debt-eater",
+      "funeral-velvet",
+      "funeral-velvet",
+      "collect-the-debt",
+      "collect-the-debt",
+      "raven-bargain",
+      "the-bell-tolls",
+      "mother-nox-bellkeeper",
+      "mordren-ashen-host"
+    ]
+  }
+}

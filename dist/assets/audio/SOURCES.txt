@@ -16,12 +16,23 @@ Playback uses category levels, mild compression, bounded overlap and muting.
 
 manifest.json records every source filename, duration and source SHA-256.
 
-MENU MUSIC
-Hearthstone title-menu recording, copyright Blizzard Entertainment.
-Retrieved from the titleMusic.mp3 asset in this educational project:
-https://github.com/imostafa404/Mediocre-Hearthstone/blob/master/titleMusic.mp3
-Original duration: 135.88 seconds. Prepared loop: 133.38 seconds.
-Preparation overlaps the tail and opening by 2.5 seconds using a linear
-crossfade, preserves stereo and dynamics, and encodes at 160 kbps MP3.
-The menu transport fades in over 900 ms and out over 450 ms.
-No open-source redistribution license is asserted for this recording.
+MENU MUSIC — CELEBRATION
+
+Music: Celebration by Alexander Nakarada (https://creatorchords.com)
+Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+Official track and license offer:
+https://creatorchords.com/music/celebration/
+Official download:
+https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Celebration.mp3
+
+CC BY 4.0 permits copying, redistribution and adaptation, including commercial
+use, with appropriate attribution, a license link and notice of changes.
+Full legal terms: https://creativecommons.org/licenses/by/4.0/legalcode
+
+Changes: 2.5-second tail-to-head loop crossfade; 160 kbps stereo MP3 encoding.
+Playback adds volume control, a 900 ms fade-in and a 450 ms fade-out.
+No endorsement by Alexander Nakarada is implied.
+The music license applies to this track, independently of other game assets.
+Source and bundled-file SHA-256 hashes are recorded in manifest.json.

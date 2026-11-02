@@ -1,0 +1,14 @@
+/* Reactive light lives over the painting, beneath the semantic controls. */
+.field-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.battle-effects{contain:strict;pointer-events:none}
+.field-number{position:absolute;translate:-50% -50%;font:700 clamp(27px,4.5vh,46px)/1 Brawl,Georgia,serif;color:#fff5d9;-webkit-text-stroke:1px #55280f;paint-order:stroke fill;text-shadow:0 3px 1px #643114,0 5px 12px #160a08;z-index:4;pointer-events:none}
+.field-number.is-heal{color:#ddffc9;-webkit-text-stroke-color:#244e30;text-shadow:0 3px 1px #244e30,0 5px 12px #0c221a}
+.brawl-app .field-remnant{position:absolute;margin:0;pointer-events:none;aspect-ratio:auto;background:none;border:0;padding:0;container-type:inline-size;filter:drop-shadow(0 5px 6px #140e07aa);z-index:1}
+.field-remnant .unit-image{inset:0}.field-remnant .crew-state{display:none}
+/* Finite state cues remain legible when animation is reduced. */
+.unit.is-stunned .unit-image{filter:saturate(.45) sepia(.25);border-color:#dac18b}
+.unit.guard .unit-image{border-color:#e0be74}
+.brawl-app .unit.is-ready .unit-image{border-color:#ffe2a1}
+.brawl-app .hero.is-wounded .hero-health{color:#ffddbf}
+@media(max-width:700px) and (orientation:portrait){.field-number{font-size:30px}}
+@media(prefers-reduced-motion:reduce){.field-remnant{animation:none!important}}

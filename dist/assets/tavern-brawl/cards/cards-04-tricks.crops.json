@@ -1,0 +1,82 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      22,
+      19,
+      473,
+      727
+    ],
+    "file" : "pocket-sand.png",
+    "height" : 727,
+    "id" : "pocket-sand",
+    "source" : "cards-04-tricks.png",
+    "transparentFraction" : 0.16265614827473959,
+    "width" : 473
+  },
+  {
+    "cell" : [
+      512,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      527,
+      19,
+      475,
+      727
+    ],
+    "file" : "last-call.png",
+    "height" : 727,
+    "id" : "last-call",
+    "source" : "cards-04-tricks.png",
+    "transparentFraction" : 0.15657806396484375,
+    "width" : 475
+  },
+  {
+    "cell" : [
+      0,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      23,
+      775,
+      472,
+      726
+    ],
+    "file" : "loaded-dice.png",
+    "height" : 726,
+    "id" : "loaded-dice",
+    "source" : "cards-04-tricks.png",
+    "transparentFraction" : 0.16462961832682291,
+    "width" : 472
+  },
+  {
+    "cell" : [
+      512,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      527,
+      774,
+      475,
+      727
+    ],
+    "file" : "bar-fight.png",
+    "height" : 727,
+    "id" : "bar-fight",
+    "source" : "cards-04-tricks.png",
+    "transparentFraction" : 0.15813954671223959,
+    "width" : 475
+  }
+]

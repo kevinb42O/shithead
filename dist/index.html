@@ -61,9 +61,10 @@
   <link rel="stylesheet" href="table-setup.css">
   <link rel="preload" as="image" href="assets/opening-fate-needle.png">
   <link rel="preload" as="image" href="assets/opening-result-plaque.png">
-  <link rel="stylesheet" href="online.css">
+  <link rel="stylesheet" href="hearth-controls.css"><link rel="stylesheet" href="online.css">
   <link rel="stylesheet" href="living-board.css">
   <link rel="stylesheet" href="board-fixtures.css">
+  <link rel="stylesheet" href="board-fidgets.css">
   <link rel="stylesheet" href="setup-swap.css">
   <link rel="stylesheet" href="opponent-stations.css">
   <link rel="stylesheet" href="portraits.css">
@@ -73,6 +74,8 @@
   <link rel="preload" as="image" href="assets/ember-hearth-mobile.jpg" media="(max-width: 700px)">
   <link rel="stylesheet" href="card-motion.css">
   <link rel="stylesheet" href="decision-focus.css">
+  <link rel="stylesheet" href="hand-burn.css">
+  <link rel="stylesheet" href="brawl-entry.css">
 </head>
 
 <body class="menu-open booting">
@@ -133,6 +136,7 @@
         <button class="menu-multiplayer menu-multiplayer-illustrated" type="button" aria-label="Multiplayer">
           <span class="menu-multiplayer-art" aria-hidden="true"><img src="assets/multiplayer-button.png" alt="" width="2172" height="724" decoding="async" draggable="false"></span>
         </button>
+        <a id="menu-brawl" class="menu-brawl" href="tavern-brawl.html" aria-label="Play Tavern Brawl — card battles, adventure and duels"><img class="menu-brawl-scene" src="assets/tavern-brawl/reference/gameplay-concept.png" alt="" loading="eager" draggable="false"><img class="menu-brawl-title" src="assets/tavern-brawl/ui/title.png" alt="Tavern Brawl" draggable="false"><span>Card battles · Solo & friends</span></a>
         <button id="menu-fortune" class="fortune-entry" type="button"><span class="fortune-entry-coin" aria-hidden="true"></span><span><strong>Daily Fortune</strong><small id="fortune-entry-status">Free roll ready</small></span><span class="fortune-entry-arrow" aria-hidden="true">›</span></button>
       </div>
       <section id="single-setup" class="single-setup" hidden aria-labelledby="setup-title">
@@ -579,6 +583,10 @@
       game. The two jokers feature a crowned poop jester and a startled toilet-roll jester.</p>
     <p><a href="https://polyhaven.com/a/caban" target="_blank" rel="noreferrer">Earlier fabric source</a> · <a
         href="https://polyhaven.com/license" target="_blank" rel="noreferrer">CC0 license</a></p>
+    <p>Menu music: <a href="https://creatorchords.com/music/celebration/" target="_blank" rel="noreferrer">Celebration</a>
+      by <a href="https://creatorchords.com" target="_blank" rel="noreferrer">Alexander Nakarada</a>, licensed under
+      <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>.
+      Adapted with a loop crossfade and MP3 encoding. <a href="assets/audio/MUSIC-LICENSE.txt">Music source &amp; license</a>.</p>
     <p>Game audio from <strong>Hearthstone</strong>, © Blizzard Entertainment. Sourced from <a href="https://sounds.spriters-resource.com/pc_computer/hearthstone/asset/396767/" target="_blank" rel="noreferrer">The Sounds Resource</a> · <a href="assets/audio/SOURCES.txt">Audio source details</a>.</p>
     <p>DM Sans and DM Serif Display by Colophon Foundry, under the SIL Open Font License.</p>
     <button class="primary-button close-rules" type="button">Back</button>

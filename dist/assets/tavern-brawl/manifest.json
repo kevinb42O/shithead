@@ -1,0 +1,1837 @@
+{
+  "version": 1,
+  "generator": "built-in image_gen",
+  "scope": "first-playable-art-pack",
+  "sources": [
+    {
+      "id": "cards-01-common-crew",
+      "file": "sheets/cards-01-common-crew.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 3074907,
+      "prompt": "sheets/cards-01-common-crew.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "board-desktop",
+      "file": "boards/board-desktop.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2501974,
+      "prompt": "sheets/board-desktop.prompt.txt",
+      "transparentRequested": false
+    },
+    {
+      "id": "heroes",
+      "file": "sheets/heroes.png",
+      "width": 2172,
+      "height": 724,
+      "bytes": 2358698,
+      "prompt": "sheets/heroes.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "cards-02-faction-crew",
+      "file": "sheets/cards-02-faction-crew.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2971244,
+      "prompt": "sheets/cards-02-faction-crew.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "cards-03-tavern-crew",
+      "file": "sheets/cards-03-tavern-crew.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2966726,
+      "prompt": "sheets/cards-03-tavern-crew.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "cards-04-tricks",
+      "file": "sheets/cards-04-tricks.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2994631,
+      "prompt": "sheets/cards-04-tricks.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "cards-05-tricks",
+      "file": "sheets/cards-05-tricks.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2951542,
+      "prompt": "sheets/cards-05-tricks.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "cards-06-equipment",
+      "file": "sheets/cards-06-equipment.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2875319,
+      "prompt": "sheets/cards-06-equipment.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "board-mobile",
+      "file": "boards/board-mobile.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2415126,
+      "prompt": "sheets/board-mobile.prompt.txt",
+      "transparentRequested": false
+    },
+    {
+      "id": "card-back",
+      "file": "sheets/card-back.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 3464217,
+      "prompt": "sheets/card-back.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "ui-controls",
+      "file": "sheets/ui-controls.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2344404,
+      "prompt": "sheets/ui-controls.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "ui-tokens",
+      "file": "sheets/ui-tokens.png",
+      "width": 1278,
+      "height": 1230,
+      "bytes": 1705387,
+      "prompt": "sheets/ui-tokens.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "ui-pot",
+      "file": "sheets/ui-pot.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1793721,
+      "prompt": "sheets/ui-pot.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "ui-finish",
+      "file": "sheets/ui-finish.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1725238,
+      "prompt": "sheets/ui-finish.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "ui-effects",
+      "file": "sheets/ui-effects.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2501590,
+      "prompt": "sheets/ui-effects.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "title",
+      "file": "sheets/title.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2858798,
+      "prompt": "sheets/title.prompt.txt",
+      "transparentRequested": true
+    },
+    {
+      "id": "cinder-rat-master",
+      "file": "expansions/after-midnight/masters/cinder-rat.png",
+      "prompt": "expansions/after-midnight/prompts/cinder-rat.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "wickrunner-bat-master",
+      "file": "expansions/after-midnight/masters/wickrunner-bat.png",
+      "prompt": "expansions/after-midnight/prompts/wickrunner-bat.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "ironjaw-bouncer-master",
+      "file": "expansions/after-midnight/masters/ironjaw-bouncer.png",
+      "prompt": "expansions/after-midnight/prompts/ironjaw-bouncer.prompt.txt",
+      "width": 1015,
+      "height": 1550
+    },
+    {
+      "id": "lantern-moth-master",
+      "file": "expansions/after-midnight/masters/lantern-moth.png",
+      "prompt": "expansions/after-midnight/prompts/lantern-moth.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "bell-tower-marksman-master",
+      "file": "expansions/after-midnight/masters/bell-tower-marksman.png",
+      "prompt": "expansions/after-midnight/prompts/bell-tower-marksman.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "black-iron-buckler-master",
+      "file": "expansions/after-midnight/masters/black-iron-buckler.png",
+      "prompt": "expansions/after-midnight/prompts/black-iron-buckler.prompt.txt",
+      "width": 1015,
+      "height": 1550
+    },
+    {
+      "id": "shatter-the-seal-master",
+      "file": "expansions/after-midnight/masters/shatter-the-seal.png",
+      "prompt": "expansions/after-midnight/prompts/shatter-the-seal.prompt.txt",
+      "width": 1011,
+      "height": 1556
+    },
+    {
+      "id": "furnace-burst-master",
+      "file": "expansions/after-midnight/masters/furnace-burst.png",
+      "prompt": "expansions/after-midnight/prompts/furnace-burst.prompt.txt",
+      "width": 1011,
+      "height": 1556
+    },
+    {
+      "id": "the-bell-tolls-master",
+      "file": "expansions/after-midnight/masters/the-bell-tolls.png",
+      "prompt": "expansions/after-midnight/prompts/the-bell-tolls.prompt.txt",
+      "width": 1011,
+      "height": 1556
+    },
+    {
+      "id": "mordren-ashen-host-master",
+      "file": "expansions/after-midnight/masters/mordren-ashen-host.png",
+      "prompt": "expansions/after-midnight/prompts/mordren-ashen-host.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "sootpaw-lookout-master",
+      "file": "expansions/after-midnight/masters/sootpaw-lookout.png",
+      "prompt": "expansions/after-midnight/prompts/sootpaw-lookout.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "cut-the-purse-master",
+      "file": "expansions/after-midnight/masters/cut-the-purse.png",
+      "prompt": "expansions/after-midnight/prompts/cut-the-purse.prompt.txt",
+      "width": 1011,
+      "height": 1556
+    },
+    {
+      "id": "gutterglass-duelist-master",
+      "file": "expansions/after-midnight/masters/gutterglass-duelist.png",
+      "prompt": "expansions/after-midnight/prompts/gutterglass-duelist.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "house-edge-master",
+      "file": "expansions/after-midnight/masters/house-edge.png",
+      "prompt": "expansions/after-midnight/prompts/house-edge.prompt.txt",
+      "width": 1011,
+      "height": 1556
+    },
+    {
+      "id": "vesper-blackpaw-king-master",
+      "file": "expansions/after-midnight/masters/vesper-blackpaw-king.png",
+      "prompt": "expansions/after-midnight/prompts/vesper-blackpaw-king.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "ashveil-acolyte-master",
+      "file": "expansions/after-midnight/masters/ashveil-acolyte.png",
+      "prompt": "expansions/after-midnight/prompts/ashveil-acolyte.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "moonlit-stitch-master",
+      "file": "expansions/after-midnight/masters/moonlit-stitch.png",
+      "prompt": "expansions/after-midnight/prompts/moonlit-stitch.prompt.txt",
+      "width": 1011,
+      "height": 1556
+    },
+    {
+      "id": "nightglass-diviner-master",
+      "file": "expansions/after-midnight/masters/nightglass-diviner.png",
+      "prompt": "expansions/after-midnight/prompts/nightglass-diviner.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "sealed-constellation-master",
+      "file": "expansions/after-midnight/masters/sealed-constellation.png",
+      "prompt": "expansions/after-midnight/prompts/sealed-constellation.prompt.txt",
+      "width": 1011,
+      "height": 1556
+    },
+    {
+      "id": "orun-eclipse-warden-master",
+      "file": "expansions/after-midnight/masters/orun-eclipse-warden.png",
+      "prompt": "expansions/after-midnight/prompts/orun-eclipse-warden.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "gravewax-collector-master",
+      "file": "expansions/after-midnight/masters/gravewax-collector.png",
+      "prompt": "expansions/after-midnight/prompts/gravewax-collector.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    },
+    {
+      "id": "debt-eater-master",
+      "file": "expansions/after-midnight/masters/debt-eater.png",
+      "prompt": "expansions/after-midnight/prompts/debt-eater.prompt.txt",
+      "width": 1015,
+      "height": 1550
+    },
+    {
+      "id": "collect-the-debt-master",
+      "file": "expansions/after-midnight/masters/collect-the-debt.png",
+      "prompt": "expansions/after-midnight/prompts/collect-the-debt.prompt.txt",
+      "width": 1011,
+      "height": 1556
+    },
+    {
+      "id": "funeral-velvet-master",
+      "file": "expansions/after-midnight/masters/funeral-velvet.png",
+      "prompt": "expansions/after-midnight/prompts/funeral-velvet.prompt.txt",
+      "width": 1015,
+      "height": 1550
+    },
+    {
+      "id": "mother-nox-bellkeeper-master",
+      "file": "expansions/after-midnight/masters/mother-nox-bellkeeper.png",
+      "prompt": "expansions/after-midnight/prompts/mother-nox-bellkeeper.prompt.txt",
+      "width": 1015,
+      "height": 1549
+    }
+  ],
+  "sprites": [
+    {
+      "cell": [
+        0,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        22,
+        20,
+        471,
+        728
+      ],
+      "file": "cards/tavern-rat.png",
+      "height": 728,
+      "id": "tavern-rat",
+      "source": "sheets/cards-01-common-crew.png",
+      "transparentFraction": 0.1627680460611979,
+      "width": 471,
+      "prompt": "sheets/cards-01-common-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        526,
+        20,
+        476,
+        727
+      ],
+      "file": "cards/mouse-guard.png",
+      "height": 727,
+      "id": "mouse-guard",
+      "source": "sheets/cards-01-common-crew.png",
+      "transparentFraction": 0.156463623046875,
+      "width": 476,
+      "prompt": "sheets/cards-01-common-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        21,
+        775,
+        472,
+        724
+      ],
+      "file": "cards/barroom-bruiser.png",
+      "height": 724,
+      "id": "barroom-bruiser",
+      "source": "sheets/cards-01-common-crew.png",
+      "transparentFraction": 0.1648686726888021,
+      "width": 472,
+      "prompt": "sheets/cards-01-common-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        526,
+        775,
+        476,
+        726
+      ],
+      "file": "cards/badger-sentinel.png",
+      "height": 726,
+      "id": "badger-sentinel",
+      "source": "sheets/cards-01-common-crew.png",
+      "transparentFraction": 0.15702056884765625,
+      "width": 476,
+      "prompt": "sheets/cards-01-common-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "crop": [
+        45,
+        9,
+        646,
+        671
+      ],
+      "file": "heroes/fox.png",
+      "height": 671,
+      "id": "fox",
+      "source": "sheets/heroes.png",
+      "transparentFraction": 0.43477763194041696,
+      "width": 646,
+      "prompt": "sheets/heroes.prompt.txt"
+    },
+    {
+      "cell": [
+        724,
+        0,
+        724,
+        724
+      ],
+      "crop": [
+        762,
+        52,
+        645,
+        628
+      ],
+      "file": "heroes/owl.png",
+      "height": 628,
+      "id": "owl",
+      "source": "sheets/heroes.png",
+      "transparentFraction": 0.41532805775159487,
+      "width": 645,
+      "prompt": "sheets/heroes.prompt.txt"
+    },
+    {
+      "cell": [
+        1448,
+        0,
+        724,
+        724
+      ],
+      "crop": [
+        1489,
+        54,
+        644,
+        626
+      ],
+      "file": "heroes/raven.png",
+      "height": 626,
+      "id": "raven",
+      "source": "sheets/heroes.png",
+      "transparentFraction": 0.4491983608558957,
+      "width": 644,
+      "prompt": "sheets/heroes.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        22,
+        21,
+        473,
+        725
+      ],
+      "file": "cards/fox-cutpurse.png",
+      "height": 725,
+      "id": "fox-cutpurse",
+      "source": "sheets/cards-02-faction-crew.png",
+      "transparentFraction": 0.1650670369466146,
+      "width": 473,
+      "prompt": "sheets/cards-02-faction-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        527,
+        20,
+        476,
+        726
+      ],
+      "file": "cards/raven-cutpurse.png",
+      "height": 726,
+      "id": "raven-cutpurse",
+      "source": "sheets/cards-02-faction-crew.png",
+      "transparentFraction": 0.1584803263346354,
+      "width": 476,
+      "prompt": "sheets/cards-02-faction-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        22,
+        775,
+        473,
+        724
+      ],
+      "file": "cards/owl-apprentice.png",
+      "height": 724,
+      "id": "owl-apprentice",
+      "source": "sheets/cards-02-faction-crew.png",
+      "transparentFraction": 0.16436767578125,
+      "width": 473,
+      "prompt": "sheets/cards-02-faction-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        527,
+        775,
+        475,
+        725
+      ],
+      "file": "cards/hedgehog-watchman.png",
+      "height": 725,
+      "id": "hedgehog-watchman",
+      "source": "sheets/cards-02-faction-crew.png",
+      "transparentFraction": 0.1593907674153646,
+      "width": 475,
+      "prompt": "sheets/cards-02-faction-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        26,
+        20,
+        470,
+        725
+      ],
+      "file": "cards/stoat-gambler.png",
+      "height": 725,
+      "id": "stoat-gambler",
+      "source": "sheets/cards-03-tavern-crew.png",
+      "transparentFraction": 0.1709442138671875,
+      "width": 470,
+      "prompt": "sheets/cards-03-tavern-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        527,
+        20,
+        470,
+        725
+      ],
+      "file": "cards/hare-runner.png",
+      "height": 725,
+      "id": "hare-runner",
+      "source": "sheets/cards-03-tavern-crew.png",
+      "transparentFraction": 0.16892496744791666,
+      "width": 470,
+      "prompt": "sheets/cards-03-tavern-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        27,
+        775,
+        469,
+        724
+      ],
+      "file": "cards/toad-brewer.png",
+      "height": 724,
+      "id": "toad-brewer",
+      "source": "sheets/cards-03-tavern-crew.png",
+      "transparentFraction": 0.1709620157877604,
+      "width": 469,
+      "prompt": "sheets/cards-03-tavern-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        527,
+        774,
+        470,
+        726
+      ],
+      "file": "cards/raccoon-scavenger.png",
+      "height": 726,
+      "id": "raccoon-scavenger",
+      "source": "sheets/cards-03-tavern-crew.png",
+      "transparentFraction": 0.1687291463216146,
+      "width": 470,
+      "prompt": "sheets/cards-03-tavern-crew.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        22,
+        19,
+        473,
+        727
+      ],
+      "file": "cards/pocket-sand.png",
+      "height": 727,
+      "id": "pocket-sand",
+      "source": "sheets/cards-04-tricks.png",
+      "transparentFraction": 0.1626561482747396,
+      "width": 473,
+      "prompt": "sheets/cards-04-tricks.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        527,
+        19,
+        475,
+        727
+      ],
+      "file": "cards/last-call.png",
+      "height": 727,
+      "id": "last-call",
+      "source": "sheets/cards-04-tricks.png",
+      "transparentFraction": 0.15657806396484375,
+      "width": 475,
+      "prompt": "sheets/cards-04-tricks.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        23,
+        775,
+        472,
+        726
+      ],
+      "file": "cards/loaded-dice.png",
+      "height": 726,
+      "id": "loaded-dice",
+      "source": "sheets/cards-04-tricks.png",
+      "transparentFraction": 0.1646296183268229,
+      "width": 472,
+      "prompt": "sheets/cards-04-tricks.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        527,
+        774,
+        475,
+        727
+      ],
+      "file": "cards/bar-fight.png",
+      "height": 727,
+      "id": "bar-fight",
+      "source": "sheets/cards-04-tricks.png",
+      "transparentFraction": 0.1581395467122396,
+      "width": 475,
+      "prompt": "sheets/cards-04-tricks.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        23,
+        19,
+        472,
+        728
+      ],
+      "file": "cards/pilfer.png",
+      "height": 728,
+      "id": "pilfer",
+      "source": "sheets/cards-05-tricks.png",
+      "transparentFraction": 0.1651636759440104,
+      "width": 472,
+      "prompt": "sheets/cards-05-tricks.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        527,
+        19,
+        475,
+        727
+      ],
+      "file": "cards/second-wind.png",
+      "height": 727,
+      "id": "second-wind",
+      "source": "sheets/cards-05-tricks.png",
+      "transparentFraction": 0.15926615397135416,
+      "width": 475,
+      "prompt": "sheets/cards-05-tricks.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        24,
+        774,
+        472,
+        725
+      ],
+      "file": "cards/smoke-bomb.png",
+      "height": 725,
+      "id": "smoke-bomb",
+      "source": "sheets/cards-05-tricks.png",
+      "transparentFraction": 0.1681950887044271,
+      "width": 472,
+      "prompt": "sheets/cards-05-tricks.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        527,
+        774,
+        474,
+        727
+      ],
+      "file": "cards/raven-bargain.png",
+      "height": 727,
+      "id": "raven-bargain",
+      "source": "sheets/cards-05-tricks.png",
+      "transparentFraction": 0.16124471028645834,
+      "width": 474,
+      "prompt": "sheets/cards-05-tricks.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        27,
+        24,
+        469,
+        725
+      ],
+      "file": "cards/rusty-dagger.png",
+      "height": 725,
+      "id": "rusty-dagger",
+      "source": "sheets/cards-06-equipment.png",
+      "transparentFraction": 0.1744410196940104,
+      "width": 469,
+      "prompt": "sheets/cards-06-equipment.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        0,
+        512,
+        768
+      ],
+      "crop": [
+        526,
+        24,
+        475,
+        725
+      ],
+      "file": "cards/oak-shield.png",
+      "height": 725,
+      "id": "oak-shield",
+      "source": "sheets/cards-06-equipment.png",
+      "transparentFraction": 0.1606292724609375,
+      "width": 475,
+      "prompt": "sheets/cards-06-equipment.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        27,
+        776,
+        469,
+        721
+      ],
+      "file": "cards/lucky-coin.png",
+      "height": 721,
+      "id": "lucky-coin",
+      "source": "sheets/cards-06-equipment.png",
+      "transparentFraction": 0.176788330078125,
+      "width": 469,
+      "prompt": "sheets/cards-06-equipment.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        768,
+        512,
+        768
+      ],
+      "crop": [
+        526,
+        776,
+        475,
+        721
+      ],
+      "file": "cards/hearth-lantern.png",
+      "height": 721,
+      "id": "hearth-lantern",
+      "source": "sheets/cards-06-equipment.png",
+      "transparentFraction": 0.163299560546875,
+      "width": 475,
+      "prompt": "sheets/cards-06-equipment.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "crop": [
+        62,
+        63,
+        900,
+        1382
+      ],
+      "file": "ui/card-back.png",
+      "height": 1382,
+      "id": "card-back",
+      "source": "sheets/card-back.png",
+      "transparentFraction": 0.2198657989501953,
+      "width": 900,
+      "prompt": "sheets/card-back.prompt.txt"
+    },
+    {
+      "cell": [
+        32,
+        45,
+        706,
+        308
+      ],
+      "crop": [
+        34,
+        47,
+        702,
+        304
+      ],
+      "file": "ui/button-emerald.png",
+      "height": 304,
+      "id": "button-emerald",
+      "source": "sheets/ui-controls.png",
+      "transparentFraction": 0.2276176373201869,
+      "width": 702,
+      "prompt": "sheets/ui-controls.prompt.txt"
+    },
+    {
+      "cell": [
+        798,
+        46,
+        706,
+        306
+      ],
+      "crop": [
+        800,
+        47,
+        703,
+        304
+      ],
+      "file": "ui/button-gold.png",
+      "height": 304,
+      "id": "button-gold",
+      "source": "sheets/ui-controls.png",
+      "transparentFraction": 0.22482364050436038,
+      "width": 703,
+      "prompt": "sheets/ui-controls.prompt.txt"
+    },
+    {
+      "cell": [
+        31,
+        386,
+        707,
+        306
+      ],
+      "crop": [
+        33,
+        388,
+        703,
+        302
+      ],
+      "file": "ui/button-disabled.png",
+      "height": 302,
+      "id": "button-disabled",
+      "source": "sheets/ui-controls.png",
+      "transparentFraction": 0.2278614416063455,
+      "width": 703,
+      "prompt": "sheets/ui-controls.prompt.txt"
+    },
+    {
+      "cell": [
+        786,
+        483,
+        734,
+        135
+      ],
+      "crop": [
+        787,
+        485,
+        731,
+        132
+      ],
+      "file": "ui/turn-banner.png",
+      "height": 132,
+      "id": "turn-banner",
+      "source": "sheets/ui-controls.png",
+      "transparentFraction": 0.16068220809365225,
+      "width": 731,
+      "prompt": "sheets/ui-controls.prompt.txt"
+    },
+    {
+      "cell": [
+        26,
+        758,
+        716,
+        175
+      ],
+      "crop": [
+        28,
+        760,
+        712,
+        171
+      ],
+      "file": "ui/nameplate.png",
+      "height": 171,
+      "id": "nameplate",
+      "source": "sheets/ui-controls.png",
+      "transparentFraction": 0.14818834796488428,
+      "width": 712,
+      "prompt": "sheets/ui-controls.prompt.txt"
+    },
+    {
+      "cell": [
+        784,
+        760,
+        736,
+        167
+      ],
+      "crop": [
+        785,
+        762,
+        734,
+        163
+      ],
+      "file": "ui/energy-housing.png",
+      "height": 163,
+      "id": "energy-housing",
+      "source": "sheets/ui-controls.png",
+      "transparentFraction": 0.12753026555584482,
+      "width": 734,
+      "prompt": "sheets/ui-controls.prompt.txt"
+    },
+    {
+      "cell": [
+        72,
+        81,
+        299,
+        295
+      ],
+      "crop": [
+        73,
+        82,
+        296,
+        292
+      ],
+      "file": "ui/energy-on.png",
+      "height": 292,
+      "id": "energy-on",
+      "source": "sheets/ui-tokens.png",
+      "transparentFraction": 0.38094212346238876,
+      "width": 296,
+      "prompt": "sheets/ui-tokens.prompt.txt"
+    },
+    {
+      "cell": [
+        488,
+        81,
+        301,
+        295
+      ],
+      "crop": [
+        490,
+        83,
+        297,
+        292
+      ],
+      "file": "ui/energy-off.png",
+      "height": 292,
+      "id": "energy-off",
+      "source": "sheets/ui-tokens.png",
+      "transparentFraction": 0.3814066107325863,
+      "width": 297,
+      "prompt": "sheets/ui-tokens.prompt.txt"
+    },
+    {
+      "cell": [
+        895,
+        32,
+        310,
+        368
+      ],
+      "crop": [
+        896,
+        34,
+        308,
+        364
+      ],
+      "file": "ui/health.png",
+      "height": 364,
+      "id": "health",
+      "source": "sheets/ui-tokens.png",
+      "transparentFraction": 0.34013849929873774,
+      "width": 308,
+      "prompt": "sheets/ui-tokens.prompt.txt"
+    },
+    {
+      "cell": [
+        57,
+        453,
+        329,
+        339
+      ],
+      "crop": [
+        59,
+        454,
+        326,
+        336
+      ],
+      "file": "ui/attack.png",
+      "height": 336,
+      "id": "attack",
+      "source": "sheets/ui-tokens.png",
+      "transparentFraction": 0.36214146739471537,
+      "width": 326,
+      "prompt": "sheets/ui-tokens.prompt.txt"
+    },
+    {
+      "cell": [
+        410,
+        395,
+        457,
+        438
+      ],
+      "crop": [
+        412,
+        397,
+        453,
+        435
+      ],
+      "file": "ui/portrait-rim.png",
+      "height": 435,
+      "id": "portrait-rim",
+      "source": "sheets/ui-tokens.png",
+      "transparentFraction": 0.670333623092833,
+      "width": 453,
+      "prompt": "sheets/ui-tokens.prompt.txt"
+    },
+    {
+      "cell": [
+        892,
+        459,
+        329,
+        332
+      ],
+      "crop": [
+        894,
+        461,
+        326,
+        328
+      ],
+      "file": "ui/coin.png",
+      "height": 328,
+      "id": "coin",
+      "source": "sheets/ui-tokens.png",
+      "transparentFraction": 0.25729666385908373,
+      "width": 326,
+      "prompt": "sheets/ui-tokens.prompt.txt"
+    },
+    {
+      "cell": [
+        65,
+        852,
+        326,
+        320
+      ],
+      "crop": [
+        66,
+        854,
+        323,
+        316
+      ],
+      "file": "ui/spell.png",
+      "height": 316,
+      "id": "spell",
+      "source": "sheets/ui-tokens.png",
+      "transparentFraction": 0.37324578220858895,
+      "width": 323,
+      "prompt": "sheets/ui-tokens.prompt.txt"
+    },
+    {
+      "cell": [
+        476,
+        852,
+        325,
+        320
+      ],
+      "crop": [
+        477,
+        854,
+        322,
+        316
+      ],
+      "file": "ui/guard.png",
+      "height": 316,
+      "id": "guard",
+      "source": "sheets/ui-tokens.png",
+      "transparentFraction": 0.36977884615384615,
+      "width": 322,
+      "prompt": "sheets/ui-tokens.prompt.txt"
+    },
+    {
+      "cell": [
+        887,
+        852,
+        327,
+        321
+      ],
+      "crop": [
+        889,
+        854,
+        323,
+        317
+      ],
+      "file": "ui/equipment.png",
+      "height": 317,
+      "id": "equipment",
+      "source": "sheets/ui-tokens.png",
+      "transparentFraction": 0.3740604189888251,
+      "width": 323,
+      "prompt": "sheets/ui-tokens.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "crop": [
+        93,
+        86,
+        730,
+        663
+      ],
+      "file": "ui/pot-full.png",
+      "height": 663,
+      "id": "pot-full",
+      "source": "sheets/ui-pot.png",
+      "transparentFraction": 0.4904336596891845,
+      "width": 730,
+      "prompt": "sheets/ui-pot.prompt.txt"
+    },
+    {
+      "cell": [
+        887,
+        0,
+        887,
+        887
+      ],
+      "crop": [
+        948,
+        86,
+        731,
+        663
+      ],
+      "file": "ui/pot-empty.png",
+      "height": 663,
+      "id": "pot-empty",
+      "source": "sheets/ui-pot.png",
+      "transparentFraction": 0.4901425958572338,
+      "width": 731,
+      "prompt": "sheets/ui-pot.prompt.txt"
+    },
+    {
+      "cell": [
+        30,
+        128,
+        885,
+        628
+      ],
+      "crop": [
+        32,
+        130,
+        882,
+        624
+      ],
+      "file": "ui/result-crest.png",
+      "height": 624,
+      "id": "result-crest",
+      "source": "sheets/ui-finish.png",
+      "transparentFraction": 0.32722839972651047,
+      "width": 882,
+      "prompt": "sheets/ui-finish.prompt.txt"
+    },
+    {
+      "cell": [
+        1003,
+        126,
+        707,
+        671
+      ],
+      "crop": [
+        1005,
+        127,
+        703,
+        668
+      ],
+      "file": "ui/reward-chest.png",
+      "height": 668,
+      "id": "reward-chest",
+      "source": "sheets/ui-finish.png",
+      "transparentFraction": 0.2950693195783279,
+      "width": 703,
+      "prompt": "sheets/ui-finish.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "crop": [
+        60,
+        60,
+        441,
+        419
+      ],
+      "file": "ui/fx-impact.png",
+      "height": 419,
+      "id": "fx-impact",
+      "source": "sheets/ui-effects.png",
+      "transparentFraction": 0.5381813049316406,
+      "width": 441,
+      "prompt": "sheets/ui-effects.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "crop": [
+        556,
+        77,
+        448,
+        414
+      ],
+      "file": "ui/fx-sand.png",
+      "height": 414,
+      "id": "fx-sand",
+      "source": "sheets/ui-effects.png",
+      "transparentFraction": 0.4931297302246094,
+      "width": 448,
+      "prompt": "sheets/ui-effects.prompt.txt"
+    },
+    {
+      "cell": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "crop": [
+        1070,
+        62,
+        414,
+        424
+      ],
+      "file": "ui/fx-heal.png",
+      "height": 424,
+      "id": "fx-heal",
+      "source": "sheets/ui-effects.png",
+      "transparentFraction": 0.5368690490722656,
+      "width": 414,
+      "prompt": "sheets/ui-effects.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "crop": [
+        30,
+        536,
+        482,
+        442
+      ],
+      "file": "ui/fx-smoke.png",
+      "height": 442,
+      "id": "fx-smoke",
+      "source": "sheets/ui-effects.png",
+      "transparentFraction": 0.356292724609375,
+      "width": 482,
+      "prompt": "sheets/ui-effects.prompt.txt"
+    },
+    {
+      "cell": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "crop": [
+        512,
+        556,
+        497,
+        429
+      ],
+      "file": "ui/fx-arcane.png",
+      "height": 429,
+      "id": "fx-arcane",
+      "source": "sheets/ui-effects.png",
+      "transparentFraction": 0.4588890075683594,
+      "width": 497,
+      "prompt": "sheets/ui-effects.prompt.txt"
+    },
+    {
+      "cell": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "crop": [
+        1062,
+        537,
+        451,
+        451
+      ],
+      "file": "ui/fx-sparks.png",
+      "height": 451,
+      "id": "fx-sparks",
+      "source": "sheets/ui-effects.png",
+      "transparentFraction": 0.3903160095214844,
+      "width": 451,
+      "prompt": "sheets/ui-effects.prompt.txt"
+    },
+    {
+      "cell": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "crop": [
+        36,
+        81,
+        1464,
+        848
+      ],
+      "file": "ui/title.png",
+      "height": 848,
+      "id": "title",
+      "source": "sheets/title.png",
+      "transparentFraction": 0.33276812235514325,
+      "width": 1464,
+      "prompt": "sheets/title.prompt.txt"
+    },
+    {
+      "id": "cinder-rat",
+      "file": "expansions/after-midnight/cards/cinder-rat.png",
+      "source": "expansions/after-midnight/masters/cinder-rat.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1469041,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.99823
+    },
+    {
+      "id": "wickrunner-bat",
+      "file": "expansions/after-midnight/cards/wickrunner-bat.png",
+      "source": "expansions/after-midnight/masters/wickrunner-bat.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1439137,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.997847
+    },
+    {
+      "id": "ironjaw-bouncer",
+      "file": "expansions/after-midnight/cards/ironjaw-bouncer.png",
+      "source": "expansions/after-midnight/masters/ironjaw-bouncer.png",
+      "width": 670,
+      "height": 1024,
+      "bytes": 1499534,
+      "crop": [
+        0,
+        0,
+        1015,
+        1550
+      ],
+      "transparentFraction": 0.998378
+    },
+    {
+      "id": "lantern-moth",
+      "file": "expansions/after-midnight/cards/lantern-moth.png",
+      "source": "expansions/after-midnight/masters/lantern-moth.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1491377,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.998403
+    },
+    {
+      "id": "bell-tower-marksman",
+      "file": "expansions/after-midnight/cards/bell-tower-marksman.png",
+      "source": "expansions/after-midnight/masters/bell-tower-marksman.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1476906,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.998587
+    },
+    {
+      "id": "black-iron-buckler",
+      "file": "expansions/after-midnight/cards/black-iron-buckler.png",
+      "source": "expansions/after-midnight/masters/black-iron-buckler.png",
+      "width": 670,
+      "height": 1024,
+      "bytes": 1463255,
+      "crop": [
+        0,
+        0,
+        1015,
+        1550
+      ],
+      "transparentFraction": 0.998061
+    },
+    {
+      "id": "shatter-the-seal",
+      "file": "expansions/after-midnight/cards/shatter-the-seal.png",
+      "source": "expansions/after-midnight/masters/shatter-the-seal.png",
+      "width": 665,
+      "height": 1024,
+      "bytes": 1438672,
+      "crop": [
+        0,
+        0,
+        1011,
+        1556
+      ],
+      "transparentFraction": 0.998599
+    },
+    {
+      "id": "furnace-burst",
+      "file": "expansions/after-midnight/cards/furnace-burst.png",
+      "source": "expansions/after-midnight/masters/furnace-burst.png",
+      "width": 665,
+      "height": 1024,
+      "bytes": 1465418,
+      "crop": [
+        0,
+        0,
+        1011,
+        1556
+      ],
+      "transparentFraction": 0.997893
+    },
+    {
+      "id": "the-bell-tolls",
+      "file": "expansions/after-midnight/cards/the-bell-tolls.png",
+      "source": "expansions/after-midnight/masters/the-bell-tolls.png",
+      "width": 665,
+      "height": 1024,
+      "bytes": 1462135,
+      "crop": [
+        0,
+        0,
+        1011,
+        1556
+      ],
+      "transparentFraction": 0.99823
+    },
+    {
+      "id": "mordren-ashen-host",
+      "file": "expansions/after-midnight/cards/mordren-ashen-host.png",
+      "source": "expansions/after-midnight/masters/mordren-ashen-host.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1557099,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.99823
+    },
+    {
+      "id": "sootpaw-lookout",
+      "file": "expansions/after-midnight/cards/sootpaw-lookout.png",
+      "source": "expansions/after-midnight/masters/sootpaw-lookout.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1474749,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.998581
+    },
+    {
+      "id": "cut-the-purse",
+      "file": "expansions/after-midnight/cards/cut-the-purse.png",
+      "source": "expansions/after-midnight/masters/cut-the-purse.png",
+      "width": 665,
+      "height": 1024,
+      "bytes": 1377674,
+      "crop": [
+        0,
+        0,
+        1011,
+        1556
+      ],
+      "transparentFraction": 0.998655
+    },
+    {
+      "id": "gutterglass-duelist",
+      "file": "expansions/after-midnight/cards/gutterglass-duelist.png",
+      "source": "expansions/after-midnight/masters/gutterglass-duelist.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1525430,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.998834
+    },
+    {
+      "id": "house-edge",
+      "file": "expansions/after-midnight/cards/house-edge.png",
+      "source": "expansions/after-midnight/masters/house-edge.png",
+      "width": 665,
+      "height": 1024,
+      "bytes": 1364420,
+      "crop": [
+        0,
+        0,
+        1011,
+        1556
+      ],
+      "transparentFraction": 0.998035
+    },
+    {
+      "id": "vesper-blackpaw-king",
+      "file": "expansions/after-midnight/cards/vesper-blackpaw-king.png",
+      "source": "expansions/after-midnight/masters/vesper-blackpaw-king.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1456229,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.997725
+    },
+    {
+      "id": "ashveil-acolyte",
+      "file": "expansions/after-midnight/cards/ashveil-acolyte.png",
+      "source": "expansions/after-midnight/masters/ashveil-acolyte.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1516205,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.998315
+    },
+    {
+      "id": "moonlit-stitch",
+      "file": "expansions/after-midnight/cards/moonlit-stitch.png",
+      "source": "expansions/after-midnight/masters/moonlit-stitch.png",
+      "width": 665,
+      "height": 1024,
+      "bytes": 1426397,
+      "crop": [
+        0,
+        0,
+        1011,
+        1556
+      ],
+      "transparentFraction": 0.999
+    },
+    {
+      "id": "nightglass-diviner",
+      "file": "expansions/after-midnight/cards/nightglass-diviner.png",
+      "source": "expansions/after-midnight/masters/nightglass-diviner.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1495756,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.998553
+    },
+    {
+      "id": "sealed-constellation",
+      "file": "expansions/after-midnight/cards/sealed-constellation.png",
+      "source": "expansions/after-midnight/masters/sealed-constellation.png",
+      "width": 665,
+      "height": 1024,
+      "bytes": 1475854,
+      "crop": [
+        0,
+        0,
+        1011,
+        1556
+      ],
+      "transparentFraction": 0.998956
+    },
+    {
+      "id": "orun-eclipse-warden",
+      "file": "expansions/after-midnight/cards/orun-eclipse-warden.png",
+      "source": "expansions/after-midnight/masters/orun-eclipse-warden.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1477059,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.99745
+    },
+    {
+      "id": "gravewax-collector",
+      "file": "expansions/after-midnight/cards/gravewax-collector.png",
+      "source": "expansions/after-midnight/masters/gravewax-collector.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1424683,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.9986
+    },
+    {
+      "id": "debt-eater",
+      "file": "expansions/after-midnight/cards/debt-eater.png",
+      "source": "expansions/after-midnight/masters/debt-eater.png",
+      "width": 670,
+      "height": 1024,
+      "bytes": 1495931,
+      "crop": [
+        0,
+        0,
+        1015,
+        1550
+      ],
+      "transparentFraction": 0.999073
+    },
+    {
+      "id": "collect-the-debt",
+      "file": "expansions/after-midnight/cards/collect-the-debt.png",
+      "source": "expansions/after-midnight/masters/collect-the-debt.png",
+      "width": 665,
+      "height": 1024,
+      "bytes": 1427973,
+      "crop": [
+        0,
+        0,
+        1011,
+        1556
+      ],
+      "transparentFraction": 0.998852
+    },
+    {
+      "id": "funeral-velvet",
+      "file": "expansions/after-midnight/cards/funeral-velvet.png",
+      "source": "expansions/after-midnight/masters/funeral-velvet.png",
+      "width": 670,
+      "height": 1024,
+      "bytes": 1377636,
+      "crop": [
+        0,
+        0,
+        1015,
+        1550
+      ],
+      "transparentFraction": 0.998499
+    },
+    {
+      "id": "mother-nox-bellkeeper",
+      "file": "expansions/after-midnight/cards/mother-nox-bellkeeper.png",
+      "source": "expansions/after-midnight/masters/mother-nox-bellkeeper.png",
+      "width": 671,
+      "height": 1024,
+      "bytes": 1511180,
+      "crop": [
+        0,
+        0,
+        1015,
+        1549
+      ],
+      "transparentFraction": 0.998386
+    }
+  ]
+}

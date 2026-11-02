@@ -9,9 +9,9 @@ export function createOpponentSeats({root,card,shown,inspect,nameForSeat=playerN
  function seat(who){
   if(seats.has(who))return seats.get(who);
   const node=document.createElement('section');node.className='opponent-seat';node.dataset.seat=who;
-  node.innerHTML=`<span class="seat-station-art" aria-hidden="true"></span><button class="seat-heading" type="button"><span class="seat-avatar" aria-hidden="true"><span class="seat-portrait"></span><span class="seat-initial"></span></span><span class="seat-identity"><strong>${playerName(who)}</strong><span class="seat-reaction" aria-live="polite"></span></span><svg class="seat-inspect" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></button><span class="seat-status"></span><span class="seat-turn-label" aria-hidden="true">Playing</span><div class="seat-cards"></div><div class="seat-hand"></div><span class="seat-wager"></span>`;
+  node.innerHTML=`<span class="seat-station-art" aria-hidden="true"></span><button class="seat-heading" type="button"><span class="seat-avatar" aria-hidden="true"><span class="seat-portrait"></span><span class="seat-initial"></span></span><span class="seat-identity"><strong>${playerName(who)}</strong><span class="seat-reaction" aria-live="polite"></span></span><span class="seat-hand-count" hidden><svg viewBox="0 0 16 18" aria-hidden="true"><path d="M4 3V1h10v13h-2M2 5h8v12H2z"/></svg><span class="seat-hand-number"></span></span><svg class="seat-inspect" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></button><span class="seat-status"></span><span class="seat-turn-label" aria-hidden="true">Playing</span><div class="seat-cards"></div><div class="seat-hand"></div><span class="seat-wager"></span>`;
   const heading=node.querySelector('button');heading.onclick=()=>inspect(who);heading.setAttribute('aria-label',`Inspect ${nameForSeat(who)}’s public cards`);
-  const result={node,status:node.querySelector('.seat-status'),cards:node.querySelector('.seat-cards'),hand:node.querySelector('.seat-hand'),reaction:node.querySelector('.seat-reaction'),slots:new Map(),reactionTimer:null};seats.set(who,result);return result;
+  const result={node,status:node.querySelector('.seat-status'),count:node.querySelector('.seat-hand-count'),number:node.querySelector('.seat-hand-number'),cards:node.querySelector('.seat-cards'),hand:node.querySelector('.seat-hand'),reaction:node.querySelector('.seat-reaction'),slots:new Map(),reactionTimer:null};seats.set(who,result);return result;
  }
  function render(game,dealing){
   const nodes=[];
@@ -29,6 +29,12 @@ export function createOpponentSeats({root,card,shown,inspect,nameForSeat=playerN
    view.node.classList.toggle('is-out',out);view.node.classList.toggle('is-nervous',!dealing&&!out&&remaining(p)===1);view.node.querySelector('.seat-heading').disabled=dealing;
    view.status.textContent=out?`${place+1}${['st','nd','rd'][place]||'th'} · Out`:game.phase==='finished'&&game.loser===who?'Shithead':remaining(p)===1?'One card left':p.hand.length?`${shown(p.hand).length} in hand`:p.up.length?'Playing face up':'Playing blind';
    if(game.online && game.phase==='setup')view.status.textContent=game.onlineMembers?.[who]?.ready?'Ready':'Choosing cards';
+   const handCount=shown(p.hand).length;
+   view.count.hidden=!handCount||out||game.phase==='finished';
+   view.number.textContent=handCount;
+   view.count.setAttribute('aria-label',`${handCount} ${handCount===1?'card':'cards'} in hand`);
+   view.count.title=`${handCount} ${handCount===1?'card':'cards'} in hand`;
+   view.status.hidden=dealing || (!view.count.hidden && !(game.online && game.phase==='setup'));
    view.node.querySelector('.seat-wager').textContent=game.bet ? (game.bet.settled && game.bet.winner===who ? `${game.bet.pot.toLocaleString()} coins won` : `${game.bet.stake} in`) : '';
    const down=shown(p.down),up=shown(p.up),slots=[];
    for(let i=0;i<Math.max(down.length,up.length);i++){

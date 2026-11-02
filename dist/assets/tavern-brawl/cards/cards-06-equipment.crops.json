@@ -1,0 +1,82 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      27,
+      24,
+      469,
+      725
+    ],
+    "file" : "rusty-dagger.png",
+    "height" : 725,
+    "id" : "rusty-dagger",
+    "source" : "cards-06-equipment.png",
+    "transparentFraction" : 0.17444101969401041,
+    "width" : 469
+  },
+  {
+    "cell" : [
+      512,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      526,
+      24,
+      475,
+      725
+    ],
+    "file" : "oak-shield.png",
+    "height" : 725,
+    "id" : "oak-shield",
+    "source" : "cards-06-equipment.png",
+    "transparentFraction" : 0.1606292724609375,
+    "width" : 475
+  },
+  {
+    "cell" : [
+      0,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      27,
+      776,
+      469,
+      721
+    ],
+    "file" : "lucky-coin.png",
+    "height" : 721,
+    "id" : "lucky-coin",
+    "source" : "cards-06-equipment.png",
+    "transparentFraction" : 0.176788330078125,
+    "width" : 469
+  },
+  {
+    "cell" : [
+      512,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      526,
+      776,
+      475,
+      721
+    ],
+    "file" : "hearth-lantern.png",
+    "height" : 721,
+    "id" : "hearth-lantern",
+    "source" : "cards-06-equipment.png",
+    "transparentFraction" : 0.163299560546875,
+    "width" : 475
+  }
+]

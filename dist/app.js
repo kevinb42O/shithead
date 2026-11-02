@@ -1,4 +1,6 @@
+import { createBoardFidgets } from './board-fidgets.js';
 import { createCardMotion } from './card-motion.js';
+import { createHandCardCue } from './hand-card-cues.js';
 import './menu-controls.js';
 import { createBank } from './bank.js';
 import { createFortune } from './fortune.js';
@@ -14,9 +16,8 @@ import { attachCardTouch } from './tactile.js';
 import { createBottleSpin } from './bottle.js';
 import { createOpponentSeats } from './opponents.js';
 import { preloadCardArtwork, svgCard } from './card-art.js';
-import { createTableEffects, BURN_DURATION } from './effects.js';
+import { createTableEffects } from './effects.js';
 import { prepareVictoryFonts } from './victory.js';
-import { REVERSAL_DURATION, reversalOccurs } from './reversal-wind.js';
 import { reconcile, captureCards, animateCards, dealOrder } from './rendering.js';
 import { toggleSelection, dragSelection, attachCardDrag } from './interactions.js';
 import { createCardSpotlight } from './card-spotlight.js';
@@ -36,6 +37,8 @@ function swapLocal(hand, up) {
 let wallet = createWallet(), saveWarning = false, cardArtworkState = 'idle', cardArtworkPromise = null;
 const coins = value => value.toLocaleString('en-US');
 const gameAudio = createGameAudio();
+const boardFidgets = createBoardFidgets({ sound: (kind, options) => gameAudio.mechanical(kind, options),
+  share: state => onlineSession?.interactFidget(state) });
 const menuMusic = createMenuMusic();
 createMenuLighting(document.getElementById('main-menu'));
 const PREFERENCES_KEY = KEY.endsWith('-qa') ? 'shithead-preferences-qa' : 'shithead-preferences';
@@ -114,11 +117,21 @@ for (const dialog of document.querySelectorAll('dialog')) {
 const emptyHand = document.createElement('div'); emptyHand.className = 'hand-empty';
 const reserveMessage = document.createElement('span'); reserveMessage.className = 'reserve-message';
 
-function card(c, { back = false, action = null, active = false, chosen = false, style = '', disabled = false } = {}) {
+function card(c, { back = false, action = null, active = false, chosen = false, style = '', disabled = false, burnGroup = false } = {}) {
   let b = cardPool.get(c.id);
   if (!b) { b = document.createElement('button'); b.type = 'button'; b.dataset.renderKey = c.id; cardPool.set(c.id, b); }
   const art = back ? 'back' : c.id;
-  if (b.dataset.art !== art) { b.innerHTML = svgCard(c, back); b.dataset.art = art; }
+  if (b.dataset.art !== art) {
+    b.innerHTML = svgCard(c, back);
+    delete b.dataset.handCue;
+    b.dataset.art = art;
+  }
+  const cue = back ? '' : c.rank === 10 || burnGroup ? 'fire' : c.rank === 7 ? 'frost' : c.rank === 3 ? 'wind' : '';
+  if ((b.dataset.handCue || '') !== cue) {
+    b.querySelector('.hand-card-cue')?.remove();
+    if (cue) b.append(createHandCardCue(cue, c.id));
+    b.dataset.handCue = cue;
+  }
   b.className = `card${back ? ' back' : ''}${!back && c.rank >= 11 ? ' foil-card' : ''}${active ? ' playable' : ''}${chosen ? ' selected' : ''}${dealInFlight === c.id ? ' dealing-destination' : ''}`;
   if (b._layoutStyle !== style) { b.style.cssText = style; b._layoutStyle = style; }
   b.dataset.cardId = c.id;
@@ -193,11 +206,11 @@ function chooseSwapCard(c) {
   cardSound('flick'); render();
 }
 function tableSelect(c) {
-  if (finalBusy || cardMotion.busy || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return;
+  if (finalBusy || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return;
   if (game.phase === 'setup') chooseSwapCard(c); else select(c);
 }
 function select(c) {
-  if (finalBusy || cardMotion.busy || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return;
+  if (finalBusy || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return;
   if (game.pendingAce) return;
   if (game.phase === 'setup') {
     chooseSwapCard(c); return;
@@ -244,7 +257,9 @@ function render({ animate = false, skipMotion = [] } = {}) {
   $('pile').setAttribute('aria-disabled', String(!pileEnabled));
   $('pile').setAttribute('aria-label', selected.length ? `Play ${selected.length} selected ${selected.length === 1 ? 'card' : 'cards'}` : game.pile.length ? `Pick up pile, ${game.pile.length} cards` : 'Discard pile');
   const canPlayCard = c => trayZone === 'down' || legal(c, game.pile, game.lowTurns) || p[trayZone].filter(o => o.rank === c.rank).length >= 4;
-  const handNodes = ordered.map((c, i) => card(c, { back: trayZone === 'down' && !game.pendingAce?.includes(c.id), action: trayZone === 'down' ? () => move([c.id]) : () => select(c), disabled: dealing || (!setup && !human) || !!game.pendingAce, active: human && canPlayCard(c), chosen: selected.includes(c.id), style: `--index:${i};--angle:${ordered.length < 2 ? 0 : (i / (ordered.length - 1) * 2 - 1) * 8}deg;--fan-y:${ordered.length < 2 ? 0 : Math.pow(i / (ordered.length - 1) * 2 - 1, 2) * 10}px` }));
+  const selectedFaces = ordered.filter(c => selected.includes(c.id));
+  const fourCardBurn = !setup && !dealing && trayZone !== 'down' && selectedFaces.length === 4 && selectedFaces.every(c => c.rank === selectedFaces[0].rank);
+  const handNodes = ordered.map((c, i) => card(c, { burnGroup: fourCardBurn && selected.includes(c.id), back: trayZone === 'down' && !game.pendingAce?.includes(c.id), action: trayZone === 'down' ? () => move([c.id]) : () => select(c), disabled: dealing || (!setup && !human) || !!game.pendingAce, active: human && canPlayCard(c), chosen: selected.includes(c.id), style: `--index:${i};--angle:${ordered.length < 2 ? 0 : (i / (ordered.length - 1) * 2 - 1) * 8}deg;--fan-y:${ordered.length < 2 ? 0 : Math.pow(i / (ordered.length - 1) * 2 - 1, 2) * 10}px` }));
   if (!handNodes.length) { emptyHand.textContent = dealing ? 'The cards are on their way.' : escaped ? (finished ? 'You escaped. Dignity intact.' : 'You escaped. Watch the table play out.') : finished ? 'Your rematch awaits.' : 'Your next cards are coming into play.'; handNodes.push(emptyHand); } reconcile($('hand'), handNodes);
 
   const showPlayButton = (dealing && !game.dealComplete) || setup || finished; const pending = game.pendingAce; const chosenCard = pending ? p[z].find(c => c.id === pending[0]) : p[z].find(c => c.id === selected[0]); const choosingAce = human && !!pending;
@@ -291,7 +306,19 @@ function render({ animate = false, skipMotion = [] } = {}) {
   }
 
 }
-let lastPlayedBy = null;
+let lastPlayedBy = null, presentationRevision = 0;
+// Rules commit synchronously. A newer action settles obsolete visual work;
+// cancelled promises must never replay effects or reschedule an older turn.
+function settlePresentation() {
+  presentationRevision++;
+  cardMotion.cancel();
+  effects.clear();
+}
+// Selecting/dragging a card may interrupt travel without committing a move.
+// Settle before the target handler so newly drawn cards are usable immediately.
+$('game-view').addEventListener('pointerdown', event => {
+  if (game.turn === 0 && !finalBusy && event.target.closest('#hand, #pile, #pickup, #play')) cardMotion.cancel();
+}, true);
 function after(result, skipMotion = [], payout = false) {
   if (!result.ok) return;
   if (!onlineSession && game.bet && !game.bet.settled && Number.isInteger(game.winner)) {
@@ -317,27 +344,25 @@ function after(result, skipMotion = [], payout = false) {
   const movingIds = physical ? [...(result.cards || []).map(c => c.id), ...game.players[result.who].hand.filter(c => !result.motionSnapshot.hands[result.who].has(c.id)).map(c => c.id)] : skipMotion;
   render({ animate: !fastForward && !result.pickup, skipMotion: movingIds });
   save();
-  const currentGame = game;
+  const currentGame = game, revision = presentationRevision;
+  const waitForPresentation = !!result.present || game.phase === 'finished' || result.wentOut && result.who === 0;
   const finish = () => {
-    if (game !== currentGame) return;
+    if (game !== currentGame || revision !== presentationRevision) return;
     if (menuOpen) { effects.sync(game); return; }
     if (!result.burn) livingBoard.react(result, game);
     const nextPhase = document.body.dataset.phase;
     if (result.who === 0 && previousPhase !== nextPhase && ['up', 'down'].includes(nextPhase)) phaseArrival(nextPhase);
     if (fastForward && game.phase !== 'finished') effects.clear(); else effects.run(result, spectacle, game);
     if (paid && game.phase !== 'finished' && game.bet.winner !== 0) animatePayout(game.bet.winner);
-    const sharedBeat = result.burn ? BURN_DURATION : reversalOccurs(result) ? REVERSAL_DURATION + 300 : result.wentOut ? 2500 : 0;
-    if (sharedBeat && !fastForward && game.phase !== 'finished') {
-      const run = ++finalSequence; finalBusy = true; clearTimeout(timer);
-      timer = setTimeout(() => { if (run !== finalSequence || game !== currentGame) return; finalBusy = false; render(); schedule(0); }, sharedBeat);
-    } else schedule(fastForward ? 120 : 1000);
+    if (waitForPresentation) schedule(fastForward ? 120 : 1000);
   };
   if (result.present) {
     const present = result.present; delete result.present; present(finish);
   } else if (physical) {
     clearTimeout(timer);
-    cardMotion.run(result.motionSnapshot, game, result).then(finish).catch(error => { console.error('Card travel failed', error); cardMotion.cancel(); finish(); });
+    cardMotion.run(result.motionSnapshot, game, result).then(finish).catch(error => { console.error('Card travel failed', error); if (game !== currentGame || revision !== presentationRevision) return; cardMotion.cancel(); finish(); });
   } else finish();
+  if (!waitForPresentation && !finalBusy) schedule(fastForward ? 120 : 1000);
 }
 function phaseArrival(phase) { effectSound('phase'); const panel = $('hand'); panel.classList.remove('phase-arrival'); void panel.offsetWidth; panel.classList.add('phase-arrival'); notice = phase === 'up' ? 'Hand cleared. Your face-up cards are in play.' : 'Face-up cards cleared. The final cards are blind.'; $('announcement').textContent = notice; }
 function rejectPlay() {
@@ -346,7 +371,8 @@ function rejectPlay() {
   render();
 }
 function playTurn(ids, options = {}, skipMotion = [], dragFrom = null) {
-  if (bankBusy || effects.busy || cardMotion.busy) return;
+  if (bankBusy || effects.busy) return;
+  settlePresentation();
   const motionSnapshot = cardMotion.capture(game, ids);
   if (dragFrom) ids.forEach((id, i) => motionSnapshot.cards.set(id, { rect: { ...dragFrom, left: dragFrom.left + i * 5, top: dragFrom.top - i * 3 }, back: false }));
   const who = game.turn, p = game.players[who], pileSize = game.pile.length;
@@ -368,7 +394,7 @@ function playTurn(ids, options = {}, skipMotion = [], dragFrom = null) {
   const present = complete => {
     const run = ++finalSequence; finalBusy = true; clearTimeout(timer);
     $('hand').inert = true; $('pickup').disabled = true;
-    activeReveal = createCardSpotlight({ card: chosen, who, result, isBlind: true, sourceRect,
+    activeReveal = createCardSpotlight({ card: chosen, who, result, isBlind: true, sourceRect, pileRect: motionSnapshot.pileRect,
       reducedMotion: preferences.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches,
       sound: effectSound,
       onChoose: value => { if (run !== finalSequence) return; cancelFinalSequence(); move(game.pendingAce, value); },
@@ -380,7 +406,7 @@ function playTurn(ids, options = {}, skipMotion = [], dragFrom = null) {
 
 }
 function move(ids, aceValue, dragged = false) {
-  if (bankBusy || effects.busy || cardMotion.busy || finalBusy || spinning || onlineLocked() || game.turn !== 0 || game.phase !== 'playing') return;
+  if (bankBusy || effects.busy || finalBusy || spinning || onlineLocked() || game.turn !== 0 || game.phase !== 'playing') return;
   if (onlineSession) {
     if (zone(game.players[0]) === 'down' && !game.pendingAce) {
       const index = game.players[0].down.findIndex(c => c.id === ids[0]);
@@ -392,9 +418,9 @@ function move(ids, aceValue, dragged = false) {
 }
 // Rendering must not advance the AI's repeated-position detector.
 function hasPlayableCards(who = game.turn) { const p = game.players[who], z = zone(p); return z === 'down' || p[z].some(c => legal(c, game.pile, game.lowTurns) || p[z].filter(other => other.rank === c.rank).length >= 4); }
-function takePile() { if (finalBusy || bankBusy || effects.busy || cardMotion.busy) return {ok:false}; if (onlineSession) { if (!onlineLocked()) {selected=[]; onlineSession.act('pickup');} return {ok:false}; } const pileSize = game.pile.length, motionSnapshot = cardMotion.capture(game); return { ...pickup(game), pileSize, motionSnapshot }; }
+function takePile() { if (finalBusy || bankBusy || effects.busy) return {ok:false}; if (onlineSession) { if (!onlineLocked()) {selected=[]; onlineSession.act('pickup');} return {ok:false}; } settlePresentation(); const pileSize = game.pile.length, motionSnapshot = cardMotion.capture(game); return { ...pickup(game), pileSize, motionSnapshot }; }
 function canRunAI() {
-  return !bankBusy && !effects.busy && !cardMotion.busy && !onlineSession && !finalBusy && !menuOpen && !dealing && !spinning && !document.querySelector('dialog[open]') && game.phase === 'playing' && game.turn !== 0;
+  return !bankBusy && !effects.busy && !onlineSession && !finalBusy && !menuOpen && !dealing && !spinning && !document.querySelector('dialog[open]') && game.phase === 'playing' && game.turn !== 0;
 }
 function schedule(delay = 1000) {
   clearTimeout(timer);
@@ -462,7 +488,7 @@ $('fast-forward').onclick = () => { fastForward = !fastForward; effects.clear();
 $('ace-low').onclick = () => { cardSound('confirm'); move(game.pendingAce || selected, 1); }; $('ace-high').onclick = () => { cardSound('confirm'); move(game.pendingAce || selected, 14); };
 $('play').onclick = () => { if (dealing) { finishDeal(); return; } if (game.phase === 'setup') { spinForStart(); } else if (game.phase === 'finished') newGame(); else { const canPick = !finalBusy && !spinning && game.turn === 0 && game.phase === 'playing' && game.pile.length > 0 && !game.pendingAce; const mustPick = canPick && !selected.length && !hasPlayableCards(0); if (mustPick) after(takePile()); else move(selected); } };
 $('pickup').onclick = () => { if (!finalBusy && !spinning && game.turn === 0) after(takePile()); };
-$('pile').onclick = () => { if (menuOpen || dealing || bankBusy || effects.busy || cardMotion.busy || onlineLocked() || game.pendingAce || finalBusy || spinning || game.turn !== 0 || game.phase !== 'playing') return; if (selected.length > 0 && zone(game.players[0]) !== 'down') { move(selected); return; } if (game.pile.length > 0 && !game.pendingAce) { after(takePile()); } };
+$('pile').onclick = () => { if (menuOpen || dealing || bankBusy || effects.busy || onlineLocked() || game.pendingAce || finalBusy || spinning || game.turn !== 0 || game.phase !== 'playing') return; if (selected.length > 0 && zone(game.players[0]) !== 'down') { move(selected); return; } if (game.pile.length > 0 && !game.pendingAce) { after(takePile()); } };
 $('pile').onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!e.repeat) $('pile').click(); } };
 $('new-game').onclick = () => onlineSession || game.phase === 'finished' ? newGame() : $('restart-dialog').showModal(); $('confirm-restart').onclick = newGame; $('cancel-restart').onclick = () => $('restart-dialog').close(); $('rules').onclick = () => $('rules-dialog').showModal(); $('credits').onclick = () => $('credits-dialog').showModal(); $('rules-credits').onclick = () => { $('credits-dialog').showModal(); }; document.querySelectorAll('.close-dialog,.close-rules').forEach(b => b.onclick = () => b.closest('dialog').close()); document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) { const r = d.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close(); } })); $('history-toggle').onclick = () => { $('history').hidden = !$('history').hidden; $('history-toggle').textContent = $('history').hidden ? 'History' : 'Close history'; $('history-toggle').setAttribute('aria-expanded', String(!$('history').hidden)); }; $('sound').onclick = () => setSound(!sound); document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (menuOpen && !$('single-setup').hidden && !document.querySelector('dialog[open]') && !document.body.classList.contains('fortune-open')) { e.preventDefault(); showSetup(false); return; } if (game.phase === 'setup' && swapHand && !menuOpen) { e.preventDefault(); selected = []; swapHand = null; notice = ''; render(); return; } if (document.querySelector('.card-reveal')) return; if (!$('history').hidden && !document.querySelector('dialog[open]')) { e.preventDefault(); $('history-toggle').click(); $('mobile-menu-btn').focus({ preventScroll: true }); return; } const openDialog = document.querySelector('dialog[open]'); if (openDialog) return; if (!menuOpen && !$('game-view').hidden) { e.preventDefault(); openInGameMenu(); } } if (e.key === '?' && !document.querySelector('dialog[open]')) $('rules-dialog').showModal(); if (!menuOpen && e.key === 'Enter' && e.target === document.body && !$('play').disabled && !$('play').hidden) $('play').click(); });
 attachCardDrag({
@@ -471,7 +497,7 @@ attachCardDrag({
     $('swap-instruction').textContent = name ? `Release to swap with ${name}.` : 'Move to the other row. Release outside to cancel.';
   },
   onGather() { cardSound('gather'); }, onReturn() { cardSound('return'); }, onLand(mode, count) { if (mode === 'swap') cardSound('tap'); else if (game.pile.length) effects.land(count); }, context(id) {
-    if (bankBusy || effects.busy || cardMotion.busy || menuOpen || dealing || spinning || finalBusy || game.pendingAce || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return null;
+    if (bankBusy || effects.busy || menuOpen || dealing || spinning || finalBusy || game.pendingAce || onlineLocked() || onlineSession && game.phase === 'setup' && onlineMember()?.ready) return null;
     const p = game.players[0];
     if (game.phase === 'setup') {
       const source = p.hand.some(c => c.id === id) ? 'hand' : p.up.some(c => c.id === id) ? 'up' : null;
@@ -553,6 +579,7 @@ function renderCoins() {
   $('menu-wallet').textContent = `${coins(wallet.balance)} coins`;
   $('table-wallet').textContent = `${coins(wallet.balance)} coins`;
   const bet = game.bet;
+  document.querySelector('.table-stakes').hidden = !bet;
   $('table-pot').textContent = bet ? coins(bet.pot) : 'Practice';
   $('table-pot').classList.toggle('has-coins', !!bet);
   $('table-pot').setAttribute('aria-label', bet ? `${coins(bet.pot)} coins` : 'Practice table');
@@ -778,7 +805,8 @@ function syncOnlineControls() {
   }
 }
 function endOnlineTable(keepSession = false) {
-  onlineFrames = []; clearTimeout(onlinePresentationTimer);
+  boardFidgets.reset();
+  onlineFrames = [];
   dealRun++; cardMotion.cancel(); cancelFinalSequence(); cancelSpin(); clearTimeout(timer); effects.clear();
   document.querySelectorAll('.deal-flight').forEach(n => n.remove());
   dealing = false; onlineSession = null; onlineEventId = 0;
@@ -795,7 +823,9 @@ function adoptPlayedCardNodes(result) {
   const faces = result.reveal ? [result.reveal] : result.cards || [];
   const source = result.wasBlind ? p.down : p.hand.length ? p.hand : p.up;
   for (const [i, face] of faces.entries()) {
-    if (cardPool.has(face.id)) continue;
+    // A card remembered from an earlier hand may be detached. It cannot
+    // supply this play's origin; adopt the visible concealed card instead.
+    if (cardPool.get(face.id)?.isConnected) continue;
     const hidden = source[result.wasBlind ? result.blindSlot || 0 : i];
     const node = hidden && cardPool.get(hidden.id);
     if (!node) continue;
@@ -803,7 +833,7 @@ function adoptPlayedCardNodes(result) {
     node.dataset.cardId = face.id; node.dataset.renderKey = face.id;
   }
 }
-let onlineFrames = [], onlinePresentationTimer = null;
+let onlineFrames = [];
 function receiveOnlineTable(session, frame = null) {
   if (!session?.view || session.closed) return;
   const localSeat = session.members.findIndex(m => m.id === session.id);
@@ -813,11 +843,15 @@ function receiveOnlineTable(session, frame = null) {
     if (captured.event?.id !== onlineEventId && onlineFrames.at(-1)?.event?.id !== captured.event?.id) onlineFrames.push(captured);
     return;
   }
-  if (session.paused) { onlineFrames = []; clearTimeout(onlinePresentationTimer); cancelFinalSequence(); }
+  if (session.paused) { onlineFrames = []; cancelFinalSequence(); }
   const update = frame || session;
   const first = onlineSession !== session;
   if (first) {
+    boardFidgets.reset();
     soloGame = game; onlineSession = session; onlineEventId = 0;
+    session.onFidget = effect => {
+      if (onlineSession === session && effect.sender !== session.id) boardFidgets.receive(effect);
+    };
     session.onBoardEffect = effect => { if (onlineSession === session) livingBoard.interact(effect); };
     cardMotion.cancel(); cancelFinalSequence(); cancelSpin(); effects.clear(); clearTimeout(timer);
     dealRun++; dealing = false; selected = []; swapHand = null; lastPlayedBy = null;
@@ -831,8 +865,8 @@ function receiveOnlineTable(session, frame = null) {
   const result = tableEvent(projectEvent(update.event, localSeat), localSeat, session.members.length, session.members);
   const newEvent = result && result.id !== onlineEventId;
   const potPaid = !first && next.bet?.settled && !previousBet?.settled;
-  if (newEvent) { cardMotion.cancel(); cancelFinalSequence(); adoptPlayedCardNodes(result); }
-  const motionSnapshot = newEvent && result.ok ? cardMotion.capture(game, (result.cards || []).map(c => c.id)) : null;
+  if (newEvent) { settlePresentation(); cancelFinalSequence(); adoptPlayedCardNodes(result); }
+  const motionSnapshot = newEvent && result.ok ? cardMotion.capture(game, result.reveal ? [result.reveal.id] : (result.cards || []).map(c => c.id)) : null;
   const spectacle = newEvent && result.ok ? effects.capture(result) : null;
   if (!first && previousPhase !== 'finished') next.log = newEvent && update.message ? [update.message,...game.log].slice(0,100) : game.log;
   game = next;
@@ -860,7 +894,6 @@ function receiveOnlineTable(session, frame = null) {
   if (newEvent && spinning) cancelSpin();
   const physical = cardMotion.enabled && !!motionSnapshot && !result.wasBlind;
   const motionIds = physical ? [...(result.cards || []).map(c => c.id), ...game.players[result.who].hand.filter(c => !motionSnapshot.hands[result.who].has(c.id)).map(c => c.id)] : [];
-  if (newEvent && (result.ok || result.who === 0 && result.needsAceChoice)) finalBusy = true;
   render({animate:!!newEvent && !result.pickup || game.phase === 'setup', skipMotion:motionIds});
   if (potPaid && game.phase !== 'finished' && game.bet.winner !== 0) animatePayout(game.bet.winner);
   const motionGame = game;
@@ -868,25 +901,20 @@ function receiveOnlineTable(session, frame = null) {
     if (game !== motionGame || menuOpen) return;
     if (newEvent && result.ok) { spectacle.physical = physical; if (!result.burn) livingBoard.react(result, game); effects.run(result, spectacle, game); }
     if (!newEvent) return;
-    const delay = result.burn ? BURN_DURATION : reversalOccurs(result) ? REVERSAL_DURATION + 300 : result.wentOut ? 2500 : result.pickup ? 1100 : 500;
-    const run = ++finalSequence; finalBusy = true;
-    clearTimeout(onlinePresentationTimer);
-    onlinePresentationTimer = setTimeout(() => {
-      if (run !== finalSequence || onlineSession !== session) return;
-      finalBusy = false;
-      if (onlineFrames.length) receiveOnlineTable(session, onlineFrames.shift());
-      else render();
-    }, delay);
+    // Only an actual reveal/choice queues server frames. Decorative effects
+    // never delay the authoritative table state or the next player's input.
+    if (onlineFrames.length) receiveOnlineTable(session, onlineFrames.shift());
+    else render();
   };
   if (newEvent && result.who === 0 && (result.wasBlind && result.reveal || result.needsAceChoice)) {
     const run = ++finalSequence; finalBusy = true;
     const card = result.reveal || game.players[0][zone(game.players[0])].find(c => c.id === game.pendingAce?.[0]);
-    activeReveal = createCardSpotlight({ card, who: 0, result, isBlind: result.wasBlind, sourceRect: motionSnapshot?.cards.get(card.id)?.rect,
+    activeReveal = createCardSpotlight({ card, who: 0, result, isBlind: result.wasBlind, sourceRect: motionSnapshot?.cards.get(card.id)?.rect, pileRect: motionSnapshot?.pileRect,
       reducedMotion: preferences.reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches, sound: effectSound,
       onChoose: value => { if (run !== finalSequence) return; cancelFinalSequence(); move(game.pendingAce, value); },
       onComplete: () => { if (run !== finalSequence) return; cancelFinalSequence(); render(); finish(); }
     });
-  } else if (physical) cardMotion.run(motionSnapshot, game, result).then(finish).catch(error => { console.error('Card travel failed', error); cardMotion.cancel(); finish(); });
+  } else if (physical) cardMotion.run(motionSnapshot, game, result).then(finish).catch(error => { console.error('Card travel failed', error); if (game !== motionGame) return; cardMotion.cancel(); finish(); });
   else finish();
 }
 

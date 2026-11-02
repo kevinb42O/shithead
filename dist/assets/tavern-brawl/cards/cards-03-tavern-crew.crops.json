@@ -1,0 +1,82 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      26,
+      20,
+      470,
+      725
+    ],
+    "file" : "stoat-gambler.png",
+    "height" : 725,
+    "id" : "stoat-gambler",
+    "source" : "cards-03-tavern-crew.png",
+    "transparentFraction" : 0.1709442138671875,
+    "width" : 470
+  },
+  {
+    "cell" : [
+      512,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      527,
+      20,
+      470,
+      725
+    ],
+    "file" : "hare-runner.png",
+    "height" : 725,
+    "id" : "hare-runner",
+    "source" : "cards-03-tavern-crew.png",
+    "transparentFraction" : 0.16892496744791666,
+    "width" : 470
+  },
+  {
+    "cell" : [
+      0,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      27,
+      775,
+      469,
+      724
+    ],
+    "file" : "toad-brewer.png",
+    "height" : 724,
+    "id" : "toad-brewer",
+    "source" : "cards-03-tavern-crew.png",
+    "transparentFraction" : 0.17096201578776041,
+    "width" : 469
+  },
+  {
+    "cell" : [
+      512,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      527,
+      774,
+      470,
+      726
+    ],
+    "file" : "raccoon-scavenger.png",
+    "height" : 726,
+    "id" : "raccoon-scavenger",
+    "source" : "cards-03-tavern-crew.png",
+    "transparentFraction" : 0.16872914632161459,
+    "width" : 470
+  }
+]

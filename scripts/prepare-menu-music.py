@@ -1,11 +1,11 @@
 # Optional tools: pip install numpy soundfile imageio-ffmpeg
-# Usage: python3 scripts/prepare-menu-music.py /path/to/titleMusic.mp3
+# Usage: python3 scripts/prepare-menu-music.py /path/to/Celebration.mp3
 import sys,pathlib,tempfile,subprocess
 import numpy as np
 import soundfile as sf
 import imageio_ffmpeg
 ff=imageio_ffmpeg.get_ffmpeg_exe()
-output=pathlib.Path(__file__).resolve().parents[1]/'dist/assets/audio/hs-menu-music.mp3'
+output=pathlib.Path(__file__).resolve().parents[1]/'dist/assets/audio/tavern-celebration.mp3'
 with tempfile.TemporaryDirectory() as temp:
     wav=pathlib.Path(temp)/'source.wav'
     subprocess.run([ff,'-loglevel','error','-y','-i',sys.argv[1],str(wav)],check=True)

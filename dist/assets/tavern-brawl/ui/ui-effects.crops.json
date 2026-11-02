@@ -1,0 +1,122 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop" : [
+      60,
+      60,
+      441,
+      419
+    ],
+    "file" : "fx-impact.png",
+    "height" : 419,
+    "id" : "fx-impact",
+    "source" : "ui-effects.png",
+    "transparentFraction" : 0.53818130493164062,
+    "width" : 441
+  },
+  {
+    "cell" : [
+      512,
+      0,
+      512,
+      512
+    ],
+    "crop" : [
+      556,
+      77,
+      448,
+      414
+    ],
+    "file" : "fx-sand.png",
+    "height" : 414,
+    "id" : "fx-sand",
+    "source" : "ui-effects.png",
+    "transparentFraction" : 0.49312973022460938,
+    "width" : 448
+  },
+  {
+    "cell" : [
+      1024,
+      0,
+      512,
+      512
+    ],
+    "crop" : [
+      1070,
+      62,
+      414,
+      424
+    ],
+    "file" : "fx-heal.png",
+    "height" : 424,
+    "id" : "fx-heal",
+    "source" : "ui-effects.png",
+    "transparentFraction" : 0.53686904907226562,
+    "width" : 414
+  },
+  {
+    "cell" : [
+      0,
+      512,
+      512,
+      512
+    ],
+    "crop" : [
+      30,
+      536,
+      482,
+      442
+    ],
+    "file" : "fx-smoke.png",
+    "height" : 442,
+    "id" : "fx-smoke",
+    "source" : "ui-effects.png",
+    "transparentFraction" : 0.356292724609375,
+    "width" : 482
+  },
+  {
+    "cell" : [
+      512,
+      512,
+      512,
+      512
+    ],
+    "crop" : [
+      512,
+      556,
+      497,
+      429
+    ],
+    "file" : "fx-arcane.png",
+    "height" : 429,
+    "id" : "fx-arcane",
+    "source" : "ui-effects.png",
+    "transparentFraction" : 0.45888900756835938,
+    "width" : 497
+  },
+  {
+    "cell" : [
+      1024,
+      512,
+      512,
+      512
+    ],
+    "crop" : [
+      1062,
+      537,
+      451,
+      451
+    ],
+    "file" : "fx-sparks.png",
+    "height" : 451,
+    "id" : "fx-sparks",
+    "source" : "ui-effects.png",
+    "transparentFraction" : 0.39031600952148438,
+    "width" : 451
+  }
+]

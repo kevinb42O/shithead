@@ -1,0 +1,42 @@
+[
+  {
+    "cell" : [
+      30,
+      128,
+      885,
+      628
+    ],
+    "crop" : [
+      32,
+      130,
+      882,
+      624
+    ],
+    "file" : "result-crest.png",
+    "height" : 624,
+    "id" : "result-crest",
+    "source" : "ui-finish.png",
+    "transparentFraction" : 0.32722839972651047,
+    "width" : 882
+  },
+  {
+    "cell" : [
+      1003,
+      126,
+      707,
+      671
+    ],
+    "crop" : [
+      1005,
+      127,
+      703,
+      668
+    ],
+    "file" : "reward-chest.png",
+    "height" : 668,
+    "id" : "reward-chest",
+    "source" : "ui-finish.png",
+    "transparentFraction" : 0.29506931957832788,
+    "width" : 703
+  }
+]

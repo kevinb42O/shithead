@@ -5,5 +5,6 @@
 .card-flight svg { display: block; width: 100%; height: 100%; }
 .card-flight-back { position: absolute; inset: 0; background: #fffdf8; }
 .card[data-in-transit] { visibility: hidden !important; transition: none !important; }
-.cards-in-motion #hand, .cards-in-motion #pile, .cards-in-motion #play,
-.cards-in-motion #pickup, .cards-in-motion #ace-choice { pointer-events: none; }
+/* A faint destination in the hand makes incoming cards discoverable and
+   clickable; pointerdown settles travel before selecting or dragging them. */
+#hand .card[data-in-transit] { visibility: visible !important; opacity: .4; }

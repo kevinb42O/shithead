@@ -126,6 +126,28 @@ components:
 
 # Design System: Shithead — The Ember Hearth
 
+## Brawl confirmation frame
+
+Replacement/concede/unsaved-edit confirmations use original built-in ImageGen artwork at `dist/assets/tavern-brawl/ui/confirmation-frame.png` and `confirmation-frame-mobile.png`, with preserved alpha and the exact prompts in `confirmation-frame.prompt.txt`. The complete carved walnut/brass/emerald object renders at its native 3:2 ratio, switching to the matching 2:3 portrait painting below 540px. Live HTML sits inside the felt recess; the crest and rails never crop. Equal teal/gold actions retain the shared club assets. Native dialog labeling, described copy, initial cancellation focus and Escape dismissal remain.
+
+The desktop heading is 36px Serif, body 16px DM in warm ivory `#ead8b7`, and controls 21px. Portrait uses a 25–32px heading, 14px body and 18px controls; short landscape uses 27/14/17px. Shadow `#10080599` follows the painted silhouette; backdrop `#090f0ce0` separates it from the tavern. The outer dialog intentionally has zero padding because percentage insets on `.confirmation-content` supply the real spacing inside the artwork; the detector's flush-content warning does not describe the rendered panel. Existing out-of-scope small-text findings remain outside this change. Desktop, exact 320×568 and 844×390 CSS layouts were visually checked, with phone captures and dismissal checks retained under `artifacts/tavern-brawl/confirmation/`.
+
+## Materials on all exposed special cards
+
+### Generated frost and heat surface finishes
+
+`dist/assets/card-materials/seven-frost-overlay.png` and `ten-heat-overlay.png` are original 1024×1536 transparent textures generated with the built-in ImageGen tool. Exact prompts are saved beside each asset. The seven uses fine fernlike hoarfrost and translucent crystalline deposits; the ten uses amber heat patina with restrained molten-gold hairlines. Both concentrate detail at upper-right/lower-left and leave the middle transparent. Their original alpha is preserved.
+
+`dist/hand-burn.css` places these static deposits over the printed face and beneath the animated perimeter, at 50% frost / 34% heat opacity. An additional pair of feathered alpha masks protects the top-left and bottom-right rank indices. High-contrast mode reduces opacity to 22%. The finish follows the actual artwork rank, so a four-card burn of ordinary cards gains fire around the group without acquiring a ten's surface. It appears in every exposed-card representation, follows flight concealment and survives reduced-motion/GPU-fallback modes. Startup prepares both textures through the existing loading manifest.
+
+`dist/hand-card-cues.js` replaces the previous SVG ornaments and hand-only CSS with one shared WebGL material atlas. Two 256×352 variants for each of three materials occupy a single 512×1056 offscreen target. Every visible card receives a transparent 2D canvas copied from that atlas, preserving physical-card transforms, layering, artwork, hit targets, selection and accessible names. No per-card GPU contexts are created. The animated perimeter has a mathematically empty interior, leaving room for the separate generated surface finishes.
+
+10 and selected four-of-a-kind groups use advected multiscale flame noise, warm ivory cores, amber convection and a few detached embers. 7 uses cool blue refractive cell facets, irregular rime and a slow specular reflection. 3 uses tapered, bowed ivory/teal currents around the perimeter, with no arrow glyphs or dashed rectangle. Material lives in a 22% horizontal / 17.38% vertical outer margin and scales with the physical card. This supersedes all earlier droplet flames, vector crystals, arrow outlines and hand-only visibility requirements.
+
+`dist/card-art.js` marks only exposed 3/7/10 faces. A mutation observer adds the same materials to human and opponent reserves, the discard pile, the hand, public-card inspection, menu cards, reveals, dealing and flight representations. Concealed artwork is identical for all ranks and contains no material marker. Flight material follows the opacity of its covering back during reveal/conceal crossfades. Four selected matching exposed cards temporarily override their normal material with fire; deselection restores the rank's material.
+
+One 24fps scheduler culls hidden/offscreen nodes and stops when no materials are visible or the tab is hidden. System and saved reduced-motion settings render a single fixed frame. Resize, scrolling, DOM changes and preference changes wake the renderer when needed. GPU compilation failure/context loss keeps a static warm/cold material edge. Resources are disposed on page exit. No text, sounds, rules, hosting or fullscreen layout changes are part of this treatment.
+
 ## Fortune title and mode plaques
 
 `dist/fortune-marquee.css` integrates original transparent ImageGen artwork with the existing walnut, antique-gold and emerald cabinet. `assets/fortune/title.png` contains bespoke ivory-and-gold title lettering; `daily-button.png` and `bet-button.png` contain the exact mode labels on sculpted emerald and teal plaques. Exact built-in generation prompts are saved beside each asset. Semantic heading/image names, native buttons, aria-pressed, disabled states, cream keyboard focus and both reduced-motion preferences remain available.
@@ -570,3 +592,167 @@ At larger tables, the local player’s first escape opens the ceremony immediate
 ### Victory lettering
 
 The result title uses locally hosted Cinzel Decorative Black with optical vertical centering, an ivory-to-antique-gold bevel, controlled tracking and one finite highlight sweep. Cinzel Bold sets the lining/tabular coin counter, smaller unit and uppercase actions. Cormorant Garamond SemiBold Italic sets the signature line, result detail and tavern link; DM remains the legible accounting face. Font downloads total about 52 KiB. All three faces preload locally and resolve before startup reveals the game. Reduced motion and restored results skip the title sweep. Counter width reserves the final number of digits; long result names can use the lower plaque’s two-line space rather than being cut off. `scripts/prepare-victory-type-review.mjs` produces a disposable specimen using the real result module for payout, guest, long-name, loss and first-out checks.
+
+
+### Compact opponent hand counts
+
+`dist/decision-focus.css` replaces the wide hand-count bars beneath opponents with a small, static card-outline icon and live numeral beside the portrait (63% from the station’s left, 26% down its heading). Warm ivory #f4dfb9 on dark timber #281c12ed uses 12px DM, or 11px on compact screens, a 3px corner and tabular numerals. The annotation has an accessible full card-count label and a hover title. It shows only revealed counts of concealed cards, preserves the real flight/deal destinations, and updates with the shared solo/online renderer. Empty counts and dealing-status text stay hidden; readiness, face-up/blind play and final placement retain compact footer text. This supersedes the broad 16–21px count plaque beneath each tray.
+
+## Corner fidget mechanisms
+
+`dist/board-fidgets.js` and `dist/board-fidgets.css` add three local, decorative mechanisms inside the existing painted compass sockets. Fixed rims and moving plates sample their exact original board painting through SVG viewBoxes, retaining the board's walnut/brass identity and fullscreen layout. Top-left is a 48-detent dial with direct dragging, seam-safe angular tracking, directional backlash sounds, a deeper full-turn notch and a short damped settle. Bottom-left is a recessed spring rosette with a held depth, independent press/release transients and a finite 220ms release recoil. Bottom-right retains a central compass inside a captive brass-ball race with three pawls, frictional coasting and quiet rolling contact. Dial rotation is normalized to the painting's independent horizontal/vertical stretch; ball reflections stay fixed in the room's warm/teal lighting.
+
+Fixtures use the existing warm focus ivory #ffe5a3. The small mechanical geometry introduces intentional brass/shadow tonal ramps: #ffdf9b, #f6d99b, #edc374, #a17a3e, #946630, #e0b86a, #3e2916, #382110, #3a2112, #d5ad68, #674324, #fff0bb, #f0cb75, #af7730, #694019, #2b1c11; recess shadows #190d08, #1c0e08, #1b0c08, #120805, #130c08, #100805, #100804; the ball's reflected lantern highlight is #61b3a9. One/two-pixel rounding belongs only to engraved index/pawl geometry; each fixture and ball remains circular/elliptical to match the painting.
+
+Native button targets are at least 44px, with pointer capture, touch, arrow-key rotation and Space/Enter activation. Motion is user-triggered and finite; menus, tab hiding, blur and resizing cancel it. Both reduced-motion preferences retain direct manipulation and static feedback while omitting coasting and spring travel. In solo play the mechanisms are browser-local. Multiplayer shares transient fidget motion independently of cards, coins and game snapshots. Original synthesized transients use the existing audio context, master volume, mute, compressor and bounded voice lifecycle; generic UI hover/click sounds are excluded for these controls.
+
+Verification: 153 unit tests passed, including seam crossing, detents, frame-rate-independent coasting and mechanical voice mute/cleanup. Local Chrome checks covered mouse dragging/holding, keyboard arrows, synthesized touch, reduced motion, pause, the normal desktop and compact phone layouts; no console errors were reported. No physical phone or subjective audio listening verification is claimed.
+
+
+### Fidget alignment in the painting's coordinate space
+
+The fidgets now live in a single absolute `.board-fidgets` layer inside `.game-shell`, the same box that paints the board at `100% 100%`. Positions are measured source-image centers, not viewport offsets. Desktop (1536×1024) centers are dial (109,62), press (95,904), ball (1446,905); portrait (1024×1536) centers are (48,46), (48,1447), (975,1447). Their calibrated half-extents are desktop (60,57)/(60,60)/(60,60), portrait (43,41)/(44,45)/(44,45). `FIDGET_ART` and `fidgetGeometry` are authoritative. The CSS-selected background determines which source to sample; the exact same 700px breakpoint controls the board and mechanisms.
+
+Container-relative cqw/cqh bind visual dimensions to the board layer. Minimum 44px buttons are independently centered around each visual plate, so touch sizing cannot shift the artwork. Each fixed bezel and moving inset uses the corresponding original image through an SVG viewBox, removing the former replacement illustration's mismatched rims and transparent margins. A shell ResizeObserver switches source artwork when needed, cancels motion and updates the ball/rotor geometry. The marble is centered using translate rather than width-based percentage margins, preserving its orbit when the board stretches independently on each axis.
+
+Chrome verification measured all three visual centers/dimensions and input centers at actual CSS viewport sizes 320×480, 390×844, 430×932, 700×900, 701×900, 844×390, 1024×768, 1440×900, 1920×1080, 2560×1080 and 3440×1440. Maximum difference from calibrated image coordinates was 0.0131 CSS pixels; all input targets remained centered. Screenshots and measured results are saved under `artifacts/board-fidgets/alignment-*`. Touch pressing/rotation were exercised after resizing at device scale 2, with no held-state leak or console errors. All 154 unit tests passed. This supersedes the earlier viewport-based fidget coordinates and generated-compass artwork description.
+
+
+## Interruptible card presentation
+
+Rules and saved state commit before card travel. Normal card flights, draws, burns and reversal effects do not lock selection, dragging, pickup or the next legal play. The solo opponent's normal think delay starts at the committed action, independently of decorative animation duration. A new action settles old flights at their authoritative destinations and clears obsolete effects; a presentation revision prevents cancelled promises from replaying earlier effects or scheduling older turns. Incoming hand cards have faint, usable destinations; pointer input settles travel before the selection/drag handler runs. Keyboard actions use the same current rules state.
+
+Online snapshots apply as soon as they arrive; only a private blind reveal or required ace choice buffers later frames. Those discovery/choice stages and result dialogs retain their interaction boundaries. The fullscreen layout, artwork, regular animation durations and reduced-motion preferences remain intact.
+
+
+### Shared multiplayer fidgets
+
+The same controller now publishes local start/move/release/settle/cancel states through `Session.interactFidget`; the host validates and relays `fidget-effect` messages to every seat. `dist/multiplayer/fidgets.js` defines the compact allowlisted payload and 50ms update interval. Card command sequencing, busy flags, private cards, coins, game revisions and snapshots remain separate. Intermediate frames are bounded per sender/mechanism; release/final endpoints are not dropped by that limiter. The sender retains immediate local feedback and ignores its own relay. Received motion never emits another update. Angles and velocity, rather than screen coordinates, let every renderer use its own calibrated desktop/portrait geometry.
+
+Held interactions send 500ms heartbeats. A remote 2-second expiry clears missing release/disconnect states; menus, visibility, blur, resizing and table changes cancel/reset the controller. Local pointer/keyboard ownership wins while a control is held, and subsequent authoritative endpoints converge simultaneous interactions. Remote coasting predicts from the supplied velocity and follows newer shared frames; the final angle is applied exactly. The physics uses elapsed time so throttled animation frames do not extend the coast. Each viewer's existing mute, volume and reduced-motion settings still apply.
+
+`dist/test-fidget-multiplayer.html` is an isolated local review harness with four independent iframe renderers and real host/guest RTCPeerConnection data channels, without a public broker or user saves. Browser verification passed: 2.3-second shared hold, release on all four peers, identical dial notch, identical ball endpoint (zero measured angular spread), missing-release recovery, no echo from the passive peer, and unchanged game/revision. Results and screenshot are saved as `artifacts/board-fidgets/multiplayer-checks.json` and `multiplayer-four-peers.png`. Four-seat session tests also cover authority validation, throttling/endpoints, stale messages, disconnected/paused/closed tables, pending card commands and backpressure.
+
+## Brawl shares the existing game materials
+
+### Battle backdrop focus
+
+`dist/brawl/hearth-ui.css` separates the battle painting from live objects using two pointer-transparent pseudo-elements inside the existing isolated fullscreen table. Scenery is graded to 96% brightness / 94% saturation with 0.35px static softening (0.25px on portrait phones). A broad radial vignette and a top/bottom veil at 45% layer opacity gently dim all four edges, especially the spectator faces and candles; the central felt stays open. The initial stronger treatment was reduced after user feedback to preserve more tavern warmth and detail. Portrait uses the original mobile painting and gentler edge shading. Cards, heroes, pot, energy and controls render above both layers at their existing brightness and sharpness. No radial motion blur or animated postprocessing is used.
+
+The shadow colors are near-black green `#080e0b`, warm lower-edge umber `#100c08`, and fallback felt `#10251e`, with alpha varying across the vignette. These are intentional lighting tones within the existing timber/emerald world. Desktop, portrait, short landscape and exact 320×568 compact-phone layouts were visually checked; the compact page fits horizontally and all three friendly crew retain pointer priority. Captures are under `artifacts/tavern-brawl/backdrop-focus/`. The mechanical scan reports palette/type-ramp advisories in the shared stylesheet. The fullscreen layout and locally served game remain.
+
+Brawl's utility, primary, deck-editing, filter and battle action buttons reuse the incumbent `club-teal-button.png` and `club-gold-button.png` plaques. `dist/hearth-controls.css` contains the shared button implementation used by the existing online club and Brawl. Menu and supporting screens reuse the existing desktop/portrait tavern menu paintings; pause and Options reuse `pause-hearth-background.jpg` fullscreen, and rules reuse the house-rulebook paper. Existing Serif/DM fonts, cream focus rings, disabled states and both motion preferences remain. Brawl preloads these shared images before revealing its menu. The card engine and fullscreen battle arrangement are preserved.
+
+Desktop and phone visual checks covered the menu, Options, deck collection, fresh duel opening and battle pause menu. The 15 Brawl engine/network tests passed. The existing automated full-duel browser script timed out at its opening-hand step; starting a fresh duel and keeping the opening hand succeeded through browser interaction. Screenshots are retained in `artifacts/tavern-brawl/shared-ui/`. All work remains locally served.
+
+### Brawl turn-button lettering
+
+The gold End turn plaque uses the existing local Cinzel Bold (`Brawl`) face in its natural small capitals, with .065em tracking (.035em on phones), warm bronze #38200d and a subtle downward ivory highlight #fff0b9b3. A dedicated live `.end-turn-label` is centered in the upper 90% of the control, aligning the visible lettering with the gold recess rather than the lower wooden pendant. Its 10–24px type scales with the button's own width, retaining room around End turn, Their turn and Brawl over. Disabled lettering uses #382b1d and #fff0c966. The original plaque, focus/press states and fullscreen layout remain. Local Chrome checks covered desktop, compact portrait, overflow and a live End turn → Their turn update. Detail capture: `artifacts/tavern-brawl/button-type/desktop-detail.png`.
+
+### Brawl hero-power lettering
+
+The hero-power control groups its name and live energy/used status inside one absolute `.hero-power-label`, centered in the painted recess with 25% left clearance for the medallion and a 10% lower optical correction. Cinzel Bold (`Brawl`) sets the name in warm ivory #fff0c9 with .035em tracking; DM Medium sets the smaller gold #e7c779 cost. Both scale with the control width. Compact portrait uses a 30%-wide plaque to keep the name and cost on two distinct single lines. Disabled material retains 90% brightness for readable type. Desktop and compact portrait renders were visually checked; the accessible button name and existing live text IDs remain intact. Screenshot: `artifacts/tavern-brawl/button-type/hero-power-desktop.png`.
+
+### Brawl energy sockets and feedback
+
+The energy housing now holds ten persistent, evenly spaced sockets. Available sapphire gems occupy the leftmost slots; spent capacity uses the unlit artwork and future capacity uses dim sockets. The numeric available/maximum count has a reserved area at the right. Temporary energy can light a socket beyond the current maximum. Persistent nodes preserve transitions across selections and game updates. Refills flare in left-to-right 45ms steps (480ms per gem); spending extinguishes the rightmost active sockets first (280ms). Opacity crossfades follow the same order. Device and saved reduced-motion preferences suppress spatial animation, with immediate state updates. Compact portrait widens this meter to 37% while retaining the fullscreen table.
+
+Local Chrome verification covered 1440×900, 390×844 and 320×568: socket order and node persistence, count separation, viewport fit, gain/drain timing and zero meter animations under reduced motion. All 15 Brawl engine/network tests passed. The preview used an unsaved renderer fixture and restored the menu afterward. Detail: `artifacts/tavern-brawl/energy/energy-meter.png`.
+
+Hero-power spacing correction: the painted background now uses 100% × 165% to give both lines sufficient interior height, with a 56px minimum hit region. The label uses a 12% lower optical inset, a 4px desktop / 3px portrait interline gap, 10–17px Cinzel name at line-height 1 and a larger 10–13px DM energy cost at line-height 1. This supersedes the preceding shallow-plaque sizing and 10% inset. Close-up and compact portrait rendering verified; final detail: `artifacts/tavern-brawl/button-type/hero-power-balanced-detail.png`.
+
+### Brawl direct manipulation
+
+Hand cards, ready crew, targeted hero powers and the shared pot use one pointer controller in `dist/brawl/gestures.js`. Untargeted crew land in a visibly outlined friendly row; untargeted tricks use a larger outlined table region. Targeted actions draw a cream aiming arrow, turning gold with a stronger outline on a legal target. Targeted card previews shrink and sit away from the pointer to keep the defender visible on phones. During dragging, the selection dock recedes; click and keyboard selection, commit, target and Cancel controls remain available.
+
+The controller resolves previews and releases against current engine actions. Invalid drops, Escape, pointer cancellation, blur, resizing, dialogs, hidden tabs and changed game revisions cancel without spending energy. Immediate pointer capture supports fast drags from small controls; browser-native image dragging is disabled. Crowded phone hands retain horizontal native scrolling and vertical card dragging. This is an interaction refinement; fullscreen composition, energy, Guard, three crew places, card effects, adventure and network command authority retain their existing rules.
+
+### Your Decks menu control
+
+The collection button reads exactly “Your Decks”. Its 300px-wide, 56px-high teal plaque uses 17px Cinzel Bold with .055em tracking and warm ivory lettering. A dedicated text span centers the label in the upper 90% of the painted control, clear of both ornamental ends. Desktop and compact portrait rendering verified. Detail: `artifacts/tavern-brawl/button-type/your-decks-detail.png`.
+
+### Brawl card energy numeral alignment
+
+The shared `.card .cost` in `dist/tavern-brawl-assets.css` centers the numeral on each card’s own painted sapphire face using per-card `--cost-x` / `--cost-y` anchors, a 17% × 11% alignment area and a small font optical correction. The anchors follow the blue gem’s connected facet area in each original PNG; the paintings vary horizontally from 12.29% to 16% of card width. Both card renderers expose `data-card` so the same calibration applies in gameplay, hand, collection and inspection. Cinzel Bold scales at 9.5cqw, with lining/tabular numerals, warm ivory `#fff7df`, a fine sapphire-ink `#082b58` stroke and a proportional navy shadow. This keeps the numeral inside the facets at hand and inspection sizes. All 24 card faces were checked at desktop and phone sizes, then Pocket Sand, Stoat Gambler and Hare Runner were verified together through the actual gameplay hand renderer at 1440×900 and 390×844 without browser errors; screenshots are under `artifacts/tavern-brawl/energy-cost/`. Fullscreen layout and card behavior remain unchanged.
+
+### Brawl card inspection tray
+
+`dist/brawl/card-inspection.css` and `card-inspection.js` extend the existing Ember Hearth material family with original generated walnut-and-brass trays, green velvet card recesses and clean ivory parchment. `dist/assets/tavern-brawl/ui/card-inspection.jpg` supplies the 3:2 desktop tray; `card-inspection-mobile.jpg` rearranges the same materials into a 2:3 portrait tray. Both preload during Brawl startup. These are component materials, not a new global visual system.
+
+Desktop width is `min(1120px, 96vw, 138dvh)` with a `96dvh` maximum height. Portrait at widths up to 600px uses `min(98vw, 63dvh)`, placing the card above the parchment; landscape windows up to 540px tall use `min(96vw, 142dvh)` and smaller type and stat emblems. The parchment text region scrolls independently, preserving the complete tray and its Close control. Serif titles and dark DM rules remain live HTML, along with type/faction, energy, crew attack/health, keyword explanations and current table condition. Crew inspection uses current attack and current/maximum health when a board unit is supplied. Existing sapphire, attack and health emblems carry live numeric values; no rules or stats are painted into the tray.
+
+The native `dialog` is labelled by the card title and described by its rules. Close receives initial focus; Close and native Escape dismiss it, with a cream focus outline. The decorative card duplicate is hidden from assistive technology. Select this card appears only for a legal local hand play and closes inspection before entering the existing selection flow. The finite 420ms rise/scale entrance is removed by both device and saved reduced-motion preferences. The fullscreen game remains the surrounding layout.
+
+Verification: 15 engine/gesture tests passed. Browser verification of the inspection selection action is not yet claimed. Exact generation prompts and provenance are recorded in `TAVERN_BRAWL_ASSETS.md` and the adjacent `card-inspection.prompt.txt`.
+
+### Brawl reactive field effects
+
+`dist/brawl/field-effects.js` and `.css` add a single decorative, pointer-transparent 2D canvas to the existing fullscreen Brawl table. Weighted crew entrances, source-to-target spell trails, sound-aligned 153ms melee contact, short contact rays, recoil, ground dust and transient felt marks replace the generic scaled effect images. Death and return remnants are disabled, inert, hidden from assistive technology and removed after their finite presentation. The rules state remains immediately authoritative, including when an attacker dies.
+
+Physical impact/fire uses warm ivory, amber and copper; sand uses parchment gold; smoke uses muted stone/teal; healing uses pale green; arcane uses ivory/teal; raven magic uses muted violet. Damage numerals use warm ivory `#fff5d9` with dark umber outlines `#55280f` and offset shadows `#643114` / `#160a08`. Healing uses `#ddffc9` with forest outline/shadow `#244e30` / `#0c221a`. Guard borders use antique gold `#e0be74`, ready edges `#ffe2a1`, and stunned edges parchment `#dac18b`. These effect colors extend the incumbent material vocabulary; their brief light bloom represents emitted combat light, not UI elevation.
+
+Candle light follows the desktop/portrait paintings. A sparse dust field, Guard ground arc, ready edge glint and sand motes for stunned crew keep the board alive without covering artwork. Idle drawing is capped at 30fps and transient effects at 60fps, with 180 particles on narrow screens / 320 otherwise and a 1.5 device-pixel-ratio cap. Marks fade over 14 seconds and are bounded to twelve. Menus, leaving the battlefield, new matches, visibility loss and resizing clear pending presentation. Device and saved reduced-motion preferences suppress spatial effects and ambient loops while retaining short damage/healing numbers and a gentle localized light fade. Existing controls, energy, gestures, multiplayer authority and the fullscreen composition remain in place. Research and browser evidence are retained in `artifacts/tavern-brawl/field-effects/`.
+
+
+## Brawl slot placement refinement
+
+Crew occupy persistent left/middle/right places, including gaps after a death or return. Each crew slot uses its actual DOM rectangle for pointer acceptance, before decorative or control layers are considered. Pointer position alone chooses the slot; gaps and occupied places cancel. Only the place under the pointer gains a gold outline and translucent gold fill. Crew dragging never shows the broad row overlay or outlines all three places. Click and keyboard activation use the same place controls. Targeted battlecries can select a place before their effect target.
+
+The drag preview is fixed above the table at the original card size, preserves the point where it was grabbed, ignores pointer hit testing and follows input without a transform transition. A document-level pointer session tracks movement and release even after capture is lost; a fast release is resolved at its final coordinates. Mouse dragging begins after 5px; touch keeps a 9px threshold. Hand cards reserve touch movement for dragging; crowded phone hands retain horizontal native scrolling. Fullscreen geometry, illustration, typography, rules and hosting remain as established. Browser regression captures and results are in `artifacts/brawl-audit/drag-slot-desktop.png`, `drag-slot-phone.png` and `browser-regressions.json`.
+
+
+Crew drops use direct pointer-in-slot tests, shared by preview and release; overlapping card artwork cannot redirect the chosen slot. Rejected releases retain selection. Targeted Battlecries show a pending card in the chosen slot while awaiting the mandatory target, spend nothing until the complete move is accepted and clear the preview on cancellation. `scripts/tavern-brawl/test-drop-edges-browser.mjs` verifies all three slots at their centers and corners across four viewports, overlaid controls, capture loss and fast releases. `BRAWL_CORE_ART_ONLY=1` isolates core-card verification when expansion artwork is still being produced; this changes only the test browser response.
+
+
+### Brawl fatigue and online clock feedback
+
+The existing fullscreen battle now places a warm ivory resource warning on an umber strip between the crew rows. It states the next failed-draw damage, explicitly labels lethal draws, and explains that an empty hand still allows crew and powers. Phone warnings use 12px DM; desktop uses 14px. When a phone warning appears, the crew rows leave room for its live text. No viewport scrolling or clipped warning copy is required. A brief toast and the bundled dread cue identify each fatigue event alongside the existing damage numbers.
+
+Online Brawl adds a tabular countdown beneath the turn indicator and a separate countdown inside the mulligan overlay. Text is 14px desktop / 12px phone, with an ivory-to-peach urgency change during the final fifteen seconds. The visible number remains the primary signal. Host-provided clock time compensates for different machine clocks. Menus and connection interruptions leave deadlines running; a connection cover explains the fifteen-second forfeit grace. Finished forfeits clear that cover and use the existing result dialog with a reason and closed-table state.
+
+Browser verification covers 1440×900, 390×844, 320×568 and 844×390 for fatigue, plus empty-hand recovery, opening draw/Coin, online mulligan/turn clocks and forfeit results. Captures and the executable test are in `artifacts/tavern-brawl/mechanics/` and `scripts/tavern-brawl/test-mechanics-browser.mjs`. The mechanical design detector reports existing small labels and illustrated dialog geometry elsewhere in the surface; the new warning and clock were inspected in the rendered phone/desktop layouts.
+
+
+## Brawl deck status warnings
+
+Fatigue and empty-hand notices share the deck-counter area, outside the crew rows. Desktop uses a compact 224px timber panel at the lower left; landscape uses the existing 17% side gutter. A 14px bold title identifies the empty deck, 12px text gives next-draw damage, and a warm red `#84372a` label with ivory text explicitly marks Lethal. Phones use a single compact line at 72.5% table height above the hand, with the full deck/discard inspection button retained underneath as an accessible hit target. Rival fatigue remains a separate supporting line. Warnings never reposition or resize crew rows. Existing fullscreen layout, live status announcements and deck inspection remain. Verified at 1440×900, 390×844, 320×568 and 844×390.
+
+
+### Brawl card-name hierarchy
+
+Live card names use established Cinzel Bold (`Brawl`) in uppercase, warm ink #28170b and a subtle downward parchment highlight. Every nameplate uses an 82%-wide centered text region. Crew names start at 66.3% card height; the oval trick/equipment plates start at 66.8%. Their 6.2%-high alignment region and .18em lower padding optically center the visible capitals in the painted parchment. DM ability text retains 5.8cqw/1.2 at weight 500.
+
+`dist/brawl/card-typography.js` shares card-relative title sizing between the gameplay and asset-gallery renderers. After loading the local font it measures each uppercase name once, choosing up to 8cqw while limiting ink width to 76% of the card, preserving the banner-end clearances. It needs no resize observers and scales with hand, drag and inspection representations. This supersedes the earlier 7.2cqw crew / 6cqw non-crew treatment.
+
+All 49 current catalog titles fit at desktop, 390px and 320px widths. The original ten crew and all original banner types were visually reviewed; the gameplay cardFace renderer was checked in desktop and phone preview fixtures. Captures are under `artifacts/tavern-brawl/card-titles/refined-*` and `game-renderer-*`. Full live-match startup was blocked by 25 missing expansion artwork PNGs in the current catalog, independently of this typography change. The mechanical scan retains pre-existing palette/type-ramp metadata findings in the shared stylesheet.
+
+### Brawl field cost gems
+
+Field crew retain their centered 130% portrait crop. `dist/brawl/view.js` renders a separate `.unit-cost` above that clipping container, reusing the transparent `ui/energy-on.png` sapphire. Its 38%-wide square at left −10% / top −4% covers the truncated painted gem, with a live 18cqw Cinzel numeral using the existing card-cost ivory and sapphire-ink treatment. Both seats share this renderer; the badge ignores pointer events and the unit accessible name includes energy cost. Card PNGs and fullscreen composition are preserved.
+
+The field-cost browser fixture checks every catalog crew on both seats at 1440×900, 390×844, 320×568 and 844×390, including ready, Guard and stunned states. Original-art desktop and phone captures are under `artifacts/tavern-brawl/field-cost/`. Current missing After Midnight artwork still blocks ordinary startup independently; the fixture reports those known 404s separately from unexpected errors. All 32 focused engine, gesture, field-effect and network tests passed. The mechanical style scan reports existing typography/palette metadata findings, including the reused card-cost colors.
+
+
+### Brawl ability readability
+
+`styleCardText` in `dist/brawl/card-typography.js` replaces the fixed 5.8cqw rules size with content-aware fitting shared by both card renderers. Standalone Guard/Ward/Skirmish use 10.4cqw bold (79% larger); ordinary effects start at 8.2cqw and fit downward only as required by their text. The 82%-wide parchment region begins at 76.8% card height. Balanced, explicit live-text lines use DM at line-height 1.12; lower crew lines narrow to 48% card width to clear the existing stat emblems. Keyword-only effects center within the open upper panel. Keyword names retain bold emphasis with local font weight synthesis because the bundled DM face is static regular. Original rules text and accessible card labels remain intact.
+
+Browser measurements checked all 49 current cards at 1782px, 390px and 320px: no line/stat intersections, horizontal overflow or text beyond the parchment bottom, and no runtime errors. The existing missing expansion artwork remains a separate 404 condition. Desktop and phone captures are `artifacts/tavern-brawl/card-titles/abilities-*.png`. Source syntax checks pass. The mechanical scan retains existing shared-style palette/type-ramp metadata advisories.
+
+
+Mouse holds remain draggable regardless of duration; right-click inspects. Touch inspection is decided on release after a stationary hold, so a held touch can still become a drag. The shared pointer session resolves quick releases even without an intervening move event. All native dialogs without `open` are explicitly absent from layout. Slot checks cover the center and four corners of each place at 1440×900, 390×844, 320×568 and 844×390, plus overlays, capture loss, quick release, an 800ms mouse hold and targeted Battlecry placement. The final pointer matrix passed 71 checks; expansion preload substitutions and the two not-yet-added expansion controls are confined to the test browser.
+
+The final touch/keyboard/fullscreen browser regression suite also passed all 14 checks. After the expansion assets arrived, ordinary startup was independently checked at `http://localhost:5173/tavern-brawl.html` without test substitutions.
+
+### Cards always cover corner fidgets
+
+The scenery layer `.board-fidgets` now has z-index 1, below the existing `.table` (2) and `.hand-panel` (5, or its responsive override). This keeps every resting, selected and moving card above fidget artwork. Transparent table/hand layout boxes use pointer-events:none while their cards, native controls and role=button destinations explicitly retain pointer-events:auto; exposed corners remain usable, but a card overlapping a fidget receives the pointer. No per-card position exceptions or screen-size thresholds are involved.
+
+Browser verification used an isolated 16-card hand: all 34 sampled card/fidget intersections gave cards pointer priority, clicking an overlap selected cards, and pressing an exposed part still depressed the spring. Portrait and landscape checks retained the same layer order and interactive cards. Screenshots and measurements are in `artifacts/board-fidgets/card-priority-*` and `cards-above-fidgets.png`; the browser console was clear.
+
+
+### Catalog-owned sapphire cost anchors
+
+All 49 core and After Midnight cards now obtain cost anchors from their actual PNGs during `scripts/tavern-brawl/catalog.mjs` generation. `measure-cost-layouts.py` reads the supplied artwork paths, isolates the largest sapphire component in the cost region and writes its center to each card’s `layout.cost`; missing/unreliable gems fail generation. It reads pixels without modifying artwork and uses Pillow, also used by the existing asset inspection pipeline. This supersedes the earlier per-card CSS selector calibration. The existing shared `decorateCard` applies the catalog anchors in hand, collection, mulligan, drag and inspection; no generic core cost coordinates may override them.
+
+`test-gem-alignment-browser.mjs` checks all 49 rendered numeral alignment boxes against the catalog, captures actual mixed-set gameplay hands at 1440×900 and 390×844, and checks browser errors. Captures: `artifacts/tavern-brawl/energy-cost/catalog-hand-1440.png`, `catalog-hand-390.png`, and `catalog-all-49.png`.

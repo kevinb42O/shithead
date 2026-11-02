@@ -1,3 +1,4 @@
+import { FIDGET_UPDATE_MS, validFidget, fidgetState } from './fidgets.js';
 import { TABLE_STAKES } from "./stakes.js";
 import { validPortrait, portraitFor } from '../portraits.js';
 import { recordBurn } from "../living-board.js";
@@ -91,6 +92,10 @@ export class Session {
     this.boardEffectSequence = 0;
     this.lastBoardEffect = 0;
     this.onBoardEffect = () => {};
+    this.onFidget = () => {};
+    this.fidgetTimes = new Map();
+    this.fidgetSequence = 0;
+    this.lastFidget = 0;
     this.stake = 0;
     this.offerId = id();
   }
@@ -314,7 +319,9 @@ export class Session {
       try {
         const m = JSON.parse(e.data);
         if (this.host) this.command(peer, m);
-        else if (m.type === "board-effect") {
+        else if (m.type === 'fidget-effect') {
+          this.deliverFidget(m);
+        } else if (m.type === "board-effect") {
           this.deliverBoardEffect(m);
         } else if (
           m.type === "snapshot" &&
@@ -479,6 +486,32 @@ export class Session {
     this.onBoardEffect({ id: effect.id, prop: effect.prop, seed: effect.seed, sender: effect.sender });
     return true;
   }
+  interactFidget(state) {
+    if (this.closed || this.ended || !this.connected || !this.view || this.paused || !validFidget(state)) return false;
+    if (this.host) return this.receiveFidget(this.id, state);
+    return [...this.links.values()].some(l => this.send(l, { type: 'fidget-interact', ...fidgetState(state) }));
+  }
+  receiveFidget(peer, state) {
+    if (!this.host || this.closed || this.ended || !this.game || this.paused || !validFidget(state) ||
+      !this.members.some(m => m.id === peer && m.connected)) return false;
+    // Only intermediate frames are limited. Endpoints must always get through,
+    // even when a player releases immediately after their last movement frame.
+    const key = `${peer}:${state.kind}`, now = Date.now();
+    if (state.phase === 'move' && now - (this.fidgetTimes.get(key) ?? -Infinity) < FIDGET_UPDATE_MS - 10) return false;
+    this.fidgetTimes.set(key, now);
+    const effect = { type: 'fidget-effect', id: ++this.fidgetSequence, sender: peer, ...fidgetState(state) };
+    for (const l of this.links.values()) this.send(l, effect);
+    this.deliverFidget(effect);
+    return true;
+  }
+  deliverFidget(effect) {
+    if (this.closed || this.ended || this.paused || !this.view || !validFidget(effect) ||
+      !Number.isSafeInteger(effect.id) || effect.id <= this.lastFidget ||
+      !this.members.some(m => m.id === effect.sender && m.connected)) return false;
+    this.lastFidget = effect.id;
+    this.onFidget({ id: effect.id, sender: effect.sender, ...fidgetState(effect) });
+    return true;
+  }
   receiveChat(peer, text) {
     const member = this.members.find((p) => p.id === peer && p.connected);
     if (!member || typeof text !== "string") return false;
@@ -493,6 +526,7 @@ export class Session {
   }
   command(peer, m) {
     if (this.closed || !m || typeof m !== "object") return;
+    if (m.type === 'fidget-interact') { this.receiveFidget(peer, m); return; }
     if (m.type === 'board-interact') { this.receiveBoardInteraction(peer, m.prop); return; }
     if (m.type === "chat") { this.receiveChat(peer, m.text); return; }
     const seat = this.members.findIndex((p) => p.id === peer);

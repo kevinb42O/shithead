@@ -1,0 +1,82 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      22,
+      20,
+      471,
+      728
+    ],
+    "file" : "tavern-rat.png",
+    "height" : 728,
+    "id" : "tavern-rat",
+    "source" : "cards-01-common-crew.png",
+    "transparentFraction" : 0.16276804606119791,
+    "width" : 471
+  },
+  {
+    "cell" : [
+      512,
+      0,
+      512,
+      768
+    ],
+    "crop" : [
+      526,
+      20,
+      476,
+      727
+    ],
+    "file" : "mouse-guard.png",
+    "height" : 727,
+    "id" : "mouse-guard",
+    "source" : "cards-01-common-crew.png",
+    "transparentFraction" : 0.156463623046875,
+    "width" : 476
+  },
+  {
+    "cell" : [
+      0,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      21,
+      775,
+      472,
+      724
+    ],
+    "file" : "barroom-bruiser.png",
+    "height" : 724,
+    "id" : "barroom-bruiser",
+    "source" : "cards-01-common-crew.png",
+    "transparentFraction" : 0.16486867268880209,
+    "width" : 472
+  },
+  {
+    "cell" : [
+      512,
+      768,
+      512,
+      768
+    ],
+    "crop" : [
+      526,
+      775,
+      476,
+      726
+    ],
+    "file" : "badger-sentinel.png",
+    "height" : 726,
+    "id" : "badger-sentinel",
+    "source" : "cards-01-common-crew.png",
+    "transparentFraction" : 0.15702056884765625,
+    "width" : 476
+  }
+]

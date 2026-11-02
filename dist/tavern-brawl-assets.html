@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173e32">
+  <title>Tavern Brawl — de kaartenkamer</title>
+  <link rel="icon" href="assets/favicon-32x32.png">
+  <link rel="stylesheet" href="tavern-brawl-assets.css">
+  <script type="module" src="tavern-brawl-assets.js"></script>
+<link rel="stylesheet" href="brawl/after-midnight.css"></head>
+<body>
+  <main>
+    <section id="table" class="table" aria-label="Tavern Brawl tafel, visuele preview">
+      <header class="table-header"><h1><img src="assets/tavern-brawl/ui/title.png" alt="Tavern Brawl"></h1><button class="quiet" id="open-collection">Bekijk de 49 kaarten</button></header>
+      <div class="opponent-hand" id="opponent-hand" aria-label="Vijf verborgen kaarten"></div>
+      <div class="hero hero-opponent" id="owl"></div>
+      <div class="crew-row opponent-row" id="opponent-crew" aria-label="Crew van Owl"></div>
+      <div class="crew-row player-row" id="player-crew" aria-label="Jouw crew"></div>
+      <div class="pot"><img src="assets/tavern-brawl/ui/pot-full.png" alt="Gedeelde muntpot"><span>6</span></div>
+      <button class="end-turn" disabled aria-label="End Turn, nog niet speelbaar">End Turn</button>
+      <div class="turn-label">Your turn</div>
+      <div class="hero hero-player" id="fox"></div>
+      <div class="energy" aria-label="4 van 5 energie"><div id="energy-pips"></div><span>4 / 5</span></div>
+      <div class="hand" id="hand" aria-label="Kaarten in je hand"></div>
+      <p class="preview-note">Art preview · nog niet speelbaar · klik een kaart om te vergroten</p>
+    </section>
+    <section class="collection" id="collection" hidden aria-labelledby="collection-title">
+      <header class="collection-header"><div><h2 id="collection-title">De kaartenkamer</h2><p>49 kaarten, drie helden en alle losse tafelonderdelen.</p></div><button class="quiet" id="close-collection">Terug naar de tafel</button></header>
+      <nav class="filters" aria-label="Filter kaarten"><button aria-pressed="true" data-filter="all">Alle kaarten</button><button aria-pressed="false" data-filter="crew">Crew</button><button aria-pressed="false" data-filter="trick">Trucs</button><button aria-pressed="false" data-filter="equipment">Uitrusting</button><button aria-pressed="false" data-filter="assets">Tafel & onderdelen</button></nav>
+      <p class="collection-note">Kaartwaarden zijn een eerste ontwerp. Namen en regels zijn live tekst; de illustraties zijn apart beschikbaar.</p>
+      <div id="cards-grid" class="cards-grid"></div>
+      <div id="parts" class="parts" hidden></div>
+    </section>
+  </main>
+  <dialog id="inspector" aria-labelledby="inspect-title"><button class="quiet close-inspector" id="close-inspector">Sluiten</button><div id="inspect-card"></div><div class="inspect-info"><h2 id="inspect-title"></h2><p id="inspect-text"></p><a id="inspect-download" download>Download losse PNG</a></div></dialog>
+  <p id="load-error" role="alert" hidden>De kaarten konden niet worden geladen. <button onclick="location.reload()">Opnieuw laden</button></p>
+</body>
+</html>

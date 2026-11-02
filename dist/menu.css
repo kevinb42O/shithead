@@ -344,14 +344,27 @@ body.reduce-motion .main-menu .menu-multiplayer-illustrated { transition: none; 
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: url(assets/menu-corner-bezel.png) center / 40px 40px no-repeat;
+  background: transparent;
   color: #d3c9b4;
-  filter: drop-shadow(0 2px 2px #0009);
+  filter: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: filter 120ms ease, transform 120ms ease;
+  touch-action: manipulation;
+  transition: color 160ms ease-out;
+}
+/* Keep the hit target and label still; light and press only the painted bezel. */
+.menu-utilities button::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: url(assets/menu-corner-bezel.png) center / contain no-repeat;
+  filter: brightness(1) drop-shadow(0 2px 2px #0009);
+  pointer-events: none;
+  transition: filter 180ms ease-out, transform 180ms cubic-bezier(.16,1,.3,1);
 }
 .menu-utilities svg {
+  position: relative;
   width: 20px;
   height: 20px;
   fill: none;
@@ -361,24 +374,56 @@ body.reduce-motion .main-menu .menu-multiplayer-illustrated { transition: none; 
   stroke-linecap: round;
   filter: drop-shadow(0 1px 1px #000);
   pointer-events: none;
+  transition: transform 180ms cubic-bezier(.16,1,.3,1);
 }
 .menu-utilities #menu-options svg { width: 23px; height: 23px; }
-.menu-utilities button:focus-visible { outline: 2px solid #f5d99c; outline-offset: 2px; }
-.menu-utilities button:active { transform: translateY(1px); filter: brightness(.8); }
+.menu-utilities button:is(:hover, :focus-visible, :active) { filter: none; }
+.menu-utilities button:focus-visible { outline: 2px solid #f5d99c; outline-offset: 2px; color: #fff0ce; }
+.menu-utilities button:focus-visible::before { filter: brightness(1.2) drop-shadow(0 3px 4px #0009); }
+.menu-utilities button:active:not(:disabled)::before { transform: translateY(1px) scale(.96); filter: brightness(.86) drop-shadow(0 1px 1px #0009); }
+.menu-utilities button:active:not(:disabled) svg { transform: translateY(1px) scale(.96); }
 .menu-utilities button:disabled { opacity: .5; cursor: wait; }
+.menu-utilities button::after {
+  content: attr(aria-label);
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  padding: 7px 10px;
+  background: #211b14f5;
+  border: 1px solid #887248;
+  border-radius: 4px;
+  color: #f4e4bd;
+  box-shadow: 0 4px 10px #0006;
+  font: 12px/1.2 DM, Arial, sans-serif;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 120ms ease-out, visibility 0s linear 120ms;
+}
+.menu-utilities button:focus-visible:not(:disabled)::after {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
 .menu-control-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .main-menu .menu-top { top: 24px; min-height: 44px; padding-right: 148px; }
 .menu-fullscreen-error { position: fixed; top: max(76px, calc(env(safe-area-inset-top) + 64px)); right: max(28px, calc(env(safe-area-inset-right) + 12px)); max-width: min(280px, calc(100% - 48px)); padding: 12px; background: #17120fee; border: 1px solid #826d46; border-radius: 5px; z-index: 5; }
 @media (hover: hover) {
-  .menu-utilities button:hover { color: #fff0ce; filter: brightness(1.3) drop-shadow(0 0 5px #d0a75955); }
-  .menu-utilities button::after { content: attr(aria-label); position: absolute; top: 50px; right: 0; padding: 7px 10px; background: #211b14f5; border: 1px solid #887248; border-radius: 4px; color: #f4e4bd; font: 12px/1.2 DM, Arial, sans-serif; white-space: nowrap; opacity: 0; pointer-events: none; }
-  .menu-utilities button:hover::after, .menu-utilities button:focus-visible::after { opacity: 1; }
+  .menu-utilities button:hover:not(:disabled) { color: #fff0ce; }
+  .menu-utilities button:hover:not(:disabled):not(:active)::before {
+    filter: brightness(1.24) drop-shadow(0 3px 4px #0009) drop-shadow(0 1px 5px #d0a75955);
+  }
+  .menu-utilities button:hover:not(:disabled)::after {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 300ms;
+  }
 }
 @media (max-width: 760px) and (orientation: portrait) {
   .menu-utilities { top: max(12px, env(safe-area-inset-top)); right: max(18px, calc(env(safe-area-inset-right) + 10px)); }
   .main-menu .menu-club { max-width: 100%; font-size: 8px; line-height: 1.6; }
   .menu-fullscreen-error { top: 62px; bottom: auto; right: 20px; max-width: calc(100% - 40px); }
-  .menu-utilities button::after { bottom: auto; top: 50px; }
 }
 @media (orientation: landscape) and (max-height: 540px) {
   .main-menu .menu-top { min-height: 44px; }
@@ -386,8 +431,12 @@ body.reduce-motion .main-menu .menu-multiplayer-illustrated { transition: none; 
   .menu-utilities { top: max(8px, env(safe-area-inset-top)); right: max(20px, calc(env(safe-area-inset-right) + 12px)); }
   .menu-fullscreen-error { top: max(60px, calc(env(safe-area-inset-top) + 52px)); }
 }
-@media (prefers-reduced-motion: reduce) { .menu-utilities button { transition: none; } }
-body.reduce-motion .menu-utilities button { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .menu-utilities button, .menu-utilities button::before, .menu-utilities button::after, .menu-utilities svg { transition: none; }
+  .menu-utilities button:active:not(:disabled)::before, .menu-utilities button:active:not(:disabled) svg { transform: none; }
+}
+body.reduce-motion .menu-utilities button:active:not(:disabled)::before,
+body.reduce-motion .menu-utilities button:active:not(:disabled) svg { transform: none; }
 
 /* Reserve the same screen corner throughout the lobby and Fortune tabs. */
 .online:has(> .menu-utilities) .ol-header {

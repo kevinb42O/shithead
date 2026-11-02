@@ -1,0 +1,927 @@
+{
+  "version": 1,
+  "tool": "built-in image_gen",
+  "count": 25,
+  "cards": [
+    {
+      "id": "cinder-rat",
+      "file": "expansions/after-midnight/cards/cinder-rat.png",
+      "master": "expansions/after-midnight/masters/cinder-rat.png",
+      "prompt": "expansions/after-midnight/prompts/cinder-rat.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1469041,
+      "sha256": "bbc24c639e4bbe8b80704cae328900f77a40e67104f131f6cbc686a57c01f630",
+      "clearAlphaFraction": 0.05203,
+      "transparentFraction": 0.99823,
+      "parchmentMinimumAlpha": 251,
+      "layout": {
+        "cost": {
+          "x": 0.12295,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.86736,
+          "y": 0.11914,
+          "width": 0.10355
+        }
+      }
+    },
+    {
+      "id": "wickrunner-bat",
+      "file": "expansions/after-midnight/cards/wickrunner-bat.png",
+      "master": "expansions/after-midnight/masters/wickrunner-bat.png",
+      "prompt": "expansions/after-midnight/prompts/wickrunner-bat.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1439137,
+      "sha256": "b639dff182eddd556f9c2d0284db57846517d392703c86ff9b00b54b9f3f1334",
+      "clearAlphaFraction": 0.04751,
+      "transparentFraction": 0.997847,
+      "parchmentMinimumAlpha": 251,
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "ironjaw-bouncer",
+      "file": "expansions/after-midnight/cards/ironjaw-bouncer.png",
+      "master": "expansions/after-midnight/masters/ironjaw-bouncer.png",
+      "prompt": "expansions/after-midnight/prompts/ironjaw-bouncer.prompt.txt",
+      "width": 670,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1550,
+      "bytes": 1499534,
+      "sha256": "ff4ce29e020992cdcae86dddffd2516dfaa0514f79495ead4a6e5e1001cf4c96",
+      "clearAlphaFraction": 0.044362,
+      "transparentFraction": 0.998378,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.12313,
+          "y": 0.0918
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.9403,
+          "y": 0.06445,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "lantern-moth",
+      "file": "expansions/after-midnight/cards/lantern-moth.png",
+      "master": "expansions/after-midnight/masters/lantern-moth.png",
+      "prompt": "expansions/after-midnight/prompts/lantern-moth.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1491377,
+      "sha256": "61acaf095d0ccc09694a83522f60098ad91f0524398c1ac14d9ba9dd713d51ae",
+      "clearAlphaFraction": 0.04569,
+      "transparentFraction": 0.998403,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.12295,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "bell-tower-marksman",
+      "file": "expansions/after-midnight/cards/bell-tower-marksman.png",
+      "master": "expansions/after-midnight/masters/bell-tower-marksman.png",
+      "prompt": "expansions/after-midnight/prompts/bell-tower-marksman.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1476906,
+      "sha256": "9d46276ce5a77bfe91ffc65ff1e7feeec7500171d9c8a1d682bbdc196aa3d7d3",
+      "clearAlphaFraction": 0.051544,
+      "transparentFraction": 0.998587,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.93294,
+          "y": 0.06299,
+          "width": 0.06779
+        }
+      }
+    },
+    {
+      "id": "black-iron-buckler",
+      "file": "expansions/after-midnight/cards/black-iron-buckler.png",
+      "master": "expansions/after-midnight/masters/black-iron-buckler.png",
+      "prompt": "expansions/after-midnight/prompts/black-iron-buckler.prompt.txt",
+      "width": 670,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1550,
+      "bytes": 1463255,
+      "sha256": "c0b850d19315da5b3c6141c8eafaca6609368a85d4bc2a41747e19eb36dfb7ea",
+      "clearAlphaFraction": 0.041537,
+      "transparentFraction": 0.998061,
+      "parchmentMinimumAlpha": 251,
+      "layout": {
+        "cost": {
+          "x": 0.12388,
+          "y": 0.08838
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.93433,
+          "y": 0.06885,
+          "width": 0.08276
+        }
+      }
+    },
+    {
+      "id": "shatter-the-seal",
+      "file": "expansions/after-midnight/cards/shatter-the-seal.png",
+      "master": "expansions/after-midnight/masters/shatter-the-seal.png",
+      "prompt": "expansions/after-midnight/prompts/shatter-the-seal.prompt.txt",
+      "width": 665,
+      "height": 1024,
+      "masterWidth": 1011,
+      "masterHeight": 1556,
+      "bytes": 1438672,
+      "sha256": "698f3d8901ba2ff43b75236c37c92406321045356059e90e43efab56a86eadb2",
+      "clearAlphaFraction": 0.045243,
+      "transparentFraction": 0.998599,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.15714,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.94361,
+          "y": 0.06396,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "furnace-burst",
+      "file": "expansions/after-midnight/cards/furnace-burst.png",
+      "master": "expansions/after-midnight/masters/furnace-burst.png",
+      "prompt": "expansions/after-midnight/prompts/furnace-burst.prompt.txt",
+      "width": 665,
+      "height": 1024,
+      "masterWidth": 1011,
+      "masterHeight": 1556,
+      "bytes": 1465418,
+      "sha256": "18e7659fdcb78c19e58028aed6054efbf409d321fffdcc7fa6aceb4d42e4bd7f",
+      "clearAlphaFraction": 0.045415,
+      "transparentFraction": 0.997893,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.15714,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.9406,
+          "y": 0.06348,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "the-bell-tolls",
+      "file": "expansions/after-midnight/cards/the-bell-tolls.png",
+      "master": "expansions/after-midnight/masters/the-bell-tolls.png",
+      "prompt": "expansions/after-midnight/prompts/the-bell-tolls.prompt.txt",
+      "width": 665,
+      "height": 1024,
+      "masterWidth": 1011,
+      "masterHeight": 1556,
+      "bytes": 1462135,
+      "sha256": "8cab6deea36b158bb8abd8fdd9bbe4cc83e08bc60944dd31cf4ff705608c0ed0",
+      "clearAlphaFraction": 0.044251,
+      "transparentFraction": 0.99823,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.94286,
+          "y": 0.06396,
+          "width": 0.06508
+        }
+      }
+    },
+    {
+      "id": "mordren-ashen-host",
+      "file": "expansions/after-midnight/cards/mordren-ashen-host.png",
+      "master": "expansions/after-midnight/masters/mordren-ashen-host.png",
+      "prompt": "expansions/after-midnight/prompts/mordren-ashen-host.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1557099,
+      "sha256": "4b376062203b0cabe8e23858a0a837b59a84d592bd9d8fadf221627c72c01bca",
+      "clearAlphaFraction": 0.039658,
+      "transparentFraction": 0.99823,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.12072,
+          "y": 0.08936
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "sootpaw-lookout",
+      "file": "expansions/after-midnight/cards/sootpaw-lookout.png",
+      "master": "expansions/after-midnight/masters/sootpaw-lookout.png",
+      "prompt": "expansions/after-midnight/prompts/sootpaw-lookout.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1474749,
+      "sha256": "075c99b5b7974c9c160bc049e34f067ad64293b1b043ddf621fdbf5eb9c31aea",
+      "clearAlphaFraction": 0.046446,
+      "transparentFraction": 0.998581,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.1237,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "cut-the-purse",
+      "file": "expansions/after-midnight/cards/cut-the-purse.png",
+      "master": "expansions/after-midnight/masters/cut-the-purse.png",
+      "prompt": "expansions/after-midnight/prompts/cut-the-purse.prompt.txt",
+      "width": 665,
+      "height": 1024,
+      "masterWidth": 1011,
+      "masterHeight": 1556,
+      "bytes": 1377674,
+      "sha256": "86e405fa8cb378c9058735da943c728e7b4f80faa177a2025148d748965df1c2",
+      "clearAlphaFraction": 0.045028,
+      "transparentFraction": 0.998655,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        }
+      }
+    },
+    {
+      "id": "gutterglass-duelist",
+      "file": "expansions/after-midnight/cards/gutterglass-duelist.png",
+      "master": "expansions/after-midnight/masters/gutterglass-duelist.png",
+      "prompt": "expansions/after-midnight/prompts/gutterglass-duelist.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1525430,
+      "sha256": "3d2ad91b9cee38e9c988222345c1925d0e0ae21734cc45412f5002c1fd4e8b07",
+      "clearAlphaFraction": 0.050352,
+      "transparentFraction": 0.998834,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.94039,
+          "y": 0.06543,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "house-edge",
+      "file": "expansions/after-midnight/cards/house-edge.png",
+      "master": "expansions/after-midnight/masters/house-edge.png",
+      "prompt": "expansions/after-midnight/prompts/house-edge.prompt.txt",
+      "width": 665,
+      "height": 1024,
+      "masterWidth": 1011,
+      "masterHeight": 1556,
+      "bytes": 1364420,
+      "sha256": "8875f54a5966a1d87eced9a932d58eff308605b5433c834ca632cd8c4fd5e058",
+      "clearAlphaFraction": 0.04233,
+      "transparentFraction": 0.998035,
+      "parchmentMinimumAlpha": 249,
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.88722,
+          "y": 0.05127,
+          "width": 0.07711
+        }
+      }
+    },
+    {
+      "id": "vesper-blackpaw-king",
+      "file": "expansions/after-midnight/cards/vesper-blackpaw-king.png",
+      "master": "expansions/after-midnight/masters/vesper-blackpaw-king.png",
+      "prompt": "expansions/after-midnight/prompts/vesper-blackpaw-king.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1456229,
+      "sha256": "116a199aec0bdfff7badc1bc8ff731c9526277216c2d8559bee5a4a64e462857",
+      "clearAlphaFraction": 0.045533,
+      "transparentFraction": 0.997725,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.12295,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "ashveil-acolyte",
+      "file": "expansions/after-midnight/cards/ashveil-acolyte.png",
+      "master": "expansions/after-midnight/masters/ashveil-acolyte.png",
+      "prompt": "expansions/after-midnight/prompts/ashveil-acolyte.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1516205,
+      "sha256": "fa2d581960a9b8b86d9569320357ac5ff3616fbe542642de2e2600a436cee551",
+      "clearAlphaFraction": 0.049057,
+      "transparentFraction": 0.998315,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.1237,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "moonlit-stitch",
+      "file": "expansions/after-midnight/cards/moonlit-stitch.png",
+      "master": "expansions/after-midnight/masters/moonlit-stitch.png",
+      "prompt": "expansions/after-midnight/prompts/moonlit-stitch.prompt.txt",
+      "width": 665,
+      "height": 1024,
+      "masterWidth": 1011,
+      "masterHeight": 1556,
+      "bytes": 1426397,
+      "sha256": "625cbeffd57b1ec37a7667ac054b133968b547223981627a7fab5a5a09874562",
+      "clearAlphaFraction": 0.042747,
+      "transparentFraction": 0.999,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.93985,
+          "y": 0.07178,
+          "width": 0.08011
+        }
+      }
+    },
+    {
+      "id": "nightglass-diviner",
+      "file": "expansions/after-midnight/cards/nightglass-diviner.png",
+      "master": "expansions/after-midnight/masters/nightglass-diviner.png",
+      "prompt": "expansions/after-midnight/prompts/nightglass-diviner.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1495756,
+      "sha256": "d9dfecdd87f126360dd51882c36928eada2918cc3ccc052cda7a098cb0104126",
+      "clearAlphaFraction": 0.049535,
+      "transparentFraction": 0.998553,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.90537,
+          "y": 0.12207,
+          "width": 0.09014
+        }
+      }
+    },
+    {
+      "id": "sealed-constellation",
+      "file": "expansions/after-midnight/cards/sealed-constellation.png",
+      "master": "expansions/after-midnight/masters/sealed-constellation.png",
+      "prompt": "expansions/after-midnight/prompts/sealed-constellation.prompt.txt",
+      "width": 665,
+      "height": 1024,
+      "masterWidth": 1011,
+      "masterHeight": 1556,
+      "bytes": 1475854,
+      "sha256": "dc353f9cf37d44e69a553865d36530bc2a063ddcb4edecaa6a20931f19b28b0e",
+      "clearAlphaFraction": 0.047702,
+      "transparentFraction": 0.998956,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.93985,
+          "y": 0.07129,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "orun-eclipse-warden",
+      "file": "expansions/after-midnight/cards/orun-eclipse-warden.png",
+      "master": "expansions/after-midnight/masters/orun-eclipse-warden.png",
+      "prompt": "expansions/after-midnight/prompts/orun-eclipse-warden.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1477059,
+      "sha256": "ecebb0cf31e5db46e664d377fb4eccc4230c121008cf7810a878ea50a1dad197",
+      "clearAlphaFraction": 0.049362,
+      "transparentFraction": 0.99745,
+      "parchmentMinimumAlpha": 251,
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "gravewax-collector",
+      "file": "expansions/after-midnight/cards/gravewax-collector.png",
+      "master": "expansions/after-midnight/masters/gravewax-collector.png",
+      "prompt": "expansions/after-midnight/prompts/gravewax-collector.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1424683,
+      "sha256": "218c503bddc13ad6e3a34b2f50b3eae25c16e30932709e352a943c3acc09e359",
+      "clearAlphaFraction": 0.048349,
+      "transparentFraction": 0.9986,
+      "parchmentMinimumAlpha": 251,
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09082
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    },
+    {
+      "id": "debt-eater",
+      "file": "expansions/after-midnight/cards/debt-eater.png",
+      "master": "expansions/after-midnight/masters/debt-eater.png",
+      "prompt": "expansions/after-midnight/prompts/debt-eater.prompt.txt",
+      "width": 670,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1550,
+      "bytes": 1495931,
+      "sha256": "d972a3aef49d088e47b9bd7f44941b099f3898707fc1387d2338cfb2ab299beb",
+      "clearAlphaFraction": 0.039335,
+      "transparentFraction": 0.999073,
+      "parchmentMinimumAlpha": 249,
+      "layout": {
+        "cost": {
+          "x": 0.12164,
+          "y": 0.08789
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        },
+        "rarity": {
+          "x": 0.94179,
+          "y": 0.06104,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "collect-the-debt",
+      "file": "expansions/after-midnight/cards/collect-the-debt.png",
+      "master": "expansions/after-midnight/masters/collect-the-debt.png",
+      "prompt": "expansions/after-midnight/prompts/collect-the-debt.prompt.txt",
+      "width": 665,
+      "height": 1024,
+      "masterWidth": 1011,
+      "masterHeight": 1556,
+      "bytes": 1427973,
+      "sha256": "65af0652b7afd95134e8db73e97125e530702ee6dfe01e891941f68cb567afdc",
+      "clearAlphaFraction": 0.045022,
+      "transparentFraction": 0.998852,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.15639,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.94361,
+          "y": 0.06543,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "funeral-velvet",
+      "file": "expansions/after-midnight/cards/funeral-velvet.png",
+      "master": "expansions/after-midnight/masters/funeral-velvet.png",
+      "prompt": "expansions/after-midnight/prompts/funeral-velvet.prompt.txt",
+      "width": 670,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1550,
+      "bytes": 1377636,
+      "sha256": "7b5591849214a05cb9e1a9203cc45117c9d45d59258999ce05d75148f8041967",
+      "clearAlphaFraction": 0.044501,
+      "transparentFraction": 0.998499,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.12388,
+          "y": 0.08838
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "rarity": {
+          "x": 0.94179,
+          "y": 0.06494,
+          "width": 0.065
+        }
+      }
+    },
+    {
+      "id": "mother-nox-bellkeeper",
+      "file": "expansions/after-midnight/cards/mother-nox-bellkeeper.png",
+      "master": "expansions/after-midnight/masters/mother-nox-bellkeeper.png",
+      "prompt": "expansions/after-midnight/prompts/mother-nox-bellkeeper.prompt.txt",
+      "width": 671,
+      "height": 1024,
+      "masterWidth": 1015,
+      "masterHeight": 1549,
+      "bytes": 1511180,
+      "sha256": "5486dc49d85b6c34f626d43f1d51b286de7bb2a4813817dbdc78056f91f2db23",
+      "clearAlphaFraction": 0.050612,
+      "transparentFraction": 0.998386,
+      "parchmentMinimumAlpha": 250,
+      "layout": {
+        "cost": {
+          "x": 0.12221,
+          "y": 0.09131
+        },
+        "name": {
+          "x": 0.5,
+          "y": 0.7
+        },
+        "rules": {
+          "x": 0.5,
+          "y": 0.83
+        },
+        "attack": {
+          "x": 0.13,
+          "y": 0.707
+        },
+        "health": {
+          "x": 0.86,
+          "y": 0.707
+        }
+      }
+    }
+  ]
+}

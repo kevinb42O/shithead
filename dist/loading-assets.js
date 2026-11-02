@@ -101,10 +101,6 @@ export const loadingAssets = [
     "bytes": 2924
   },
   {
-    "url": "assets/audio/hs-menu-music.mp3",
-    "bytes": 2669235
-  },
-  {
     "url": "assets/audio/hs-open.mp3",
     "bytes": 32876
   },
@@ -149,6 +145,10 @@ export const loadingAssets = [
     "bytes": 44974
   },
   {
+    "url": "assets/audio/tavern-celebration.mp3",
+    "bytes": 2811864
+  },
+  {
     "url": "assets/back-to-menu-button.png",
     "bytes": 1826558
   },
@@ -159,6 +159,14 @@ export const loadingAssets = [
   {
     "url": "assets/buy-in-button.png",
     "bytes": 1652875
+  },
+  {
+    "url": "assets/card-materials/seven-frost-overlay.png",
+    "bytes": 1836900
+  },
+  {
+    "url": "assets/card-materials/ten-heat-overlay.png",
+    "bytes": 1456602
   },
   {
     "url": "assets/cards.svg",
@@ -599,6 +607,58 @@ export const loadingAssets = [
   {
     "url": "assets/table-cloth.jpg",
     "bytes": 715554
+  },
+  {
+    "url": "assets/tavern-brawl/boards/board-desktop.png",
+    "bytes": 2501974
+  },
+  {
+    "url": "assets/tavern-brawl/boards/board-mobile.png",
+    "bytes": 2415126
+  },
+  {
+    "url": "assets/tavern-brawl/heroes/fox.png",
+    "bytes": 804640
+  },
+  {
+    "url": "assets/tavern-brawl/reference/gameplay-concept.png",
+    "bytes": 2847321
+  },
+  {
+    "url": "assets/tavern-brawl/ui/attack.png",
+    "bytes": 203291
+  },
+  {
+    "url": "assets/tavern-brawl/ui/button-emerald.png",
+    "bytes": 439640
+  },
+  {
+    "url": "assets/tavern-brawl/ui/energy-housing.png",
+    "bytes": 245583
+  },
+  {
+    "url": "assets/tavern-brawl/ui/health.png",
+    "bytes": 203377
+  },
+  {
+    "url": "assets/tavern-brawl/ui/pot-empty.png",
+    "bytes": 912777
+  },
+  {
+    "url": "assets/tavern-brawl/ui/pot-full.png",
+    "bytes": 995120
+  },
+  {
+    "url": "assets/tavern-brawl/ui/reward-chest.png",
+    "bytes": 872858
+  },
+  {
+    "url": "assets/tavern-brawl/ui/spell.png",
+    "bytes": 192508
+  },
+  {
+    "url": "assets/tavern-brawl/ui/title.png",
+    "bytes": 2840782
   },
   {
     "url": "assets/tavern-chat-frame.png",

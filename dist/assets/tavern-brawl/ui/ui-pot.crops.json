@@ -1,0 +1,42 @@
+[
+  {
+    "cell" : [
+      0,
+      0,
+      887,
+      887
+    ],
+    "crop" : [
+      93,
+      86,
+      730,
+      663
+    ],
+    "file" : "pot-full.png",
+    "height" : 663,
+    "id" : "pot-full",
+    "source" : "ui-pot.png",
+    "transparentFraction" : 0.49043365968918451,
+    "width" : 730
+  },
+  {
+    "cell" : [
+      887,
+      0,
+      887,
+      887
+    ],
+    "crop" : [
+      948,
+      86,
+      731,
+      663
+    ],
+    "file" : "pot-empty.png",
+    "height" : 663,
+    "id" : "pot-empty",
+    "source" : "ui-pot.png",
+    "transparentFraction" : 0.4901425958572338,
+    "width" : 731
+  }
+]

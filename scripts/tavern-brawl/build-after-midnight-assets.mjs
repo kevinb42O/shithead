@@ -1,0 +1,11 @@
+import {readdir,readFile,writeFile} from 'node:fs/promises';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const exec=promisify(execFile),root=fileURLToPath(new URL('../../',import.meta.url));
+const base=path.join(root,'dist/assets/tavern-brawl/expansions/after-midnight');
+const names=(await readdir(path.join(base,'masters'))).filter(f=>f.endsWith('.png'));
+if(names.length!==25)throw Error('Expected 25 unique masters');
+for(let i=0;i<names.length;i+=4)await Promise.all(names.slice(i,i+4).map(file=>exec('sips',['-Z','1024',path.join(base,'masters',file),'--out',path.join(base,'cards',file)])));
+console.log('Prepared 25 original-alpha runtime card faces; full-size masters retained.');

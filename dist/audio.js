@@ -331,15 +331,28 @@ export function createGameAudio(){
   function choose(files,key){let index=Math.floor(Math.random()*files.length);if(files.length>1&&index===previous.get(key))index=(index+1)%files.length;previous.set(key,index);return files[index];}
   function sample(name,{gain=.4,bus='foley',delay=0,rate=1,fixed=(bus==='event'),pan=0,duration}={}){
     const buffer=buffers.get(name);if(!buffer||!enabled||document.hidden||!context||context.state!=='running')return false;
-    if(voices.size>=20){const oldest=[...voices].find(v=>v.bus==='ui')||voices.values().next().value;try{oldest.source.stop();}catch{}voices.delete(oldest);}
+    if(voices.size>=20){
+      // Quiet UI must never steal the tail of a spell or result fanfare.
+      const oldest=[...voices].find(v=>v.bus==='ui')||(bus==='ui'?null:[...voices].find(v=>v.bus==='foley')||voices.values().next().value);
+      if(!oldest)return false;
+      const t=context.currentTime,level=oldest.level.gain;
+      if(level.cancelAndHoldAtTime)level.cancelAndHoldAtTime(t);else level.cancelScheduledValues(t);
+      level.setTargetAtTime(0,t,.012);
+      try{oldest.source.stop(t+.06);}catch{}
+      voices.delete(oldest);
+    }
     const source=context.createBufferSource(),level=context.createGain(),panner=context.createStereoPanner();
     source.buffer=buffer;source.playbackRate.value=rate;source.detune.value=fixed?0:(Math.random()-.5)*45;
     panner.pan.value=Math.max(-.55,Math.min(.55,pan+(fixed?0:(Math.random()-.5)*.06)));
-    const at=context.currentTime+delay,length=Math.min(duration??buffer.duration/rate,buffer.duration/rate);
-    level.gain.setValueAtTime(0,at);level.gain.linearRampToValueAtTime(gain,at+.003);level.gain.setValueAtTime(gain,at+Math.max(.004,length-.04));level.gain.linearRampToValueAtTime(0,at+length);
+    // Detune changes the true playback duration too. Let untrimmed buffers end
+    // themselves so a low-pitched variant cannot lose its release.
+    const at=context.currentTime+delay,naturalLength=buffer.duration/(rate*2**(source.detune.value/1200));
+    const length=Math.min(duration??naturalLength,naturalLength),trimmed=length<naturalLength;
+    const fade=trimmed?Math.min(.08,length*.3):Math.min(.005,length*.1);
+    level.gain.setValueAtTime(0,at);level.gain.linearRampToValueAtTime(gain,at+.003);level.gain.setValueAtTime(gain,at+Math.max(.003,length-fade));level.gain.linearRampToValueAtTime(0,at+length);
     source.connect(level);level.connect(panner);panner.connect(buses[bus]);
-    const voice={source,bus};voices.add(voice);source.onended=()=>{voices.delete(voice);source.disconnect();level.disconnect();panner.disconnect();};
-    source.start(at);source.stop(at+length+.01);return true;
+    const voice={source,bus,level};voices.add(voice);source.onended=()=>{voices.delete(voice);source.disconnect();level.disconnect();panner.disconnect();};
+    source.start(at);if(trimmed)source.stop(at+length+.01);return true;
   }
   function play(kind,options={}){
     kind=aliases[kind]||kind;if(!enabled||document.hidden)return false;unlock();
@@ -372,6 +385,34 @@ export function createGameAudio(){
   document.addEventListener('keydown',unlock,{capture:true});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){stop();if(master)master.gain.setValueAtTime(0,context.currentTime);}else if(master){if(enabled&&context.state!=='running')context.resume().catch(()=>{});master.gain.setTargetAtTime(enabled?volume:0,context.currentTime,.015);}});
   window.addEventListener('pagehide',stop);
+  // Short, original mechanical transients share the game's master, limiter,
+  // mute, volume and voice lifecycle. No second audio context or audio downloads.
+  function mechanical(kind,{strength=1,pan=0}={}){
+    if(!enabled||document.hidden)return false;
+    unlock();if(!context||context.state!=='running')return false;
+    const now=context.currentTime;
+    const profiles={tick:[1800,.022,.15],deep:[690,.055,.24],reverse:[920,.035,.17],
+      press:[240,.095,.32],release:[420,.065,.22],pawl:[1250,.06,.17],roll:[560,.045,.06]};
+    const [frequency,duration,gain]=profiles[kind]||profiles.tick;
+    if(voices.size>=20)return false;
+    const source=context.createBufferSource(),level=context.createGain(),filter=context.createBiquadFilter(),panner=context.createStereoPanner();
+    const buffer=context.createBuffer(1,Math.ceil(context.sampleRate*duration),context.sampleRate),data=buffer.getChannelData(0);
+    const variation=.96+Math.random()*.08;
+    for(let i=0;i<data.length;i++){
+      const t=i/context.sampleRate;
+      const body=Math.sin(2*Math.PI*frequency*variation*t)*Math.exp(-t/(duration*.23));
+      const overtone=Math.sin(2*Math.PI*frequency*2.73*t)*Math.exp(-t/(duration*.12));
+      const contact=(Math.random()*2-1)*Math.exp(-t/.003);
+      data[i]=body*.52+overtone*.18+contact*.45;
+    }
+    source.buffer=buffer;filter.type='lowpass';filter.frequency.value=kind==='press'?2600:6500;
+    level.gain.setValueAtTime(Math.min(1.2,Math.max(.1,strength))*gain,now);
+    level.gain.exponentialRampToValueAtTime(.0001,now+duration);
+    panner.pan.value=pan;source.connect(filter);filter.connect(level);level.connect(panner);panner.connect(buses.foley);
+    const voice={source,bus:'foley',level};voices.add(voice);
+    source.onended=()=>{voices.delete(voice);source.disconnect();filter.disconnect();level.disconnect();panner.disconnect();};
+    source.start(now);source.stop(now+duration);return true;
+  }
   function attachUI(){
     let lastCardHover=null;
     document.addEventListener('pointerover',event=>{
@@ -386,7 +427,7 @@ export function createGameAudio(){
         return;
       }
       const node=event.target.closest('button,a,input[type=radio],.rules-tab-btn');
-      if(!node||node.disabled||node.contains(event.relatedTarget)||node.matches('.card,#play')||node.closest('[inert]'))return;
+      if(!node||node.disabled||node.contains(event.relatedTarget)||node.matches('.card,#play,.hearth-fidget')||node.closest('[inert]'))return;
       lastCardHover=null;
       play('hover');
     },{passive:true});
@@ -395,7 +436,7 @@ export function createGameAudio(){
     },{passive:true});
     document.addEventListener('click',event=>{
       const node=event.target.closest('button,a,input');
-      if(!node||node.disabled||node.matches('.card,#sound,#menu-sound,#mobile-sound,#option-sound,#option-volume,#option-music,#option-music-volume')||node.closest('#selection-tools'))return;
+      if(!node||node.disabled||node.matches('.card,.hearth-fidget,#sound,#menu-sound,#mobile-sound,#option-sound,#option-volume,#option-music,#option-music-volume')||node.closest('#selection-tools'))return;
       const id=node.id;
       const kind=node.matches('.rules-tab-btn')?'page':
         node.matches('.close-dialog,.close-rules')||/cancel/.test(id)?'close':
@@ -407,5 +448,5 @@ export function createGameAudio(){
     },true);
     document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.querySelector('dialog[open]'))play('close');});
   }
-  return{play,stop,setEnabled,setVolume,preload,attachUI,ready:()=>loading||Promise.resolve(),status:()=>({enabled,volume,loaded:buffers.size,voices:voices.size,state:context?.state||'idle',epoch})};
+  return{play,mechanical,stop,unlock,setEnabled,setVolume,preload,attachUI,ready:()=>loading||Promise.resolve(),status:()=>({enabled,volume,loaded:buffers.size,voices:voices.size,state:context?.state||'idle',epoch})};
 }
