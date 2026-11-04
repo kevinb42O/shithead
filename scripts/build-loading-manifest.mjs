@@ -3,19 +3,17 @@ import { readFile, readdir, writeFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 const root = path.resolve('dist');
 const assets = new Set();
-for (const name of await readdir(root)) {
-  if (!/\.(html|css|js)$/.test(name) || /^(test-|v\d|loading-assets)/.test(name)) continue;
+// Preload the card-table entrance only. Fortune, portraits, audio and Brawl
+// load through their own screens instead of blocking every visit to the menu.
+for (const name of ['index.html', 'loading.css', 'menu.css', 'menu-lighting.css', 'players.css', 'painted-buttons.css', 'table-setup.css']) {
   const source = await readFile(path.join(root, name), 'utf8');
   for (const match of source.matchAll(/assets\/[\w/.-]+\.(?:png|jpg|svg|mp3|woff2)/g)) assets.add(match[0]);
 }
 // These paths are assembled dynamically by the deck, sound and lobby renderers.
-for (const dir of ['funny-deck', 'audio']) {
+for (const dir of ['funny-deck']) {
   for (const file of await readdir(path.join(root, 'assets', dir))) {
     if (/\.(png|mp3)$/.test(file)) assets.add(`assets/${dir}/${file}`);
   }
-}
-for (const file of await readdir(path.join(root, 'assets'))) {
-  if (/^(club-|tavern-).*\.png$/.test(file)) assets.add(`assets/${file}`);
 }
 const entries = [];
 for (const url of [...assets].sort()) {

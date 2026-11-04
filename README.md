@@ -6,6 +6,17 @@ A complete browser card game against The Fox, a computer opponent. No dependency
 
 Requires Node.js 18 or newer.
 
+### Static production build
+
+Run `npm ci` and `npm run build` to create `web-dist/`. Vercel serves this
+directory directly, without a Node function. The build converts artwork to WebP
+while preserving dimensions and transparency; original artwork stays in `dist/`.
+App icons and the social preview keep their original formats. The entrance
+preloads only card-table assets; other screens load their own artwork.
+Run `node scripts/verify-web-build.mjs` to check image geometry, asset references
+and download budgets. Preview the production files with
+`STATIC_DIR=web-dist npm run dev`.
+
 ```sh
 npm run dev
 ```

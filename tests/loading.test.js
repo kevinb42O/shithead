@@ -6,6 +6,8 @@ import {stat} from 'node:fs/promises';
 
 test('startup manifest contains the complete deck and existing shipped assets', async () => {
   assert.equal(loadingAssets.filter(a => a.url.startsWith('assets/funny-deck/')).length, 54);
+  assert.ok(!loadingAssets.some(a => a.url.includes('tavern-brawl/') && a.url !== 'assets/tavern-brawl/ui/menu-entry.png'), 'Only the Brawl entrance button belongs in the card-table menu');
+  assert.ok(!loadingAssets.some(a => a.url.endsWith('.mp3')), 'audio manages its own loading');
   for (const asset of loadingAssets) assert.equal((await stat(new URL(`../dist/${asset.url}`, import.meta.url))).size, asset.bytes);
 });
 

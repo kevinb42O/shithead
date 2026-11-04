@@ -11,6 +11,10 @@
     "test:stress": "node scripts/test-mixed-games.mjs",
     "prepare:loading": "node scripts/build-loading-manifest.mjs",
     "predev": "npm run prepare:loading",
-    "prestart": "npm run prepare:loading"
+    "prestart": "npm run prepare:loading",
+    "build": "npm run prepare:loading && node scripts/build-web.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
   }
 }

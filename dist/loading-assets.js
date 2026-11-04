@@ -5,200 +5,12 @@ export const loadingAssets = [
     "bytes": 31265
   },
   {
-    "url": "assets/audio/hs-arcane.mp3",
-    "bytes": 40940
-  },
-  {
-    "url": "assets/audio/hs-back.mp3",
-    "bytes": 10988
-  },
-  {
-    "url": "assets/audio/hs-card-deal.mp3",
-    "bytes": 12581
-  },
-  {
-    "url": "assets/audio/hs-card-draw-1.mp3",
-    "bytes": 55916
-  },
-  {
-    "url": "assets/audio/hs-card-draw-2.mp3",
-    "bytes": 54764
-  },
-  {
-    "url": "assets/audio/hs-card-drop.mp3",
-    "bytes": 7532
-  },
-  {
-    "url": "assets/audio/hs-card-gather.mp3",
-    "bytes": 22612
-  },
-  {
-    "url": "assets/audio/hs-card-play-1.mp3",
-    "bytes": 24236
-  },
-  {
-    "url": "assets/audio/hs-card-play-2.mp3",
-    "bytes": 23660
-  },
-  {
-    "url": "assets/audio/hs-card-return.mp3",
-    "bytes": 8820
-  },
-  {
-    "url": "assets/audio/hs-card-select.mp3",
-    "bytes": 11564
-  },
-  {
-    "url": "assets/audio/hs-card-shuffle.mp3",
-    "bytes": 53959
-  },
-  {
-    "url": "assets/audio/hs-click-2.mp3",
-    "bytes": 16172
-  },
-  {
-    "url": "assets/audio/hs-click.mp3",
-    "bytes": 16172
-  },
-  {
-    "url": "assets/audio/hs-close.mp3",
-    "bytes": 34028
-  },
-  {
-    "url": "assets/audio/hs-coin-drop.mp3",
-    "bytes": 55840
-  },
-  {
-    "url": "assets/audio/hs-coin-flip.mp3",
-    "bytes": 48317
-  },
-  {
-    "url": "assets/audio/hs-confirm.mp3",
-    "bytes": 20204
-  },
-  {
-    "url": "assets/audio/hs-defeat.mp3",
-    "bytes": 125612
-  },
-  {
-    "url": "assets/audio/hs-fizzle.mp3",
-    "bytes": 58975
-  },
-  {
-    "url": "assets/audio/hs-free.mp3",
-    "bytes": 16172
-  },
-  {
-    "url": "assets/audio/hs-frost.mp3",
-    "bytes": 35151
-  },
-  {
-    "url": "assets/audio/hs-hellfire.mp3",
-    "bytes": 75500
-  },
-  {
-    "url": "assets/audio/hs-hover.mp3",
-    "bytes": 2924
-  },
-  {
-    "url": "assets/audio/hs-open.mp3",
-    "bytes": 32876
-  },
-  {
-    "url": "assets/audio/hs-page.mp3",
-    "bytes": 12716
-  },
-  {
-    "url": "assets/audio/hs-reject.mp3",
-    "bytes": 31148
-  },
-  {
-    "url": "assets/audio/hs-relief.mp3",
-    "bytes": 43820
-  },
-  {
-    "url": "assets/audio/hs-reward.mp3",
-    "bytes": 38636
-  },
-  {
-    "url": "assets/audio/hs-tension.mp3",
-    "bytes": 6956
-  },
-  {
-    "url": "assets/audio/hs-toggle-off.mp3",
-    "bytes": 10412
-  },
-  {
-    "url": "assets/audio/hs-toggle-on.mp3",
-    "bytes": 9260
-  },
-  {
-    "url": "assets/audio/hs-turn.mp3",
-    "bytes": 94083
-  },
-  {
-    "url": "assets/audio/hs-victory.mp3",
-    "bytes": 171692
-  },
-  {
-    "url": "assets/audio/hs-wind.mp3",
-    "bytes": 44974
-  },
-  {
-    "url": "assets/audio/tavern-celebration.mp3",
-    "bytes": 2811864
-  },
-  {
-    "url": "assets/back-to-menu-button.png",
-    "bytes": 1826558
-  },
-  {
-    "url": "assets/bottle-green-table.jpg",
-    "bytes": 688454
-  },
-  {
     "url": "assets/buy-in-button.png",
     "bytes": 1652875
   },
   {
-    "url": "assets/card-materials/seven-frost-overlay.png",
-    "bytes": 1836900
-  },
-  {
-    "url": "assets/card-materials/ten-heat-overlay.png",
-    "bytes": 1456602
-  },
-  {
     "url": "assets/cards.svg",
     "bytes": 962487
-  },
-  {
-    "url": "assets/club-empty-table.png",
-    "bytes": 1493198
-  },
-  {
-    "url": "assets/club-gold-button.png",
-    "bytes": 537313
-  },
-  {
-    "url": "assets/club-input-frame.png",
-    "bytes": 307416
-  },
-  {
-    "url": "assets/club-seat-frame.png",
-    "bytes": 402171
-  },
-  {
-    "url": "assets/club-teal-button.png",
-    "bytes": 456076
-  },
-  {
-    "url": "assets/club-title.png",
-    "bytes": 486773
-  },
-  {
-    "url": "assets/club-window-frame.png",
-    "bytes": 2948816
   },
   {
     "url": "assets/deal-again-button.png",
@@ -231,26 +43,6 @@ export const loadingAssets = [
   {
     "url": "assets/fonts/cormorant-garamond-semibold-italic-latin.woff2",
     "bytes": 23784
-  },
-  {
-    "url": "assets/fortune/bet-button-mirrored.png",
-    "bytes": 268782
-  },
-  {
-    "url": "assets/fortune/cabinet.png",
-    "bytes": 2748731
-  },
-  {
-    "url": "assets/fortune/daily-button.png",
-    "bytes": 280480
-  },
-  {
-    "url": "assets/fortune/symbols.png",
-    "bytes": 1622622
-  },
-  {
-    "url": "assets/fortune/title.png",
-    "bytes": 466382
   },
   {
     "url": "assets/fresh-deal-background.jpg",
@@ -481,28 +273,12 @@ export const loadingAssets = [
     "bytes": 2528609
   },
   {
-    "url": "assets/hearth-pot-slim.png",
-    "bytes": 1898054
-  },
-  {
-    "url": "assets/hearth-wallet.png",
-    "bytes": 363634
-  },
-  {
-    "url": "assets/house-rulebook.jpg",
-    "bytes": 559501
-  },
-  {
     "url": "assets/keep-playing-button.png",
     "bytes": 1893647
   },
   {
     "url": "assets/lets-play-button.png",
     "bytes": 2053282
-  },
-  {
-    "url": "assets/lobby-background.jpg",
-    "bytes": 482895
   },
   {
     "url": "assets/menu-corner-bezel.png",
@@ -521,64 +297,16 @@ export const loadingAssets = [
     "bytes": 2038976
   },
   {
-    "url": "assets/opponent-crest-tray.png",
-    "bytes": 2378696
-  },
-  {
-    "url": "assets/opponent-medallion.png",
-    "bytes": 106346
-  },
-  {
     "url": "assets/opponent-portraits.png",
     "bytes": 3160423
-  },
-  {
-    "url": "assets/pause-hearth-background.jpg",
-    "bytes": 590472
   },
   {
     "url": "assets/pick-your-company.png",
     "bytes": 918103
   },
   {
-    "url": "assets/pickup-pile-button.png",
-    "bytes": 2386022
-  },
-  {
     "url": "assets/play-solo-button.png",
     "bytes": 2008049
-  },
-  {
-    "url": "assets/portraits/aurel.png",
-    "bytes": 2810494
-  },
-  {
-    "url": "assets/portraits/cinder.png",
-    "bytes": 2724776
-  },
-  {
-    "url": "assets/portraits/collector-cabinet-mobile.png",
-    "bytes": 2973527
-  },
-  {
-    "url": "assets/portraits/collector-cabinet.png",
-    "bytes": 3039992
-  },
-  {
-    "url": "assets/portraits/isolde.png",
-    "bytes": 2828802
-  },
-  {
-    "url": "assets/portraits/silas.png",
-    "bytes": 2702433
-  },
-  {
-    "url": "assets/portraits/vesper.png",
-    "bytes": 2788634
-  },
-  {
-    "url": "assets/royal-button.png",
-    "bytes": 1732114
   },
   {
     "url": "assets/royal-mascot-back.jpg",
@@ -609,68 +337,8 @@ export const loadingAssets = [
     "bytes": 339558
   },
   {
-    "url": "assets/table-cloth.jpg",
-    "bytes": 715554
-  },
-  {
-    "url": "assets/tavern-brawl/boards/board-desktop.png",
-    "bytes": 2501974
-  },
-  {
-    "url": "assets/tavern-brawl/boards/board-mobile.png",
-    "bytes": 2415126
-  },
-  {
-    "url": "assets/tavern-brawl/heroes/fox.png",
-    "bytes": 804640
-  },
-  {
-    "url": "assets/tavern-brawl/ui/attack-v2.png",
-    "bytes": 181127
-  },
-  {
-    "url": "assets/tavern-brawl/ui/button-emerald.png",
-    "bytes": 439640
-  },
-  {
-    "url": "assets/tavern-brawl/ui/energy-housing.png",
-    "bytes": 245583
-  },
-  {
-    "url": "assets/tavern-brawl/ui/health.png",
-    "bytes": 203377
-  },
-  {
     "url": "assets/tavern-brawl/ui/menu-entry.png",
     "bytes": 2357292
-  },
-  {
-    "url": "assets/tavern-brawl/ui/pot-empty.png",
-    "bytes": 912777
-  },
-  {
-    "url": "assets/tavern-brawl/ui/pot-full.png",
-    "bytes": 995120
-  },
-  {
-    "url": "assets/tavern-brawl/ui/reward-chest.png",
-    "bytes": 872858
-  },
-  {
-    "url": "assets/tavern-brawl/ui/spell.png",
-    "bytes": 192508
-  },
-  {
-    "url": "assets/tavern-brawl/ui/title.png",
-    "bytes": 2840782
-  },
-  {
-    "url": "assets/tavern-chat-frame.png",
-    "bytes": 2646376
-  },
-  {
-    "url": "assets/tavern-chat-mobile.png",
-    "bytes": 2734651
   },
   {
     "url": "assets/tavern-loading-mobile.jpg",
@@ -681,40 +349,12 @@ export const loadingAssets = [
     "bytes": 558560
   },
   {
-    "url": "assets/tavern-lobby-board.png",
-    "bytes": 2838628
-  },
-  {
     "url": "assets/tavern-menu-desktop.jpg",
     "bytes": 595588
   },
   {
     "url": "assets/tavern-menu-mobile.jpg",
     "bytes": 622072
-  },
-  {
-    "url": "assets/tavern-table-art.png",
-    "bytes": 2591802
-  },
-  {
-    "url": "assets/tavern-tavern.png",
-    "bytes": 2251875
-  },
-  {
-    "url": "assets/tavern-title.png",
-    "bytes": 2122056
-  },
-  {
-    "url": "assets/vfx/forge-fireball.png",
-    "bytes": 465145
-  },
-  {
-    "url": "assets/vfx/lantern-mist.png",
-    "bytes": 71713
-  },
-  {
-    "url": "assets/victory-crest.png",
-    "bytes": 2208842
   },
   {
     "url": "assets/webaanzee-wordmark.png",

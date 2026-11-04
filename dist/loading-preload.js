@@ -11,7 +11,7 @@ export async function prepareAssets(assets, onProgress = () => {}, {concurrency 
     const controller = new AbortController();
     let image;
     try {
-      const task = /\.(png|jpg|svg)$/.test(url) ? new Promise((resolve, reject) => {
+      const task = /\.(png|jpg|webp|svg)$/.test(url) ? new Promise((resolve, reject) => {
         image = new Image(); image.decoding = 'async';
         image.onload = async () => { try { if (image.decode) await image.decode(); resolve(image); } catch (error) { reject(error); } };
         image.onerror = () => reject(new Error(`Artwork unavailable: ${url}`));
